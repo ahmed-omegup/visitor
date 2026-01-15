@@ -1,5 +1,5 @@
-package instanceOf.before.handlers;
-import instanceOf.before.expression.*;
+package instanceOf.handlers;
+import instanceOf.expression.*;
 public class Handler47 {
     public void handle(Expression v) {
         switch (v) {

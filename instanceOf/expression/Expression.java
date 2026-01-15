@@ -1,4 +1,4 @@
-package instanceOf.before.expression;
+package instanceOf.expression;
 
 public interface Expression {
 }

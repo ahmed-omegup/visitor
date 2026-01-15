@@ -1,7 +1,7 @@
-package instanceOf.before;
+package instanceOf;
 
-import instanceOf.before.expression.*;
-import instanceOf.before.handlers.*;
+import instanceOf.expression.*;
+import instanceOf.handlers.*;
 
 public class Main {
     public void main(String args[]) {

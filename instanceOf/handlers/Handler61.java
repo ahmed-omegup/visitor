@@ -1,5 +1,5 @@
-package instanceOf.before.handlers;
-import instanceOf.before.expression.*;
+package instanceOf.handlers;
+import instanceOf.expression.*;
 public class Handler61 {
     public Integer handle(Expression v) {
         return switch (v) {
