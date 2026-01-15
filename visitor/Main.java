@@ -1,16 +1,11 @@
 package visitor;
 
-import visitor.expression.*;
 import visitor.handlers.*;
+import static visitor.Factory.*;
 
 public class Main {
     public void main(String args[]) {
-        var x = new Expression1(new Expression[] {
-            new Expression18(new Expression[]{
-                new Expression13(new Expression[]{}),
-            }),
-            new Expression2(new Expression[]{}),
-        });
+        var x = exp1(exp18(exp13()), exp2());
         new Handler14().handle(x);
         System.out.println(new Handler53().handle(x) + 15);
     }
