@@ -3,144 +3,144 @@ import visitor.expression.*;
 public class Handler43 {
     public void handle(Expression e) {
         e.accept(new Visitor<Void>() {
-            public Void visit(Expression1 e) {
-                System.out.println("handle43 Expression1");
+            public Void visit(Literal e) {
+                System.out.println("handle43 Literal");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression1");
+                System.out.println("end handle43 Literal");
                 return null;
             }
-            public Void visit(Expression2 e) {
-                System.out.println("handle43 Expression2");
+            public Void visit(VariableReference e) {
+                System.out.println("handle43 VariableReference");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression2");
+                System.out.println("end handle43 VariableReference");
                 return null;
             }
-            public Void visit(Expression3 e) {
-                System.out.println("handle43 Expression3");
+            public Void visit(Addition e) {
+                System.out.println("handle43 Addition");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression3");
+                System.out.println("end handle43 Addition");
                 return null;
             }
-            public Void visit(Expression4 e) {
-                System.out.println("handle43 Expression4");
+            public Void visit(Subtraction e) {
+                System.out.println("handle43 Subtraction");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression4");
+                System.out.println("end handle43 Subtraction");
                 return null;
             }
-            public Void visit(Expression5 e) {
-                System.out.println("handle43 Expression5");
+            public Void visit(Multiplication e) {
+                System.out.println("handle43 Multiplication");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression5");
+                System.out.println("end handle43 Multiplication");
                 return null;
             }
-            public Void visit(Expression6 e) {
-                System.out.println("handle43 Expression6");
+            public Void visit(Division e) {
+                System.out.println("handle43 Division");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression6");
+                System.out.println("end handle43 Division");
                 return null;
             }
-            public Void visit(Expression7 e) {
-                System.out.println("handle43 Expression7");
+            public Void visit(Negation e) {
+                System.out.println("handle43 Negation");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression7");
+                System.out.println("end handle43 Negation");
                 return null;
             }
-            public Void visit(Expression8 e) {
-                System.out.println("handle43 Expression8");
+            public Void visit(Modulo e) {
+                System.out.println("handle43 Modulo");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression8");
+                System.out.println("end handle43 Modulo");
                 return null;
             }
-            public Void visit(Expression9 e) {
-                System.out.println("handle43 Expression9");
+            public Void visit(Exponentiation e) {
+                System.out.println("handle43 Exponentiation");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression9");
+                System.out.println("end handle43 Exponentiation");
                 return null;
             }
-            public Void visit(Expression10 e) {
-                System.out.println("handle43 Expression10");
+            public Void visit(Equality e) {
+                System.out.println("handle43 Equality");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression10");
+                System.out.println("end handle43 Equality");
                 return null;
             }
-            public Void visit(Expression11 e) {
-                System.out.println("handle43 Expression11");
+            public Void visit(Inequality e) {
+                System.out.println("handle43 Inequality");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression11");
+                System.out.println("end handle43 Inequality");
                 return null;
             }
-            public Void visit(Expression12 e) {
-                System.out.println("handle43 Expression12");
+            public Void visit(LessThan e) {
+                System.out.println("handle43 LessThan");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression12");
+                System.out.println("end handle43 LessThan");
                 return null;
             }
-            public Void visit(Expression13 e) {
-                System.out.println("handle43 Expression13");
+            public Void visit(GreaterThan e) {
+                System.out.println("handle43 GreaterThan");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression13");
+                System.out.println("end handle43 GreaterThan");
                 return null;
             }
-            public Void visit(Expression14 e) {
-                System.out.println("handle43 Expression14");
+            public Void visit(LessThanOrEqual e) {
+                System.out.println("handle43 LessThanOrEqual");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression14");
+                System.out.println("end handle43 LessThanOrEqual");
                 return null;
             }
-            public Void visit(Expression15 e) {
-                System.out.println("handle43 Expression15");
+            public Void visit(GreaterThanOrEqual e) {
+                System.out.println("handle43 GreaterThanOrEqual");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression15");
+                System.out.println("end handle43 GreaterThanOrEqual");
                 return null;
             }
-            public Void visit(Expression16 e) {
-                System.out.println("handle43 Expression16");
+            public Void visit(Conjunction e) {
+                System.out.println("handle43 Conjunction");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression16");
+                System.out.println("end handle43 Conjunction");
                 return null;
             }
-            public Void visit(Expression17 e) {
-                System.out.println("handle43 Expression17");
+            public Void visit(Disjunction e) {
+                System.out.println("handle43 Disjunction");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression17");
+                System.out.println("end handle43 Disjunction");
                 return null;
             }
-            public Void visit(Expression18 e) {
-                System.out.println("handle43 Expression18");
+            public Void visit(LogicalNot e) {
+                System.out.println("handle43 LogicalNot");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression18");
+                System.out.println("end handle43 LogicalNot");
                 return null;
             }
-            public Void visit(Expression19 e) {
-                System.out.println("handle43 Expression19");
+            public Void visit(Conditional e) {
+                System.out.println("handle43 Conditional");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression19");
+                System.out.println("end handle43 Conditional");
                 return null;
             }
-            public Void visit(Expression20 e) {
-                System.out.println("handle43 Expression20");
+            public Void visit(FunctionCall e) {
+                System.out.println("handle43 FunctionCall");
                 for (var x : e.list)
                     x.accept(this);
-                System.out.println("end handle43 Expression20");
+                System.out.println("end handle43 FunctionCall");
                 return null;
             }
         });

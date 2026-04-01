@@ -3,121 +3,121 @@ import visitor.expression.*;
 public class Handler92 {
     public Integer handle(Expression e) {
         return e.accept(new Visitor<Integer>() {
-            public Integer visit(Expression1 e) {
+            public Integer visit(Literal e) {
                 Integer i = 92;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression2 e) {
+            public Integer visit(VariableReference e) {
                 Integer i = 184;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression3 e) {
+            public Integer visit(Addition e) {
                 Integer i = 276;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression4 e) {
+            public Integer visit(Subtraction e) {
                 Integer i = 368;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression5 e) {
+            public Integer visit(Multiplication e) {
                 Integer i = 460;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression6 e) {
+            public Integer visit(Division e) {
                 Integer i = 552;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression7 e) {
+            public Integer visit(Negation e) {
                 Integer i = 644;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression8 e) {
+            public Integer visit(Modulo e) {
                 Integer i = 736;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression9 e) {
+            public Integer visit(Exponentiation e) {
                 Integer i = 828;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression10 e) {
+            public Integer visit(Equality e) {
                 Integer i = 920;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression11 e) {
+            public Integer visit(Inequality e) {
                 Integer i = 1012;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression12 e) {
+            public Integer visit(LessThan e) {
                 Integer i = 1104;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression13 e) {
+            public Integer visit(GreaterThan e) {
                 Integer i = 1196;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression14 e) {
+            public Integer visit(LessThanOrEqual e) {
                 Integer i = 1288;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression15 e) {
+            public Integer visit(GreaterThanOrEqual e) {
                 Integer i = 1380;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression16 e) {
+            public Integer visit(Conjunction e) {
                 Integer i = 1472;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression17 e) {
+            public Integer visit(Disjunction e) {
                 Integer i = 1564;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression18 e) {
+            public Integer visit(LogicalNot e) {
                 Integer i = 1656;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression19 e) {
+            public Integer visit(Conditional e) {
                 Integer i = 1748;
                 for (var x : e.list)
                     i += x.accept(this);
                 return i;
             }
-            public Integer visit(Expression20 e) {
+            public Integer visit(FunctionCall e) {
                 Integer i = 1840;
                 for (var x : e.list)
                     i += x.accept(this);

@@ -24,6 +24,8 @@ import visitor.expression.VariableReference;
 import visitor.expression.Visitor;
 
 public class ConstantFolder {
+    private final LiteralValueExtractor literalValueExtractor = new LiteralValueExtractor();
+
     public Expression handle(Expression expression) {
         return fold(expression);
     }
@@ -56,7 +58,7 @@ public class ConstantFolder {
 
             public Expression visit(Negation expression) {
                 var operand = fold(expression.operand);
-                var value = literalValue(operand);
+                var value = literalValueExtractor.handle(operand);
                 return value == null ? new Negation(operand) : new Literal(Integer.toString(-value));
             }
 
@@ -102,7 +104,7 @@ public class ConstantFolder {
 
             public Expression visit(LogicalNot expression) {
                 var operand = fold(expression.operand);
-                var value = literalValue(operand);
+                var value = literalValueExtractor.handle(operand);
                 return value == null ? new LogicalNot(operand) : new Literal(value == 0 ? "1" : "0");
             }
 
@@ -110,7 +112,7 @@ public class ConstantFolder {
                 var condition = fold(expression.condition);
                 var whenTrue = fold(expression.whenTrue);
                 var whenFalse = fold(expression.whenFalse);
-                var value = literalValue(condition);
+                var value = literalValueExtractor.handle(condition);
                 if (value == null) {
                     return new Conditional(condition, whenTrue, whenFalse);
                 }
@@ -129,8 +131,8 @@ public class ConstantFolder {
     }
 
     private Expression foldBinary(Expression left, Expression right, BinaryFactory factory, BinaryOperation operation) {
-        var leftValue = literalValue(left);
-        var rightValue = literalValue(right);
+        var leftValue = literalValueExtractor.handle(left);
+        var rightValue = literalValueExtractor.handle(right);
         if (leftValue != null && rightValue != null) {
             return new Literal(Integer.toString(operation.apply(leftValue, rightValue)));
         }
@@ -138,44 +140,12 @@ public class ConstantFolder {
     }
 
     private Expression foldComparison(Expression left, Expression right, BinaryFactory factory, ComparisonOperation operation) {
-        var leftValue = literalValue(left);
-        var rightValue = literalValue(right);
+        var leftValue = literalValueExtractor.handle(left);
+        var rightValue = literalValueExtractor.handle(right);
         if (leftValue != null && rightValue != null) {
             return new Literal(operation.apply(leftValue, rightValue) ? "1" : "0");
         }
         return factory.create(left, right);
-    }
-
-    private Integer literalValue(Expression expression) {
-        return expression.accept(new Visitor<Integer>() {
-            public Integer visit(Literal expression) {
-                try {
-                    return Integer.parseInt(expression.value);
-                } catch (NumberFormatException exception) {
-                    return null;
-                }
-            }
-
-            public Integer visit(VariableReference expression) { return null; }
-            public Integer visit(Addition expression) { return null; }
-            public Integer visit(Subtraction expression) { return null; }
-            public Integer visit(Multiplication expression) { return null; }
-            public Integer visit(Division expression) { return null; }
-            public Integer visit(Negation expression) { return null; }
-            public Integer visit(Modulo expression) { return null; }
-            public Integer visit(Exponentiation expression) { return null; }
-            public Integer visit(Equality expression) { return null; }
-            public Integer visit(Inequality expression) { return null; }
-            public Integer visit(LessThan expression) { return null; }
-            public Integer visit(GreaterThan expression) { return null; }
-            public Integer visit(LessThanOrEqual expression) { return null; }
-            public Integer visit(GreaterThanOrEqual expression) { return null; }
-            public Integer visit(Conjunction expression) { return null; }
-            public Integer visit(Disjunction expression) { return null; }
-            public Integer visit(LogicalNot expression) { return null; }
-            public Integer visit(Conditional expression) { return null; }
-            public Integer visit(FunctionCall expression) { return null; }
-        });
     }
 
     private interface BinaryFactory {

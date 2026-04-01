@@ -31,6 +31,7 @@ import visitor.expression.Visitor;
 public class IntegerEvaluator {
     private final Map<String, Integer> variables;
     private final Map<String, Function<List<Integer>, Integer>> functions;
+    private final VariableReferenceExtractor variableReferenceExtractor = new VariableReferenceExtractor();
 
     public IntegerEvaluator() {
         this(Map.of(), Map.of());
@@ -80,7 +81,7 @@ public class IntegerEvaluator {
             public Integer visit(LogicalNot expression) { return truthy(evaluate(expression.operand)) ? 0 : 1; }
             public Integer visit(Conditional expression) { return truthy(evaluate(expression.condition)) ? evaluate(expression.whenTrue) : evaluate(expression.whenFalse); }
             public Integer visit(FunctionCall expression) {
-                var callee = functionName(expression.callee);
+                var callee = variableReferenceExtractor.handle(expression.callee, "Function call requires a variable reference callee");
                 if (!functions.containsKey(callee.name)) {
                     throw new IllegalArgumentException("Unknown function: " + callee.name);
                 }
@@ -93,90 +94,6 @@ public class IntegerEvaluator {
 
             private boolean truthy(int value) {
                 return value != 0;
-            }
-
-            private VariableReference functionName(Expression callee) {
-                return callee.accept(new Visitor<VariableReference>() {
-                    public VariableReference visit(Literal expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-
-                    public VariableReference visit(VariableReference expression) {
-                        return expression;
-                    }
-
-                    public VariableReference visit(Addition expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-
-                    public VariableReference visit(Subtraction expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-
-                    public VariableReference visit(Multiplication expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-
-                    public VariableReference visit(Division expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-
-                    public VariableReference visit(Negation expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-
-                    public VariableReference visit(Modulo expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-
-                    public VariableReference visit(Exponentiation expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-
-                    public VariableReference visit(Equality expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-
-                    public VariableReference visit(Inequality expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-
-                    public VariableReference visit(LessThan expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-
-                    public VariableReference visit(GreaterThan expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-
-                    public VariableReference visit(LessThanOrEqual expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-
-                    public VariableReference visit(GreaterThanOrEqual expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-
-                    public VariableReference visit(Conjunction expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-
-                    public VariableReference visit(Disjunction expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-
-                    public VariableReference visit(LogicalNot expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-
-                    public VariableReference visit(Conditional expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-
-                    public VariableReference visit(FunctionCall expression) {
-                        throw new IllegalArgumentException("Function call requires a variable reference callee");
-                    }
-                });
             }
         });
     }
