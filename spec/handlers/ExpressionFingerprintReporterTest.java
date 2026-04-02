@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -12,9 +12,10 @@ import lib.expression.VariableReference;
 import lib.handlers.ExpressionFingerprintReporter;
 
 class ExpressionFingerprintReporterTest {
+    private final Factory factory = new Factory();
     @Test
     void reportsNodesDepthHashAndShape() {
-        var report = new ExpressionFingerprintReporter().handle(addition(variableReference("x"), literal("2")));
+        var report = new ExpressionFingerprintReporter().handle(factory.addition(factory.variableReference("x"), factory.literal("2")));
 
         assertTrue(report.contains("nodes=3;depth=2;hash="));
         assertTrue(report.contains("shape=Addition(VariableReference,Literal)"));

@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -15,11 +15,12 @@ import lib.expression.VariableReference;
 import lib.handlers.NonLeafDepthSequenceBuilder;
 
 class NonLeafDepthSequenceBuilderTest {
+    private final Factory factory = new Factory();
     @Test
     void recordsCompositeNodesWithTheirDepth() {
         assertEquals(
             List.of("0:Addition", "1:Negation"),
-            new NonLeafDepthSequenceBuilder().handle(addition(variableReference("x"), negation(literal("2"))))
+            new NonLeafDepthSequenceBuilder().handle(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
         );
     }
 

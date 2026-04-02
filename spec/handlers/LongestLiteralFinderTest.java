@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -13,11 +13,12 @@ import lib.expression.VariableReference;
 import lib.handlers.LongestLiteralFinder;
 
 class LongestLiteralFinderTest {
+    private final Factory factory = new Factory();
     @Test
     void findsLongestLiteralValue() {
         assertEquals(
             "12345",
-            new LongestLiteralFinder().handle(addition(literal("12345"), variableReference("x")))
+            new LongestLiteralFinder().handle(factory.addition(factory.literal("12345"), factory.variableReference("x")))
         );
     }
 
@@ -25,7 +26,7 @@ class LongestLiteralFinderTest {
     void keepsLeftValueOnEqualLengthTie() {
         assertEquals(
             "alpha",
-            new LongestLiteralFinder().handle(functionCall(variableReference("f"), literal("alpha"), literal("bravo")))
+            new LongestLiteralFinder().handle(factory.functionCall(factory.variableReference("f"), factory.literal("alpha"), factory.literal("bravo")))
         );
     }
 

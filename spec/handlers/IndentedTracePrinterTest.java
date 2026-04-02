@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,9 +17,10 @@ import lib.expression.Negation;
 import lib.handlers.IndentedTracePrinter;
 
 class IndentedTracePrinterTest {
+    private final Factory factory = new Factory();
     @Test
     void printsIndentedTraceLines() {
-        var expression = addition(literal("1"), negation(literal("2")));
+        var expression = factory.addition(factory.literal("1"), factory.negation(factory.literal("2")));
 
         assertEquals(
             "Addition\n"

@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,6 +16,7 @@ import lib.expression.VariableReference;
 import lib.handlers.LiteralPathCollector;
 
 class LiteralPathCollectorTest {
+    private final Factory factory = new Factory();
     @Test
     void groupsLiteralPathsByValue() {
         var expected = new LinkedHashMap<String, List<String>>();
@@ -25,7 +26,7 @@ class LiteralPathCollectorTest {
         assertEquals(
             expected,
             new LiteralPathCollector().handle(
-                addition(literal("1"), functionCall(variableReference("f"), literal("1"), literal("2")))
+                factory.addition(factory.literal("1"), factory.functionCall(factory.variableReference("f"), factory.literal("1"), factory.literal("2")))
             )
         );
     }

@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,14 +16,15 @@ import lib.expression.VariableReference;
 import lib.handlers.DistinctLeafLabelCollector;
 
 class DistinctLeafLabelCollectorTest {
+    private final Factory factory = new Factory();
     @Test
     void keepsDistinctLeafLabelsInEncounterOrder() {
         assertEquals(
             new LinkedHashSet<>(List.of("literal:1", "variable:f", "variable:x")),
             new DistinctLeafLabelCollector().handle(
-                addition(
-                    literal("1"),
-                    functionCall(variableReference("f"), literal("1"), variableReference("x"), variableReference("x"))
+                factory.addition(
+                    factory.literal("1"),
+                    factory.functionCall(factory.variableReference("f"), factory.literal("1"), factory.variableReference("x"), factory.variableReference("x"))
                 )
             )
         );

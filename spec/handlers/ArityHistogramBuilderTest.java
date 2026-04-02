@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,6 +16,7 @@ import lib.expression.VariableReference;
 import lib.handlers.ArityHistogramBuilder;
 
 class ArityHistogramBuilderTest {
+    private final Factory factory = new Factory();
     @Test
     void countsFunctionCallsByArity() {
         var expected = new LinkedHashMap<Integer, Integer>();
@@ -25,9 +26,9 @@ class ArityHistogramBuilderTest {
         assertEquals(
             expected,
             new ArityHistogramBuilder().handle(
-                addition(
-                    functionCall(variableReference("ping")),
-                    functionCall(variableReference("sum"), literal("1"), literal("2"))
+                factory.addition(
+                    factory.functionCall(factory.variableReference("ping")),
+                    factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2"))
                 )
             )
         );

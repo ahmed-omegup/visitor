@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -12,14 +12,15 @@ import lib.expression.*;
 import lib.handlers.MaxFunctionArityFinder;
 
 class MaxFunctionArityFinderTest {
+    private final Factory factory = new Factory();
     @Test
     void returnsLargestFunctionArityInTree() {
         assertEquals(
             3,
             new MaxFunctionArityFinder().handle(
-                addition(
-                    functionCall(variableReference("ping")),
-                    functionCall(variableReference("sum"), literal("1"), literal("2"), literal("3"))
+                factory.addition(
+                    factory.functionCall(factory.variableReference("ping")),
+                    factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2"), factory.literal("3"))
                 )
             )
         );
@@ -27,7 +28,7 @@ class MaxFunctionArityFinderTest {
 
     @Test
     void returnsZeroWhenNoFunctionCallExists() {
-        assertEquals(0, new MaxFunctionArityFinder().handle(addition(literal("1"), literal("2"))));
+        assertEquals(0, new MaxFunctionArityFinder().handle(factory.addition(factory.literal("1"), factory.literal("2"))));
     }
 
     @Test
@@ -39,25 +40,25 @@ class MaxFunctionArityFinderTest {
     Iterable<DynamicTest> traversesEveryOperatorShapeWithoutFunctionCalls() {
         var finder = new MaxFunctionArityFinder();
         return java.util.List.of(
-            literal("1"),
-            variableReference("x"),
-            addition(literal("1"), literal("2")),
-            subtraction(literal("1"), literal("2")),
-            multiplication(literal("1"), literal("2")),
-            division(literal("1"), literal("2")),
-            negation(literal("1")),
-            modulo(literal("1"), literal("2")),
-            exponentiation(literal("1"), literal("2")),
-            equality(literal("1"), literal("2")),
-            inequality(literal("1"), literal("2")),
-            lessThan(literal("1"), literal("2")),
-            greaterThan(literal("1"), literal("2")),
-            lessThanOrEqual(literal("1"), literal("2")),
-            greaterThanOrEqual(literal("1"), literal("2")),
-            conjunction(literal("1"), literal("2")),
-            disjunction(literal("1"), literal("2")),
-            logicalNot(literal("1")),
-            conditional(literal("1"), literal("2"), literal("3"))
+            factory.literal("1"),
+            factory.variableReference("x"),
+            factory.addition(factory.literal("1"), factory.literal("2")),
+            factory.subtraction(factory.literal("1"), factory.literal("2")),
+            factory.multiplication(factory.literal("1"), factory.literal("2")),
+            factory.division(factory.literal("1"), factory.literal("2")),
+            factory.negation(factory.literal("1")),
+            factory.modulo(factory.literal("1"), factory.literal("2")),
+            factory.exponentiation(factory.literal("1"), factory.literal("2")),
+            factory.equality(factory.literal("1"), factory.literal("2")),
+            factory.inequality(factory.literal("1"), factory.literal("2")),
+            factory.lessThan(factory.literal("1"), factory.literal("2")),
+            factory.greaterThan(factory.literal("1"), factory.literal("2")),
+            factory.lessThanOrEqual(factory.literal("1"), factory.literal("2")),
+            factory.greaterThanOrEqual(factory.literal("1"), factory.literal("2")),
+            factory.conjunction(factory.literal("1"), factory.literal("2")),
+            factory.disjunction(factory.literal("1"), factory.literal("2")),
+            factory.logicalNot(factory.literal("1")),
+            factory.conditional(factory.literal("1"), factory.literal("2"), factory.literal("3"))
         ).stream().map(expression -> DynamicTest.dynamicTest("arity-" + expression.getClass().getSimpleName(), () ->
             assertEquals(0, finder.handle(expression)))).toList();
     }

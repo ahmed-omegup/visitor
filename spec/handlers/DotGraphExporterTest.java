@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,6 +12,7 @@ import lib.expression.Literal;
 import lib.handlers.DotGraphExporter;
 
 class DotGraphExporterTest {
+    private final Factory factory = new Factory();
     @Test
     void exportsTraversalExpressionAsGraphvizGraph() {
         var graph = new DotGraphExporter().handle(TestSupport.sampleTraversalExpression());
@@ -29,8 +30,8 @@ class DotGraphExporterTest {
 
     @Test
     void reusesExistingNodeIdsForSharedSubexpressions() {
-        var shared = literal("a\"b");
-        var graph = new DotGraphExporter().handle(addition(shared, shared));
+        var shared = factory.literal("a\"b");
+        var graph = new DotGraphExporter().handle(factory.addition(shared, shared));
 
         assertEquals(1, occurrences(graph, "n1 [label=\"Literal(a\\\"b)\"]"));
         assertEquals(2, occurrences(graph, "n0 -> n1;"));

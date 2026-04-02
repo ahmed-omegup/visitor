@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -13,12 +13,13 @@ import lib.expression.Literal;
 import lib.handlers.ConditionalPathCollector;
 
 class ConditionalPathCollectorTest {
+    private final Factory factory = new Factory();
     @Test
     void collectsPathsToNestedConditionals() {
         assertEquals(
             List.of("root", "root.whenFalse"),
             new ConditionalPathCollector().handle(
-                conditional(literal("1"), literal("2"), conditional(literal("0"), literal("3"), literal("4")))
+                factory.conditional(factory.literal("1"), factory.literal("2"), factory.conditional(factory.literal("0"), factory.literal("3"), factory.literal("4")))
             )
         );
     }

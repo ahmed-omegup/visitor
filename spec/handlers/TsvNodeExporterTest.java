@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,6 +13,7 @@ import lib.expression.VariableReference;
 import lib.handlers.TsvNodeExporter;
 
 class TsvNodeExporterTest {
+    private final Factory factory = new Factory();
     @Test
     void exportsNodesAsTsvRows() {
         assertEquals(
@@ -20,7 +21,7 @@ class TsvNodeExporterTest {
                 + "0\tAddition\t\n"
                 + "0.0\tVariableReference\tx\n"
                 + "0.1\tLiteral\t2\n",
-            new TsvNodeExporter().handle(addition(variableReference("x"), literal("2")))
+            new TsvNodeExporter().handle(factory.addition(factory.variableReference("x"), factory.literal("2")))
         );
     }
 

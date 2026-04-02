@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -13,10 +13,11 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 
 class VariableReferenceExtractorTest {
+    private final Factory factory = new Factory();
     @Test
     void returnsVariableReference() {
         var extractor = TestSupport.newPackagePrivateInstance("lib.handlers.VariableReferenceExtractor");
-        var variable = variableReference("threshold");
+        var variable = factory.variableReference("threshold");
 
         assertSame(variable, TestSupport.invokeHandleWithMessage(extractor, variable, "expected variable"), "variable reference should be returned as-is");
     }
@@ -25,8 +26,8 @@ class VariableReferenceExtractorTest {
     void rejectsNonVariableReference() {
         var extractor = TestSupport.newPackagePrivateInstance("lib.handlers.VariableReferenceExtractor");
 
-        assertEquals("expected variable", assertThrows(IllegalArgumentException.class, () -> TestSupport.invokeHandleWithMessage(extractor, literal("3"), "expected variable")).getMessage());
-        assertEquals("expected variable", assertThrows(IllegalArgumentException.class, () -> TestSupport.invokeHandleWithMessage(extractor, addition(literal("1"), literal("2")), "expected variable")).getMessage());
+        assertEquals("expected variable", assertThrows(IllegalArgumentException.class, () -> TestSupport.invokeHandleWithMessage(extractor, factory.literal("3"), "expected variable")).getMessage());
+        assertEquals("expected variable", assertThrows(IllegalArgumentException.class, () -> TestSupport.invokeHandleWithMessage(extractor, factory.addition(factory.literal("1"), factory.literal("2")), "expected variable")).getMessage());
     }
 
     @Test

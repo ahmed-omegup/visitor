@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,6 +13,7 @@ import lib.expression.VariableReference;
 import lib.handlers.YamlExpressionExporter;
 
 class YamlExpressionExporterTest {
+    private final Factory factory = new Factory();
     @Test
     void exportsFunctionCallAsYamlTree() {
         assertEquals(
@@ -27,7 +28,7 @@ class YamlExpressionExporterTest {
                 + "  -\n"
                 + "    type: Literal\n"
                 + "    value: \"2\"\n",
-            new YamlExpressionExporter().handle(functionCall(variableReference("sum"), literal("1"), literal("2")))
+            new YamlExpressionExporter().handle(factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")))
         );
     }
 

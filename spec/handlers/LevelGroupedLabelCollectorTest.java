@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,6 +16,7 @@ import lib.expression.VariableReference;
 import lib.handlers.LevelGroupedLabelCollector;
 
 class LevelGroupedLabelCollectorTest {
+    private final Factory factory = new Factory();
     @Test
     void groupsEncounteredLabelsByDepth() {
         var expected = new LinkedHashMap<Integer, List<String>>();
@@ -25,7 +26,7 @@ class LevelGroupedLabelCollectorTest {
 
         assertEquals(
             expected,
-            new LevelGroupedLabelCollector().handle(addition(variableReference("x"), negation(literal("2"))))
+            new LevelGroupedLabelCollector().handle(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
         );
     }
 

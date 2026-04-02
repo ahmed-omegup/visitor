@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,11 +14,12 @@ import lib.expression.VariableReference;
 import lib.handlers.RootToLeafTracePrinter;
 
 class RootToLeafTracePrinterTest {
+    private final Factory factory = new Factory();
     @Test
     void printsOneTracePerLeaf() {
         assertEquals(
             String.join("\n", "Addition -> VariableReference(x)", "Addition -> Negation -> Literal(2)"),
-            new RootToLeafTracePrinter().handle(addition(variableReference("x"), negation(literal("2"))))
+            new RootToLeafTracePrinter().handle(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
         );
     }
 

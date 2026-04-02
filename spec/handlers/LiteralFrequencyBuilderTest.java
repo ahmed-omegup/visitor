@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import lib.handlers.LiteralFrequencyBuilder;
 
 class LiteralFrequencyBuilderTest {
+    private final Factory factory = new Factory();
     @Test
     void countsLiteralOccurrences() {
         var expected = new LinkedHashMap<String, Integer>();
@@ -33,7 +34,7 @@ class LiteralFrequencyBuilderTest {
     void returnsEmptyMapWhenNoLiteralsExist() {
         assertEquals(
             new LinkedHashMap<String, Integer>(),
-            new LiteralFrequencyBuilder().handle(variableReference("x"))
+            new LiteralFrequencyBuilder().handle(factory.variableReference("x"))
         );
     }
 }

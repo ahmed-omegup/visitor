@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -15,6 +15,7 @@ import lib.expression.VariableReference;
 import lib.handlers.VariableUsageCounter;
 
 class VariableUsageCounterTest {
+    private final Factory factory = new Factory();
     @Test
     void countsVariableUsagesInEncounterOrder() {
         var expected = new LinkedHashMap<String, Integer>();
@@ -24,9 +25,9 @@ class VariableUsageCounterTest {
         assertEquals(
             expected,
             new VariableUsageCounter().handle(
-                addition(
-                    variableReference("x"),
-                    functionCall(variableReference("sum"), variableReference("x"))
+                factory.addition(
+                    factory.variableReference("x"),
+                    factory.functionCall(factory.variableReference("sum"), factory.variableReference("x"))
                 )
             )
         );

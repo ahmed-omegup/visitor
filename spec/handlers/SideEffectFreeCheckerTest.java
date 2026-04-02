@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,12 +13,13 @@ import lib.expression.*;
 import lib.handlers.SideEffectFreeChecker;
 
 class SideEffectFreeCheckerTest {
+    private final Factory factory = new Factory();
     @Test
     void treatsFunctionCallsAsSideEffectCandidates() {
         var checker = new SideEffectFreeChecker();
 
-        assertTrue(checker.handle(addition(variableReference("x"), literal("1"))));
-        assertFalse(checker.handle(functionCall(variableReference("sum"), literal("1"))));
+        assertTrue(checker.handle(factory.addition(factory.variableReference("x"), factory.literal("1"))));
+        assertFalse(checker.handle(factory.functionCall(factory.variableReference("sum"), factory.literal("1"))));
     }
 
     @Test
@@ -38,41 +39,41 @@ class SideEffectFreeCheckerTest {
     @TestFactory
     Iterable<DynamicTest> rejectsEmbeddedFunctionCallsAcrossOperators() {
         var checker = new SideEffectFreeChecker();
-        var call = functionCall(variableReference("sum"), literal("1"));
+        var call = factory.functionCall(factory.variableReference("sum"), factory.literal("1"));
         return java.util.List.of(
-            addition(call, literal("1")),
-            addition(literal("1"), call),
-            subtraction(call, literal("1")),
-            subtraction(literal("1"), call),
-            multiplication(literal("1"), call),
-            multiplication(call, literal("1")),
-            division(call, literal("1")),
-            division(literal("1"), call),
-            modulo(literal("1"), call),
-            modulo(call, literal("1")),
-            exponentiation(call, literal("2")),
-            exponentiation(literal("2"), call),
-            equality(literal("1"), call),
-            equality(call, literal("1")),
-            inequality(call, literal("1")),
-            inequality(literal("1"), call),
-            lessThan(call, literal("1")),
-            lessThan(literal("1"), call),
-            greaterThan(literal("1"), call),
-            greaterThan(call, literal("1")),
-            lessThanOrEqual(call, literal("1")),
-            lessThanOrEqual(literal("1"), call),
-            greaterThanOrEqual(literal("1"), call),
-            greaterThanOrEqual(call, literal("1")),
-            conjunction(call, literal("1")),
-            conjunction(literal("1"), call),
-            disjunction(literal("1"), call),
-            disjunction(call, literal("1")),
-            negation(call),
-            logicalNot(call),
-            conditional(call, literal("1"), literal("2")),
-            conditional(literal("1"), call, literal("2")),
-            conditional(literal("1"), literal("2"), call)
+            factory.addition(call, factory.literal("1")),
+            factory.addition(factory.literal("1"), call),
+            factory.subtraction(call, factory.literal("1")),
+            factory.subtraction(factory.literal("1"), call),
+            factory.multiplication(factory.literal("1"), call),
+            factory.multiplication(call, factory.literal("1")),
+            factory.division(call, factory.literal("1")),
+            factory.division(factory.literal("1"), call),
+            factory.modulo(factory.literal("1"), call),
+            factory.modulo(call, factory.literal("1")),
+            factory.exponentiation(call, factory.literal("2")),
+            factory.exponentiation(factory.literal("2"), call),
+            factory.equality(factory.literal("1"), call),
+            factory.equality(call, factory.literal("1")),
+            factory.inequality(call, factory.literal("1")),
+            factory.inequality(factory.literal("1"), call),
+            factory.lessThan(call, factory.literal("1")),
+            factory.lessThan(factory.literal("1"), call),
+            factory.greaterThan(factory.literal("1"), call),
+            factory.greaterThan(call, factory.literal("1")),
+            factory.lessThanOrEqual(call, factory.literal("1")),
+            factory.lessThanOrEqual(factory.literal("1"), call),
+            factory.greaterThanOrEqual(factory.literal("1"), call),
+            factory.greaterThanOrEqual(call, factory.literal("1")),
+            factory.conjunction(call, factory.literal("1")),
+            factory.conjunction(factory.literal("1"), call),
+            factory.disjunction(factory.literal("1"), call),
+            factory.disjunction(call, factory.literal("1")),
+            factory.negation(call),
+            factory.logicalNot(call),
+            factory.conditional(call, factory.literal("1"), factory.literal("2")),
+            factory.conditional(factory.literal("1"), call, factory.literal("2")),
+            factory.conditional(factory.literal("1"), factory.literal("2"), call)
         ).stream().map(expression -> DynamicTest.dynamicTest("side-effect-" + expression.getClass().getSimpleName(), () ->
             assertFalse(checker.handle(expression)))).toList();
     }

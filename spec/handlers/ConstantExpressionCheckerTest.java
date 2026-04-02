@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,13 +13,14 @@ import lib.expression.*;
 import lib.handlers.ConstantExpressionChecker;
 
 class ConstantExpressionCheckerTest {
+    private final Factory factory = new Factory();
     @Test
     void detectsConstantAndNonConstantExpressions() {
         var checker = new ConstantExpressionChecker();
 
-        assertTrue(checker.handle(addition(literal("1"), literal("2"))));
-        assertFalse(checker.handle(addition(variableReference("x"), literal("2"))));
-        assertFalse(checker.handle(functionCall(variableReference("sum"), literal("1"))));
+        assertTrue(checker.handle(factory.addition(factory.literal("1"), factory.literal("2"))));
+        assertFalse(checker.handle(factory.addition(factory.variableReference("x"), factory.literal("2"))));
+        assertFalse(checker.handle(factory.functionCall(factory.variableReference("sum"), factory.literal("1"))));
     }
 
     @Test
@@ -40,39 +41,39 @@ class ConstantExpressionCheckerTest {
     Iterable<DynamicTest> rejectsLeftAndRightVariableBranchesAcrossOperators() {
         var checker = new ConstantExpressionChecker();
         return java.util.List.of(
-            addition(variableReference("x"), literal("1")),
-            addition(literal("1"), variableReference("x")),
-            subtraction(variableReference("x"), literal("1")),
-            subtraction(literal("1"), variableReference("x")),
-            multiplication(literal("1"), variableReference("x")),
-            multiplication(variableReference("x"), literal("1")),
-            division(variableReference("x"), literal("1")),
-            division(literal("1"), variableReference("x")),
-            modulo(literal("1"), variableReference("x")),
-            modulo(variableReference("x"), literal("1")),
-            exponentiation(variableReference("x"), literal("2")),
-            exponentiation(literal("2"), variableReference("x")),
-            equality(literal("1"), variableReference("x")),
-            equality(variableReference("x"), literal("1")),
-            inequality(variableReference("x"), literal("1")),
-            inequality(literal("1"), variableReference("x")),
-            lessThan(variableReference("x"), literal("1")),
-            lessThan(literal("1"), variableReference("x")),
-            greaterThan(literal("1"), variableReference("x")),
-            greaterThan(variableReference("x"), literal("1")),
-            lessThanOrEqual(variableReference("x"), literal("1")),
-            lessThanOrEqual(literal("1"), variableReference("x")),
-            greaterThanOrEqual(literal("1"), variableReference("x")),
-            greaterThanOrEqual(variableReference("x"), literal("1")),
-            conjunction(variableReference("x"), literal("1")),
-            conjunction(literal("1"), variableReference("x")),
-            disjunction(literal("1"), variableReference("x")),
-            disjunction(variableReference("x"), literal("1")),
-            negation(variableReference("x")),
-            logicalNot(variableReference("x")),
-            conditional(variableReference("x"), literal("1"), literal("2")),
-            conditional(literal("1"), variableReference("x"), literal("2")),
-            conditional(literal("1"), literal("2"), variableReference("x"))
+            factory.addition(factory.variableReference("x"), factory.literal("1")),
+            factory.addition(factory.literal("1"), factory.variableReference("x")),
+            factory.subtraction(factory.variableReference("x"), factory.literal("1")),
+            factory.subtraction(factory.literal("1"), factory.variableReference("x")),
+            factory.multiplication(factory.literal("1"), factory.variableReference("x")),
+            factory.multiplication(factory.variableReference("x"), factory.literal("1")),
+            factory.division(factory.variableReference("x"), factory.literal("1")),
+            factory.division(factory.literal("1"), factory.variableReference("x")),
+            factory.modulo(factory.literal("1"), factory.variableReference("x")),
+            factory.modulo(factory.variableReference("x"), factory.literal("1")),
+            factory.exponentiation(factory.variableReference("x"), factory.literal("2")),
+            factory.exponentiation(factory.literal("2"), factory.variableReference("x")),
+            factory.equality(factory.literal("1"), factory.variableReference("x")),
+            factory.equality(factory.variableReference("x"), factory.literal("1")),
+            factory.inequality(factory.variableReference("x"), factory.literal("1")),
+            factory.inequality(factory.literal("1"), factory.variableReference("x")),
+            factory.lessThan(factory.variableReference("x"), factory.literal("1")),
+            factory.lessThan(factory.literal("1"), factory.variableReference("x")),
+            factory.greaterThan(factory.literal("1"), factory.variableReference("x")),
+            factory.greaterThan(factory.variableReference("x"), factory.literal("1")),
+            factory.lessThanOrEqual(factory.variableReference("x"), factory.literal("1")),
+            factory.lessThanOrEqual(factory.literal("1"), factory.variableReference("x")),
+            factory.greaterThanOrEqual(factory.literal("1"), factory.variableReference("x")),
+            factory.greaterThanOrEqual(factory.variableReference("x"), factory.literal("1")),
+            factory.conjunction(factory.variableReference("x"), factory.literal("1")),
+            factory.conjunction(factory.literal("1"), factory.variableReference("x")),
+            factory.disjunction(factory.literal("1"), factory.variableReference("x")),
+            factory.disjunction(factory.variableReference("x"), factory.literal("1")),
+            factory.negation(factory.variableReference("x")),
+            factory.logicalNot(factory.variableReference("x")),
+            factory.conditional(factory.variableReference("x"), factory.literal("1"), factory.literal("2")),
+            factory.conditional(factory.literal("1"), factory.variableReference("x"), factory.literal("2")),
+            factory.conditional(factory.literal("1"), factory.literal("2"), factory.variableReference("x"))
         ).stream().map(expression -> DynamicTest.dynamicTest("non-constant-" + expression.getClass().getSimpleName(), () ->
             assertFalse(checker.handle(expression)))).toList();
     }

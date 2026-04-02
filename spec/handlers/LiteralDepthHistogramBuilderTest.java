@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -14,13 +14,14 @@ import lib.expression.Negation;
 import lib.handlers.LiteralDepthHistogramBuilder;
 
 class LiteralDepthHistogramBuilderTest {
+    private final Factory factory = new Factory();
     @Test
     void countsLiteralsPerDepth() {
         var expected = new LinkedHashMap<Integer, Integer>();
         expected.put(1, 1);
         expected.put(2, 1);
 
-        assertEquals(expected, new LiteralDepthHistogramBuilder().handle(addition(literal("1"), negation(literal("2")))));
+        assertEquals(expected, new LiteralDepthHistogramBuilder().handle(factory.addition(factory.literal("1"), factory.negation(factory.literal("2")))));
     }
 
     @Test

@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
@@ -10,13 +10,14 @@ import lib.expression.*;
 import lib.handlers.ConstantFolder;
 
 class ConstantFolderTest {
+    private final Factory factory = new Factory();
     @Test
     void collapsesArithmeticBranches() {
         var folder = new ConstantFolder();
         var folded = folder.handle(
-            addition(
-                multiplication(literal("2"), literal("3")),
-                literal("4")
+            factory.addition(
+                factory.multiplication(factory.literal("2"), factory.literal("3")),
+                factory.literal("4")
             )
         );
 
@@ -27,28 +28,28 @@ class ConstantFolderTest {
     void collapsesComparisonsAndBooleanOperators() {
         var folder = new ConstantFolder();
 
-        assertLiteralValue("1", folder.handle(equality(literal("8"), literal("8"))), "equality should fold");
-        assertLiteralValue("1", folder.handle(inequality(literal("8"), literal("2"))), "inequality should fold");
-        assertLiteralValue("1", folder.handle(lessThan(literal("2"), literal("8"))), "less-than should fold");
-        assertLiteralValue("1", folder.handle(greaterThan(literal("8"), literal("2"))), "greater-than should fold");
-        assertLiteralValue("1", folder.handle(lessThanOrEqual(literal("2"), literal("2"))), "less-than-or-equal should fold");
-        assertLiteralValue("1", folder.handle(greaterThanOrEqual(literal("8"), literal("8"))), "greater-than-or-equal should fold");
-        assertLiteralValue("1", folder.handle(conjunction(literal("1"), literal("4"))), "conjunction should fold");
-        assertLiteralValue("1", folder.handle(disjunction(literal("0"), literal("4"))), "disjunction should fold");
-        assertLiteralValue("1", folder.handle(logicalNot(literal("0"))), "logical-not should fold");
-        assertLiteralValue("8", folder.handle(exponentiation(literal("2"), literal("3"))), "exponentiation should fold");
-        assertLiteralValue("1", folder.handle(modulo(literal("7"), literal("3"))), "modulo should fold");
-        assertLiteralValue("-3", folder.handle(negation(literal("3"))), "negation should fold");
+        assertLiteralValue("1", folder.handle(factory.equality(factory.literal("8"), factory.literal("8"))), "equality should fold");
+        assertLiteralValue("1", folder.handle(factory.inequality(factory.literal("8"), factory.literal("2"))), "inequality should fold");
+        assertLiteralValue("1", folder.handle(factory.lessThan(factory.literal("2"), factory.literal("8"))), "less-than should fold");
+        assertLiteralValue("1", folder.handle(factory.greaterThan(factory.literal("8"), factory.literal("2"))), "greater-than should fold");
+        assertLiteralValue("1", folder.handle(factory.lessThanOrEqual(factory.literal("2"), factory.literal("2"))), "less-than-or-equal should fold");
+        assertLiteralValue("1", folder.handle(factory.greaterThanOrEqual(factory.literal("8"), factory.literal("8"))), "greater-than-or-equal should fold");
+        assertLiteralValue("1", folder.handle(factory.conjunction(factory.literal("1"), factory.literal("4"))), "conjunction should fold");
+        assertLiteralValue("1", folder.handle(factory.disjunction(factory.literal("0"), factory.literal("4"))), "disjunction should fold");
+        assertLiteralValue("1", folder.handle(factory.logicalNot(factory.literal("0"))), "logical-not should fold");
+        assertLiteralValue("8", folder.handle(factory.exponentiation(factory.literal("2"), factory.literal("3"))), "exponentiation should fold");
+        assertLiteralValue("1", folder.handle(factory.modulo(factory.literal("7"), factory.literal("3"))), "modulo should fold");
+        assertLiteralValue("-3", folder.handle(factory.negation(factory.literal("3"))), "negation should fold");
     }
 
     @Test
     void resolvesConstantConditional() {
         var folder = new ConstantFolder();
         var folded = folder.handle(
-            conditional(
-                logicalNot(literal("0")),
-                literal("11"),
-                literal("22")
+            factory.conditional(
+                factory.logicalNot(factory.literal("0")),
+                factory.literal("11"),
+                factory.literal("22")
             )
         );
 
@@ -59,7 +60,7 @@ class ConstantFolderTest {
     void preservesDynamicExpressions() {
         var folder = new ConstantFolder();
         var folded = folder.handle(
-            addition(variableReference("x"), literal("2"))
+            factory.addition(factory.variableReference("x"), factory.literal("2"))
         );
 
         var addition = assertInstanceOf(Addition.class, folded, "dynamic addition should remain an Addition");
@@ -71,27 +72,27 @@ class ConstantFolderTest {
     void visitsEveryExpressionType() {
         var folder = new ConstantFolder();
 
-        assertLiteralValue("3", folder.handle(literal("3")), "literal should remain unchanged");
-        assertVariableReferenceName("x", folder.handle(variableReference("x")), "variable reference should remain unchanged");
-        assertLiteralValue("3", folder.handle(addition(literal("1"), literal("2"))), "addition should fold");
-        assertLiteralValue("1", folder.handle(subtraction(literal("3"), literal("2"))), "subtraction should fold");
-        assertLiteralValue("6", folder.handle(multiplication(literal("3"), literal("2"))), "multiplication should fold");
-        assertLiteralValue("2", folder.handle(division(literal("6"), literal("3"))), "division should fold");
-        assertLiteralValue("-2", folder.handle(negation(literal("2"))), "negation should fold");
-        assertLiteralValue("1", folder.handle(modulo(literal("7"), literal("3"))), "modulo should fold");
-        assertLiteralValue("8", folder.handle(exponentiation(literal("2"), literal("3"))), "exponentiation should fold");
-        assertLiteralValue("1", folder.handle(equality(literal("2"), literal("2"))), "equality should fold");
-        assertLiteralValue("1", folder.handle(inequality(literal("2"), literal("3"))), "inequality should fold");
-        assertLiteralValue("1", folder.handle(lessThan(literal("2"), literal("3"))), "less-than should fold");
-        assertLiteralValue("1", folder.handle(greaterThan(literal("3"), literal("2"))), "greater-than should fold");
-        assertLiteralValue("1", folder.handle(lessThanOrEqual(literal("2"), literal("2"))), "less-than-or-equal should fold");
-        assertLiteralValue("1", folder.handle(greaterThanOrEqual(literal("3"), literal("3"))), "greater-than-or-equal should fold");
-        assertLiteralValue("1", folder.handle(conjunction(literal("1"), literal("1"))), "conjunction should fold");
-        assertLiteralValue("1", folder.handle(disjunction(literal("0"), literal("1"))), "disjunction should fold");
-        assertLiteralValue("1", folder.handle(logicalNot(literal("0"))), "logical-not should fold");
-        assertLiteralValue("4", folder.handle(conditional(literal("1"), literal("4"), literal("5"))), "conditional should fold");
+        assertLiteralValue("3", folder.handle(factory.literal("3")), "literal should remain unchanged");
+        assertVariableReferenceName("x", folder.handle(factory.variableReference("x")), "variable reference should remain unchanged");
+        assertLiteralValue("3", folder.handle(factory.addition(factory.literal("1"), factory.literal("2"))), "addition should fold");
+        assertLiteralValue("1", folder.handle(factory.subtraction(factory.literal("3"), factory.literal("2"))), "subtraction should fold");
+        assertLiteralValue("6", folder.handle(factory.multiplication(factory.literal("3"), factory.literal("2"))), "multiplication should fold");
+        assertLiteralValue("2", folder.handle(factory.division(factory.literal("6"), factory.literal("3"))), "division should fold");
+        assertLiteralValue("-2", folder.handle(factory.negation(factory.literal("2"))), "negation should fold");
+        assertLiteralValue("1", folder.handle(factory.modulo(factory.literal("7"), factory.literal("3"))), "modulo should fold");
+        assertLiteralValue("8", folder.handle(factory.exponentiation(factory.literal("2"), factory.literal("3"))), "exponentiation should fold");
+        assertLiteralValue("1", folder.handle(factory.equality(factory.literal("2"), factory.literal("2"))), "equality should fold");
+        assertLiteralValue("1", folder.handle(factory.inequality(factory.literal("2"), factory.literal("3"))), "inequality should fold");
+        assertLiteralValue("1", folder.handle(factory.lessThan(factory.literal("2"), factory.literal("3"))), "less-than should fold");
+        assertLiteralValue("1", folder.handle(factory.greaterThan(factory.literal("3"), factory.literal("2"))), "greater-than should fold");
+        assertLiteralValue("1", folder.handle(factory.lessThanOrEqual(factory.literal("2"), factory.literal("2"))), "less-than-or-equal should fold");
+        assertLiteralValue("1", folder.handle(factory.greaterThanOrEqual(factory.literal("3"), factory.literal("3"))), "greater-than-or-equal should fold");
+        assertLiteralValue("1", folder.handle(factory.conjunction(factory.literal("1"), factory.literal("1"))), "conjunction should fold");
+        assertLiteralValue("1", folder.handle(factory.disjunction(factory.literal("0"), factory.literal("1"))), "disjunction should fold");
+        assertLiteralValue("1", folder.handle(factory.logicalNot(factory.literal("0"))), "logical-not should fold");
+        assertLiteralValue("4", folder.handle(factory.conditional(factory.literal("1"), factory.literal("4"), factory.literal("5"))), "conditional should fold");
 
-        var functionCall = folder.handle(functionCall(variableReference("sum"), addition(literal("1"), literal("2")), literal("4")));
+        var functionCall = folder.handle(factory.functionCall(factory.variableReference("sum"), factory.addition(factory.literal("1"), factory.literal("2")), factory.literal("4")));
         var call = assertInstanceOf(FunctionCall.class, functionCall, "function call should remain a FunctionCall");
         assertVariableReferenceName("sum", call.callee, "function call callee should remain a variable reference");
         assertLiteralValue("3", call.arguments[0], "function call arguments should be folded");

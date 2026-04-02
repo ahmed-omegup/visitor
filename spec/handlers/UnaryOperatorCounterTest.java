@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -13,11 +13,12 @@ import lib.expression.Negation;
 import lib.handlers.UnaryOperatorCounter;
 
 class UnaryOperatorCounterTest {
+    private final Factory factory = new Factory();
     @Test
     void countsUnaryOperators() {
         assertEquals(
             2,
-            new UnaryOperatorCounter().handle(addition(negation(literal("1")), logicalNot(literal("0"))))
+            new UnaryOperatorCounter().handle(factory.addition(factory.negation(factory.literal("1")), factory.logicalNot(factory.literal("0"))))
         );
     }
 

@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -20,15 +20,16 @@ import lib.expression.VariableReference;
 import lib.handlers.ConditionalBranchLabelCollector;
 
 class ConditionalBranchLabelCollectorTest {
+    private final Factory factory = new Factory();
     @Test
     void reportsDirectChildKindsForConditionalBranches() {
         assertEquals(
             List.of("condition=LessThan", "whenTrue=Literal", "whenFalse=FunctionCall"),
             new ConditionalBranchLabelCollector().handle(
-                conditional(
-                    lessThan(variableReference("x"), literal("1")),
-                    literal("2"),
-                    functionCall(variableReference("fallback"), literal("0"))
+                factory.conditional(
+                    factory.lessThan(factory.variableReference("x"), factory.literal("1")),
+                    factory.literal("2"),
+                    factory.functionCall(factory.variableReference("fallback"), factory.literal("0"))
                 )
             )
         );
@@ -45,15 +46,15 @@ class ConditionalBranchLabelCollectorTest {
     @TestFactory
     Iterable<DynamicTest> labelsEverySupportedConditionalBranchKind() {
         var cases = new ArrayList<Expression>();
-        cases.add(variableReference("x"));
+        cases.add(factory.variableReference("x"));
         cases.addAll(TestSupport.sampleNonVariableExpressions());
-        cases.add(literal("1"));
+        cases.add(factory.literal("1"));
 
         return cases.stream()
             .map(expression -> DynamicTest.dynamicTest("condition-" + expression.getClass().getSimpleName(), () ->
                 assertEquals(
                     "condition=" + expression.getClass().getSimpleName(),
-                    new ConditionalBranchLabelCollector().handle(conditional(expression, literal("2"), literal("3"))).get(0)
+                    new ConditionalBranchLabelCollector().handle(factory.conditional(expression, factory.literal("2"), factory.literal("3"))).get(0)
                 )))
             .toList();
     }

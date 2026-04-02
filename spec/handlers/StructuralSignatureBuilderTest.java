@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,13 +13,14 @@ import lib.expression.VariableReference;
 import lib.handlers.StructuralSignatureBuilder;
 
 class StructuralSignatureBuilderTest {
+    private final Factory factory = new Factory();
     @Test
     void ignoresLeafValuesAndKeepsOnlyShape() {
         var builder = new StructuralSignatureBuilder();
 
         assertEquals(
-            builder.handle(addition(variableReference("x"), literal("1"))),
-            builder.handle(addition(variableReference("y"), literal("9")))
+            builder.handle(factory.addition(factory.variableReference("x"), factory.literal("1"))),
+            builder.handle(factory.addition(factory.variableReference("y"), factory.literal("9")))
         );
     }
 

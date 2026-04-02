@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,6 +13,7 @@ import lib.expression.VariableReference;
 import lib.handlers.JsonExporter;
 
 class JsonExporterTest {
+    private final Factory factory = new Factory();
     @Test
     void exportsTraversalExpressionIncludingAllSemanticTypes() {
         var json = new JsonExporter().handle(TestSupport.sampleTraversalExpression());
@@ -29,9 +30,9 @@ class JsonExporterTest {
 
     @Test
     void escapesBackslashesAndQuotes() {
-        var expression = functionCall(
-            variableReference("say\"hi"),
-            literal("a\\b\"c")
+        var expression = factory.functionCall(
+            factory.variableReference("say\"hi"),
+            factory.literal("a\\b\"c")
         );
 
         assertEquals(

@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,6 +13,7 @@ import lib.expression.VariableReference;
 import lib.handlers.CsvNodeExporter;
 
 class CsvNodeExporterTest {
+    private final Factory factory = new Factory();
     @Test
     void exportsNodesAsCsvRows() {
         assertEquals(
@@ -21,7 +22,7 @@ class CsvNodeExporterTest {
                 + "\"0.0\",\"VariableReference\",\"sum\"\n"
                 + "\"0.1\",\"Literal\",\"1\"\n"
                 + "\"0.2\",\"Literal\",\"2\"\n",
-            new CsvNodeExporter().handle(functionCall(variableReference("sum"), literal("1"), literal("2")))
+            new CsvNodeExporter().handle(factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")))
         );
     }
 

@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,14 +19,15 @@ import lib.expression.VariableReference;
 import lib.handlers.FunctionCallSignatureCollector;
 
 class FunctionCallSignatureCollectorTest {
+    private final Factory factory = new Factory();
     @Test
     void recordsSignaturesForDirectAndFunctionValuedCallees() {
         assertEquals(
             List.of("sum/2", "FunctionCall/1", "g/0"),
             new FunctionCallSignatureCollector().handle(
-                addition(
-                    functionCall(variableReference("sum"), literal("1"), literal("2")),
-                    functionCall(functionCall(variableReference("g")), literal("3"))
+                factory.addition(
+                    factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")),
+                    factory.functionCall(factory.functionCall(factory.variableReference("g")), factory.literal("3"))
                 )
             )
         );
@@ -40,13 +41,13 @@ class FunctionCallSignatureCollectorTest {
     @TestFactory
     Iterable<DynamicTest> labelsEverySupportedCalleeKind() {
         var cases = new ArrayList<Expression>();
-        cases.add(literal("7"));
-        cases.add(variableReference("name"));
+        cases.add(factory.literal("7"));
+        cases.add(factory.variableReference("name"));
         cases.addAll(TestSupport.sampleNonVariableExpressions());
 
         return cases.stream()
             .map(expression -> DynamicTest.dynamicTest("callee-" + expression.getClass().getSimpleName(), () -> {
-                var signatures = new FunctionCallSignatureCollector().handle(functionCall(expression, literal("9")));
+                var signatures = new FunctionCallSignatureCollector().handle(factory.functionCall(expression, factory.literal("9")));
                 var expectedLabel = expression instanceof VariableReference variableReference
                     ? variableReference.name
                     : expression.getClass().getSimpleName();

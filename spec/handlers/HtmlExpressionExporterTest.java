@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,11 +13,12 @@ import lib.expression.VariableReference;
 import lib.handlers.HtmlExpressionExporter;
 
 class HtmlExpressionExporterTest {
+    private final Factory factory = new Factory();
     @Test
     void exportsSimpleAdditionAsHtml() {
         assertEquals(
             "<span class=\"expression addition\"><span class=\"expression literal\">1</span> <span class=\"operator\">+</span> <span class=\"expression variable-reference\">x</span></span>",
-            new HtmlExpressionExporter().handle(addition(literal("1"), variableReference("x")))
+            new HtmlExpressionExporter().handle(factory.addition(factory.literal("1"), factory.variableReference("x")))
         );
     }
 
@@ -25,7 +26,7 @@ class HtmlExpressionExporterTest {
     void escapesHtmlSensitiveLeafValues() {
         assertEquals(
             "<span class=\"expression variable-reference\">a&amp;&lt;b&gt;&quot;</span>",
-            new HtmlExpressionExporter().handle(variableReference("a&<b>\""))
+            new HtmlExpressionExporter().handle(factory.variableReference("a&<b>\""))
         );
     }
 

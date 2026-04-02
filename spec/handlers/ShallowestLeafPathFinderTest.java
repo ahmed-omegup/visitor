@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -14,15 +14,16 @@ import lib.expression.VariableReference;
 import lib.handlers.ShallowestLeafPathFinder;
 
 class ShallowestLeafPathFinderTest {
+    private final Factory factory = new Factory();
     @Test
     void prefersTheEarliestLeafAtTheSmallestDepth() {
         assertEquals(
             "root.whenTrue",
             new ShallowestLeafPathFinder().handle(
-                conditional(
-                    addition(literal("1"), literal("2")),
-                    variableReference("x"),
-                    negation(literal("3"))
+                factory.conditional(
+                    factory.addition(factory.literal("1"), factory.literal("2")),
+                    factory.variableReference("x"),
+                    factory.negation(factory.literal("3"))
                 )
             )
         );

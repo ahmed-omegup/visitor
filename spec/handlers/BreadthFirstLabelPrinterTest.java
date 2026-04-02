@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,11 +14,12 @@ import lib.expression.VariableReference;
 import lib.handlers.BreadthFirstLabelPrinter;
 
 class BreadthFirstLabelPrinterTest {
+    private final Factory factory = new Factory();
     @Test
     void printsLabelsBreadthFirst() {
         assertEquals(
             "Addition | VariableReference(x) | Negation | Literal(2)",
-            new BreadthFirstLabelPrinter().handle(addition(variableReference("x"), negation(literal("2"))))
+            new BreadthFirstLabelPrinter().handle(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
         );
     }
 

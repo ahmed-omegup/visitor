@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,6 +13,7 @@ import lib.expression.VariableReference;
 import lib.handlers.MermaidMindmapExporter;
 
 class MermaidMindmapExporterTest {
+    private final Factory factory = new Factory();
     @Test
     void exportsMindmapIndentation() {
         assertEquals(
@@ -20,7 +21,7 @@ class MermaidMindmapExporterTest {
                 + "  Addition\n"
                 + "    VariableReference(x)\n"
                 + "    Literal(2)\n",
-            new MermaidMindmapExporter().handle(addition(variableReference("x"), literal("2")))
+            new MermaidMindmapExporter().handle(factory.addition(factory.variableReference("x"), factory.literal("2")))
         );
     }
 

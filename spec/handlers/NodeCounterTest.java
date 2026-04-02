@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,6 +10,7 @@ import lib.expression.Literal;
 import lib.handlers.NodeCounter;
 
 class NodeCounterTest {
+    private final Factory factory = new Factory();
     @Test
     void countsAllNodesInTraversalExpression() {
         assertEquals(42, new NodeCounter().handle(TestSupport.sampleTraversalExpression()));
@@ -17,6 +18,6 @@ class NodeCounterTest {
 
     @Test
     void countsSingleLiteralAsOneNode() {
-        assertEquals(1, new NodeCounter().handle(literal("3")));
+        assertEquals(1, new NodeCounter().handle(factory.literal("3")));
     }
 }

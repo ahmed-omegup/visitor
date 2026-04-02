@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,6 +13,7 @@ import lib.expression.VariableReference;
 import lib.handlers.MermaidFlowchartExporter;
 
 class MermaidFlowchartExporterTest {
+    private final Factory factory = new Factory();
     @Test
     void exportsSimpleFlowchart() {
         assertEquals(
@@ -22,7 +23,7 @@ class MermaidFlowchartExporterTest {
                 + "  n0 --> n1\n"
                 + "  n2[\"Literal(2)\"]\n"
                 + "  n0 --> n2\n",
-            new MermaidFlowchartExporter().handle(addition(variableReference("x"), literal("2")))
+            new MermaidFlowchartExporter().handle(factory.addition(factory.variableReference("x"), factory.literal("2")))
         );
     }
 
@@ -37,8 +38,8 @@ class MermaidFlowchartExporterTest {
 
     @Test
     void reusesExistingNodeForSharedExpressionReference() {
-        var shared = literal("a\"b");
-        var chart = new MermaidFlowchartExporter().handle(addition(shared, shared));
+        var shared = factory.literal("a\"b");
+        var chart = new MermaidFlowchartExporter().handle(factory.addition(shared, shared));
 
         assertEquals(1, occurrences(chart, "[\"Literal(a\\\"b)\"]"));
         assertEquals(2, occurrences(chart, "n0 --> n1"));

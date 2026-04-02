@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,11 +14,12 @@ import lib.expression.VariableReference;
 import lib.handlers.PostOrderLabelPrinter;
 
 class PostOrderLabelPrinterTest {
+    private final Factory factory = new Factory();
     @Test
     void printsLabelsInPostOrder() {
         assertEquals(
             "VariableReference(x) -> Literal(2) -> Addition",
-            new PostOrderLabelPrinter().handle(addition(variableReference("x"), literal("2")))
+            new PostOrderLabelPrinter().handle(factory.addition(factory.variableReference("x"), factory.literal("2")))
         );
     }
 

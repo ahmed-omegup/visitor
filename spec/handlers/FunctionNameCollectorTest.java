@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,14 +19,15 @@ import lib.expression.VariableReference;
 import lib.handlers.FunctionNameCollector;
 
 class FunctionNameCollectorTest {
+    private final Factory factory = new Factory();
     @Test
     void collectsFunctionNamesFromVariableCallees() {
         assertEquals(
             new LinkedHashSet<>(List.of("sum", "max")),
             new FunctionNameCollector().handle(
-                addition(
-                    functionCall(variableReference("sum"), literal("1")),
-                    functionCall(variableReference("max"), literal("2"), literal("3"))
+                factory.addition(
+                    factory.functionCall(factory.variableReference("sum"), factory.literal("1")),
+                    factory.functionCall(factory.variableReference("max"), factory.literal("2"), factory.literal("3"))
                 )
             )
         );
@@ -41,7 +42,7 @@ class FunctionNameCollectorTest {
     Iterable<DynamicTest> ignoresNonVariableCalleesAcrossExpressionKinds() {
         var collector = new FunctionNameCollector();
         var cases = new java.util.ArrayList<lib.expression.Expression>();
-        cases.add(literal("1"));
+        cases.add(factory.literal("1"));
         cases.addAll(TestSupport.sampleNonVariableExpressions().stream()
             .filter(expression -> !(expression instanceof FunctionCall))
             .toList());
@@ -49,7 +50,7 @@ class FunctionNameCollectorTest {
             .map(callee -> DynamicTest.dynamicTest("callee-" + callee.getClass().getSimpleName(), () ->
                 assertEquals(
                     new LinkedHashSet<>(List.of()),
-                    collector.handle(functionCall(callee, literal("9")))
+                    collector.handle(factory.functionCall(callee, factory.literal("9")))
                 )))
             .toList();
     }
@@ -59,7 +60,7 @@ class FunctionNameCollectorTest {
         assertEquals(
             new LinkedHashSet<>(List.of("sum")),
             new FunctionNameCollector().handle(
-                functionCall(functionCall(variableReference("sum"), literal("1")), literal("9"))
+                factory.functionCall(factory.functionCall(factory.variableReference("sum"), factory.literal("1")), factory.literal("9"))
             )
         );
     }

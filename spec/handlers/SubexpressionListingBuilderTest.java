@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,11 +16,12 @@ import lib.expression.VariableReference;
 import lib.handlers.SubexpressionListingBuilder;
 
 class SubexpressionListingBuilderTest {
+    private final Factory factory = new Factory();
     @Test
     void listsLeavesBeforeContainingExpressions() {
         assertEquals(
             List.of("x", "2", "(-2)", "(x + (-2))"),
-            new SubexpressionListingBuilder().handle(addition(variableReference("x"), negation(literal("2"))))
+            new SubexpressionListingBuilder().handle(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
         );
     }
 

@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -15,14 +15,15 @@ import lib.expression.VariableReference;
 import lib.handlers.FunctionAritySequenceBuilder;
 
 class FunctionAritySequenceBuilderTest {
+    private final Factory factory = new Factory();
     @Test
     void recordsFunctionAritiesInPreorder() {
         assertEquals(
             List.of(2, 1, 0),
             new FunctionAritySequenceBuilder().handle(
-                addition(
-                    functionCall(variableReference("sum"), literal("1"), literal("2")),
-                    functionCall(functionCall(variableReference("g")), literal("3"))
+                factory.addition(
+                    factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")),
+                    factory.functionCall(factory.functionCall(factory.variableReference("g")), factory.literal("3"))
                 )
             )
         );

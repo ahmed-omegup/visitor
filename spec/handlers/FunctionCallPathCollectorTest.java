@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -15,14 +15,15 @@ import lib.expression.VariableReference;
 import lib.handlers.FunctionCallPathCollector;
 
 class FunctionCallPathCollectorTest {
+    private final Factory factory = new Factory();
     @Test
     void collectsPathsToNestedFunctionCalls() {
         assertEquals(
             List.of("root.left", "root.right", "root.right.callee"),
             new FunctionCallPathCollector().handle(
-                addition(
-                    functionCall(variableReference("f"), literal("1")),
-                    functionCall(functionCall(variableReference("g")), literal("2"))
+                factory.addition(
+                    factory.functionCall(factory.variableReference("f"), factory.literal("1")),
+                    factory.functionCall(factory.functionCall(factory.variableReference("g")), factory.literal("2"))
                 )
             )
         );

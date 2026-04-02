@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -14,17 +14,18 @@ import lib.expression.VariableReference;
 import lib.handlers.StructuralHashBuilder;
 
 class StructuralHashBuilderTest {
+    private final Factory factory = new Factory();
     @Test
     void hashesEqualShapesEquallyAndDifferentShapesDifferently() {
         var builder = new StructuralHashBuilder();
 
         assertEquals(
-            builder.handle(addition(variableReference("x"), literal("1"))),
-            builder.handle(addition(variableReference("y"), literal("9")))
+            builder.handle(factory.addition(factory.variableReference("x"), factory.literal("1"))),
+            builder.handle(factory.addition(factory.variableReference("y"), factory.literal("9")))
         );
         assertNotEquals(
-            builder.handle(addition(variableReference("x"), literal("1"))),
-            builder.handle(multiplication(variableReference("x"), literal("1")))
+            builder.handle(factory.addition(factory.variableReference("x"), factory.literal("1"))),
+            builder.handle(factory.multiplication(factory.variableReference("x"), factory.literal("1")))
         );
     }
 

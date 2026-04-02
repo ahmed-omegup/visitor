@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,11 +15,12 @@ import lib.expression.VariableReference;
 import lib.handlers.MarkdownOutlineExporter;
 
 class MarkdownOutlineExporterTest {
+    private final Factory factory = new Factory();
     @Test
     void exportsNestedExpressionsAsMarkdownOutline() {
-        var expression = addition(
-            functionCall(variableReference("sum"), literal("1"), literal("2")),
-            negation(variableReference("x"))
+        var expression = factory.addition(
+            factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")),
+            factory.negation(factory.variableReference("x"))
         );
 
         assertEquals(

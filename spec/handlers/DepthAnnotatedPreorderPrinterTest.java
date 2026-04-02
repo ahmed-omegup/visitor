@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,11 +13,12 @@ import lib.expression.VariableReference;
 import lib.handlers.DepthAnnotatedPreorderPrinter;
 
 class DepthAnnotatedPreorderPrinterTest {
+    private final Factory factory = new Factory();
     @Test
     void printsPreorderNodesWithDepth() {
         assertEquals(
             String.join("\n", "0: Addition", "1: VariableReference(x)", "1: Literal(2)"),
-            new DepthAnnotatedPreorderPrinter().handle(addition(variableReference("x"), literal("2")))
+            new DepthAnnotatedPreorderPrinter().handle(factory.addition(factory.variableReference("x"), factory.literal("2")))
         );
     }
 

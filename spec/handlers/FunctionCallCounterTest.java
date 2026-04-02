@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -13,14 +13,15 @@ import lib.expression.VariableReference;
 import lib.handlers.FunctionCallCounter;
 
 class FunctionCallCounterTest {
+    private final Factory factory = new Factory();
     @Test
     void countsNestedFunctionCalls() {
         assertEquals(
             2,
             new FunctionCallCounter().handle(
-                addition(
-                    functionCall(variableReference("left"), literal("1")),
-                    functionCall(variableReference("right"), literal("2"), literal("3"))
+                factory.addition(
+                    factory.functionCall(factory.variableReference("left"), factory.literal("1")),
+                    factory.functionCall(factory.variableReference("right"), factory.literal("2"), factory.literal("3"))
                 )
             )
         );

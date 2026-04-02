@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,11 +16,12 @@ import lib.expression.VariableReference;
 import lib.handlers.EvaluationOrderListBuilder;
 
 class EvaluationOrderListBuilderTest {
+    private final Factory factory = new Factory();
     @Test
     void recordsPreorderEvaluationSteps() {
         assertEquals(
             List.of("Addition", "VariableReference(x)", "Negation", "Literal(2)"),
-            new EvaluationOrderListBuilder().handle(addition(variableReference("x"), negation(literal("2"))))
+            new EvaluationOrderListBuilder().handle(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
         );
     }
 

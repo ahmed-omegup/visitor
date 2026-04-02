@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -11,30 +11,31 @@ import java.util.List;
 import lib.expression.*;
 
 final class TestSupport {
+    private static final Factory factory = new Factory();
     private TestSupport() {}
 
     static Expression sampleTraversalExpression() {
-        return conditional(
-            conjunction(
-                lessThan(variableReference("x"), literal("10")),
-                logicalNot(equality(literal("1"), literal("0")))
+        return factory.conditional(
+            factory.conjunction(
+                factory.lessThan(factory.variableReference("x"), factory.literal("10")),
+                factory.logicalNot(factory.equality(factory.literal("1"), factory.literal("0")))
             ),
-            addition(
-                subtraction(literal("7"), literal("2")),
-                multiplication(
-                    division(literal("8"), literal("2")),
-                    modulo(literal("9"), literal("4"))
+            factory.addition(
+                factory.subtraction(factory.literal("7"), factory.literal("2")),
+                factory.multiplication(
+                    factory.division(factory.literal("8"), factory.literal("2")),
+                    factory.modulo(factory.literal("9"), factory.literal("4"))
                 )
             ),
-            functionCall(
-                variableReference("f"),
-                exponentiation(literal("2"), literal("3")),
-                inequality(literal("5"), literal("6")),
-                greaterThan(literal("7"), literal("1")),
-                lessThanOrEqual(literal("2"), literal("2")),
-                greaterThanOrEqual(literal("3"), literal("3")),
-                disjunction(literal("0"), literal("1")),
-                negation(literal("4"))
+            factory.functionCall(
+                factory.variableReference("f"),
+                factory.exponentiation(factory.literal("2"), factory.literal("3")),
+                factory.inequality(factory.literal("5"), factory.literal("6")),
+                factory.greaterThan(factory.literal("7"), factory.literal("1")),
+                factory.lessThanOrEqual(factory.literal("2"), factory.literal("2")),
+                factory.greaterThanOrEqual(factory.literal("3"), factory.literal("3")),
+                factory.disjunction(factory.literal("0"), factory.literal("1")),
+                factory.negation(factory.literal("4"))
             )
         );
     }
@@ -90,24 +91,24 @@ final class TestSupport {
 
     static List<Expression> sampleNonVariableExpressions() {
         var expressions = new ArrayList<Expression>();
-        expressions.add(addition(literal("1"), literal("2")));
-        expressions.add(subtraction(literal("3"), literal("1")));
-        expressions.add(multiplication(literal("2"), literal("3")));
-        expressions.add(division(literal("6"), literal("2")));
-        expressions.add(negation(literal("3")));
-        expressions.add(modulo(literal("7"), literal("3")));
-        expressions.add(exponentiation(literal("2"), literal("3")));
-        expressions.add(equality(literal("1"), literal("1")));
-        expressions.add(inequality(literal("1"), literal("2")));
-        expressions.add(lessThan(literal("1"), literal("2")));
-        expressions.add(greaterThan(literal("2"), literal("1")));
-        expressions.add(lessThanOrEqual(literal("2"), literal("2")));
-        expressions.add(greaterThanOrEqual(literal("2"), literal("2")));
-        expressions.add(conjunction(literal("1"), literal("1")));
-        expressions.add(disjunction(literal("0"), literal("1")));
-        expressions.add(logicalNot(literal("0")));
-        expressions.add(conditional(literal("1"), literal("2"), literal("3")));
-        expressions.add(functionCall(variableReference("sum"), literal("1"), literal("2")));
+        expressions.add(factory.addition(factory.literal("1"), factory.literal("2")));
+        expressions.add(factory.subtraction(factory.literal("3"), factory.literal("1")));
+        expressions.add(factory.multiplication(factory.literal("2"), factory.literal("3")));
+        expressions.add(factory.division(factory.literal("6"), factory.literal("2")));
+        expressions.add(factory.negation(factory.literal("3")));
+        expressions.add(factory.modulo(factory.literal("7"), factory.literal("3")));
+        expressions.add(factory.exponentiation(factory.literal("2"), factory.literal("3")));
+        expressions.add(factory.equality(factory.literal("1"), factory.literal("1")));
+        expressions.add(factory.inequality(factory.literal("1"), factory.literal("2")));
+        expressions.add(factory.lessThan(factory.literal("1"), factory.literal("2")));
+        expressions.add(factory.greaterThan(factory.literal("2"), factory.literal("1")));
+        expressions.add(factory.lessThanOrEqual(factory.literal("2"), factory.literal("2")));
+        expressions.add(factory.greaterThanOrEqual(factory.literal("2"), factory.literal("2")));
+        expressions.add(factory.conjunction(factory.literal("1"), factory.literal("1")));
+        expressions.add(factory.disjunction(factory.literal("0"), factory.literal("1")));
+        expressions.add(factory.logicalNot(factory.literal("0")));
+        expressions.add(factory.conditional(factory.literal("1"), factory.literal("2"), factory.literal("3")));
+        expressions.add(factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")));
         return expressions;
     }
 }

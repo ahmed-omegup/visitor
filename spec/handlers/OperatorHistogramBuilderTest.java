@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -15,6 +15,7 @@ import lib.expression.Negation;
 import lib.handlers.OperatorHistogramBuilder;
 
 class OperatorHistogramBuilderTest {
+    private final Factory factory = new Factory();
     @Test
     void countsRepeatedOperators() {
         var expected = new LinkedHashMap<String, Integer>();
@@ -24,9 +25,9 @@ class OperatorHistogramBuilderTest {
         assertEquals(
             expected,
             new OperatorHistogramBuilder().handle(
-                addition(
-                    addition(literal("1"), literal("2")),
-                    negation(literal("3"))
+                factory.addition(
+                    factory.addition(factory.literal("1"), factory.literal("2")),
+                    factory.negation(factory.literal("3"))
                 )
             )
         );

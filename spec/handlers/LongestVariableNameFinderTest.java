@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -13,11 +13,12 @@ import lib.expression.VariableReference;
 import lib.handlers.LongestVariableNameFinder;
 
 class LongestVariableNameFinderTest {
+    private final Factory factory = new Factory();
     @Test
     void findsLongestVariableName() {
         assertEquals(
             "threshold",
-            new LongestVariableNameFinder().handle(addition(variableReference("threshold"), literal("1")))
+            new LongestVariableNameFinder().handle(factory.addition(factory.variableReference("threshold"), factory.literal("1")))
         );
     }
 
@@ -25,7 +26,7 @@ class LongestVariableNameFinderTest {
     void keepsLeftVariableOnEqualLengthTie() {
         assertEquals(
             "alpha",
-            new LongestVariableNameFinder().handle(addition(variableReference("alpha"), variableReference("bravo")))
+            new LongestVariableNameFinder().handle(factory.addition(factory.variableReference("alpha"), factory.variableReference("bravo")))
         );
     }
 

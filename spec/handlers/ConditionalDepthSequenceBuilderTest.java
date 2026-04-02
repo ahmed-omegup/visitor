@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -13,13 +13,14 @@ import lib.expression.Literal;
 import lib.handlers.ConditionalDepthSequenceBuilder;
 
 class ConditionalDepthSequenceBuilderTest {
+    private final Factory factory = new Factory();
     @Test
     void recordsConditionalDepthsInEncounterOrder() {
         assertEquals(List.of(0), new ConditionalDepthSequenceBuilder().handle(TestSupport.sampleTraversalExpression()));
         assertEquals(
             List.of(0, 1),
             new ConditionalDepthSequenceBuilder().handle(
-                conditional(literal("1"), conditional(literal("0"), literal("2"), literal("3")), literal("4"))
+                factory.conditional(factory.literal("1"), factory.conditional(factory.literal("0"), factory.literal("2"), factory.literal("3")), factory.literal("4"))
             )
         );
     }

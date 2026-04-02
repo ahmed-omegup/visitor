@@ -1,6 +1,6 @@
 package spec.handlers;
 
-import static lib.expression.Factory.*;
+import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,6 +10,7 @@ import lib.expression.Literal;
 import lib.handlers.LeafCounter;
 
 class LeafCounterTest {
+    private final Factory factory = new Factory();
     @Test
     void countsLeavesInTraversalExpression() {
         assertEquals(24, new LeafCounter().handle(TestSupport.sampleTraversalExpression()));
@@ -17,6 +18,6 @@ class LeafCounterTest {
 
     @Test
     void countsSingleLiteralAsOneLeaf() {
-        assertEquals(1, new LeafCounter().handle(literal("3")));
+        assertEquals(1, new LeafCounter().handle(factory.literal("3")));
     }
 }
