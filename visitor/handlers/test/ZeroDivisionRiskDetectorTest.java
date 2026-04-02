@@ -63,16 +63,27 @@ class ZeroDivisionRiskDetectorTest {
             new Addition(risky, new Literal("1")),
             new Addition(new Literal("1"), risky),
             new Subtraction(risky, new Literal("1")),
+            new Subtraction(new Literal("1"), risky),
             new Multiplication(new Literal("1"), risky),
+            new Multiplication(risky, new Literal("1")),
             new Exponentiation(risky, new Literal("2")),
+            new Exponentiation(new Literal("2"), risky),
             new Equality(new Literal("1"), risky),
+            new Equality(risky, new Literal("1")),
             new Inequality(risky, new Literal("1")),
+            new Inequality(new Literal("1"), risky),
             new LessThan(risky, new Literal("1")),
+            new LessThan(new Literal("1"), risky),
             new GreaterThan(new Literal("1"), risky),
+            new GreaterThan(risky, new Literal("1")),
             new LessThanOrEqual(risky, new Literal("1")),
+            new LessThanOrEqual(new Literal("1"), risky),
             new GreaterThanOrEqual(new Literal("1"), risky),
+            new GreaterThanOrEqual(risky, new Literal("1")),
             new Conjunction(risky, new Literal("1")),
+            new Conjunction(new Literal("1"), risky),
             new Disjunction(new Literal("1"), risky),
+            new Disjunction(risky, new Literal("1")),
             new Negation(risky),
             new LogicalNot(risky),
             new Conditional(risky, new Literal("1"), new Literal("2")),
@@ -90,5 +101,13 @@ class ZeroDivisionRiskDetectorTest {
 
         assertFalse(detector.handle(new Division(new Literal("8"), new Literal("2"))));
         assertFalse(detector.handle(new Modulo(new Literal("8"), new Literal("3"))));
+    }
+
+    @Test
+    void detectsCompositeRiskInDivisorAfterSafePrefixChecks() {
+        var detector = new ZeroDivisionRiskDetector();
+
+        assertTrue(detector.handle(new Division(new Literal("8"), new Addition(new Literal("1"), new Division(new Literal("4"), new Literal("0"))))));
+        assertTrue(detector.handle(new Modulo(new Literal("8"), new Addition(new Literal("1"), new Division(new Literal("4"), new Literal("0"))))));
     }
 }
