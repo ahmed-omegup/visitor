@@ -1,1 +1,4 @@
 *.class
+.coverage-tools/
+.test-tools/
+coverage/
