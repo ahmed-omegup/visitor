@@ -14,9 +14,10 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.handlers.SubexpressionListingBuilder;
+import port.IFactory;
 
 class SubexpressionListingBuilderTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void listsLeavesBeforeContainingExpressions() {
         assertEquals(

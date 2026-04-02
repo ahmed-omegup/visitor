@@ -11,9 +11,10 @@ import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.*;
 import lib.handlers.SideEffectFreeChecker;
+import port.IFactory;
 
 class SideEffectFreeCheckerTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void treatsFunctionCallsAsSideEffectCandidates() {
         var checker = new SideEffectFreeChecker();

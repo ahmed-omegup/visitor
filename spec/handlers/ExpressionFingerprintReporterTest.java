@@ -10,9 +10,10 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.handlers.ExpressionFingerprintReporter;
+import port.IFactory;
 
 class ExpressionFingerprintReporterTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void reportsNodesDepthHashAndShape() {
         var report = new ExpressionFingerprintReporter().handle(factory.addition(factory.variableReference("x"), factory.literal("2")));

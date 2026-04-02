@@ -18,9 +18,10 @@ import lib.expression.LessThan;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.handlers.ConditionalBranchLabelCollector;
+import port.IFactory;
 
 class ConditionalBranchLabelCollectorTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void reportsDirectChildKindsForConditionalBranches() {
         assertEquals(

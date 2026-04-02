@@ -8,9 +8,10 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.Literal;
 import lib.handlers.NodeCounter;
+import port.IFactory;
 
 class NodeCounterTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void countsAllNodesInTraversalExpression() {
         assertEquals(42, new NodeCounter().handle(TestSupport.sampleTraversalExpression()));

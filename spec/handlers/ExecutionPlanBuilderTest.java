@@ -11,9 +11,10 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.handlers.ExecutionPlanBuilder;
+import port.IFactory;
 
 class ExecutionPlanBuilderTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void numbersIndentedExecutionSteps() {
         var expression = factory.addition(factory.literal("1"), factory.negation(factory.literal("2")));

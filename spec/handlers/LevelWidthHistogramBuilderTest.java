@@ -15,9 +15,10 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.handlers.LevelWidthHistogramBuilder;
+import port.IFactory;
 
 class LevelWidthHistogramBuilderTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void countsNodesPerTreeLevel() {
         var expected = new LinkedHashMap<Integer, Integer>();

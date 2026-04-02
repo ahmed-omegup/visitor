@@ -8,9 +8,10 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.Literal;
 import lib.handlers.LeafCounter;
+import port.IFactory;
 
 class LeafCounterTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void countsLeavesInTraversalExpression() {
         assertEquals(24, new LeafCounter().handle(TestSupport.sampleTraversalExpression()));

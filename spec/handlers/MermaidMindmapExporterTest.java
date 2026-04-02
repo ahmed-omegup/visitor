@@ -11,9 +11,10 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.handlers.MermaidMindmapExporter;
+import port.IFactory;
 
 class MermaidMindmapExporterTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void exportsMindmapIndentation() {
         assertEquals(

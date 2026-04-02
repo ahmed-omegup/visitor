@@ -14,9 +14,10 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.handlers.EvaluationOrderListBuilder;
+import port.IFactory;
 
 class EvaluationOrderListBuilderTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void recordsPreorderEvaluationSteps() {
         assertEquals(

@@ -12,9 +12,10 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.handlers.LiteralDepthHistogramBuilder;
+import port.IFactory;
 
 class LiteralDepthHistogramBuilderTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void countsLiteralsPerDepth() {
         var expected = new LinkedHashMap<Integer, Integer>();

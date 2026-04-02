@@ -11,9 +11,10 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.handlers.JsonExporter;
+import port.IFactory;
 
 class JsonExporterTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void exportsTraversalExpressionIncludingAllSemanticTypes() {
         var json = new JsonExporter().handle(TestSupport.sampleTraversalExpression());

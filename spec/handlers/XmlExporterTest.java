@@ -12,9 +12,10 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.handlers.XmlExporter;
+import port.IFactory;
 
 class XmlExporterTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void exportsNestedExpressionsAsIndentedXml() {
         var expression = factory.addition(factory.variableReference("x"), factory.literal("2"));

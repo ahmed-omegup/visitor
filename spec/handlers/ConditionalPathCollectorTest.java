@@ -11,9 +11,10 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Conditional;
 import lib.expression.Literal;
 import lib.handlers.ConditionalPathCollector;
+import port.IFactory;
 
 class ConditionalPathCollectorTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void collectsPathsToNestedConditionals() {
         assertEquals(

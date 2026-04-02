@@ -13,9 +13,10 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.handlers.OperatorHistogramBuilder;
+import port.IFactory;
 
 class OperatorHistogramBuilderTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void countsRepeatedOperators() {
         var expected = new LinkedHashMap<String, Integer>();

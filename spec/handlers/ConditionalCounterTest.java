@@ -9,9 +9,10 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Conditional;
 import lib.expression.Literal;
 import lib.handlers.ConditionalCounter;
+import port.IFactory;
 
 class ConditionalCounterTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void countsConditionalsAcrossTraversal() {
         assertEquals(1, new ConditionalCounter().handle(TestSupport.sampleTraversalExpression()));

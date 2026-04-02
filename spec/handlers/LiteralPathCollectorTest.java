@@ -14,9 +14,10 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.handlers.LiteralPathCollector;
+import port.IFactory;
 
 class LiteralPathCollectorTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void groupsLiteralPathsByValue() {
         var expected = new LinkedHashMap<String, List<String>>();

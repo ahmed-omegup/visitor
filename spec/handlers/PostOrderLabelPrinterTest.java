@@ -12,9 +12,10 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.handlers.PostOrderLabelPrinter;
+import port.IFactory;
 
 class PostOrderLabelPrinterTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void printsLabelsInPostOrder() {
         assertEquals(

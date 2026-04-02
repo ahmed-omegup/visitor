@@ -1,6 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Factory;
+import port.IFactory;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
@@ -10,10 +11,10 @@ import lib.expression.*;
 import lib.handlers.ConstantFolder;
 
 class ConstantFolderTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void collapsesArithmeticBranches() {
-        var folder = new ConstantFolder();
+        var folder = new ConstantFolder(factory);
         var folded = folder.handle(
             factory.addition(
                 factory.multiplication(factory.literal("2"), factory.literal("3")),
@@ -26,7 +27,7 @@ class ConstantFolderTest {
 
     @Test
     void collapsesComparisonsAndBooleanOperators() {
-        var folder = new ConstantFolder();
+        var folder = new ConstantFolder(factory);
 
         assertLiteralValue("1", folder.handle(factory.equality(factory.literal("8"), factory.literal("8"))), "equality should fold");
         assertLiteralValue("1", folder.handle(factory.inequality(factory.literal("8"), factory.literal("2"))), "inequality should fold");
@@ -44,7 +45,7 @@ class ConstantFolderTest {
 
     @Test
     void resolvesConstantConditional() {
-        var folder = new ConstantFolder();
+        var folder = new ConstantFolder(factory);
         var folded = folder.handle(
             factory.conditional(
                 factory.logicalNot(factory.literal("0")),
@@ -58,7 +59,7 @@ class ConstantFolderTest {
 
     @Test
     void preservesDynamicExpressions() {
-        var folder = new ConstantFolder();
+        var folder = new ConstantFolder(factory);
         var folded = folder.handle(
             factory.addition(factory.variableReference("x"), factory.literal("2"))
         );
@@ -70,7 +71,7 @@ class ConstantFolderTest {
 
     @Test
     void visitsEveryExpressionType() {
-        var folder = new ConstantFolder();
+        var folder = new ConstantFolder(factory);
 
         assertLiteralValue("3", folder.handle(factory.literal("3")), "literal should remain unchanged");
         assertVariableReferenceName("x", folder.handle(factory.variableReference("x")), "variable reference should remain unchanged");

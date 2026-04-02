@@ -13,9 +13,10 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.handlers.BranchingFactorHistogramBuilder;
+import port.IFactory;
 
 class BranchingFactorHistogramBuilderTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void countsNodesByBranchingFactor() {
         var expected = new LinkedHashMap<Integer, Integer>();

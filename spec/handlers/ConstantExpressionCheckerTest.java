@@ -11,9 +11,10 @@ import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.*;
 import lib.handlers.ConstantExpressionChecker;
+import port.IFactory;
 
 class ConstantExpressionCheckerTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void detectsConstantAndNonConstantExpressions() {
         var checker = new ConstantExpressionChecker();

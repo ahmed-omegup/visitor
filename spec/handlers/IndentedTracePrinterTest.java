@@ -15,9 +15,10 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.handlers.IndentedTracePrinter;
+import port.IFactory;
 
 class IndentedTracePrinterTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void printsIndentedTraceLines() {
         var expression = factory.addition(factory.literal("1"), factory.negation(factory.literal("2")));

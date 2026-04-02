@@ -10,9 +10,10 @@ import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.*;
 import lib.handlers.MaxFunctionArityFinder;
+import port.IFactory;
 
 class MaxFunctionArityFinderTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void returnsLargestFunctionArityInTree() {
         assertEquals(

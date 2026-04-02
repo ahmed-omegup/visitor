@@ -9,9 +9,10 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.Addition;
 import lib.expression.Literal;
+import port.IFactory;
 
 class LiteralValueExtractorTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void parsesIntegerLiteral() {
         var extractor = TestSupport.newPackagePrivateInstance("lib.handlers.LiteralValueExtractor");

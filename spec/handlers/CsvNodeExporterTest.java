@@ -11,9 +11,10 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.handlers.CsvNodeExporter;
+import port.IFactory;
 
 class CsvNodeExporterTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void exportsNodesAsCsvRows() {
         assertEquals(

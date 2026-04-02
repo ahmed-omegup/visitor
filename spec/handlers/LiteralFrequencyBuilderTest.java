@@ -9,9 +9,10 @@ import java.util.LinkedHashMap;
 import org.junit.jupiter.api.Test;
 
 import lib.handlers.LiteralFrequencyBuilder;
+import port.IFactory;
 
 class LiteralFrequencyBuilderTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void countsLiteralOccurrences() {
         var expected = new LinkedHashMap<String, Integer>();

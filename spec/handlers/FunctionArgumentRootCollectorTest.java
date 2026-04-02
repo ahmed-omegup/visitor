@@ -16,9 +16,10 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.handlers.FunctionArgumentRootCollector;
+import port.IFactory;
 
 class FunctionArgumentRootCollectorTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void collectsTopLevelArgumentKindsForEachFunctionCall() {
         assertEquals(

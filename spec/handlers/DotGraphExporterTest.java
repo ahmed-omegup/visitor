@@ -10,9 +10,10 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.handlers.DotGraphExporter;
+import port.IFactory;
 
 class DotGraphExporterTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void exportsTraversalExpressionAsGraphvizGraph() {
         var graph = new DotGraphExporter().handle(TestSupport.sampleTraversalExpression());

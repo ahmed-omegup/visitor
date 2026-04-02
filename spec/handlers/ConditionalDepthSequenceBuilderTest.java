@@ -11,9 +11,10 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Conditional;
 import lib.expression.Literal;
 import lib.handlers.ConditionalDepthSequenceBuilder;
+import port.IFactory;
 
 class ConditionalDepthSequenceBuilderTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void recordsConditionalDepthsInEncounterOrder() {
         assertEquals(List.of(0), new ConditionalDepthSequenceBuilder().handle(TestSupport.sampleTraversalExpression()));

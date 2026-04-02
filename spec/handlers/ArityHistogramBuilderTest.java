@@ -14,9 +14,10 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.handlers.ArityHistogramBuilder;
+import port.IFactory;
 
 class ArityHistogramBuilderTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void countsFunctionCallsByArity() {
         var expected = new LinkedHashMap<Integer, Integer>();

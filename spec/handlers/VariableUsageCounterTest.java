@@ -13,9 +13,10 @@ import lib.expression.Addition;
 import lib.expression.FunctionCall;
 import lib.expression.VariableReference;
 import lib.handlers.VariableUsageCounter;
+import port.IFactory;
 
 class VariableUsageCounterTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void countsVariableUsagesInEncounterOrder() {
         var expected = new LinkedHashMap<String, Integer>();

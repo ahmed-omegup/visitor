@@ -11,9 +11,10 @@ import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.*;
 import lib.handlers.ZeroDivisionRiskDetector;
+import port.IFactory;
 
 class ZeroDivisionRiskDetectorTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void detectsLiteralZeroDivisionAndModuloRisk() {
         var detector = new ZeroDivisionRiskDetector();

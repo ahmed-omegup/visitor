@@ -10,9 +10,10 @@ import org.junit.jupiter.api.Test;
 import lib.expression.FunctionCall;
 import lib.expression.VariableReference;
 import lib.handlers.TreeDiagramPrinter;
+import port.IFactory;
 
 class TreeDiagramPrinterTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void rendersZeroArgumentFunctionCallTree() {
         assertEquals(

@@ -11,9 +11,10 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.handlers.DepthAnnotatedPreorderPrinter;
+import port.IFactory;
 
 class DepthAnnotatedPreorderPrinterTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void printsPreorderNodesWithDepth() {
         assertEquals(

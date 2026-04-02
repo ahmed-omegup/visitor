@@ -12,9 +12,10 @@ import lib.expression.Literal;
 import lib.expression.Multiplication;
 import lib.expression.VariableReference;
 import lib.handlers.StructuralHashBuilder;
+import port.IFactory;
 
 class StructuralHashBuilderTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void hashesEqualShapesEquallyAndDifferentShapesDifferently() {
         var builder = new StructuralHashBuilder();

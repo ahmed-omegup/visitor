@@ -11,9 +11,10 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
+import port.IFactory;
 
 class VariableReferenceExtractorTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void returnsVariableReference() {
         var extractor = TestSupport.newPackagePrivateInstance("lib.handlers.VariableReferenceExtractor");

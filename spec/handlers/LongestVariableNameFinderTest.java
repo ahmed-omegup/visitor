@@ -11,9 +11,10 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.handlers.LongestVariableNameFinder;
+import port.IFactory;
 
 class LongestVariableNameFinderTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void findsLongestVariableName() {
         assertEquals(

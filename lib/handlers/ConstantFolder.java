@@ -1,11 +1,15 @@
 package lib.handlers;
 
-import lib.expression.Factory;
 import lib.expression.*;
+import port.IFactory;
 
 public class ConstantFolder {
-    private final Factory factory = new Factory();
+    private final IFactory factory;
     private final LiteralValueExtractor literalValueExtractor = new LiteralValueExtractor();
+
+    public ConstantFolder(IFactory factory) {
+        this.factory = factory;
+    }
 
     public Expression handle(Expression expression) {
         return fold(expression);

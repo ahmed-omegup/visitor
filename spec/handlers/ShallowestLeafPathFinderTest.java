@@ -12,9 +12,10 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.handlers.ShallowestLeafPathFinder;
+import port.IFactory;
 
 class ShallowestLeafPathFinderTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void prefersTheEarliestLeafAtTheSmallestDepth() {
         assertEquals(

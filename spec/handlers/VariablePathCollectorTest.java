@@ -13,9 +13,10 @@ import lib.expression.Addition;
 import lib.expression.FunctionCall;
 import lib.expression.VariableReference;
 import lib.handlers.VariablePathCollector;
+import port.IFactory;
 
 class VariablePathCollectorTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void groupsVariablePathsByName() {
         var expected = new LinkedHashMap<String, List<String>>();

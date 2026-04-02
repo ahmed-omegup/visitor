@@ -13,9 +13,10 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.handlers.LeafDepthSequenceBuilder;
+import port.IFactory;
 
 class LeafDepthSequenceBuilderTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void recordsLeafDepthsInEncounterOrder() {
         assertEquals(

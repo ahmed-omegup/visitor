@@ -12,9 +12,10 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.handlers.FunctionCallDepthSequenceBuilder;
+import port.IFactory;
 
 class FunctionCallDepthSequenceBuilderTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void recordsFunctionCallDepthsInEncounterOrder() {
         assertEquals(List.of(1), new FunctionCallDepthSequenceBuilder().handle(TestSupport.sampleTraversalExpression()));

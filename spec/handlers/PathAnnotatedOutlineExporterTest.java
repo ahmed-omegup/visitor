@@ -12,9 +12,10 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.handlers.PathAnnotatedOutlineExporter;
+import port.IFactory;
 
 class PathAnnotatedOutlineExporterTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void annotatesEachNodeWithItsTraversalPath() {
         assertEquals(

@@ -14,9 +14,10 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.handlers.LevelGroupedLabelCollector;
+import port.IFactory;
 
 class LevelGroupedLabelCollectorTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void groupsEncounteredLabelsByDepth() {
         var expected = new LinkedHashMap<Integer, List<String>>();

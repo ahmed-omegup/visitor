@@ -11,9 +11,10 @@ import lib.expression.Literal;
 import lib.expression.LogicalNot;
 import lib.expression.Negation;
 import lib.handlers.UnaryOperatorCounter;
+import port.IFactory;
 
 class UnaryOperatorCounterTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void countsUnaryOperators() {
         assertEquals(

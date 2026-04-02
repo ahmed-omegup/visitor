@@ -8,9 +8,10 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.Literal;
 import lib.handlers.MaximumBranchingFactorFinder;
+import port.IFactory;
 
 class MaximumBranchingFactorFinderTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void returnsLargestObservedBranchingFactor() {
         assertEquals(8, new MaximumBranchingFactorFinder().handle(TestSupport.sampleTraversalExpression()));

@@ -12,9 +12,10 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.*;
 import lib.handlers.IntegerEvaluator;
+import port.IFactory;
 
 class IntegerEvaluatorTest {
-    private final Factory factory = new Factory();
+    private final IFactory factory = new Factory();
     @Test
     void evaluatesExpressionsWithVariablesAndFunctions() {
         var evaluator = new IntegerEvaluator(
