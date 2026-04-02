@@ -13,7 +13,7 @@ import lib.handlers.ExecutionPlanBuilder;
 class ExecutionPlanBuilderTest {
     @Test
     void numbersIndentedExecutionSteps() {
-        var expression = lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.negation(lib.expression.ExpressionFactory.literal("2")));
+        var expression = lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.negation(lib.expression.Expression.literal("2")));
 
         assertEquals(
             "1. inspect Addition\n"

@@ -23,10 +23,10 @@ class ConditionalBranchLabelCollectorTest {
         assertEquals(
             List.of("condition=LessThan", "whenTrue=Literal", "whenFalse=FunctionCall"),
             new ConditionalBranchLabelCollector().handle(
-                lib.expression.ExpressionFactory.conditional(
-                    lib.expression.ExpressionFactory.lessThan(lib.expression.ExpressionFactory.variableReference("x"), lib.expression.ExpressionFactory.literal("1")),
-                    lib.expression.ExpressionFactory.literal("2"),
-                    lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("fallback"), lib.expression.ExpressionFactory.literal("0"))
+                lib.expression.Expression.conditional(
+                    lib.expression.Expression.lessThan(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1")),
+                    lib.expression.Expression.literal("2"),
+                    lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("fallback"), lib.expression.Expression.literal("0"))
                 )
             )
         );
@@ -43,15 +43,15 @@ class ConditionalBranchLabelCollectorTest {
     @TestFactory
     Iterable<DynamicTest> labelsEverySupportedConditionalBranchKind() {
         var cases = new ArrayList<Expression>();
-        cases.add(lib.expression.ExpressionFactory.variableReference("x"));
+        cases.add(lib.expression.Expression.variableReference("x"));
         cases.addAll(TestSupport.sampleNonVariableExpressions());
-        cases.add(lib.expression.ExpressionFactory.literal("1"));
+        cases.add(lib.expression.Expression.literal("1"));
 
         return cases.stream()
             .map(expression -> DynamicTest.dynamicTest("condition-" + expression.getClass().getSimpleName(), () ->
                 assertEquals(
                     "condition=" + expression.getClass().getSimpleName(),
-                    new ConditionalBranchLabelCollector().handle(lib.expression.ExpressionFactory.conditional(expression, lib.expression.ExpressionFactory.literal("2"), lib.expression.ExpressionFactory.literal("3"))).get(0)
+                    new ConditionalBranchLabelCollector().handle(lib.expression.Expression.conditional(expression, lib.expression.Expression.literal("2"), lib.expression.Expression.literal("3"))).get(0)
                 )))
             .toList();
     }

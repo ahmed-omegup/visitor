@@ -15,7 +15,7 @@ class DepthAnnotatedPreorderPrinterTest {
     void printsPreorderNodesWithDepth() {
         assertEquals(
             String.join("\n", "0: Addition", "1: VariableReference(x)", "1: Literal(2)"),
-            new DepthAnnotatedPreorderPrinter().handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.variableReference("x"), lib.expression.ExpressionFactory.literal("2")))
+            new DepthAnnotatedPreorderPrinter().handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("2")))
         );
     }
 

@@ -15,7 +15,7 @@ class TreeDiagramPrinterTest {
         assertEquals(
             "└── FunctionCall\n"
                 + "    └── VariableReference(ping)\n",
-            new TreeDiagramPrinter().handle(lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("ping")))
+            new TreeDiagramPrinter().handle(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("ping")))
         );
     }
 

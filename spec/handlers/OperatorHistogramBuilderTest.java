@@ -22,9 +22,9 @@ class OperatorHistogramBuilderTest {
         assertEquals(
             expected,
             new OperatorHistogramBuilder().handle(
-                lib.expression.ExpressionFactory.addition(
-                    lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-                    lib.expression.ExpressionFactory.negation(lib.expression.ExpressionFactory.literal("3"))
+                lib.expression.Expression.addition(
+                    lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+                    lib.expression.Expression.negation(lib.expression.Expression.literal("3"))
                 )
             )
         );

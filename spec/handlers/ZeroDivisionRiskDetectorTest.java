@@ -34,9 +34,9 @@ class ZeroDivisionRiskDetectorTest {
     void detectsLiteralZeroDivisionAndModuloRisk() {
         var detector = new ZeroDivisionRiskDetector();
 
-        assertTrue(detector.handle(lib.expression.ExpressionFactory.division(lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.literal("0"))));
-        assertTrue(detector.handle(lib.expression.ExpressionFactory.modulo(lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.literal("0"))));
-        assertFalse(detector.handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.division(lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.variableReference("x")), lib.expression.ExpressionFactory.literal("1"))));
+        assertTrue(detector.handle(lib.expression.Expression.division(lib.expression.Expression.literal("8"), lib.expression.Expression.literal("0"))));
+        assertTrue(detector.handle(lib.expression.Expression.modulo(lib.expression.Expression.literal("8"), lib.expression.Expression.literal("0"))));
+        assertFalse(detector.handle(lib.expression.Expression.addition(lib.expression.Expression.division(lib.expression.Expression.literal("8"), lib.expression.Expression.variableReference("x")), lib.expression.Expression.literal("1"))));
     }
 
     @Test
@@ -49,8 +49,8 @@ class ZeroDivisionRiskDetectorTest {
         var detector = new ZeroDivisionRiskDetector();
         return TestSupport.sampleNonVariableExpressions().stream()
             .map(expression -> DynamicTest.dynamicTest("divisor-" + expression.getClass().getSimpleName(), () -> {
-                assertFalse(detector.handle(lib.expression.ExpressionFactory.division(lib.expression.ExpressionFactory.literal("8"), expression)));
-                assertFalse(detector.handle(lib.expression.ExpressionFactory.modulo(lib.expression.ExpressionFactory.literal("8"), expression)));
+                assertFalse(detector.handle(lib.expression.Expression.division(lib.expression.Expression.literal("8"), expression)));
+                assertFalse(detector.handle(lib.expression.Expression.modulo(lib.expression.Expression.literal("8"), expression)));
             }))
             .toList();
     }
@@ -58,39 +58,39 @@ class ZeroDivisionRiskDetectorTest {
     @TestFactory
     Iterable<DynamicTest> detectsRiskWhenItAppearsOnEitherSideOfOperators() {
         var detector = new ZeroDivisionRiskDetector();
-        var risky = lib.expression.ExpressionFactory.division(lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.literal("0"));
+        var risky = lib.expression.Expression.division(lib.expression.Expression.literal("8"), lib.expression.Expression.literal("0"));
         return java.util.List.of(
-            lib.expression.ExpressionFactory.addition(risky, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.literal("1"), risky),
-            lib.expression.ExpressionFactory.subtraction(risky, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.subtraction(lib.expression.ExpressionFactory.literal("1"), risky),
-            lib.expression.ExpressionFactory.multiplication(lib.expression.ExpressionFactory.literal("1"), risky),
-            lib.expression.ExpressionFactory.multiplication(risky, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.exponentiation(risky, lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.exponentiation(lib.expression.ExpressionFactory.literal("2"), risky),
-            lib.expression.ExpressionFactory.equality(lib.expression.ExpressionFactory.literal("1"), risky),
-            lib.expression.ExpressionFactory.equality(risky, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.inequality(risky, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.inequality(lib.expression.ExpressionFactory.literal("1"), risky),
-            lib.expression.ExpressionFactory.lessThan(risky, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.lessThan(lib.expression.ExpressionFactory.literal("1"), risky),
-            lib.expression.ExpressionFactory.greaterThan(lib.expression.ExpressionFactory.literal("1"), risky),
-            lib.expression.ExpressionFactory.greaterThan(risky, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.lessThanOrEqual(risky, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.lessThanOrEqual(lib.expression.ExpressionFactory.literal("1"), risky),
-            lib.expression.ExpressionFactory.greaterThanOrEqual(lib.expression.ExpressionFactory.literal("1"), risky),
-            lib.expression.ExpressionFactory.greaterThanOrEqual(risky, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.conjunction(risky, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.conjunction(lib.expression.ExpressionFactory.literal("1"), risky),
-            lib.expression.ExpressionFactory.disjunction(lib.expression.ExpressionFactory.literal("1"), risky),
-            lib.expression.ExpressionFactory.disjunction(risky, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.negation(risky),
-            lib.expression.ExpressionFactory.logicalNot(risky),
-            lib.expression.ExpressionFactory.conditional(risky, lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.conditional(lib.expression.ExpressionFactory.literal("1"), risky, lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.conditional(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2"), risky),
-            lib.expression.ExpressionFactory.functionCall(risky, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("sum"), risky)
+            lib.expression.Expression.addition(risky, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.addition(lib.expression.Expression.literal("1"), risky),
+            lib.expression.Expression.subtraction(risky, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.subtraction(lib.expression.Expression.literal("1"), risky),
+            lib.expression.Expression.multiplication(lib.expression.Expression.literal("1"), risky),
+            lib.expression.Expression.multiplication(risky, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.exponentiation(risky, lib.expression.Expression.literal("2")),
+            lib.expression.Expression.exponentiation(lib.expression.Expression.literal("2"), risky),
+            lib.expression.Expression.equality(lib.expression.Expression.literal("1"), risky),
+            lib.expression.Expression.equality(risky, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.inequality(risky, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.inequality(lib.expression.Expression.literal("1"), risky),
+            lib.expression.Expression.lessThan(risky, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.lessThan(lib.expression.Expression.literal("1"), risky),
+            lib.expression.Expression.greaterThan(lib.expression.Expression.literal("1"), risky),
+            lib.expression.Expression.greaterThan(risky, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.lessThanOrEqual(risky, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.lessThanOrEqual(lib.expression.Expression.literal("1"), risky),
+            lib.expression.Expression.greaterThanOrEqual(lib.expression.Expression.literal("1"), risky),
+            lib.expression.Expression.greaterThanOrEqual(risky, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.conjunction(risky, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.conjunction(lib.expression.Expression.literal("1"), risky),
+            lib.expression.Expression.disjunction(lib.expression.Expression.literal("1"), risky),
+            lib.expression.Expression.disjunction(risky, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.negation(risky),
+            lib.expression.Expression.logicalNot(risky),
+            lib.expression.Expression.conditional(risky, lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+            lib.expression.Expression.conditional(lib.expression.Expression.literal("1"), risky, lib.expression.Expression.literal("2")),
+            lib.expression.Expression.conditional(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2"), risky),
+            lib.expression.Expression.functionCall(risky, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("sum"), risky)
         ).stream().map(expression -> DynamicTest.dynamicTest("risky-" + expression.getClass().getSimpleName(), () ->
             assertTrue(detector.handle(expression)))).toList();
     }
@@ -99,15 +99,15 @@ class ZeroDivisionRiskDetectorTest {
     void ignoresNonZeroLiteralDivisors() {
         var detector = new ZeroDivisionRiskDetector();
 
-        assertFalse(detector.handle(lib.expression.ExpressionFactory.division(lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.literal("2"))));
-        assertFalse(detector.handle(lib.expression.ExpressionFactory.modulo(lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.literal("3"))));
+        assertFalse(detector.handle(lib.expression.Expression.division(lib.expression.Expression.literal("8"), lib.expression.Expression.literal("2"))));
+        assertFalse(detector.handle(lib.expression.Expression.modulo(lib.expression.Expression.literal("8"), lib.expression.Expression.literal("3"))));
     }
 
     @Test
     void detectsCompositeRiskInDivisorAfterSafePrefixChecks() {
         var detector = new ZeroDivisionRiskDetector();
 
-        assertTrue(detector.handle(lib.expression.ExpressionFactory.division(lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.division(lib.expression.ExpressionFactory.literal("4"), lib.expression.ExpressionFactory.literal("0"))))));
-        assertTrue(detector.handle(lib.expression.ExpressionFactory.modulo(lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.division(lib.expression.ExpressionFactory.literal("4"), lib.expression.ExpressionFactory.literal("0"))))));
+        assertTrue(detector.handle(lib.expression.Expression.division(lib.expression.Expression.literal("8"), lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.division(lib.expression.Expression.literal("4"), lib.expression.Expression.literal("0"))))));
+        assertTrue(detector.handle(lib.expression.Expression.modulo(lib.expression.Expression.literal("8"), lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.division(lib.expression.Expression.literal("4"), lib.expression.Expression.literal("0"))))));
     }
 }

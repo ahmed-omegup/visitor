@@ -24,7 +24,7 @@ class LevelWidthHistogramBuilderTest {
 
         assertEquals(
             expected,
-            new LevelWidthHistogramBuilder().handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.variableReference("x"), lib.expression.ExpressionFactory.negation(lib.expression.ExpressionFactory.literal("2"))))
+            new LevelWidthHistogramBuilder().handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.negation(lib.expression.Expression.literal("2"))))
         );
     }
 
@@ -35,6 +35,6 @@ class LevelWidthHistogramBuilderTest {
 
     @Test
     void countsZeroArgumentFunctionCallWithoutArgumentLoopIterations() {
-        assertEquals(Map.of(0, 1, 1, 1), new LevelWidthHistogramBuilder().handle(lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("ping"))));
+        assertEquals(Map.of(0, 1, 1, 1), new LevelWidthHistogramBuilder().handle(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("ping"))));
     }
 }

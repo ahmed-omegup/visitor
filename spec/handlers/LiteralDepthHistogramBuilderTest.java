@@ -18,7 +18,7 @@ class LiteralDepthHistogramBuilderTest {
         expected.put(1, 1);
         expected.put(2, 1);
 
-        assertEquals(expected, new LiteralDepthHistogramBuilder().handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.negation(lib.expression.ExpressionFactory.literal("2")))));
+        assertEquals(expected, new LiteralDepthHistogramBuilder().handle(lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.negation(lib.expression.Expression.literal("2")))));
     }
 
     @Test

@@ -14,7 +14,7 @@ import lib.handlers.XmlExporter;
 class XmlExporterTest {
     @Test
     void exportsNestedExpressionsAsIndentedXml() {
-        var expression = lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.variableReference("x"), lib.expression.ExpressionFactory.literal("2"));
+        var expression = lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("2"));
 
         assertEquals(
             "<Addition>\n"
@@ -27,9 +27,9 @@ class XmlExporterTest {
 
     @Test
     void escapesSpecialCharacters() {
-        var xml = new XmlExporter().handle(lib.expression.ExpressionFactory.addition(
-            lib.expression.ExpressionFactory.variableReference("a&b<q>\""),
-            lib.expression.ExpressionFactory.literal("<&\">")
+        var xml = new XmlExporter().handle(lib.expression.Expression.addition(
+            lib.expression.Expression.variableReference("a&b<q>\""),
+            lib.expression.Expression.literal("<&\">")
         ));
 
         assertTrue(xml.contains("<VariableReference name=\"a&amp;b&lt;q&gt;&quot;\"/>"));
@@ -58,7 +58,7 @@ class XmlExporterTest {
             "<FunctionCall>\n"
                 + "  <VariableReference name=\"ping\"/>\n"
                 + "</FunctionCall>\n",
-            new XmlExporter().handle(lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("ping")))
+            new XmlExporter().handle(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("ping")))
         );
     }
 }

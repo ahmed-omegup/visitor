@@ -15,7 +15,7 @@ class LongestVariableNameFinderTest {
     void findsLongestVariableName() {
         assertEquals(
             "threshold",
-            new LongestVariableNameFinder().handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.variableReference("threshold"), lib.expression.ExpressionFactory.literal("1")))
+            new LongestVariableNameFinder().handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("threshold"), lib.expression.Expression.literal("1")))
         );
     }
 
@@ -23,7 +23,7 @@ class LongestVariableNameFinderTest {
     void keepsLeftVariableOnEqualLengthTie() {
         assertEquals(
             "alpha",
-            new LongestVariableNameFinder().handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.variableReference("alpha"), lib.expression.ExpressionFactory.variableReference("bravo")))
+            new LongestVariableNameFinder().handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("alpha"), lib.expression.Expression.variableReference("bravo")))
         );
     }
 

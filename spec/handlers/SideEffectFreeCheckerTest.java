@@ -34,8 +34,8 @@ class SideEffectFreeCheckerTest {
     void treatsFunctionCallsAsSideEffectCandidates() {
         var checker = new SideEffectFreeChecker();
 
-        assertTrue(checker.handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.variableReference("x"), lib.expression.ExpressionFactory.literal("1"))));
-        assertFalse(checker.handle(lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("sum"), lib.expression.ExpressionFactory.literal("1"))));
+        assertTrue(checker.handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1"))));
+        assertFalse(checker.handle(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("sum"), lib.expression.Expression.literal("1"))));
     }
 
     @Test
@@ -55,41 +55,41 @@ class SideEffectFreeCheckerTest {
     @TestFactory
     Iterable<DynamicTest> rejectsEmbeddedFunctionCallsAcrossOperators() {
         var checker = new SideEffectFreeChecker();
-        var call = lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("sum"), lib.expression.ExpressionFactory.literal("1"));
+        var call = lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("sum"), lib.expression.Expression.literal("1"));
         return java.util.List.of(
-            lib.expression.ExpressionFactory.addition(call, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.literal("1"), call),
-            lib.expression.ExpressionFactory.subtraction(call, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.subtraction(lib.expression.ExpressionFactory.literal("1"), call),
-            lib.expression.ExpressionFactory.multiplication(lib.expression.ExpressionFactory.literal("1"), call),
-            lib.expression.ExpressionFactory.multiplication(call, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.division(call, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.division(lib.expression.ExpressionFactory.literal("1"), call),
-            lib.expression.ExpressionFactory.modulo(lib.expression.ExpressionFactory.literal("1"), call),
-            lib.expression.ExpressionFactory.modulo(call, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.exponentiation(call, lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.exponentiation(lib.expression.ExpressionFactory.literal("2"), call),
-            lib.expression.ExpressionFactory.equality(lib.expression.ExpressionFactory.literal("1"), call),
-            lib.expression.ExpressionFactory.equality(call, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.inequality(call, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.inequality(lib.expression.ExpressionFactory.literal("1"), call),
-            lib.expression.ExpressionFactory.lessThan(call, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.lessThan(lib.expression.ExpressionFactory.literal("1"), call),
-            lib.expression.ExpressionFactory.greaterThan(lib.expression.ExpressionFactory.literal("1"), call),
-            lib.expression.ExpressionFactory.greaterThan(call, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.lessThanOrEqual(call, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.lessThanOrEqual(lib.expression.ExpressionFactory.literal("1"), call),
-            lib.expression.ExpressionFactory.greaterThanOrEqual(lib.expression.ExpressionFactory.literal("1"), call),
-            lib.expression.ExpressionFactory.greaterThanOrEqual(call, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.conjunction(call, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.conjunction(lib.expression.ExpressionFactory.literal("1"), call),
-            lib.expression.ExpressionFactory.disjunction(lib.expression.ExpressionFactory.literal("1"), call),
-            lib.expression.ExpressionFactory.disjunction(call, lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.negation(call),
-            lib.expression.ExpressionFactory.logicalNot(call),
-            lib.expression.ExpressionFactory.conditional(call, lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.conditional(lib.expression.ExpressionFactory.literal("1"), call, lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.conditional(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2"), call)
+            lib.expression.Expression.addition(call, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.addition(lib.expression.Expression.literal("1"), call),
+            lib.expression.Expression.subtraction(call, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.subtraction(lib.expression.Expression.literal("1"), call),
+            lib.expression.Expression.multiplication(lib.expression.Expression.literal("1"), call),
+            lib.expression.Expression.multiplication(call, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.division(call, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.division(lib.expression.Expression.literal("1"), call),
+            lib.expression.Expression.modulo(lib.expression.Expression.literal("1"), call),
+            lib.expression.Expression.modulo(call, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.exponentiation(call, lib.expression.Expression.literal("2")),
+            lib.expression.Expression.exponentiation(lib.expression.Expression.literal("2"), call),
+            lib.expression.Expression.equality(lib.expression.Expression.literal("1"), call),
+            lib.expression.Expression.equality(call, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.inequality(call, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.inequality(lib.expression.Expression.literal("1"), call),
+            lib.expression.Expression.lessThan(call, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.lessThan(lib.expression.Expression.literal("1"), call),
+            lib.expression.Expression.greaterThan(lib.expression.Expression.literal("1"), call),
+            lib.expression.Expression.greaterThan(call, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.lessThanOrEqual(call, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.lessThanOrEqual(lib.expression.Expression.literal("1"), call),
+            lib.expression.Expression.greaterThanOrEqual(lib.expression.Expression.literal("1"), call),
+            lib.expression.Expression.greaterThanOrEqual(call, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.conjunction(call, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.conjunction(lib.expression.Expression.literal("1"), call),
+            lib.expression.Expression.disjunction(lib.expression.Expression.literal("1"), call),
+            lib.expression.Expression.disjunction(call, lib.expression.Expression.literal("1")),
+            lib.expression.Expression.negation(call),
+            lib.expression.Expression.logicalNot(call),
+            lib.expression.Expression.conditional(call, lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+            lib.expression.Expression.conditional(lib.expression.Expression.literal("1"), call, lib.expression.Expression.literal("2")),
+            lib.expression.Expression.conditional(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2"), call)
         ).stream().map(expression -> DynamicTest.dynamicTest("side-effect-" + expression.getClass().getSimpleName(), () ->
             assertFalse(checker.handle(expression)))).toList();
     }

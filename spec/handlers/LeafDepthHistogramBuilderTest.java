@@ -22,7 +22,7 @@ class LeafDepthHistogramBuilderTest {
 
         assertEquals(
             expected,
-            new LeafDepthHistogramBuilder().handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.variableReference("x"), lib.expression.ExpressionFactory.negation(lib.expression.ExpressionFactory.literal("2"))))
+            new LeafDepthHistogramBuilder().handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.negation(lib.expression.Expression.literal("2"))))
         );
     }
 

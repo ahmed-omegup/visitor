@@ -18,9 +18,9 @@ class FunctionCallPathCollectorTest {
         assertEquals(
             List.of("root.left", "root.right", "root.right.callee"),
             new FunctionCallPathCollector().handle(
-                lib.expression.ExpressionFactory.addition(
-                    lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("f"), lib.expression.ExpressionFactory.literal("1")),
-                    lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("g")), lib.expression.ExpressionFactory.literal("2"))
+                lib.expression.Expression.addition(
+                    lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("f"), lib.expression.Expression.literal("1")),
+                    lib.expression.Expression.functionCall(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("g")), lib.expression.Expression.literal("2"))
                 )
             )
         );

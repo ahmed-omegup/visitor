@@ -16,6 +16,6 @@ class DepthCalculatorTest {
 
     @Test
     void countsZeroArgumentFunctionCallDepth() {
-        assertEquals(2, new DepthCalculator().handle(lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("ping"))));
+        assertEquals(2, new DepthCalculator().handle(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("ping"))));
     }
 }

@@ -14,7 +14,7 @@ class VariableReferenceExtractorTest {
     @Test
     void returnsVariableReference() {
         var extractor = TestSupport.newPackagePrivateInstance("lib.handlers.VariableReferenceExtractor");
-        var variable = lib.expression.ExpressionFactory.variableReference("threshold");
+        var variable = lib.expression.Expression.variableReference("threshold");
 
         assertSame(variable, TestSupport.invokeHandleWithMessage(extractor, variable, "expected variable"), "variable reference should be returned as-is");
     }
@@ -23,8 +23,8 @@ class VariableReferenceExtractorTest {
     void rejectsNonVariableReference() {
         var extractor = TestSupport.newPackagePrivateInstance("lib.handlers.VariableReferenceExtractor");
 
-        assertEquals("expected variable", assertThrows(IllegalArgumentException.class, () -> TestSupport.invokeHandleWithMessage(extractor, lib.expression.ExpressionFactory.literal("3"), "expected variable")).getMessage());
-        assertEquals("expected variable", assertThrows(IllegalArgumentException.class, () -> TestSupport.invokeHandleWithMessage(extractor, lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")), "expected variable")).getMessage());
+        assertEquals("expected variable", assertThrows(IllegalArgumentException.class, () -> TestSupport.invokeHandleWithMessage(extractor, lib.expression.Expression.literal("3"), "expected variable")).getMessage());
+        assertEquals("expected variable", assertThrows(IllegalArgumentException.class, () -> TestSupport.invokeHandleWithMessage(extractor, lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")), "expected variable")).getMessage());
     }
 
     @Test

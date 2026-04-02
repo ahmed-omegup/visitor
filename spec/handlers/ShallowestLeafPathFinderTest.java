@@ -17,10 +17,10 @@ class ShallowestLeafPathFinderTest {
         assertEquals(
             "root.whenTrue",
             new ShallowestLeafPathFinder().handle(
-                lib.expression.ExpressionFactory.conditional(
-                    lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-                    lib.expression.ExpressionFactory.variableReference("x"),
-                    lib.expression.ExpressionFactory.negation(lib.expression.ExpressionFactory.literal("3"))
+                lib.expression.Expression.conditional(
+                    lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+                    lib.expression.Expression.variableReference("x"),
+                    lib.expression.Expression.negation(lib.expression.Expression.literal("3"))
                 )
             )
         );

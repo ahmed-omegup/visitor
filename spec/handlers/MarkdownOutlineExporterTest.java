@@ -15,9 +15,9 @@ import lib.handlers.MarkdownOutlineExporter;
 class MarkdownOutlineExporterTest {
     @Test
     void exportsNestedExpressionsAsMarkdownOutline() {
-        var expression = lib.expression.ExpressionFactory.addition(
-            lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("sum"), lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.negation(lib.expression.ExpressionFactory.variableReference("x"))
+        var expression = lib.expression.Expression.addition(
+            lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("sum"), lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+            lib.expression.Expression.negation(lib.expression.Expression.variableReference("x"))
         );
 
         assertEquals(

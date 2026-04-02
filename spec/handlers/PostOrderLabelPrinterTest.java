@@ -16,7 +16,7 @@ class PostOrderLabelPrinterTest {
     void printsLabelsInPostOrder() {
         assertEquals(
             "VariableReference(x) -> Literal(2) -> Addition",
-            new PostOrderLabelPrinter().handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.variableReference("x"), lib.expression.ExpressionFactory.literal("2")))
+            new PostOrderLabelPrinter().handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("2")))
         );
     }
 

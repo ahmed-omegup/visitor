@@ -23,9 +23,9 @@ class ArityHistogramBuilderTest {
         assertEquals(
             expected,
             new ArityHistogramBuilder().handle(
-                lib.expression.ExpressionFactory.addition(
-                    lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("ping")),
-                    lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("sum"), lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2"))
+                lib.expression.Expression.addition(
+                    lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("ping")),
+                    lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("sum"), lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2"))
                 )
             )
         );

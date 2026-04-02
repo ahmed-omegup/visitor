@@ -25,7 +25,7 @@ class YamlExpressionExporterTest {
                 + "  -\n"
                 + "    type: Literal\n"
                 + "    value: \"2\"\n",
-            new YamlExpressionExporter().handle(lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("sum"), lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")))
+            new YamlExpressionExporter().handle(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("sum"), lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")))
         );
     }
 

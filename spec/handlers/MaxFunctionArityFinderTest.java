@@ -34,9 +34,9 @@ class MaxFunctionArityFinderTest {
         assertEquals(
             3,
             new MaxFunctionArityFinder().handle(
-                lib.expression.ExpressionFactory.addition(
-                    lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("ping")),
-                    lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("sum"), lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2"), lib.expression.ExpressionFactory.literal("3"))
+                lib.expression.Expression.addition(
+                    lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("ping")),
+                    lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("sum"), lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2"), lib.expression.Expression.literal("3"))
                 )
             )
         );
@@ -44,7 +44,7 @@ class MaxFunctionArityFinderTest {
 
     @Test
     void returnsZeroWhenNoFunctionCallExists() {
-        assertEquals(0, new MaxFunctionArityFinder().handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2"))));
+        assertEquals(0, new MaxFunctionArityFinder().handle(lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2"))));
     }
 
     @Test
@@ -56,25 +56,25 @@ class MaxFunctionArityFinderTest {
     Iterable<DynamicTest> traversesEveryOperatorShapeWithoutFunctionCalls() {
         var finder = new MaxFunctionArityFinder();
         return java.util.List.of(
-            lib.expression.ExpressionFactory.literal("1"),
-            lib.expression.ExpressionFactory.variableReference("x"),
-            lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.subtraction(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.multiplication(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.division(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.negation(lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.modulo(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.exponentiation(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.equality(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.inequality(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.lessThan(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.greaterThan(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.lessThanOrEqual(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.greaterThanOrEqual(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.conjunction(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.disjunction(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-            lib.expression.ExpressionFactory.logicalNot(lib.expression.ExpressionFactory.literal("1")),
-            lib.expression.ExpressionFactory.conditional(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2"), lib.expression.ExpressionFactory.literal("3"))
+            lib.expression.Expression.literal("1"),
+            lib.expression.Expression.variableReference("x"),
+            lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+            lib.expression.Expression.subtraction(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+            lib.expression.Expression.multiplication(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+            lib.expression.Expression.division(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+            lib.expression.Expression.negation(lib.expression.Expression.literal("1")),
+            lib.expression.Expression.modulo(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+            lib.expression.Expression.exponentiation(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+            lib.expression.Expression.equality(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+            lib.expression.Expression.inequality(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+            lib.expression.Expression.lessThan(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+            lib.expression.Expression.greaterThan(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+            lib.expression.Expression.lessThanOrEqual(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+            lib.expression.Expression.greaterThanOrEqual(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+            lib.expression.Expression.conjunction(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+            lib.expression.Expression.disjunction(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+            lib.expression.Expression.logicalNot(lib.expression.Expression.literal("1")),
+            lib.expression.Expression.conditional(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2"), lib.expression.Expression.literal("3"))
         ).stream().map(expression -> DynamicTest.dynamicTest("arity-" + expression.getClass().getSimpleName(), () ->
             assertEquals(0, finder.handle(expression)))).toList();
     }

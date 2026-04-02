@@ -17,7 +17,7 @@ class FunctionCallDepthSequenceBuilderTest {
         assertEquals(List.of(1), new FunctionCallDepthSequenceBuilder().handle(TestSupport.sampleTraversalExpression()));
         assertEquals(
             List.of(0, 1),
-            new FunctionCallDepthSequenceBuilder().handle(lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("f")), lib.expression.ExpressionFactory.literal("1")))
+            new FunctionCallDepthSequenceBuilder().handle(lib.expression.Expression.functionCall(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("f")), lib.expression.Expression.literal("1")))
         );
     }
 }

@@ -15,6 +15,6 @@ class LeafCounterTest {
 
     @Test
     void countsSingleLiteralAsOneLeaf() {
-        assertEquals(1, new LeafCounter().handle(lib.expression.ExpressionFactory.literal("3")));
+        assertEquals(1, new LeafCounter().handle(lib.expression.Expression.literal("3")));
     }
 }

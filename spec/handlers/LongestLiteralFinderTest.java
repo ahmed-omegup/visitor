@@ -15,7 +15,7 @@ class LongestLiteralFinderTest {
     void findsLongestLiteralValue() {
         assertEquals(
             "12345",
-            new LongestLiteralFinder().handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.literal("12345"), lib.expression.ExpressionFactory.variableReference("x")))
+            new LongestLiteralFinder().handle(lib.expression.Expression.addition(lib.expression.Expression.literal("12345"), lib.expression.Expression.variableReference("x")))
         );
     }
 
@@ -23,7 +23,7 @@ class LongestLiteralFinderTest {
     void keepsLeftValueOnEqualLengthTie() {
         assertEquals(
             "alpha",
-            new LongestLiteralFinder().handle(lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("f"), lib.expression.ExpressionFactory.literal("alpha"), lib.expression.ExpressionFactory.literal("bravo")))
+            new LongestLiteralFinder().handle(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("f"), lib.expression.Expression.literal("alpha"), lib.expression.Expression.literal("bravo")))
         );
     }
 

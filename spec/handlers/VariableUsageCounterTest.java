@@ -22,9 +22,9 @@ class VariableUsageCounterTest {
         assertEquals(
             expected,
             new VariableUsageCounter().handle(
-                lib.expression.ExpressionFactory.addition(
-                    lib.expression.ExpressionFactory.variableReference("x"),
-                    lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("sum"), lib.expression.ExpressionFactory.variableReference("x"))
+                lib.expression.Expression.addition(
+                    lib.expression.Expression.variableReference("x"),
+                    lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("sum"), lib.expression.Expression.variableReference("x"))
                 )
             )
         );

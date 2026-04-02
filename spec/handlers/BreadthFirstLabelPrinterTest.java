@@ -16,7 +16,7 @@ class BreadthFirstLabelPrinterTest {
     void printsLabelsBreadthFirst() {
         assertEquals(
             "Addition | VariableReference(x) | Negation | Literal(2)",
-            new BreadthFirstLabelPrinter().handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.variableReference("x"), lib.expression.ExpressionFactory.negation(lib.expression.ExpressionFactory.literal("2"))))
+            new BreadthFirstLabelPrinter().handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.negation(lib.expression.Expression.literal("2"))))
         );
     }
 

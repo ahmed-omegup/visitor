@@ -16,8 +16,8 @@ class StructuralSignatureBuilderTest {
         var builder = new StructuralSignatureBuilder();
 
         assertEquals(
-            builder.handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.variableReference("x"), lib.expression.ExpressionFactory.literal("1"))),
-            builder.handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.variableReference("y"), lib.expression.ExpressionFactory.literal("9")))
+            builder.handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1"))),
+            builder.handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("y"), lib.expression.Expression.literal("9")))
         );
     }
 

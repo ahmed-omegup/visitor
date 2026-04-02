@@ -15,7 +15,7 @@ class UnaryOperatorCounterTest {
     void countsUnaryOperators() {
         assertEquals(
             2,
-            new UnaryOperatorCounter().handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.negation(lib.expression.ExpressionFactory.literal("1")), lib.expression.ExpressionFactory.logicalNot(lib.expression.ExpressionFactory.literal("0"))))
+            new UnaryOperatorCounter().handle(lib.expression.Expression.addition(lib.expression.Expression.negation(lib.expression.Expression.literal("1")), lib.expression.Expression.logicalNot(lib.expression.Expression.literal("0"))))
         );
     }
 

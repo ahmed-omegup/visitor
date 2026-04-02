@@ -27,8 +27,8 @@ class DotGraphExporterTest {
 
     @Test
     void reusesExistingNodeIdsForSharedSubexpressions() {
-        var shared = lib.expression.ExpressionFactory.literal("a\"b");
-        var graph = new DotGraphExporter().handle(lib.expression.ExpressionFactory.addition(shared, shared));
+        var shared = lib.expression.Expression.literal("a\"b");
+        var graph = new DotGraphExporter().handle(lib.expression.Expression.addition(shared, shared));
 
         assertEquals(1, occurrences(graph, "n1 [label=\"Literal(a\\\"b)\"]"));
         assertEquals(2, occurrences(graph, "n0 -> n1;"));

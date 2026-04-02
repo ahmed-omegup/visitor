@@ -22,7 +22,7 @@ class VariablePathCollectorTest {
         assertEquals(
             expected,
             new VariablePathCollector().handle(
-                lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.variableReference("x"), lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("f"), lib.expression.ExpressionFactory.variableReference("x")))
+                lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("f"), lib.expression.Expression.variableReference("x")))
             )
         );
     }

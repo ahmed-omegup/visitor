@@ -18,7 +18,7 @@ class LeafPathCollectorTest {
         assertEquals(
             List.of("root.callee", "root.arguments[0].left", "root.arguments[0].right"),
             new LeafPathCollector().handle(
-                lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("f"), lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.variableReference("x")))
+                lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("f"), lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.variableReference("x")))
             )
         );
     }

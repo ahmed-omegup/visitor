@@ -27,9 +27,9 @@ class JsonExporterTest {
 
     @Test
     void escapesBackslashesAndQuotes() {
-        var expression = lib.expression.ExpressionFactory.functionCall(
-            lib.expression.ExpressionFactory.variableReference("say\"hi"),
-            lib.expression.ExpressionFactory.literal("a\\b\"c")
+        var expression = lib.expression.Expression.functionCall(
+            lib.expression.Expression.variableReference("say\"hi"),
+            lib.expression.Expression.literal("a\\b\"c")
         );
 
         assertEquals(

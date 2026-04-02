@@ -15,7 +15,7 @@ class HtmlExpressionExporterTest {
     void exportsSimpleAdditionAsHtml() {
         assertEquals(
             "<span class=\"expression addition\"><span class=\"expression literal\">1</span> <span class=\"operator\">+</span> <span class=\"expression variable-reference\">x</span></span>",
-            new HtmlExpressionExporter().handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.variableReference("x")))
+            new HtmlExpressionExporter().handle(lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.variableReference("x")))
         );
     }
 
@@ -23,7 +23,7 @@ class HtmlExpressionExporterTest {
     void escapesHtmlSensitiveLeafValues() {
         assertEquals(
             "<span class=\"expression variable-reference\">a&amp;&lt;b&gt;&quot;</span>",
-            new HtmlExpressionExporter().handle(lib.expression.ExpressionFactory.variableReference("a&<b>\""))
+            new HtmlExpressionExporter().handle(lib.expression.Expression.variableReference("a&<b>\""))
         );
     }
 

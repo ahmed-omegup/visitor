@@ -31,7 +31,7 @@ class LiteralFrequencyBuilderTest {
     void returnsEmptyMapWhenNoLiteralsExist() {
         assertEquals(
             new LinkedHashMap<String, Integer>(),
-            new LiteralFrequencyBuilder().handle(lib.expression.ExpressionFactory.variableReference("x"))
+            new LiteralFrequencyBuilder().handle(lib.expression.Expression.variableReference("x"))
         );
     }
 }

@@ -22,9 +22,9 @@ class FunctionCallSignatureCollectorTest {
         assertEquals(
             List.of("sum/2", "FunctionCall/1", "g/0"),
             new FunctionCallSignatureCollector().handle(
-                lib.expression.ExpressionFactory.addition(
-                    lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("sum"), lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")),
-                    lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("g")), lib.expression.ExpressionFactory.literal("3"))
+                lib.expression.Expression.addition(
+                    lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("sum"), lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
+                    lib.expression.Expression.functionCall(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("g")), lib.expression.Expression.literal("3"))
                 )
             )
         );
@@ -38,13 +38,13 @@ class FunctionCallSignatureCollectorTest {
     @TestFactory
     Iterable<DynamicTest> labelsEverySupportedCalleeKind() {
         var cases = new ArrayList<Expression>();
-        cases.add(lib.expression.ExpressionFactory.literal("7"));
-        cases.add(lib.expression.ExpressionFactory.variableReference("name"));
+        cases.add(lib.expression.Expression.literal("7"));
+        cases.add(lib.expression.Expression.variableReference("name"));
         cases.addAll(TestSupport.sampleNonVariableExpressions());
 
         return cases.stream()
             .map(expression -> DynamicTest.dynamicTest("callee-" + expression.getClass().getSimpleName(), () -> {
-                var signatures = new FunctionCallSignatureCollector().handle(lib.expression.ExpressionFactory.functionCall(expression, lib.expression.ExpressionFactory.literal("9")));
+                var signatures = new FunctionCallSignatureCollector().handle(lib.expression.Expression.functionCall(expression, lib.expression.Expression.literal("9")));
                 var expectedLabel = expression instanceof VariableReference variableReference
                     ? variableReference.name
                     : expression.getClass().getSimpleName();

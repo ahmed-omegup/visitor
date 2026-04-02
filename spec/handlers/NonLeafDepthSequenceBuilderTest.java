@@ -17,7 +17,7 @@ class NonLeafDepthSequenceBuilderTest {
     void recordsCompositeNodesWithTheirDepth() {
         assertEquals(
             List.of("0:Addition", "1:Negation"),
-            new NonLeafDepthSequenceBuilder().handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.variableReference("x"), lib.expression.ExpressionFactory.negation(lib.expression.ExpressionFactory.literal("2"))))
+            new NonLeafDepthSequenceBuilder().handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.negation(lib.expression.Expression.literal("2"))))
         );
     }
 

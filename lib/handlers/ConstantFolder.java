@@ -41,71 +41,71 @@ public class ConstantFolder {
             }
 
             public Expression visit(Addition expression) {
-                return foldBinary(fold(expression.left), fold(expression.right), lib.expression.ExpressionFactory::addition, (left, right) -> left + right);
+                return foldBinary(fold(expression.left), fold(expression.right), Expression::addition, (left, right) -> left + right);
             }
 
             public Expression visit(Subtraction expression) {
-                return foldBinary(fold(expression.left), fold(expression.right), lib.expression.ExpressionFactory::subtraction, (left, right) -> left - right);
+                return foldBinary(fold(expression.left), fold(expression.right), Expression::subtraction, (left, right) -> left - right);
             }
 
             public Expression visit(Multiplication expression) {
-                return foldBinary(fold(expression.left), fold(expression.right), lib.expression.ExpressionFactory::multiplication, (left, right) -> left * right);
+                return foldBinary(fold(expression.left), fold(expression.right), Expression::multiplication, (left, right) -> left * right);
             }
 
             public Expression visit(Division expression) {
-                return foldBinary(fold(expression.dividend), fold(expression.divisor), lib.expression.ExpressionFactory::division, (left, right) -> left / right);
+                return foldBinary(fold(expression.dividend), fold(expression.divisor), Expression::division, (left, right) -> left / right);
             }
 
             public Expression visit(Negation expression) {
                 var operand = fold(expression.operand);
                 var value = literalValueExtractor.handle(operand);
-                return value == null ? lib.expression.ExpressionFactory.negation(operand) : lib.expression.ExpressionFactory.literal(Integer.toString(-value));
+                return value == null ? Expression.negation(operand) : Expression.literal(Integer.toString(-value));
             }
 
             public Expression visit(Modulo expression) {
-                return foldBinary(fold(expression.left), fold(expression.right), lib.expression.ExpressionFactory::modulo, (left, right) -> left % right);
+                return foldBinary(fold(expression.left), fold(expression.right), Expression::modulo, (left, right) -> left % right);
             }
 
             public Expression visit(Exponentiation expression) {
-                return foldBinary(fold(expression.base), fold(expression.exponent), lib.expression.ExpressionFactory::exponentiation, (left, right) -> (int) Math.pow(left, right));
+                return foldBinary(fold(expression.base), fold(expression.exponent), Expression::exponentiation, (left, right) -> (int) Math.pow(left, right));
             }
 
             public Expression visit(Equality expression) {
-                return foldComparison(fold(expression.left), fold(expression.right), lib.expression.ExpressionFactory::equality, (left, right) -> left.intValue() == right.intValue());
+                return foldComparison(fold(expression.left), fold(expression.right), Expression::equality, (left, right) -> left.intValue() == right.intValue());
             }
 
             public Expression visit(Inequality expression) {
-                return foldComparison(fold(expression.left), fold(expression.right), lib.expression.ExpressionFactory::inequality, (left, right) -> left.intValue() != right.intValue());
+                return foldComparison(fold(expression.left), fold(expression.right), Expression::inequality, (left, right) -> left.intValue() != right.intValue());
             }
 
             public Expression visit(LessThan expression) {
-                return foldComparison(fold(expression.left), fold(expression.right), lib.expression.ExpressionFactory::lessThan, (left, right) -> left.intValue() < right.intValue());
+                return foldComparison(fold(expression.left), fold(expression.right), Expression::lessThan, (left, right) -> left.intValue() < right.intValue());
             }
 
             public Expression visit(GreaterThan expression) {
-                return foldComparison(fold(expression.left), fold(expression.right), lib.expression.ExpressionFactory::greaterThan, (left, right) -> left.intValue() > right.intValue());
+                return foldComparison(fold(expression.left), fold(expression.right), Expression::greaterThan, (left, right) -> left.intValue() > right.intValue());
             }
 
             public Expression visit(LessThanOrEqual expression) {
-                return foldComparison(fold(expression.left), fold(expression.right), lib.expression.ExpressionFactory::lessThanOrEqual, (left, right) -> left.intValue() <= right.intValue());
+                return foldComparison(fold(expression.left), fold(expression.right), Expression::lessThanOrEqual, (left, right) -> left.intValue() <= right.intValue());
             }
 
             public Expression visit(GreaterThanOrEqual expression) {
-                return foldComparison(fold(expression.left), fold(expression.right), lib.expression.ExpressionFactory::greaterThanOrEqual, (left, right) -> left.intValue() >= right.intValue());
+                return foldComparison(fold(expression.left), fold(expression.right), Expression::greaterThanOrEqual, (left, right) -> left.intValue() >= right.intValue());
             }
 
             public Expression visit(Conjunction expression) {
-                return foldComparison(fold(expression.left), fold(expression.right), lib.expression.ExpressionFactory::conjunction, (left, right) -> left != 0 && right != 0);
+                return foldComparison(fold(expression.left), fold(expression.right), Expression::conjunction, (left, right) -> left != 0 && right != 0);
             }
 
             public Expression visit(Disjunction expression) {
-                return foldComparison(fold(expression.left), fold(expression.right), lib.expression.ExpressionFactory::disjunction, (left, right) -> left != 0 || right != 0);
+                return foldComparison(fold(expression.left), fold(expression.right), Expression::disjunction, (left, right) -> left != 0 || right != 0);
             }
 
             public Expression visit(LogicalNot expression) {
                 var operand = fold(expression.operand);
                 var value = literalValueExtractor.handle(operand);
-                return value == null ? lib.expression.ExpressionFactory.logicalNot(operand) : lib.expression.ExpressionFactory.literal(value == 0 ? "1" : "0");
+                return value == null ? Expression.logicalNot(operand) : Expression.literal(value == 0 ? "1" : "0");
             }
 
             public Expression visit(Conditional expression) {
@@ -114,7 +114,7 @@ public class ConstantFolder {
                 var whenFalse = fold(expression.whenFalse);
                 var value = literalValueExtractor.handle(condition);
                 if (value == null) {
-                    return lib.expression.ExpressionFactory.conditional(condition, whenTrue, whenFalse);
+                    return Expression.conditional(condition, whenTrue, whenFalse);
                 }
                 return value != 0 ? whenTrue : whenFalse;
             }
@@ -125,7 +125,7 @@ public class ConstantFolder {
                 for (int index = 0; index < expression.arguments.length; index++) {
                     arguments[index] = fold(expression.arguments[index]);
                 }
-                return lib.expression.ExpressionFactory.functionCall(callee, arguments);
+                return Expression.functionCall(callee, arguments);
             }
         });
     }
@@ -134,7 +134,7 @@ public class ConstantFolder {
         var leftValue = literalValueExtractor.handle(left);
         var rightValue = literalValueExtractor.handle(right);
         if (leftValue != null && rightValue != null) {
-            return lib.expression.ExpressionFactory.literal(Integer.toString(operation.apply(leftValue, rightValue)));
+            return Expression.literal(Integer.toString(operation.apply(leftValue, rightValue)));
         }
         return factory.create(left, right);
     }
@@ -143,7 +143,7 @@ public class ConstantFolder {
         var leftValue = literalValueExtractor.handle(left);
         var rightValue = literalValueExtractor.handle(right);
         if (leftValue != null && rightValue != null) {
-            return lib.expression.ExpressionFactory.literal(operation.apply(leftValue, rightValue) ? "1" : "0");
+            return Expression.literal(operation.apply(leftValue, rightValue) ? "1" : "0");
         }
         return factory.create(left, right);
     }

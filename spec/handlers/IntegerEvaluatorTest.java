@@ -42,13 +42,13 @@ class IntegerEvaluatorTest {
             )
         );
 
-        Expression expression = lib.expression.ExpressionFactory.conditional(
-            lib.expression.ExpressionFactory.variableReference("threshold"),
-            lib.expression.ExpressionFactory.addition(
-                lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("max"), lib.expression.ExpressionFactory.literal("3"), lib.expression.ExpressionFactory.variableReference("threshold")),
-                lib.expression.ExpressionFactory.multiplication(lib.expression.ExpressionFactory.literal("2"), lib.expression.ExpressionFactory.literal("5"))
+        Expression expression = lib.expression.Expression.conditional(
+            lib.expression.Expression.variableReference("threshold"),
+            lib.expression.Expression.addition(
+                lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("max"), lib.expression.Expression.literal("3"), lib.expression.Expression.variableReference("threshold")),
+                lib.expression.Expression.multiplication(lib.expression.Expression.literal("2"), lib.expression.Expression.literal("5"))
             ),
-            lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("fallback"), lib.expression.ExpressionFactory.literal("0"))
+            lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("fallback"), lib.expression.Expression.literal("0"))
         );
 
         assertEquals(14, evaluator.handle(expression), "evaluator should resolve variables, conditionals, and function calls");
@@ -61,53 +61,53 @@ class IntegerEvaluatorTest {
             Map.of("sum", values -> values.stream().mapToInt(Integer::intValue).sum())
         );
 
-        assertEquals(10, evaluator.handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.literal("2"))), "addition should evaluate");
-        assertEquals(6, evaluator.handle(lib.expression.ExpressionFactory.subtraction(lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.literal("2"))), "subtraction should evaluate");
-        assertEquals(16, evaluator.handle(lib.expression.ExpressionFactory.multiplication(lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.literal("2"))), "multiplication should evaluate");
-        assertEquals(4, evaluator.handle(lib.expression.ExpressionFactory.division(lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.literal("2"))), "division should evaluate");
-        assertEquals(-8, evaluator.handle(lib.expression.ExpressionFactory.negation(lib.expression.ExpressionFactory.literal("8"))), "negation should evaluate");
-        assertEquals(0, evaluator.handle(lib.expression.ExpressionFactory.modulo(lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.literal("2"))), "modulo should evaluate");
-        assertEquals(64, evaluator.handle(lib.expression.ExpressionFactory.exponentiation(lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.literal("2"))), "exponentiation should evaluate");
-        assertEquals(1, evaluator.handle(lib.expression.ExpressionFactory.equality(lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.literal("8"))), "equality should evaluate");
-        assertEquals(1, evaluator.handle(lib.expression.ExpressionFactory.inequality(lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.literal("2"))), "inequality should evaluate");
-        assertEquals(1, evaluator.handle(lib.expression.ExpressionFactory.lessThan(lib.expression.ExpressionFactory.literal("2"), lib.expression.ExpressionFactory.literal("8"))), "less-than should evaluate");
-        assertEquals(1, evaluator.handle(lib.expression.ExpressionFactory.greaterThan(lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.literal("2"))), "greater-than should evaluate");
-        assertEquals(1, evaluator.handle(lib.expression.ExpressionFactory.lessThanOrEqual(lib.expression.ExpressionFactory.literal("2"), lib.expression.ExpressionFactory.literal("2"))), "less-than-or-equal should evaluate");
-        assertEquals(1, evaluator.handle(lib.expression.ExpressionFactory.greaterThanOrEqual(lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.literal("8"))), "greater-than-or-equal should evaluate");
-        assertEquals(1, evaluator.handle(lib.expression.ExpressionFactory.conjunction(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2"))), "conjunction should evaluate");
-        assertEquals(1, evaluator.handle(lib.expression.ExpressionFactory.disjunction(lib.expression.ExpressionFactory.literal("0"), lib.expression.ExpressionFactory.literal("2"))), "disjunction should evaluate");
-        assertEquals(1, evaluator.handle(lib.expression.ExpressionFactory.logicalNot(lib.expression.ExpressionFactory.literal("0"))), "logical-not should evaluate");
-        assertEquals(22, evaluator.handle(lib.expression.ExpressionFactory.conditional(lib.expression.ExpressionFactory.literal("0"), lib.expression.ExpressionFactory.literal("11"), lib.expression.ExpressionFactory.literal("22"))), "conditional false branch should evaluate");
-        assertEquals(12, evaluator.handle(lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("sum"), lib.expression.ExpressionFactory.literal("8"), lib.expression.ExpressionFactory.literal("2"), lib.expression.ExpressionFactory.literal("2"))), "function call should evaluate");
-        assertEquals(8, evaluator.handle(lib.expression.ExpressionFactory.variableReference("x")), "variable reference should evaluate");
+        assertEquals(10, evaluator.handle(lib.expression.Expression.addition(lib.expression.Expression.literal("8"), lib.expression.Expression.literal("2"))), "addition should evaluate");
+        assertEquals(6, evaluator.handle(lib.expression.Expression.subtraction(lib.expression.Expression.literal("8"), lib.expression.Expression.literal("2"))), "subtraction should evaluate");
+        assertEquals(16, evaluator.handle(lib.expression.Expression.multiplication(lib.expression.Expression.literal("8"), lib.expression.Expression.literal("2"))), "multiplication should evaluate");
+        assertEquals(4, evaluator.handle(lib.expression.Expression.division(lib.expression.Expression.literal("8"), lib.expression.Expression.literal("2"))), "division should evaluate");
+        assertEquals(-8, evaluator.handle(lib.expression.Expression.negation(lib.expression.Expression.literal("8"))), "negation should evaluate");
+        assertEquals(0, evaluator.handle(lib.expression.Expression.modulo(lib.expression.Expression.literal("8"), lib.expression.Expression.literal("2"))), "modulo should evaluate");
+        assertEquals(64, evaluator.handle(lib.expression.Expression.exponentiation(lib.expression.Expression.literal("8"), lib.expression.Expression.literal("2"))), "exponentiation should evaluate");
+        assertEquals(1, evaluator.handle(lib.expression.Expression.equality(lib.expression.Expression.literal("8"), lib.expression.Expression.literal("8"))), "equality should evaluate");
+        assertEquals(1, evaluator.handle(lib.expression.Expression.inequality(lib.expression.Expression.literal("8"), lib.expression.Expression.literal("2"))), "inequality should evaluate");
+        assertEquals(1, evaluator.handle(lib.expression.Expression.lessThan(lib.expression.Expression.literal("2"), lib.expression.Expression.literal("8"))), "less-than should evaluate");
+        assertEquals(1, evaluator.handle(lib.expression.Expression.greaterThan(lib.expression.Expression.literal("8"), lib.expression.Expression.literal("2"))), "greater-than should evaluate");
+        assertEquals(1, evaluator.handle(lib.expression.Expression.lessThanOrEqual(lib.expression.Expression.literal("2"), lib.expression.Expression.literal("2"))), "less-than-or-equal should evaluate");
+        assertEquals(1, evaluator.handle(lib.expression.Expression.greaterThanOrEqual(lib.expression.Expression.literal("8"), lib.expression.Expression.literal("8"))), "greater-than-or-equal should evaluate");
+        assertEquals(1, evaluator.handle(lib.expression.Expression.conjunction(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2"))), "conjunction should evaluate");
+        assertEquals(1, evaluator.handle(lib.expression.Expression.disjunction(lib.expression.Expression.literal("0"), lib.expression.Expression.literal("2"))), "disjunction should evaluate");
+        assertEquals(1, evaluator.handle(lib.expression.Expression.logicalNot(lib.expression.Expression.literal("0"))), "logical-not should evaluate");
+        assertEquals(22, evaluator.handle(lib.expression.Expression.conditional(lib.expression.Expression.literal("0"), lib.expression.Expression.literal("11"), lib.expression.Expression.literal("22"))), "conditional false branch should evaluate");
+        assertEquals(12, evaluator.handle(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("sum"), lib.expression.Expression.literal("8"), lib.expression.Expression.literal("2"), lib.expression.Expression.literal("2"))), "function call should evaluate");
+        assertEquals(8, evaluator.handle(lib.expression.Expression.variableReference("x")), "variable reference should evaluate");
     }
 
     @Test
     void rejectsUnknownVariable() {
         var evaluator = new IntegerEvaluator(Map.of(), Map.of());
 
-        assertEquals("Unknown variable: missing", assertThrows(IllegalArgumentException.class, () -> evaluator.handle(lib.expression.ExpressionFactory.variableReference("missing"))).getMessage());
+        assertEquals("Unknown variable: missing", assertThrows(IllegalArgumentException.class, () -> evaluator.handle(lib.expression.Expression.variableReference("missing"))).getMessage());
     }
 
     @Test
     void rejectsUnknownFunction() {
         var evaluator = new IntegerEvaluator(Map.of(), Map.of());
 
-        assertEquals("Unknown function: missing", assertThrows(IllegalArgumentException.class, () -> evaluator.handle(lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("missing"), lib.expression.ExpressionFactory.literal("1")))).getMessage());
+        assertEquals("Unknown function: missing", assertThrows(IllegalArgumentException.class, () -> evaluator.handle(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("missing"), lib.expression.Expression.literal("1")))).getMessage());
     }
 
     @Test
     void rejectsNonIntegerLiteral() {
         var evaluator = new IntegerEvaluator(Map.of(), Map.of());
 
-        var exception = assertThrows(IllegalArgumentException.class, () -> evaluator.handle(lib.expression.ExpressionFactory.literal("nan")));
+        var exception = assertThrows(IllegalArgumentException.class, () -> evaluator.handle(lib.expression.Expression.literal("nan")));
         assertTrue(exception.getMessage().contains("Literal is not an integer: nan"), "non-integer literal should describe the failure");
     }
 
     @Test
     void rejectsInvalidFunctionCallee() {
         var evaluator = new IntegerEvaluator(Map.of(), Map.of("f", values -> values.get(0)));
-        var invalidCall = lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.literal("1"), lib.expression.ExpressionFactory.literal("2")), lib.expression.ExpressionFactory.literal("3"));
+        var invalidCall = lib.expression.Expression.functionCall(lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")), lib.expression.Expression.literal("3"));
 
         assertEquals("Function call requires a variable reference callee", assertThrows(IllegalArgumentException.class, () -> evaluator.handle(invalidCall)).getMessage());
     }

@@ -19,7 +19,7 @@ class PathAnnotatedOutlineExporterTest {
                 + "0.0 VariableReference(x)\n"
                 + "0.1 Negation\n"
                 + "0.1.0 Literal(2)\n",
-            new PathAnnotatedOutlineExporter().handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.variableReference("x"), lib.expression.ExpressionFactory.negation(lib.expression.ExpressionFactory.literal("2"))))
+            new PathAnnotatedOutlineExporter().handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.negation(lib.expression.Expression.literal("2"))))
         );
     }
 

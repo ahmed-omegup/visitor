@@ -27,15 +27,15 @@ class FunctionArgumentRootCollectorTest {
     @TestFactory
     Iterable<DynamicTest> labelsEverySupportedArgumentRootKind() {
         var cases = new ArrayList<Expression>();
-        cases.add(lib.expression.ExpressionFactory.literal("7"));
-        cases.add(lib.expression.ExpressionFactory.variableReference("x"));
+        cases.add(lib.expression.Expression.literal("7"));
+        cases.add(lib.expression.Expression.variableReference("x"));
         cases.addAll(TestSupport.sampleNonVariableExpressions());
 
         return cases.stream()
             .map(expression -> DynamicTest.dynamicTest("argument-" + expression.getClass().getSimpleName(), () ->
                 assertEquals(
                     expression instanceof VariableReference ? "VariableReference" : expression.getClass().getSimpleName(),
-                    new FunctionArgumentRootCollector().handle(lib.expression.ExpressionFactory.functionCall(lib.expression.ExpressionFactory.variableReference("f"), expression)).get(0)
+                    new FunctionArgumentRootCollector().handle(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("f"), expression)).get(0)
                 )))
             .toList();
     }

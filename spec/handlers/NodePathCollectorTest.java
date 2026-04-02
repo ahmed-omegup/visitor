@@ -17,7 +17,7 @@ class NodePathCollectorTest {
     void collectsTypedPaths() {
         assertEquals(
             List.of("0:Addition", "0.0:VariableReference", "0.1:Literal"),
-            new NodePathCollector().handle(lib.expression.ExpressionFactory.addition(lib.expression.ExpressionFactory.variableReference("x"), lib.expression.ExpressionFactory.literal("2")))
+            new NodePathCollector().handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("2")))
         );
     }
 

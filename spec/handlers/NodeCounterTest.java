@@ -15,6 +15,6 @@ class NodeCounterTest {
 
     @Test
     void countsSingleLiteralAsOneNode() {
-        assertEquals(1, new NodeCounter().handle(lib.expression.ExpressionFactory.literal("3")));
+        assertEquals(1, new NodeCounter().handle(lib.expression.Expression.literal("3")));
     }
 }
