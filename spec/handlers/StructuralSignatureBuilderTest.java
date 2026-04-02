@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -16,8 +18,8 @@ class StructuralSignatureBuilderTest {
         var builder = new StructuralSignatureBuilder();
 
         assertEquals(
-            builder.handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1"))),
-            builder.handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("y"), lib.expression.Expression.literal("9")))
+            builder.handle(addition(variableReference("x"), literal("1"))),
+            builder.handle(addition(variableReference("y"), literal("9")))
         );
     }
 

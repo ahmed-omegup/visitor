@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -15,6 +17,6 @@ class NodeCounterTest {
 
     @Test
     void countsSingleLiteralAsOneNode() {
-        assertEquals(1, new NodeCounter().handle(lib.expression.Expression.literal("3")));
+        assertEquals(1, new NodeCounter().handle(literal("3")));
     }
 }

@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashMap;
@@ -23,9 +25,9 @@ class ArityHistogramBuilderTest {
         assertEquals(
             expected,
             new ArityHistogramBuilder().handle(
-                lib.expression.Expression.addition(
-                    lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("ping")),
-                    lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("sum"), lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2"))
+                addition(
+                    functionCall(variableReference("ping")),
+                    functionCall(variableReference("sum"), literal("1"), literal("2"))
                 )
             )
         );

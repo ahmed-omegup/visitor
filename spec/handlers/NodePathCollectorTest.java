@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -17,7 +19,7 @@ class NodePathCollectorTest {
     void collectsTypedPaths() {
         assertEquals(
             List.of("0:Addition", "0.0:VariableReference", "0.1:Literal"),
-            new NodePathCollector().handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("2")))
+            new NodePathCollector().handle(addition(variableReference("x"), literal("2")))
         );
     }
 

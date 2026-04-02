@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashMap;
@@ -23,7 +25,7 @@ class BranchingFactorHistogramBuilderTest {
         assertEquals(
             expected,
             new BranchingFactorHistogramBuilder().handle(
-                lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("f"), lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")))
+                addition(variableReference("x"), functionCall(variableReference("f"), literal("1"), literal("2")))
             )
         );
     }

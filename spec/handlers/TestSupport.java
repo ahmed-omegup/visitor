@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -32,27 +34,27 @@ final class TestSupport {
     private TestSupport() {}
 
     static Expression sampleTraversalExpression() {
-        return lib.expression.Expression.conditional(
-            lib.expression.Expression.conjunction(
-                lib.expression.Expression.lessThan(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("10")),
-                lib.expression.Expression.logicalNot(lib.expression.Expression.equality(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("0")))
+        return conditional(
+            conjunction(
+                lessThan(variableReference("x"), literal("10")),
+                logicalNot(equality(literal("1"), literal("0")))
             ),
-            lib.expression.Expression.addition(
-                lib.expression.Expression.subtraction(lib.expression.Expression.literal("7"), lib.expression.Expression.literal("2")),
-                lib.expression.Expression.multiplication(
-                    lib.expression.Expression.division(lib.expression.Expression.literal("8"), lib.expression.Expression.literal("2")),
-                    lib.expression.Expression.modulo(lib.expression.Expression.literal("9"), lib.expression.Expression.literal("4"))
+            addition(
+                subtraction(literal("7"), literal("2")),
+                multiplication(
+                    division(literal("8"), literal("2")),
+                    modulo(literal("9"), literal("4"))
                 )
             ),
-            lib.expression.Expression.functionCall(
-                lib.expression.Expression.variableReference("f"),
-                lib.expression.Expression.exponentiation(lib.expression.Expression.literal("2"), lib.expression.Expression.literal("3")),
-                lib.expression.Expression.inequality(lib.expression.Expression.literal("5"), lib.expression.Expression.literal("6")),
-                lib.expression.Expression.greaterThan(lib.expression.Expression.literal("7"), lib.expression.Expression.literal("1")),
-                lib.expression.Expression.lessThanOrEqual(lib.expression.Expression.literal("2"), lib.expression.Expression.literal("2")),
-                lib.expression.Expression.greaterThanOrEqual(lib.expression.Expression.literal("3"), lib.expression.Expression.literal("3")),
-                lib.expression.Expression.disjunction(lib.expression.Expression.literal("0"), lib.expression.Expression.literal("1")),
-                lib.expression.Expression.negation(lib.expression.Expression.literal("4"))
+            functionCall(
+                variableReference("f"),
+                exponentiation(literal("2"), literal("3")),
+                inequality(literal("5"), literal("6")),
+                greaterThan(literal("7"), literal("1")),
+                lessThanOrEqual(literal("2"), literal("2")),
+                greaterThanOrEqual(literal("3"), literal("3")),
+                disjunction(literal("0"), literal("1")),
+                negation(literal("4"))
             )
         );
     }
@@ -108,24 +110,24 @@ final class TestSupport {
 
     static List<Expression> sampleNonVariableExpressions() {
         var expressions = new ArrayList<Expression>();
-        expressions.add(lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")));
-        expressions.add(lib.expression.Expression.subtraction(lib.expression.Expression.literal("3"), lib.expression.Expression.literal("1")));
-        expressions.add(lib.expression.Expression.multiplication(lib.expression.Expression.literal("2"), lib.expression.Expression.literal("3")));
-        expressions.add(lib.expression.Expression.division(lib.expression.Expression.literal("6"), lib.expression.Expression.literal("2")));
-        expressions.add(lib.expression.Expression.negation(lib.expression.Expression.literal("3")));
-        expressions.add(lib.expression.Expression.modulo(lib.expression.Expression.literal("7"), lib.expression.Expression.literal("3")));
-        expressions.add(lib.expression.Expression.exponentiation(lib.expression.Expression.literal("2"), lib.expression.Expression.literal("3")));
-        expressions.add(lib.expression.Expression.equality(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("1")));
-        expressions.add(lib.expression.Expression.inequality(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")));
-        expressions.add(lib.expression.Expression.lessThan(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")));
-        expressions.add(lib.expression.Expression.greaterThan(lib.expression.Expression.literal("2"), lib.expression.Expression.literal("1")));
-        expressions.add(lib.expression.Expression.lessThanOrEqual(lib.expression.Expression.literal("2"), lib.expression.Expression.literal("2")));
-        expressions.add(lib.expression.Expression.greaterThanOrEqual(lib.expression.Expression.literal("2"), lib.expression.Expression.literal("2")));
-        expressions.add(lib.expression.Expression.conjunction(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("1")));
-        expressions.add(lib.expression.Expression.disjunction(lib.expression.Expression.literal("0"), lib.expression.Expression.literal("1")));
-        expressions.add(lib.expression.Expression.logicalNot(lib.expression.Expression.literal("0")));
-        expressions.add(lib.expression.Expression.conditional(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2"), lib.expression.Expression.literal("3")));
-        expressions.add(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("sum"), lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")));
+        expressions.add(addition(literal("1"), literal("2")));
+        expressions.add(subtraction(literal("3"), literal("1")));
+        expressions.add(multiplication(literal("2"), literal("3")));
+        expressions.add(division(literal("6"), literal("2")));
+        expressions.add(negation(literal("3")));
+        expressions.add(modulo(literal("7"), literal("3")));
+        expressions.add(exponentiation(literal("2"), literal("3")));
+        expressions.add(equality(literal("1"), literal("1")));
+        expressions.add(inequality(literal("1"), literal("2")));
+        expressions.add(lessThan(literal("1"), literal("2")));
+        expressions.add(greaterThan(literal("2"), literal("1")));
+        expressions.add(lessThanOrEqual(literal("2"), literal("2")));
+        expressions.add(greaterThanOrEqual(literal("2"), literal("2")));
+        expressions.add(conjunction(literal("1"), literal("1")));
+        expressions.add(disjunction(literal("0"), literal("1")));
+        expressions.add(logicalNot(literal("0")));
+        expressions.add(conditional(literal("1"), literal("2"), literal("3")));
+        expressions.add(functionCall(variableReference("sum"), literal("1"), literal("2")));
         return expressions;
     }
 }

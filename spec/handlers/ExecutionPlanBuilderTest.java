@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,7 +15,7 @@ import lib.handlers.ExecutionPlanBuilder;
 class ExecutionPlanBuilderTest {
     @Test
     void numbersIndentedExecutionSteps() {
-        var expression = lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.negation(lib.expression.Expression.literal("2")));
+        var expression = addition(literal("1"), negation(literal("2")));
 
         assertEquals(
             "1. inspect Addition\n"

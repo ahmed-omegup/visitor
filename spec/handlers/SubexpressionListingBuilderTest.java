@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -18,7 +20,7 @@ class SubexpressionListingBuilderTest {
     void listsLeavesBeforeContainingExpressions() {
         assertEquals(
             List.of("x", "2", "(-2)", "(x + (-2))"),
-            new SubexpressionListingBuilder().handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.negation(lib.expression.Expression.literal("2"))))
+            new SubexpressionListingBuilder().handle(addition(variableReference("x"), negation(literal("2"))))
         );
     }
 

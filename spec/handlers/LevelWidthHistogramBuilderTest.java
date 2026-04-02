@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashMap;
@@ -24,7 +26,7 @@ class LevelWidthHistogramBuilderTest {
 
         assertEquals(
             expected,
-            new LevelWidthHistogramBuilder().handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.negation(lib.expression.Expression.literal("2"))))
+            new LevelWidthHistogramBuilder().handle(addition(variableReference("x"), negation(literal("2"))))
         );
     }
 
@@ -35,6 +37,6 @@ class LevelWidthHistogramBuilderTest {
 
     @Test
     void countsZeroArgumentFunctionCallWithoutArgumentLoopIterations() {
-        assertEquals(Map.of(0, 1, 1, 1), new LevelWidthHistogramBuilder().handle(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("ping"))));
+        assertEquals(Map.of(0, 1, 1, 1), new LevelWidthHistogramBuilder().handle(functionCall(variableReference("ping"))));
     }
 }

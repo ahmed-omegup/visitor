@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,6 @@ class DepthCalculatorTest {
 
     @Test
     void countsZeroArgumentFunctionCallDepth() {
-        assertEquals(2, new DepthCalculator().handle(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("ping"))));
+        assertEquals(2, new DepthCalculator().handle(functionCall(variableReference("ping"))));
     }
 }

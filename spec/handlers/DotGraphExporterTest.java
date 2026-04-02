@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -27,8 +29,8 @@ class DotGraphExporterTest {
 
     @Test
     void reusesExistingNodeIdsForSharedSubexpressions() {
-        var shared = lib.expression.Expression.literal("a\"b");
-        var graph = new DotGraphExporter().handle(lib.expression.Expression.addition(shared, shared));
+        var shared = literal("a\"b");
+        var graph = new DotGraphExporter().handle(addition(shared, shared));
 
         assertEquals(1, occurrences(graph, "n1 [label=\"Literal(a\\\"b)\"]"));
         assertEquals(2, occurrences(graph, "n0 -> n1;"));

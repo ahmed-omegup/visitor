@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashMap;
@@ -31,7 +33,7 @@ class LiteralFrequencyBuilderTest {
     void returnsEmptyMapWhenNoLiteralsExist() {
         assertEquals(
             new LinkedHashMap<String, Integer>(),
-            new LiteralFrequencyBuilder().handle(lib.expression.Expression.variableReference("x"))
+            new LiteralFrequencyBuilder().handle(variableReference("x"))
         );
     }
 }

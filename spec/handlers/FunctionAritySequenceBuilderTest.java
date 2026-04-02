@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
@@ -18,9 +20,9 @@ class FunctionAritySequenceBuilderTest {
         assertEquals(
             List.of(2, 1, 0),
             new FunctionAritySequenceBuilder().handle(
-                lib.expression.Expression.addition(
-                    lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("sum"), lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
-                    lib.expression.Expression.functionCall(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("g")), lib.expression.Expression.literal("3"))
+                addition(
+                    functionCall(variableReference("sum"), literal("1"), literal("2")),
+                    functionCall(functionCall(variableReference("g")), literal("3"))
                 )
             )
         );

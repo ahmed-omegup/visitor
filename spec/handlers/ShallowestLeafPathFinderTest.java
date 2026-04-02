@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -17,10 +19,10 @@ class ShallowestLeafPathFinderTest {
         assertEquals(
             "root.whenTrue",
             new ShallowestLeafPathFinder().handle(
-                lib.expression.Expression.conditional(
-                    lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
-                    lib.expression.Expression.variableReference("x"),
-                    lib.expression.Expression.negation(lib.expression.Expression.literal("3"))
+                conditional(
+                    addition(literal("1"), literal("2")),
+                    variableReference("x"),
+                    negation(literal("3"))
                 )
             )
         );

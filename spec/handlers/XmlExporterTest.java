@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -14,7 +16,7 @@ import lib.handlers.XmlExporter;
 class XmlExporterTest {
     @Test
     void exportsNestedExpressionsAsIndentedXml() {
-        var expression = lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("2"));
+        var expression = addition(variableReference("x"), literal("2"));
 
         assertEquals(
             "<Addition>\n"
@@ -27,9 +29,9 @@ class XmlExporterTest {
 
     @Test
     void escapesSpecialCharacters() {
-        var xml = new XmlExporter().handle(lib.expression.Expression.addition(
-            lib.expression.Expression.variableReference("a&b<q>\""),
-            lib.expression.Expression.literal("<&\">")
+        var xml = new XmlExporter().handle(addition(
+            variableReference("a&b<q>\""),
+            literal("<&\">")
         ));
 
         assertTrue(xml.contains("<VariableReference name=\"a&amp;b&lt;q&gt;&quot;\"/>"));
@@ -58,7 +60,7 @@ class XmlExporterTest {
             "<FunctionCall>\n"
                 + "  <VariableReference name=\"ping\"/>\n"
                 + "</FunctionCall>\n",
-            new XmlExporter().handle(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("ping")))
+            new XmlExporter().handle(functionCall(variableReference("ping")))
         );
     }
 }

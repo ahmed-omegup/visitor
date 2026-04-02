@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -18,7 +20,7 @@ class TsvNodeExporterTest {
                 + "0\tAddition\t\n"
                 + "0.0\tVariableReference\tx\n"
                 + "0.1\tLiteral\t2\n",
-            new TsvNodeExporter().handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("2")))
+            new TsvNodeExporter().handle(addition(variableReference("x"), literal("2")))
         );
     }
 

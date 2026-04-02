@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
@@ -18,9 +20,9 @@ class FunctionCallPathCollectorTest {
         assertEquals(
             List.of("root.left", "root.right", "root.right.callee"),
             new FunctionCallPathCollector().handle(
-                lib.expression.Expression.addition(
-                    lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("f"), lib.expression.Expression.literal("1")),
-                    lib.expression.Expression.functionCall(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("g")), lib.expression.Expression.literal("2"))
+                addition(
+                    functionCall(variableReference("f"), literal("1")),
+                    functionCall(functionCall(variableReference("g")), literal("2"))
                 )
             )
         );

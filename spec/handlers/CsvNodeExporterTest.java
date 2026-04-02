@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -19,7 +21,7 @@ class CsvNodeExporterTest {
                 + "\"0.0\",\"VariableReference\",\"sum\"\n"
                 + "\"0.1\",\"Literal\",\"1\"\n"
                 + "\"0.2\",\"Literal\",\"2\"\n",
-            new CsvNodeExporter().handle(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("sum"), lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")))
+            new CsvNodeExporter().handle(functionCall(variableReference("sum"), literal("1"), literal("2")))
         );
     }
 

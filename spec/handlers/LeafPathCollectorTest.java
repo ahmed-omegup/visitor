@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
@@ -18,7 +20,7 @@ class LeafPathCollectorTest {
         assertEquals(
             List.of("root.callee", "root.arguments[0].left", "root.arguments[0].right"),
             new LeafPathCollector().handle(
-                lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("f"), lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.variableReference("x")))
+                functionCall(variableReference("f"), addition(literal("1"), variableReference("x")))
             )
         );
     }

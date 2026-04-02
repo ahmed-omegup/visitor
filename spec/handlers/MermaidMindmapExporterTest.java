@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -18,7 +20,7 @@ class MermaidMindmapExporterTest {
                 + "  Addition\n"
                 + "    VariableReference(x)\n"
                 + "    Literal(2)\n",
-            new MermaidMindmapExporter().handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("2")))
+            new MermaidMindmapExporter().handle(addition(variableReference("x"), literal("2")))
         );
     }
 

@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashSet;
@@ -19,9 +21,9 @@ class DistinctLeafLabelCollectorTest {
         assertEquals(
             new LinkedHashSet<>(List.of("literal:1", "variable:f", "variable:x")),
             new DistinctLeafLabelCollector().handle(
-                lib.expression.Expression.addition(
-                    lib.expression.Expression.literal("1"),
-                    lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("f"), lib.expression.Expression.literal("1"), lib.expression.Expression.variableReference("x"), lib.expression.Expression.variableReference("x"))
+                addition(
+                    literal("1"),
+                    functionCall(variableReference("f"), literal("1"), variableReference("x"), variableReference("x"))
                 )
             )
         );

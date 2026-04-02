@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashMap;
@@ -22,7 +24,7 @@ class LeafDepthHistogramBuilderTest {
 
         assertEquals(
             expected,
-            new LeafDepthHistogramBuilder().handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.negation(lib.expression.Expression.literal("2"))))
+            new LeafDepthHistogramBuilder().handle(addition(variableReference("x"), negation(literal("2"))))
         );
     }
 

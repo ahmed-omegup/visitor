@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -17,12 +19,12 @@ class StructuralHashBuilderTest {
         var builder = new StructuralHashBuilder();
 
         assertEquals(
-            builder.handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1"))),
-            builder.handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("y"), lib.expression.Expression.literal("9")))
+            builder.handle(addition(variableReference("x"), literal("1"))),
+            builder.handle(addition(variableReference("y"), literal("9")))
         );
         assertNotEquals(
-            builder.handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1"))),
-            builder.handle(lib.expression.Expression.multiplication(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1")))
+            builder.handle(addition(variableReference("x"), literal("1"))),
+            builder.handle(multiplication(variableReference("x"), literal("1")))
         );
     }
 

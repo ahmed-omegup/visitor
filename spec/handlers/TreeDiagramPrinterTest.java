@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -15,7 +17,7 @@ class TreeDiagramPrinterTest {
         assertEquals(
             "└── FunctionCall\n"
                 + "    └── VariableReference(ping)\n",
-            new TreeDiagramPrinter().handle(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("ping")))
+            new TreeDiagramPrinter().handle(functionCall(variableReference("ping")))
         );
     }
 

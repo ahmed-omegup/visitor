@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashMap;
@@ -22,9 +24,9 @@ class OperatorHistogramBuilderTest {
         assertEquals(
             expected,
             new OperatorHistogramBuilder().handle(
-                lib.expression.Expression.addition(
-                    lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
-                    lib.expression.Expression.negation(lib.expression.Expression.literal("3"))
+                addition(
+                    addition(literal("1"), literal("2")),
+                    negation(literal("3"))
                 )
             )
         );

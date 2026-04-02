@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -34,9 +36,9 @@ class ConstantExpressionCheckerTest {
     void detectsConstantAndNonConstantExpressions() {
         var checker = new ConstantExpressionChecker();
 
-        assertTrue(checker.handle(lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2"))));
-        assertFalse(checker.handle(lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("2"))));
-        assertFalse(checker.handle(lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("sum"), lib.expression.Expression.literal("1"))));
+        assertTrue(checker.handle(addition(literal("1"), literal("2"))));
+        assertFalse(checker.handle(addition(variableReference("x"), literal("2"))));
+        assertFalse(checker.handle(functionCall(variableReference("sum"), literal("1"))));
     }
 
     @Test
@@ -57,39 +59,39 @@ class ConstantExpressionCheckerTest {
     Iterable<DynamicTest> rejectsLeftAndRightVariableBranchesAcrossOperators() {
         var checker = new ConstantExpressionChecker();
         return java.util.List.of(
-            lib.expression.Expression.addition(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1")),
-            lib.expression.Expression.addition(lib.expression.Expression.literal("1"), lib.expression.Expression.variableReference("x")),
-            lib.expression.Expression.subtraction(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1")),
-            lib.expression.Expression.subtraction(lib.expression.Expression.literal("1"), lib.expression.Expression.variableReference("x")),
-            lib.expression.Expression.multiplication(lib.expression.Expression.literal("1"), lib.expression.Expression.variableReference("x")),
-            lib.expression.Expression.multiplication(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1")),
-            lib.expression.Expression.division(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1")),
-            lib.expression.Expression.division(lib.expression.Expression.literal("1"), lib.expression.Expression.variableReference("x")),
-            lib.expression.Expression.modulo(lib.expression.Expression.literal("1"), lib.expression.Expression.variableReference("x")),
-            lib.expression.Expression.modulo(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1")),
-            lib.expression.Expression.exponentiation(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("2")),
-            lib.expression.Expression.exponentiation(lib.expression.Expression.literal("2"), lib.expression.Expression.variableReference("x")),
-            lib.expression.Expression.equality(lib.expression.Expression.literal("1"), lib.expression.Expression.variableReference("x")),
-            lib.expression.Expression.equality(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1")),
-            lib.expression.Expression.inequality(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1")),
-            lib.expression.Expression.inequality(lib.expression.Expression.literal("1"), lib.expression.Expression.variableReference("x")),
-            lib.expression.Expression.lessThan(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1")),
-            lib.expression.Expression.lessThan(lib.expression.Expression.literal("1"), lib.expression.Expression.variableReference("x")),
-            lib.expression.Expression.greaterThan(lib.expression.Expression.literal("1"), lib.expression.Expression.variableReference("x")),
-            lib.expression.Expression.greaterThan(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1")),
-            lib.expression.Expression.lessThanOrEqual(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1")),
-            lib.expression.Expression.lessThanOrEqual(lib.expression.Expression.literal("1"), lib.expression.Expression.variableReference("x")),
-            lib.expression.Expression.greaterThanOrEqual(lib.expression.Expression.literal("1"), lib.expression.Expression.variableReference("x")),
-            lib.expression.Expression.greaterThanOrEqual(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1")),
-            lib.expression.Expression.conjunction(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1")),
-            lib.expression.Expression.conjunction(lib.expression.Expression.literal("1"), lib.expression.Expression.variableReference("x")),
-            lib.expression.Expression.disjunction(lib.expression.Expression.literal("1"), lib.expression.Expression.variableReference("x")),
-            lib.expression.Expression.disjunction(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1")),
-            lib.expression.Expression.negation(lib.expression.Expression.variableReference("x")),
-            lib.expression.Expression.logicalNot(lib.expression.Expression.variableReference("x")),
-            lib.expression.Expression.conditional(lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2")),
-            lib.expression.Expression.conditional(lib.expression.Expression.literal("1"), lib.expression.Expression.variableReference("x"), lib.expression.Expression.literal("2")),
-            lib.expression.Expression.conditional(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2"), lib.expression.Expression.variableReference("x"))
+            addition(variableReference("x"), literal("1")),
+            addition(literal("1"), variableReference("x")),
+            subtraction(variableReference("x"), literal("1")),
+            subtraction(literal("1"), variableReference("x")),
+            multiplication(literal("1"), variableReference("x")),
+            multiplication(variableReference("x"), literal("1")),
+            division(variableReference("x"), literal("1")),
+            division(literal("1"), variableReference("x")),
+            modulo(literal("1"), variableReference("x")),
+            modulo(variableReference("x"), literal("1")),
+            exponentiation(variableReference("x"), literal("2")),
+            exponentiation(literal("2"), variableReference("x")),
+            equality(literal("1"), variableReference("x")),
+            equality(variableReference("x"), literal("1")),
+            inequality(variableReference("x"), literal("1")),
+            inequality(literal("1"), variableReference("x")),
+            lessThan(variableReference("x"), literal("1")),
+            lessThan(literal("1"), variableReference("x")),
+            greaterThan(literal("1"), variableReference("x")),
+            greaterThan(variableReference("x"), literal("1")),
+            lessThanOrEqual(variableReference("x"), literal("1")),
+            lessThanOrEqual(literal("1"), variableReference("x")),
+            greaterThanOrEqual(literal("1"), variableReference("x")),
+            greaterThanOrEqual(variableReference("x"), literal("1")),
+            conjunction(variableReference("x"), literal("1")),
+            conjunction(literal("1"), variableReference("x")),
+            disjunction(literal("1"), variableReference("x")),
+            disjunction(variableReference("x"), literal("1")),
+            negation(variableReference("x")),
+            logicalNot(variableReference("x")),
+            conditional(variableReference("x"), literal("1"), literal("2")),
+            conditional(literal("1"), variableReference("x"), literal("2")),
+            conditional(literal("1"), literal("2"), variableReference("x"))
         ).stream().map(expression -> DynamicTest.dynamicTest("non-constant-" + expression.getClass().getSimpleName(), () ->
             assertFalse(checker.handle(expression)))).toList();
     }

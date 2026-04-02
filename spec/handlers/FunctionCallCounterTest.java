@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -16,9 +18,9 @@ class FunctionCallCounterTest {
         assertEquals(
             2,
             new FunctionCallCounter().handle(
-                lib.expression.Expression.addition(
-                    lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("left"), lib.expression.Expression.literal("1")),
-                    lib.expression.Expression.functionCall(lib.expression.Expression.variableReference("right"), lib.expression.Expression.literal("2"), lib.expression.Expression.literal("3"))
+                addition(
+                    functionCall(variableReference("left"), literal("1")),
+                    functionCall(variableReference("right"), literal("2"), literal("3"))
                 )
             )
         );

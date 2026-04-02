@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -27,9 +29,9 @@ class JsonExporterTest {
 
     @Test
     void escapesBackslashesAndQuotes() {
-        var expression = lib.expression.Expression.functionCall(
-            lib.expression.Expression.variableReference("say\"hi"),
-            lib.expression.Expression.literal("a\\b\"c")
+        var expression = functionCall(
+            variableReference("say\"hi"),
+            literal("a\\b\"c")
         );
 
         assertEquals(

@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static lib.expression.Factory.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -15,7 +17,7 @@ class ConditionalCounterTest {
         assertEquals(
             2,
             new ConditionalCounter().handle(
-                lib.expression.Expression.conditional(lib.expression.Expression.literal("1"), lib.expression.Expression.literal("2"), lib.expression.Expression.conditional(lib.expression.Expression.literal("0"), lib.expression.Expression.literal("3"), lib.expression.Expression.literal("4")))
+                conditional(literal("1"), literal("2"), conditional(literal("0"), literal("3"), literal("4")))
             )
         );
     }
