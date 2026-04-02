@@ -24,28 +24,7 @@ rm -rf coverage/html
 
 javac -d coverage/classes \
     visitor/expression/*.java \
-    visitor/handlers/IndentedTracePrinter.java \
-    visitor/handlers/CompactInfixPrinter.java \
-    visitor/handlers/ParenthesizedInfixPrinter.java \
-    visitor/handlers/TreeDiagramPrinter.java \
-    visitor/handlers/SExpressionExporter.java \
-    visitor/handlers/JsonExporter.java \
-    visitor/handlers/XmlExporter.java \
-    visitor/handlers/MarkdownOutlineExporter.java \
-    visitor/handlers/DotGraphExporter.java \
-    visitor/handlers/NodeCounter.java \
-    visitor/handlers/LeafCounter.java \
-    visitor/handlers/DepthCalculator.java \
-    visitor/handlers/VariableCollector.java \
-    visitor/handlers/LiteralCollector.java \
-    visitor/handlers/NodeTypeCollector.java \
-    visitor/handlers/NodeHistogramBuilder.java \
-    visitor/handlers/ExecutionPlanBuilder.java \
-    visitor/handlers/ExpressionSummaryReporter.java \
-    visitor/handlers/LiteralValueExtractor.java \
-    visitor/handlers/VariableReferenceExtractor.java \
-    visitor/handlers/ConstantFolder.java \
-    visitor/handlers/IntegerEvaluator.java
+    visitor/handlers/*.java
 
 javac -cp "coverage/classes:$JUNIT_JAR" -d coverage/test-classes \
     visitor/handlers/test/*.java
