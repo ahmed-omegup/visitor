@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.*;
+import lib.handlers.SideEffectFreeChecker;
 
 class SideEffectFreeCheckerTest {
     @Test

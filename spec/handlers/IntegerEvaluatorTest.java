@@ -11,6 +11,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import lib.expression.*;
+import lib.handlers.IntegerEvaluator;
 
 class IntegerEvaluatorTest {
     @Test

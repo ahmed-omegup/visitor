@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import org.junit.jupiter.api.Test;
 
 import lib.expression.*;
+import lib.handlers.ConstantFolder;
 
 class ConstantFolderTest {
     @Test
