@@ -23,6 +23,7 @@ rm -f coverage/jacoco.exec coverage/jacoco.csv coverage/jacoco.xml
 rm -rf coverage/html
 
 javac -d coverage/classes \
+    port/*.java \
     lib/expression/*.java \
     lib/handlers/*.java
 

@@ -1,6 +1,6 @@
 package lib.expression;
 
-public final class Factory {
+public final class Factory implements port.IFactory {
     public Factory() {}
 
     public Literal literal(String value) {
