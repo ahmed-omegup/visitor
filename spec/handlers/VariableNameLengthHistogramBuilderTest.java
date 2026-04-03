@@ -14,6 +14,6 @@ class VariableNameLengthHistogramBuilderTest {
         var expected = new LinkedHashMap<Integer, Integer>();
         expected.put(1, 2);
 
-        assertEquals(expected, new VariableNameLengthHistogramBuilder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().variableNameLengthHistogramBuilder()));
     }
 }

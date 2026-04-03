@@ -9,6 +9,6 @@ import lib.handlers.ComparisonOperatorCounter;
 class ComparisonOperatorCounterTest {
     @Test
     void countsComparisonOperatorsInTraversalExpression() {
-        assertEquals(6, new ComparisonOperatorCounter().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(6,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().comparisonOperatorCounter()));
     }
 }

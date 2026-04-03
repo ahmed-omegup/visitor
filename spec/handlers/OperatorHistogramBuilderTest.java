@@ -25,18 +25,16 @@ class OperatorHistogramBuilderTest {
 
         assertEquals(
             expected,
-            new OperatorHistogramBuilder().handle(
-                factory.addition(
+factory.addition(
                     factory.addition(factory.literal("1"), factory.literal("2")),
                     factory.negation(factory.literal("3"))
-                )
-            )
+                ).accept(TestSupport.handlers().operatorHistogramBuilder())
         );
     }
 
     @Test
     void countsAllOperatorKindsInTraversalExpression() {
-        var histogram = new OperatorHistogramBuilder().handle(TestSupport.sampleTraversalExpression());
+        var histogram =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().operatorHistogramBuilder());
 
         for (var operator : new String[] {
             "Conditional", "Conjunction", "LessThan", "LogicalNot", "Equality", "Addition", "Subtraction", "Multiplication",

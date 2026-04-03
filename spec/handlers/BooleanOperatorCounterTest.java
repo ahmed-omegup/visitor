@@ -9,6 +9,6 @@ import lib.handlers.BooleanOperatorCounter;
 class BooleanOperatorCounterTest {
     @Test
     void countsBooleanOperatorsInTraversalExpression() {
-        assertEquals(3, new BooleanOperatorCounter().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(3,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().booleanOperatorCounter()));
     }
 }

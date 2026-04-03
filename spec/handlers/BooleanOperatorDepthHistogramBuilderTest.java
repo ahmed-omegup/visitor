@@ -15,6 +15,6 @@ class BooleanOperatorDepthHistogramBuilderTest {
         expected.put(1, 1);
         expected.put(2, 2);
 
-        assertEquals(expected, new BooleanOperatorDepthHistogramBuilder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().booleanOperatorDepthHistogramBuilder()));
     }
 }

@@ -25,9 +25,7 @@ class VariablePathCollectorTest {
 
         assertEquals(
             expected,
-            new VariablePathCollector().handle(
-                factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), factory.variableReference("x")))
-            )
+factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), factory.variableReference("x"))).accept(TestSupport.handlers().variablePathCollector())
         );
     }
 
@@ -37,6 +35,6 @@ class VariablePathCollectorTest {
         expected.put("x", List.of("root.condition.left.left"));
         expected.put("f", List.of("root.whenFalse.callee"));
 
-        assertEquals(expected, new VariablePathCollector().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().variablePathCollector()));
     }
 }

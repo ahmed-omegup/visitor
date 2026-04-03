@@ -24,13 +24,13 @@ class ExecutionPlanBuilderTest {
                 + "  2. inspect Literal(1)\n"
                 + "  3. inspect Negation\n"
                 + "    4. inspect Literal(2)\n",
-            new ExecutionPlanBuilder().handle(expression)
+expression.accept(TestSupport.handlers().executionPlanBuilder())
         );
     }
 
     @Test
     void visitsAllExpressionKindsInTraversalExpression() {
-        var plan = new ExecutionPlanBuilder().handle(TestSupport.sampleTraversalExpression());
+        var plan =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().executionPlanBuilder());
 
         assertTrue(plan.contains("inspect LessThanOrEqual"));
         assertTrue(plan.contains("inspect GreaterThanOrEqual"));

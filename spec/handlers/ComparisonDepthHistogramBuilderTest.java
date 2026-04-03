@@ -15,6 +15,6 @@ class ComparisonDepthHistogramBuilderTest {
         expected.put(2, 5);
         expected.put(3, 1);
 
-        assertEquals(expected, new ComparisonDepthHistogramBuilder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().comparisonDepthHistogramBuilder()));
     }
 }

@@ -16,6 +16,6 @@ class ArithmeticDepthHistogramBuilderTest {
         expected.put(2, 4);
         expected.put(3, 2);
 
-        assertEquals(expected, new ArithmeticDepthHistogramBuilder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().arithmeticDepthHistogramBuilder()));
     }
 }

@@ -22,13 +22,13 @@ class TsvNodeExporterTest {
                 + "0\tAddition\t\n"
                 + "0.0\tVariableReference\tx\n"
                 + "0.1\tLiteral\t2\n",
-            new TsvNodeExporter().handle(factory.addition(factory.variableReference("x"), factory.literal("2")))
+factory.addition(factory.variableReference("x"), factory.literal("2")).accept(TestSupport.handlers().tsvNodeExporter())
         );
     }
 
     @Test
     void exportsTraversalExpressionIncludingFunctionCallRows() {
-        var tsv = new TsvNodeExporter().handle(TestSupport.sampleTraversalExpression());
+        var tsv =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().tsvNodeExporter());
 
         assertTrue(tsv.contains("0\tConditional\t\n"));
         assertTrue(tsv.contains("0.2\tFunctionCall\t7\n"));

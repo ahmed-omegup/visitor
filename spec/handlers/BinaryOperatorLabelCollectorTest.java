@@ -17,7 +17,7 @@ class BinaryOperatorLabelCollectorTest {
                 "Division", "Modulo", "Exponentiation", "Inequality", "GreaterThan", "LessThanOrEqual",
                 "GreaterThanOrEqual", "Disjunction"
             ),
-            new BinaryOperatorLabelCollector().handle(TestSupport.sampleTraversalExpression())
+TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().binaryOperatorLabelCollector())
         );
     }
 }

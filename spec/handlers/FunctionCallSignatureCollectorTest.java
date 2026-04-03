@@ -25,18 +25,16 @@ class FunctionCallSignatureCollectorTest {
     void recordsSignaturesForDirectAndFunctionValuedCallees() {
         assertEquals(
             List.of("sum/2", "FunctionCall/1", "g/0"),
-            new FunctionCallSignatureCollector().handle(
-                factory.addition(
+factory.addition(
                     factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")),
                     factory.functionCall(factory.functionCall(factory.variableReference("g")), factory.literal("3"))
-                )
-            )
+                ).accept(TestSupport.handlers().functionCallSignatureCollector())
         );
     }
 
     @Test
     void recordsTraversalExpressionFunctionSignature() {
-        assertEquals(List.of("f/7"), new FunctionCallSignatureCollector().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(List.of("f/7"),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().functionCallSignatureCollector()));
     }
 
     @TestFactory
@@ -48,7 +46,7 @@ class FunctionCallSignatureCollectorTest {
 
         return cases.stream()
             .map(expression -> DynamicTest.dynamicTest("callee-" + expression.getClass().getSimpleName(), () -> {
-                var signatures = new FunctionCallSignatureCollector().handle(factory.functionCall(expression, factory.literal("9")));
+                var signatures =factory.functionCall(expression, factory.literal("9")).accept(TestSupport.handlers().functionCallSignatureCollector());
                 var expectedLabel = expression instanceof VariableReference variableReference
                     ? variableReference.name
                     : expression.getClass().getSimpleName();

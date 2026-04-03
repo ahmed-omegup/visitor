@@ -22,13 +22,13 @@ class EvaluationOrderListBuilderTest {
     void recordsPreorderEvaluationSteps() {
         assertEquals(
             List.of("Addition", "VariableReference(x)", "Negation", "Literal(2)"),
-            new EvaluationOrderListBuilder().handle(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(TestSupport.handlers().evaluationOrderListBuilder())
         );
     }
 
     @Test
     void recordsTraversalExpressionEvaluationOrder() {
-        var steps = new EvaluationOrderListBuilder().handle(TestSupport.sampleTraversalExpression());
+        var steps =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().evaluationOrderListBuilder());
 
         assertEquals("Conditional", steps.get(0));
         assertTrue(steps.contains("FunctionCall"));

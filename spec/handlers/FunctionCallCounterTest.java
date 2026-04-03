@@ -19,17 +19,15 @@ class FunctionCallCounterTest {
     void countsNestedFunctionCalls() {
         assertEquals(
             2,
-            new FunctionCallCounter().handle(
-                factory.addition(
+factory.addition(
                     factory.functionCall(factory.variableReference("left"), factory.literal("1")),
                     factory.functionCall(factory.variableReference("right"), factory.literal("2"), factory.literal("3"))
-                )
-            )
+                ).accept(TestSupport.handlers().functionCallCounter())
         );
     }
 
     @Test
     void countsTraversalExpressionFunctionCall() {
-        assertEquals(1, new FunctionCallCounter().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(1,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().functionCallCounter()));
     }
 }

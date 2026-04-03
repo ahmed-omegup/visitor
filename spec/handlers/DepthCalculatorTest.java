@@ -15,11 +15,11 @@ class DepthCalculatorTest {
     private final IFactory factory = new Factory();
     @Test
     void computesDepthForTraversalExpression() {
-        assertEquals(5, new DepthCalculator().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(5,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().depthCalculator()));
     }
 
     @Test
     void countsZeroArgumentFunctionCallDepth() {
-        assertEquals(2, new DepthCalculator().handle(factory.functionCall(factory.variableReference("ping"))));
+        assertEquals(2,factory.functionCall(factory.variableReference("ping")).accept(TestSupport.handlers().depthCalculator()));
     }
 }

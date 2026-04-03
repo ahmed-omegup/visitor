@@ -21,13 +21,13 @@ class NodePathCollectorTest {
     void collectsTypedPaths() {
         assertEquals(
             List.of("0:Addition", "0.0:VariableReference", "0.1:Literal"),
-            new NodePathCollector().handle(factory.addition(factory.variableReference("x"), factory.literal("2")))
+factory.addition(factory.variableReference("x"), factory.literal("2")).accept(TestSupport.handlers().nodePathCollector())
         );
     }
 
     @Test
     void collectsPathsForTraversalExpressionKinds() {
-        var paths = new NodePathCollector().handle(TestSupport.sampleTraversalExpression());
+        var paths =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().nodePathCollector());
 
         assertTrue(paths.contains("0:Conditional"));
         assertTrue(paths.contains("0.1.1:Multiplication"));

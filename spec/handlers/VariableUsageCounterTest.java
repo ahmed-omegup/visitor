@@ -25,17 +25,15 @@ class VariableUsageCounterTest {
 
         assertEquals(
             expected,
-            new VariableUsageCounter().handle(
-                factory.addition(
+factory.addition(
                     factory.variableReference("x"),
                     factory.functionCall(factory.variableReference("sum"), factory.variableReference("x"))
-                )
-            )
+                ).accept(TestSupport.handlers().variableUsageCounter())
         );
     }
 
     @Test
     void countsTraversalExpressionVariablesIncludingFunctionCallee() {
-        assertEquals(Map.of("x", 1, "f", 1), new VariableUsageCounter().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(Map.of("x", 1, "f", 1),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().variableUsageCounter()));
     }
 }

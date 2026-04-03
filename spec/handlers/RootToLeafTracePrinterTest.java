@@ -20,13 +20,13 @@ class RootToLeafTracePrinterTest {
     void printsOneTracePerLeaf() {
         assertEquals(
             String.join("\n", "Addition -> VariableReference(x)", "Addition -> Negation -> Literal(2)"),
-            new RootToLeafTracePrinter().handle(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(TestSupport.handlers().rootToLeafTracePrinter())
         );
     }
 
     @Test
     void printsTraversalExpressionRootToLeafTraces() {
-        var traces = new RootToLeafTracePrinter().handle(TestSupport.sampleTraversalExpression()).lines().toList();
+        var traces =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().rootToLeafTracePrinter()).lines().toList();
 
         assertEquals(24, traces.size());
         assertEquals("Conditional -> Conjunction -> LessThan -> VariableReference(x)", traces.get(0));

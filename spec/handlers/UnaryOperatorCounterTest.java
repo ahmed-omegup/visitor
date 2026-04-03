@@ -19,12 +19,12 @@ class UnaryOperatorCounterTest {
     void countsUnaryOperators() {
         assertEquals(
             2,
-            new UnaryOperatorCounter().handle(factory.addition(factory.negation(factory.literal("1")), factory.logicalNot(factory.literal("0"))))
+factory.addition(factory.negation(factory.literal("1")), factory.logicalNot(factory.literal("0"))).accept(TestSupport.handlers().unaryOperatorCounter())
         );
     }
 
     @Test
     void countsUnaryOperatorsAcrossTraversalExpression() {
-        assertEquals(2, new UnaryOperatorCounter().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(2,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().unaryOperatorCounter()));
     }
 }

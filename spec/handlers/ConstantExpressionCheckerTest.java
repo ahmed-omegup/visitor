@@ -17,30 +17,30 @@ class ConstantExpressionCheckerTest {
     private final IFactory factory = new Factory();
     @Test
     void detectsConstantAndNonConstantExpressions() {
-        var checker = new ConstantExpressionChecker();
+        var checker = TestSupport.handlers().constantExpressionChecker();
 
-        assertTrue(checker.handle(factory.addition(factory.literal("1"), factory.literal("2"))));
-        assertFalse(checker.handle(factory.addition(factory.variableReference("x"), factory.literal("2"))));
-        assertFalse(checker.handle(factory.functionCall(factory.variableReference("sum"), factory.literal("1"))));
+        assertTrue(factory.addition(factory.literal("1"), factory.literal("2")).accept(checker));
+        assertFalse(factory.addition(factory.variableReference("x"), factory.literal("2")).accept(checker));
+        assertFalse(factory.functionCall(factory.variableReference("sum"), factory.literal("1")).accept(checker));
     }
 
     @Test
     void rejectsTraversalExpressionBecauseOfVariablesAndFunctionCalls() {
-        assertFalse(new ConstantExpressionChecker().handle(TestSupport.sampleTraversalExpression()));
+        assertFalse(TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().constantExpressionChecker()));
     }
 
     @TestFactory
     Iterable<DynamicTest> acceptsAllNonVariableNonCallExpressionKindsFromSupport() {
-        var checker = new ConstantExpressionChecker();
+        var checker = TestSupport.handlers().constantExpressionChecker();
         return TestSupport.sampleNonVariableExpressions().stream()
             .map(expression -> DynamicTest.dynamicTest(expression.getClass().getSimpleName(), () ->
-                org.junit.jupiter.api.Assertions.assertEquals(!(expression instanceof FunctionCall), checker.handle(expression))))
+                org.junit.jupiter.api.Assertions.assertEquals(!(expression instanceof FunctionCall),expression.accept(checker))))
             .toList();
     }
 
     @TestFactory
     Iterable<DynamicTest> rejectsLeftAndRightVariableBranchesAcrossOperators() {
-        var checker = new ConstantExpressionChecker();
+        var checker = TestSupport.handlers().constantExpressionChecker();
         return java.util.List.of(
             factory.addition(factory.variableReference("x"), factory.literal("1")),
             factory.addition(factory.literal("1"), factory.variableReference("x")),
@@ -76,6 +76,6 @@ class ConstantExpressionCheckerTest {
             factory.conditional(factory.literal("1"), factory.variableReference("x"), factory.literal("2")),
             factory.conditional(factory.literal("1"), factory.literal("2"), factory.variableReference("x"))
         ).stream().map(expression -> DynamicTest.dynamicTest("non-constant-" + expression.getClass().getSimpleName(), () ->
-            assertFalse(checker.handle(expression)))).toList();
+            assertFalse(expression.accept(checker)))).toList();
     }
 }

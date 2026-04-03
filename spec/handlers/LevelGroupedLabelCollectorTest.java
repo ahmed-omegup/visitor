@@ -27,13 +27,13 @@ class LevelGroupedLabelCollectorTest {
 
         assertEquals(
             expected,
-            new LevelGroupedLabelCollector().handle(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(TestSupport.handlers().levelGroupedLabelCollector())
         );
     }
 
     @Test
     void groupsTraversalExpressionLabelsByLevel() {
-        var grouped = new LevelGroupedLabelCollector().handle(TestSupport.sampleTraversalExpression());
+        var grouped =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().levelGroupedLabelCollector());
 
         assertEquals(List.of("Conditional"), grouped.get(0));
         assertEquals(List.of("Conjunction", "Addition", "FunctionCall"), grouped.get(1));

@@ -17,17 +17,17 @@ class StructuralSignatureBuilderTest {
     private final IFactory factory = new Factory();
     @Test
     void ignoresLeafValuesAndKeepsOnlyShape() {
-        var builder = new StructuralSignatureBuilder();
+        var builder = TestSupport.handlers().structuralSignatureBuilder();
 
         assertEquals(
-            builder.handle(factory.addition(factory.variableReference("x"), factory.literal("1"))),
-            builder.handle(factory.addition(factory.variableReference("y"), factory.literal("9")))
+factory.addition(factory.variableReference("x"), factory.literal("1")).accept(builder),
+factory.addition(factory.variableReference("y"), factory.literal("9")).accept(builder)
         );
     }
 
     @Test
     void includesAllCompositeTypesInTraversalSignature() {
-        var signature = new StructuralSignatureBuilder().handle(TestSupport.sampleTraversalExpression());
+        var signature =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().structuralSignatureBuilder());
 
         assertTrue(signature.contains("Conditional("));
         assertTrue(signature.contains("FunctionCall("));

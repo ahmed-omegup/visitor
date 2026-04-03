@@ -14,11 +14,11 @@ class NodeCounterTest {
     private final IFactory factory = new Factory();
     @Test
     void countsAllNodesInTraversalExpression() {
-        assertEquals(42, new NodeCounter().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(42,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().nodeCounter()));
     }
 
     @Test
     void countsSingleLiteralAsOneNode() {
-        assertEquals(1, new NodeCounter().handle(factory.literal("3")));
+        assertEquals(1,factory.literal("3").accept(TestSupport.handlers().nodeCounter()));
     }
 }

@@ -26,13 +26,11 @@ class ConditionalBranchLabelCollectorTest {
     void reportsDirectChildKindsForConditionalBranches() {
         assertEquals(
             List.of("condition=LessThan", "whenTrue=Literal", "whenFalse=FunctionCall"),
-            new ConditionalBranchLabelCollector().handle(
-                factory.conditional(
+factory.conditional(
                     factory.lessThan(factory.variableReference("x"), factory.literal("1")),
                     factory.literal("2"),
                     factory.functionCall(factory.variableReference("fallback"), factory.literal("0"))
-                )
-            )
+                ).accept(TestSupport.handlers().conditionalBranchLabelCollector())
         );
     }
 
@@ -40,7 +38,7 @@ class ConditionalBranchLabelCollectorTest {
     void reportsTraversalExpressionBranchKinds() {
         assertEquals(
             List.of("condition=Conjunction", "whenTrue=Addition", "whenFalse=FunctionCall"),
-            new ConditionalBranchLabelCollector().handle(TestSupport.sampleTraversalExpression())
+TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().conditionalBranchLabelCollector())
         );
     }
 
@@ -55,7 +53,7 @@ class ConditionalBranchLabelCollectorTest {
             .map(expression -> DynamicTest.dynamicTest("condition-" + expression.getClass().getSimpleName(), () ->
                 assertEquals(
                     "condition=" + expression.getClass().getSimpleName(),
-                    new ConditionalBranchLabelCollector().handle(factory.conditional(expression, factory.literal("2"), factory.literal("3"))).get(0)
+factory.conditional(expression, factory.literal("2"), factory.literal("3")).accept(TestSupport.handlers().conditionalBranchLabelCollector()).get(0)
                 )))
             .toList();
     }

@@ -4,7 +4,12 @@ import java.util.IdentityHashMap;
 
 import lib.expression.*;
 
-public class DotGraphExporter {
+public class DotGraphExporter implements Visitor<String> {
+    DotGraphExporter() {}
+
+    private StringBuilder builder;
+    private IdentityHashMap<Expression, Integer> ids;
+
     public String handle(Expression expression) {
         var ids = new IdentityHashMap<Expression, Integer>();
         var builder = new StringBuilder();
@@ -14,15 +19,16 @@ public class DotGraphExporter {
         return builder.toString();
     }
 
+    private
     private void append(Expression expression, StringBuilder builder, IdentityHashMap<Expression, Integer> ids) {
-        if (ids.containsKey(expression)) {
-            return;
-        }
-
-        int id = ids.size();
-        ids.put(expression, id);
-
-        expression.accept(new Visitor<Void>() {
+        StringBuilder previousBuilder = this.builder;
+        this.builder = builder;
+        IdentityHashMap<Expression, Integer> previousIds = this.ids;
+        this.ids = ids;
+        expression.accept(this);
+        this.builder = previousBuilder;
+        this.ids = previousIds;
+    
             private String escape(String value) {
                 return value.replace("\\", "\\\\").replace("\"", "\\\"");
             }
@@ -172,6 +178,5 @@ public class DotGraphExporter {
                 }
                 return null;
             }
-        });
-    }
+        
 }

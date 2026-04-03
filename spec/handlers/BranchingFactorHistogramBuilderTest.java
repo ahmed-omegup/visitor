@@ -26,9 +26,7 @@ class BranchingFactorHistogramBuilderTest {
 
         assertEquals(
             expected,
-            new BranchingFactorHistogramBuilder().handle(
-                factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), factory.literal("1"), factory.literal("2")))
-            )
+factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), factory.literal("1"), factory.literal("2"))).accept(TestSupport.handlers().branchingFactorHistogramBuilder())
         );
     }
 
@@ -41,6 +39,6 @@ class BranchingFactorHistogramBuilderTest {
         expected.put(1, 2);
         expected.put(8, 1);
 
-        assertEquals(expected, new BranchingFactorHistogramBuilder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().branchingFactorHistogramBuilder()));
     }
 }

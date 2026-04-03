@@ -2,12 +2,14 @@ package lib.handlers;
 
 import lib.expression.Expression;
 
-public class ExpressionFingerprintReporter {
+public class ExpressionFingerprintReporter extends AbstractHandlerVisitor<String> {
+    ExpressionFingerprintReporter() {}
+
     public String handle(Expression expression) {
-        var nodes = new NodeCounter().handle(expression);
-        var depth = new DepthCalculator().handle(expression);
-        var structure = new StructuralSignatureBuilder().handle(expression);
-        var structureHash = new StructuralHashBuilder().handle(expression);
+        var nodes = expression.accept(new NodeCounter());
+        var depth = expression.accept(new DepthCalculator());
+        var structure = expression.accept(new StructuralSignatureBuilder());
+        var structureHash = expression.accept(new StructuralHashBuilder());
         return "nodes=" + nodes + ";depth=" + depth + ";hash=" + structureHash + ";shape=" + structure;
     }
 }

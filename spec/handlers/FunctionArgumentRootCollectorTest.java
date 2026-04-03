@@ -24,7 +24,7 @@ class FunctionArgumentRootCollectorTest {
     void collectsTopLevelArgumentKindsForEachFunctionCall() {
         assertEquals(
             List.of("Exponentiation", "Inequality", "GreaterThan", "LessThanOrEqual", "GreaterThanOrEqual", "Disjunction", "Negation"),
-            new FunctionArgumentRootCollector().handle(TestSupport.sampleTraversalExpression())
+TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().functionArgumentRootCollector())
         );
     }
 
@@ -39,7 +39,7 @@ class FunctionArgumentRootCollectorTest {
             .map(expression -> DynamicTest.dynamicTest("argument-" + expression.getClass().getSimpleName(), () ->
                 assertEquals(
                     expression instanceof VariableReference ? "VariableReference" : expression.getClass().getSimpleName(),
-                    new FunctionArgumentRootCollector().handle(factory.functionCall(factory.variableReference("f"), expression)).get(0)
+factory.functionCall(factory.variableReference("f"), expression).accept(TestSupport.handlers().functionArgumentRootCollector()).get(0)
                 )))
             .toList();
     }

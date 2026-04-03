@@ -20,18 +20,16 @@ class ShallowestLeafPathFinderTest {
     void prefersTheEarliestLeafAtTheSmallestDepth() {
         assertEquals(
             "root.whenTrue",
-            new ShallowestLeafPathFinder().handle(
-                factory.conditional(
+factory.conditional(
                     factory.addition(factory.literal("1"), factory.literal("2")),
                     factory.variableReference("x"),
                     factory.negation(factory.literal("3"))
-                )
-            )
+                ).accept(TestSupport.handlers().shallowestLeafPathFinder())
         );
     }
 
     @Test
     void findsTraversalExpressionShallowestLeaf() {
-        assertEquals("root.whenFalse.callee", new ShallowestLeafPathFinder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals("root.whenFalse.callee",TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().shallowestLeafPathFinder()));
     }
 }

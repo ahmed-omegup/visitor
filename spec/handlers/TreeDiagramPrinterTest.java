@@ -19,13 +19,13 @@ class TreeDiagramPrinterTest {
         assertEquals(
             "└── FunctionCall\n"
                 + "    └── VariableReference(ping)\n",
-            new TreeDiagramPrinter().handle(factory.functionCall(factory.variableReference("ping")))
+factory.functionCall(factory.variableReference("ping")).accept(TestSupport.handlers().treeDiagramPrinter())
         );
     }
 
     @Test
     void rendersAllExpressionKinds() {
-        var tree = new TreeDiagramPrinter().handle(TestSupport.sampleTraversalExpression());
+        var tree =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().treeDiagramPrinter());
 
         assertTrue(tree.contains("└── Conditional\n"));
         assertTrue(tree.contains("├── LessThanOrEqual\n") || tree.contains("└── LessThanOrEqual\n"));

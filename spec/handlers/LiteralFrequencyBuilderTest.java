@@ -28,14 +28,14 @@ class LiteralFrequencyBuilderTest {
         expected.put("5", 1);
         expected.put("6", 1);
 
-        assertEquals(expected, new LiteralFrequencyBuilder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().literalFrequencyBuilder()));
     }
 
     @Test
     void returnsEmptyMapWhenNoLiteralsExist() {
         assertEquals(
             new LinkedHashMap<String, Integer>(),
-            new LiteralFrequencyBuilder().handle(factory.variableReference("x"))
+factory.variableReference("x").accept(TestSupport.handlers().literalFrequencyBuilder())
         );
     }
 }

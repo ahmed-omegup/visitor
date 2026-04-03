@@ -26,9 +26,7 @@ class LiteralPathCollectorTest {
 
         assertEquals(
             expected,
-            new LiteralPathCollector().handle(
-                factory.addition(factory.literal("1"), factory.functionCall(factory.variableReference("f"), factory.literal("1"), factory.literal("2")))
-            )
+factory.addition(factory.literal("1"), factory.functionCall(factory.variableReference("f"), factory.literal("1"), factory.literal("2"))).accept(TestSupport.handlers().literalPathCollector())
         );
     }
 
@@ -47,6 +45,6 @@ class LiteralPathCollectorTest {
         expected.put("5", List.of("root.whenFalse.arguments[1].left"));
         expected.put("6", List.of("root.whenFalse.arguments[1].right"));
 
-        assertEquals(expected, new LiteralPathCollector().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().literalPathCollector()));
     }
 }

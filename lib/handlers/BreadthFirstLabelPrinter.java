@@ -6,7 +6,9 @@ import java.util.List;
 
 import lib.expression.*;
 
-public class BreadthFirstLabelPrinter {
+public class BreadthFirstLabelPrinter extends AbstractHandlerVisitor<String> {
+    BreadthFirstLabelPrinter() {}
+
     public String handle(Expression expression) {
         var queue = new ArrayDeque<Expression>();
         var labels = new ArrayList<String>();

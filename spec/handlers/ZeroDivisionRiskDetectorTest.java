@@ -17,32 +17,32 @@ class ZeroDivisionRiskDetectorTest {
     private final IFactory factory = new Factory();
     @Test
     void detectsLiteralZeroDivisionAndModuloRisk() {
-        var detector = new ZeroDivisionRiskDetector();
+        var detector = TestSupport.handlers().zeroDivisionRiskDetector();
 
-        assertTrue(detector.handle(factory.division(factory.literal("8"), factory.literal("0"))));
-        assertTrue(detector.handle(factory.modulo(factory.literal("8"), factory.literal("0"))));
-        assertFalse(detector.handle(factory.addition(factory.division(factory.literal("8"), factory.variableReference("x")), factory.literal("1"))));
+        assertTrue(factory.division(factory.literal("8"), factory.literal("0")).accept(detector));
+        assertTrue(factory.modulo(factory.literal("8"), factory.literal("0")).accept(detector));
+        assertFalse(factory.addition(factory.division(factory.literal("8"), factory.variableReference("x")), factory.literal("1")).accept(detector));
     }
 
     @Test
     void detectsRiskInsideTraversalTree() {
-        assertFalse(new ZeroDivisionRiskDetector().handle(TestSupport.sampleTraversalExpression()));
+        assertFalse(TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().zeroDivisionRiskDetector()));
     }
 
     @TestFactory
     Iterable<DynamicTest> treatsNonLiteralDivisorsAsSafeCandidatesAcrossExpressionKinds() {
-        var detector = new ZeroDivisionRiskDetector();
+        var detector = TestSupport.handlers().zeroDivisionRiskDetector();
         return TestSupport.sampleNonVariableExpressions().stream()
             .map(expression -> DynamicTest.dynamicTest("divisor-" + expression.getClass().getSimpleName(), () -> {
-                assertFalse(detector.handle(factory.division(factory.literal("8"), expression)));
-                assertFalse(detector.handle(factory.modulo(factory.literal("8"), expression)));
+                assertFalse(factory.division(factory.literal("8"), expression).accept(detector));
+                assertFalse(factory.modulo(factory.literal("8"), expression).accept(detector));
             }))
             .toList();
     }
 
     @TestFactory
     Iterable<DynamicTest> detectsRiskWhenItAppearsOnEitherSideOfOperators() {
-        var detector = new ZeroDivisionRiskDetector();
+        var detector = TestSupport.handlers().zeroDivisionRiskDetector();
         var risky = factory.division(factory.literal("8"), factory.literal("0"));
         return java.util.List.of(
             factory.addition(risky, factory.literal("1")),
@@ -77,22 +77,22 @@ class ZeroDivisionRiskDetectorTest {
             factory.functionCall(risky, factory.literal("1")),
             factory.functionCall(factory.variableReference("sum"), risky)
         ).stream().map(expression -> DynamicTest.dynamicTest("risky-" + expression.getClass().getSimpleName(), () ->
-            assertTrue(detector.handle(expression)))).toList();
+            assertTrue(expression.accept(detector)))).toList();
     }
 
     @Test
     void ignoresNonZeroLiteralDivisors() {
-        var detector = new ZeroDivisionRiskDetector();
+        var detector = TestSupport.handlers().zeroDivisionRiskDetector();
 
-        assertFalse(detector.handle(factory.division(factory.literal("8"), factory.literal("2"))));
-        assertFalse(detector.handle(factory.modulo(factory.literal("8"), factory.literal("3"))));
+        assertFalse(factory.division(factory.literal("8"), factory.literal("2")).accept(detector));
+        assertFalse(factory.modulo(factory.literal("8"), factory.literal("3")).accept(detector));
     }
 
     @Test
     void detectsCompositeRiskInDivisorAfterSafePrefixChecks() {
-        var detector = new ZeroDivisionRiskDetector();
+        var detector = TestSupport.handlers().zeroDivisionRiskDetector();
 
-        assertTrue(detector.handle(factory.division(factory.literal("8"), factory.addition(factory.literal("1"), factory.division(factory.literal("4"), factory.literal("0"))))));
-        assertTrue(detector.handle(factory.modulo(factory.literal("8"), factory.addition(factory.literal("1"), factory.division(factory.literal("4"), factory.literal("0"))))));
+        assertTrue(factory.division(factory.literal("8"), factory.addition(factory.literal("1"), factory.division(factory.literal("4"), factory.literal("0")))).accept(detector));
+        assertTrue(factory.modulo(factory.literal("8"), factory.addition(factory.literal("1"), factory.division(factory.literal("4"), factory.literal("0")))).accept(detector));
     }
 }

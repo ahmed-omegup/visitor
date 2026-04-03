@@ -13,7 +13,7 @@ class ComparisonLabelCollectorTest {
     void collectsComparisonLabelsInPreorder() {
         assertEquals(
             List.of("LessThan", "Equality", "Inequality", "GreaterThan", "LessThanOrEqual", "GreaterThanOrEqual"),
-            new ComparisonLabelCollector().handle(TestSupport.sampleTraversalExpression())
+TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().comparisonLabelCollector())
         );
     }
 }

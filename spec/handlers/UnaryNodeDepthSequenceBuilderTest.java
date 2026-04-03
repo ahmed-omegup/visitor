@@ -11,6 +11,6 @@ import lib.handlers.UnaryNodeDepthSequenceBuilder;
 class UnaryNodeDepthSequenceBuilderTest {
     @Test
     void recordsUnaryNodeDepths() {
-        assertEquals(List.of(2, 2), new UnaryNodeDepthSequenceBuilder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(List.of(2, 2),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().unaryNodeDepthSequenceBuilder()));
     }
 }

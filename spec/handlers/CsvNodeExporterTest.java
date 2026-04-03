@@ -23,13 +23,13 @@ class CsvNodeExporterTest {
                 + "\"0.0\",\"VariableReference\",\"sum\"\n"
                 + "\"0.1\",\"Literal\",\"1\"\n"
                 + "\"0.2\",\"Literal\",\"2\"\n",
-            new CsvNodeExporter().handle(factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")))
+factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")).accept(TestSupport.handlers().csvNodeExporter())
         );
     }
 
     @Test
     void exportsTraversalExpressionIncludingAllCompositeRows() {
-        var csv = new CsvNodeExporter().handle(TestSupport.sampleTraversalExpression());
+        var csv =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().csvNodeExporter());
 
         assertTrue(csv.contains("\"0\",\"Conditional\",\"\"\n"));
         assertTrue(csv.contains("\"0.1.1\",\"Multiplication\",\"\"\n"));

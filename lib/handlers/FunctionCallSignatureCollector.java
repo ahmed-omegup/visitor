@@ -5,7 +5,9 @@ import java.util.List;
 
 import lib.expression.*;
 
-public class FunctionCallSignatureCollector {
+public class FunctionCallSignatureCollector extends AbstractHandlerVisitor<List<String>> {
+    FunctionCallSignatureCollector() {}
+
     public List<String> handle(Expression expression) {
         var signatures = new ArrayList<String>();
         collect(expression, signatures);

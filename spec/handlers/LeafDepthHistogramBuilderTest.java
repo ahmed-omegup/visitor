@@ -26,12 +26,12 @@ class LeafDepthHistogramBuilderTest {
 
         assertEquals(
             expected,
-            new LeafDepthHistogramBuilder().handle(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(TestSupport.handlers().leafDepthHistogramBuilder())
         );
     }
 
     @Test
     void countsTraversalExpressionLeafDepths() {
-        assertEquals(Map.of(2, 1, 3, 17, 4, 6), new LeafDepthHistogramBuilder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(Map.of(2, 1, 3, 17, 4, 6),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().leafDepthHistogramBuilder()));
     }
 }

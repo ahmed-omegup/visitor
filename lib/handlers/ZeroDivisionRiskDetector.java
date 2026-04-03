@@ -2,7 +2,9 @@ package lib.handlers;
 
 import lib.expression.*;
 
-public class ZeroDivisionRiskDetector {
+public class ZeroDivisionRiskDetector extends AbstractHandlerVisitor<Boolean> {
+    ZeroDivisionRiskDetector() {}
+
     public Boolean handle(Expression expression) {
         return detect(expression);
     }

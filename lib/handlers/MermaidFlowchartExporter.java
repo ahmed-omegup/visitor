@@ -4,7 +4,12 @@ import java.util.IdentityHashMap;
 
 import lib.expression.*;
 
-public class MermaidFlowchartExporter {
+public class MermaidFlowchartExporter implements Visitor<String> {
+    MermaidFlowchartExporter() {}
+
+    private StringBuilder builder;
+    private IdentityHashMap<Expression, String> ids;
+
     public String handle(Expression expression) {
         var ids = new IdentityHashMap<Expression, String>();
         var builder = new StringBuilder("flowchart TD\n");
@@ -12,15 +17,16 @@ public class MermaidFlowchartExporter {
         return builder.toString();
     }
 
+    private
     private void append(Expression expression, StringBuilder builder, IdentityHashMap<Expression, String> ids) {
-        if (ids.containsKey(expression)) {
-            return;
-        }
-
-        var id = "n" + ids.size();
-        ids.put(expression, id);
-
-        expression.accept(new Visitor<Void>() {
+        StringBuilder previousBuilder = this.builder;
+        this.builder = builder;
+        IdentityHashMap<Expression, String> previousIds = this.ids;
+        this.ids = ids;
+        expression.accept(this);
+        this.builder = previousBuilder;
+        this.ids = previousIds;
+    
             private String label(String text) {
                 return text.replace("\"", "\\\"");
             }
@@ -63,6 +69,5 @@ public class MermaidFlowchartExporter {
                 node("FunctionCall", children);
                 return null;
             }
-        });
-    }
+        
 }

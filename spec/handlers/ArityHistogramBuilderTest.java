@@ -26,17 +26,15 @@ class ArityHistogramBuilderTest {
 
         assertEquals(
             expected,
-            new ArityHistogramBuilder().handle(
-                factory.addition(
+factory.addition(
                     factory.functionCall(factory.variableReference("ping")),
                     factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2"))
-                )
-            )
+                ).accept(TestSupport.handlers().arityHistogramBuilder())
         );
     }
 
     @Test
     void countsTraversalExpressionFunctionArity() {
-        assertEquals(Map.of(7, 1), new ArityHistogramBuilder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(Map.of(7, 1),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().arityHistogramBuilder()));
     }
 }

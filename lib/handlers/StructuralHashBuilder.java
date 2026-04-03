@@ -4,7 +4,9 @@ import java.util.Objects;
 
 import lib.expression.*;
 
-public class StructuralHashBuilder {
+public class StructuralHashBuilder extends AbstractHandlerVisitor<Integer> {
+    StructuralHashBuilder() {}
+
     public Integer handle(Expression expression) {
         return hash(expression);
     }

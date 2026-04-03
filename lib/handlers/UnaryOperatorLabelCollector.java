@@ -5,41 +5,72 @@ import java.util.List;
 
 import lib.expression.*;
 
-public class UnaryOperatorLabelCollector {
+public class UnaryOperatorLabelCollector implements Visitor<List<String>> {
+    UnaryOperatorLabelCollector() {}
+
+    private boolean active;
+    private List<String> labels;
+
     public List<String> handle(Expression expression) {
         var labels = new ArrayList<String>();
         collect(expression, labels);
         return labels;
     }
-
     private void collect(Expression expression, List<String> labels) {
-        expression.accept(new Visitor<Void>() {
-            public Void visit(Literal expression) { return null; }
-            public Void visit(VariableReference expression) { return null; }
-            public Void visit(Addition expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(Subtraction expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(Multiplication expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(Division expression) { collect(expression.dividend, labels); collect(expression.divisor, labels); return null; }
-            public Void visit(Negation expression) { labels.add("Negation"); collect(expression.operand, labels); return null; }
-            public Void visit(Modulo expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(Exponentiation expression) { collect(expression.base, labels); collect(expression.exponent, labels); return null; }
-            public Void visit(Equality expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(Inequality expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(LessThan expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(GreaterThan expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(LessThanOrEqual expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(GreaterThanOrEqual expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(Conjunction expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(Disjunction expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(LogicalNot expression) { labels.add("LogicalNot"); collect(expression.operand, labels); return null; }
-            public Void visit(Conditional expression) { collect(expression.condition, labels); collect(expression.whenTrue, labels); collect(expression.whenFalse, labels); return null; }
-            public Void visit(FunctionCall expression) {
-                collect(expression.callee, labels);
-                for (var argument : expression.arguments) {
-                    collect(argument, labels);
-                }
-                return null;
-            }
-        });
+        boolean previousActive = this.active;
+        this.active = true;
+        List<String> previousLabels = this.labels;
+        this.labels = labels;
+        expression.accept(this);
+        this.labels = previousLabels;
+        this.active = previousActive;
     }
+
+    public List<String> visit(Literal expression) {
+            if (!active) { return handle(expression); } return null; }
+    public List<String> visit(VariableReference expression) {
+            if (!active) { return handle(expression); } return null; }
+    public List<String> visit(Addition expression) {
+            if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(Subtraction expression) {
+            if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(Multiplication expression) {
+            if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(Division expression) {
+            if (!active) { return handle(expression); } collect(expression.dividend, labels); collect(expression.divisor, labels); return null; }
+    public List<String> visit(Negation expression) {
+            if (!active) { return handle(expression); } labels.add("Negation"); collect(expression.operand, labels); return null; }
+    public List<String> visit(Modulo expression) {
+            if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(Exponentiation expression) {
+            if (!active) { return handle(expression); } collect(expression.base, labels); collect(expression.exponent, labels); return null; }
+    public List<String> visit(Equality expression) {
+            if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(Inequality expression) {
+            if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(LessThan expression) {
+            if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(GreaterThan expression) {
+            if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(LessThanOrEqual expression) {
+            if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(GreaterThanOrEqual expression) {
+            if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(Conjunction expression) {
+            if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(Disjunction expression) {
+            if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(LogicalNot expression) {
+            if (!active) { return handle(expression); } labels.add("LogicalNot"); collect(expression.operand, labels); return null; }
+    public List<String> visit(Conditional expression) {
+            if (!active) { return handle(expression); } collect(expression.condition, labels); collect(expression.whenTrue, labels); collect(expression.whenFalse, labels); return null; }
+    public List<String> visit(FunctionCall expression) {
+            if (!active) { return handle(expression); }
+        collect(expression.callee, labels);
+        for (var argument : expression.arguments) {
+            collect(argument, labels);
+        }
+        return null;
+    }
+
 }

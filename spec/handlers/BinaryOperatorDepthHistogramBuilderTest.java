@@ -16,6 +16,6 @@ class BinaryOperatorDepthHistogramBuilderTest {
         expected.put(2, 9);
         expected.put(3, 3);
 
-        assertEquals(expected, new BinaryOperatorDepthHistogramBuilder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().binaryOperatorDepthHistogramBuilder()));
     }
 }

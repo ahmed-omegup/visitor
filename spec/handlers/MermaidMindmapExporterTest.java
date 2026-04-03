@@ -22,12 +22,12 @@ class MermaidMindmapExporterTest {
                 + "  Addition\n"
                 + "    VariableReference(x)\n"
                 + "    Literal(2)\n",
-            new MermaidMindmapExporter().handle(factory.addition(factory.variableReference("x"), factory.literal("2")))
+factory.addition(factory.variableReference("x"), factory.literal("2")).accept(TestSupport.handlers().mermaidMindmapExporter())
         );
     }
 
     @Test
     void includesFunctionCallInTraversalMindmap() {
-        assertTrue(new MermaidMindmapExporter().handle(TestSupport.sampleTraversalExpression()).contains("    FunctionCall\n"));
+        assertTrue(TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().mermaidMindmapExporter()).contains("    FunctionCall\n"));
     }
 }

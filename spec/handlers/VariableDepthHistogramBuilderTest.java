@@ -15,6 +15,6 @@ class VariableDepthHistogramBuilderTest {
         expected.put(3, 1);
         expected.put(2, 1);
 
-        assertEquals(expected, new VariableDepthHistogramBuilder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().variableDepthHistogramBuilder()));
     }
 }

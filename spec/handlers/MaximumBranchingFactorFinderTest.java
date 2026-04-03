@@ -14,7 +14,7 @@ class MaximumBranchingFactorFinderTest {
     private final IFactory factory = new Factory();
     @Test
     void returnsLargestObservedBranchingFactor() {
-        assertEquals(8, new MaximumBranchingFactorFinder().handle(TestSupport.sampleTraversalExpression()));
-        assertEquals(0, new MaximumBranchingFactorFinder().handle(factory.literal("1")));
+        assertEquals(8,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().maximumBranchingFactorFinder()));
+        assertEquals(0,factory.literal("1").accept(TestSupport.handlers().maximumBranchingFactorFinder()));
     }
 }

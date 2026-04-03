@@ -28,13 +28,13 @@ class IndentedTracePrinterTest {
                 + "  Literal(1)\n"
                 + "  Negation\n"
                 + "    Literal(2)\n",
-            captureOutput(() -> new IndentedTracePrinter().handle(expression))
+            captureOutput(() -> expression.accept(TestSupport.handlers().indentedTracePrinter()))
         );
     }
 
     @Test
     void visitsAllExpressionKinds() {
-        var output = captureOutput(() -> new IndentedTracePrinter().handle(TestSupport.sampleTraversalExpression()));
+        var output = captureOutput(() -> TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().indentedTracePrinter()));
 
         assertTrue(output.contains("LessThanOrEqual\n"));
         assertTrue(output.contains("GreaterThanOrEqual\n"));

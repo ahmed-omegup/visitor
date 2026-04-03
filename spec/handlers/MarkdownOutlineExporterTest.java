@@ -32,13 +32,13 @@ class MarkdownOutlineExporterTest {
                 + "    - Literal(2)\n"
                 + "  - Negation\n"
                 + "    - VariableReference(x)\n",
-            new MarkdownOutlineExporter().handle(expression)
+expression.accept(TestSupport.handlers().markdownOutlineExporter())
         );
     }
 
     @Test
     void visitsAllExpressionTypes() {
-        var markdown = new MarkdownOutlineExporter().handle(TestSupport.sampleTraversalExpression());
+        var markdown =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().markdownOutlineExporter());
 
         assertTrue(markdown.contains("- LessThanOrEqual\n"));
         assertTrue(markdown.contains("- GreaterThanOrEqual\n"));

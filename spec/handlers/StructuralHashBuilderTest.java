@@ -18,23 +18,23 @@ class StructuralHashBuilderTest {
     private final IFactory factory = new Factory();
     @Test
     void hashesEqualShapesEquallyAndDifferentShapesDifferently() {
-        var builder = new StructuralHashBuilder();
+        var builder = TestSupport.handlers().structuralHashBuilder();
 
         assertEquals(
-            builder.handle(factory.addition(factory.variableReference("x"), factory.literal("1"))),
-            builder.handle(factory.addition(factory.variableReference("y"), factory.literal("9")))
+factory.addition(factory.variableReference("x"), factory.literal("1")).accept(builder),
+factory.addition(factory.variableReference("y"), factory.literal("9")).accept(builder)
         );
         assertNotEquals(
-            builder.handle(factory.addition(factory.variableReference("x"), factory.literal("1"))),
-            builder.handle(factory.multiplication(factory.variableReference("x"), factory.literal("1")))
+factory.addition(factory.variableReference("x"), factory.literal("1")).accept(builder),
+factory.multiplication(factory.variableReference("x"), factory.literal("1")).accept(builder)
         );
     }
 
     @Test
     void isStableForRepeatedComputation() {
-        var builder = new StructuralHashBuilder();
+        var builder = TestSupport.handlers().structuralHashBuilder();
         var expression = TestSupport.sampleTraversalExpression();
 
-        assertEquals(builder.handle(expression), builder.handle(expression));
+        assertEquals(expression.accept(builder),expression.accept(builder));
     }
 }

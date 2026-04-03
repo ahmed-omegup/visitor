@@ -11,6 +11,6 @@ import lib.handlers.UnaryOperatorLabelCollector;
 class UnaryOperatorLabelCollectorTest {
     @Test
     void collectsUnaryOperatorLabelsInPreorder() {
-        assertEquals(List.of("LogicalNot", "Negation"), new UnaryOperatorLabelCollector().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(List.of("LogicalNot", "Negation"),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().unaryOperatorLabelCollector()));
     }
 }

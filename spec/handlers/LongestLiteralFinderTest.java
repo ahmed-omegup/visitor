@@ -19,7 +19,7 @@ class LongestLiteralFinderTest {
     void findsLongestLiteralValue() {
         assertEquals(
             "12345",
-            new LongestLiteralFinder().handle(factory.addition(factory.literal("12345"), factory.variableReference("x")))
+factory.addition(factory.literal("12345"), factory.variableReference("x")).accept(TestSupport.handlers().longestLiteralFinder())
         );
     }
 
@@ -27,12 +27,12 @@ class LongestLiteralFinderTest {
     void keepsLeftValueOnEqualLengthTie() {
         assertEquals(
             "alpha",
-            new LongestLiteralFinder().handle(factory.functionCall(factory.variableReference("f"), factory.literal("alpha"), factory.literal("bravo")))
+factory.functionCall(factory.variableReference("f"), factory.literal("alpha"), factory.literal("bravo")).accept(TestSupport.handlers().longestLiteralFinder())
         );
     }
 
     @Test
     void findsLongestLiteralAcrossTraversalExpression() {
-        assertEquals("10", new LongestLiteralFinder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals("10",TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().longestLiteralFinder()));
     }
 }

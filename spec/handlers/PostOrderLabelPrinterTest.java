@@ -20,13 +20,13 @@ class PostOrderLabelPrinterTest {
     void printsLabelsInPostOrder() {
         assertEquals(
             "VariableReference(x) -> Literal(2) -> Addition",
-            new PostOrderLabelPrinter().handle(factory.addition(factory.variableReference("x"), factory.literal("2")))
+factory.addition(factory.variableReference("x"), factory.literal("2")).accept(TestSupport.handlers().postOrderLabelPrinter())
         );
     }
 
     @Test
     void printsTraversalExpressionInPostOrder() {
-        var labels = new PostOrderLabelPrinter().handle(TestSupport.sampleTraversalExpression());
+        var labels =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().postOrderLabelPrinter());
 
         assertTrue(labels.startsWith("VariableReference(x) -> Literal(10) -> LessThan"));
         assertTrue(labels.contains("Literal(4) -> Negation -> FunctionCall"));
@@ -35,7 +35,7 @@ class PostOrderLabelPrinterTest {
 
     @Test
     void printsTraversalExpressionPostOrder() {
-        var labels = new PostOrderLabelPrinter().handle(TestSupport.sampleTraversalExpression());
+        var labels =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().postOrderLabelPrinter());
 
         assertTrue(labels.startsWith("VariableReference(x) -> Literal(10)"));
         assertTrue(labels.contains("Literal(4) -> Negation"));

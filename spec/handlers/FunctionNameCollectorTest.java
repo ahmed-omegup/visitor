@@ -25,23 +25,21 @@ class FunctionNameCollectorTest {
     void collectsFunctionNamesFromVariableCallees() {
         assertEquals(
             new LinkedHashSet<>(List.of("sum", "max")),
-            new FunctionNameCollector().handle(
-                factory.addition(
+factory.addition(
                     factory.functionCall(factory.variableReference("sum"), factory.literal("1")),
                     factory.functionCall(factory.variableReference("max"), factory.literal("2"), factory.literal("3"))
-                )
-            )
+                ).accept(TestSupport.handlers().functionNameCollector())
         );
     }
 
     @Test
     void collectsTraversalExpressionFunctionName() {
-        assertEquals(new LinkedHashSet<>(List.of("f")), new FunctionNameCollector().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(new LinkedHashSet<>(List.of("f")),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().functionNameCollector()));
     }
 
     @TestFactory
     Iterable<DynamicTest> ignoresNonVariableCalleesAcrossExpressionKinds() {
-        var collector = new FunctionNameCollector();
+        var collector = TestSupport.handlers().functionNameCollector();
         var cases = new java.util.ArrayList<lib.expression.Expression>();
         cases.add(factory.literal("1"));
         cases.addAll(TestSupport.sampleNonVariableExpressions().stream()
@@ -51,7 +49,7 @@ class FunctionNameCollectorTest {
             .map(callee -> DynamicTest.dynamicTest("callee-" + callee.getClass().getSimpleName(), () ->
                 assertEquals(
                     new LinkedHashSet<>(List.of()),
-                    collector.handle(factory.functionCall(callee, factory.literal("9")))
+factory.functionCall(callee, factory.literal("9")).accept(collector)
                 )))
             .toList();
     }
@@ -60,9 +58,7 @@ class FunctionNameCollectorTest {
     void collectsNestedFunctionNamesFromFunctionValuedCallee() {
         assertEquals(
             new LinkedHashSet<>(List.of("sum")),
-            new FunctionNameCollector().handle(
-                factory.functionCall(factory.functionCall(factory.variableReference("sum"), factory.literal("1")), factory.literal("9"))
-            )
+factory.functionCall(factory.functionCall(factory.variableReference("sum"), factory.literal("1")), factory.literal("9")).accept(TestSupport.handlers().functionNameCollector())
         );
     }
 }

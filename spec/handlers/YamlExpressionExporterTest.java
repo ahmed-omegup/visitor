@@ -29,13 +29,13 @@ class YamlExpressionExporterTest {
                 + "  -\n"
                 + "    type: Literal\n"
                 + "    value: \"2\"\n",
-            new YamlExpressionExporter().handle(factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")))
+factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")).accept(TestSupport.handlers().yamlExpressionExporter())
         );
     }
 
     @Test
     void exportsTraversalExpressionIncludingCompositeBranches() {
-        var yaml = new YamlExpressionExporter().handle(TestSupport.sampleTraversalExpression());
+        var yaml =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().yamlExpressionExporter());
 
         assertTrue(yaml.contains("type: Conditional\n"));
         assertTrue(yaml.contains("type: GreaterThanOrEqual\n"));

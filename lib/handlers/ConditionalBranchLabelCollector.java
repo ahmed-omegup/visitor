@@ -5,7 +5,9 @@ import java.util.List;
 
 import lib.expression.*;
 
-public class ConditionalBranchLabelCollector {
+public class ConditionalBranchLabelCollector extends AbstractHandlerVisitor<List<String>> {
+    ConditionalBranchLabelCollector() {}
+
     public List<String> handle(Expression expression) {
         var labels = new ArrayList<String>();
         collect(expression, labels);

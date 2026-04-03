@@ -6,7 +6,9 @@ import java.util.Map;
 
 import lib.expression.*;
 
-public class LevelWidthHistogramBuilder {
+public class LevelWidthHistogramBuilder extends AbstractHandlerVisitor<Map<Integer, Integer>> {
+    LevelWidthHistogramBuilder() {}
+
     public Map<Integer, Integer> handle(Expression expression) {
         var queue = new ArrayDeque<Expression>();
         var depths = new ArrayDeque<Integer>();

@@ -19,7 +19,7 @@ class NodeTypeCollectorTest {
                 "Division", "Modulo", "FunctionCall", "Exponentiation", "Inequality",
                 "GreaterThan", "LessThanOrEqual", "GreaterThanOrEqual", "Disjunction", "Negation"
             )),
-            new NodeTypeCollector().handle(TestSupport.sampleTraversalExpression())
+TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().nodeTypeCollector())
         );
     }
 }

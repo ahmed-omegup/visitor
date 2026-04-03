@@ -17,7 +17,7 @@ class OperatorSequenceCollectorTest {
                 "Division", "Modulo", "FunctionCall", "Exponentiation", "Inequality", "GreaterThan", "LessThanOrEqual",
                 "GreaterThanOrEqual", "Disjunction", "Negation"
             ),
-            new OperatorSequenceCollector().handle(TestSupport.sampleTraversalExpression())
+TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().operatorSequenceCollector())
         );
     }
 }

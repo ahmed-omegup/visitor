@@ -16,7 +16,7 @@ class ExpressionFingerprintReporterTest {
     private final IFactory factory = new Factory();
     @Test
     void reportsNodesDepthHashAndShape() {
-        var report = new ExpressionFingerprintReporter().handle(factory.addition(factory.variableReference("x"), factory.literal("2")));
+        var report =factory.addition(factory.variableReference("x"), factory.literal("2")).accept(TestSupport.handlers().expressionFingerprintReporter());
 
         assertTrue(report.contains("nodes=3;depth=2;hash="));
         assertTrue(report.contains("shape=Addition(VariableReference,Literal)"));

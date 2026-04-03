@@ -19,7 +19,7 @@ class LongestVariableNameFinderTest {
     void findsLongestVariableName() {
         assertEquals(
             "threshold",
-            new LongestVariableNameFinder().handle(factory.addition(factory.variableReference("threshold"), factory.literal("1")))
+factory.addition(factory.variableReference("threshold"), factory.literal("1")).accept(TestSupport.handlers().longestVariableNameFinder())
         );
     }
 
@@ -27,12 +27,12 @@ class LongestVariableNameFinderTest {
     void keepsLeftVariableOnEqualLengthTie() {
         assertEquals(
             "alpha",
-            new LongestVariableNameFinder().handle(factory.addition(factory.variableReference("alpha"), factory.variableReference("bravo")))
+factory.addition(factory.variableReference("alpha"), factory.variableReference("bravo")).accept(TestSupport.handlers().longestVariableNameFinder())
         );
     }
 
     @Test
     void findsLongestVariableAcrossTraversalExpression() {
-        assertEquals("x", new LongestVariableNameFinder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals("x",TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().longestVariableNameFinder()));
     }
 }

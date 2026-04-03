@@ -15,12 +15,10 @@ class ConditionalCounterTest {
     private final IFactory factory = new Factory();
     @Test
     void countsConditionalsAcrossTraversal() {
-        assertEquals(1, new ConditionalCounter().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(1,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().conditionalCounter()));
         assertEquals(
             2,
-            new ConditionalCounter().handle(
-                factory.conditional(factory.literal("1"), factory.literal("2"), factory.conditional(factory.literal("0"), factory.literal("3"), factory.literal("4")))
-            )
+factory.conditional(factory.literal("1"), factory.literal("2"), factory.conditional(factory.literal("0"), factory.literal("3"), factory.literal("4"))).accept(TestSupport.handlers().conditionalCounter())
         );
     }
 }

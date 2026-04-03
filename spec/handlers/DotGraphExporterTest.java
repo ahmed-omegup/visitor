@@ -16,7 +16,7 @@ class DotGraphExporterTest {
     private final IFactory factory = new Factory();
     @Test
     void exportsTraversalExpressionAsGraphvizGraph() {
-        var graph = new DotGraphExporter().handle(TestSupport.sampleTraversalExpression());
+        var graph =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().dotGraphExporter());
 
         assertTrue(graph.startsWith("digraph Expression {\n"));
         for (var label : new String[] {
@@ -32,7 +32,7 @@ class DotGraphExporterTest {
     @Test
     void reusesExistingNodeIdsForSharedSubexpressions() {
         var shared = factory.literal("a\"b");
-        var graph = new DotGraphExporter().handle(factory.addition(shared, shared));
+        var graph =factory.addition(shared, shared).accept(TestSupport.handlers().dotGraphExporter());
 
         assertEquals(1, occurrences(graph, "n1 [label=\"Literal(a\\\"b)\"]"));
         assertEquals(2, occurrences(graph, "n0 -> n1;"));

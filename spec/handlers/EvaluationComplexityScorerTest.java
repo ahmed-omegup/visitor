@@ -9,6 +9,6 @@ import lib.handlers.EvaluationComplexityScorer;
 class EvaluationComplexityScorerTest {
     @Test
     void scoresTraversalExpressionFromExistingMetrics() {
-        assertEquals(64, new EvaluationComplexityScorer().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(64,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().evaluationComplexityScorer()));
     }
 }

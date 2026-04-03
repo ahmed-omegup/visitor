@@ -21,9 +21,7 @@ class LeafPathCollectorTest {
     void collectsLeafPathsAcrossFunctionArguments() {
         assertEquals(
             List.of("root.callee", "root.arguments[0].left", "root.arguments[0].right"),
-            new LeafPathCollector().handle(
-                factory.functionCall(factory.variableReference("f"), factory.addition(factory.literal("1"), factory.variableReference("x")))
-            )
+factory.functionCall(factory.variableReference("f"), factory.addition(factory.literal("1"), factory.variableReference("x"))).accept(TestSupport.handlers().leafPathCollector())
         );
     }
 
@@ -56,7 +54,7 @@ class LeafPathCollectorTest {
                 "root.whenFalse.arguments[5].right",
                 "root.whenFalse.arguments[6].operand"
             ),
-            new LeafPathCollector().handle(TestSupport.sampleTraversalExpression())
+TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().leafPathCollector())
         );
     }
 }

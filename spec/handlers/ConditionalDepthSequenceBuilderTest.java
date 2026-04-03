@@ -17,12 +17,10 @@ class ConditionalDepthSequenceBuilderTest {
     private final IFactory factory = new Factory();
     @Test
     void recordsConditionalDepthsInEncounterOrder() {
-        assertEquals(List.of(0), new ConditionalDepthSequenceBuilder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(List.of(0),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().conditionalDepthSequenceBuilder()));
         assertEquals(
             List.of(0, 1),
-            new ConditionalDepthSequenceBuilder().handle(
-                factory.conditional(factory.literal("1"), factory.conditional(factory.literal("0"), factory.literal("2"), factory.literal("3")), factory.literal("4"))
-            )
+factory.conditional(factory.literal("1"), factory.conditional(factory.literal("0"), factory.literal("2"), factory.literal("3")), factory.literal("4")).accept(TestSupport.handlers().conditionalDepthSequenceBuilder())
         );
     }
 }

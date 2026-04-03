@@ -25,16 +25,16 @@ class XmlExporterTest {
                 + "  <VariableReference name=\"x\"/>\n"
                 + "  <Literal value=\"2\"/>\n"
                 + "</Addition>\n",
-            new XmlExporter().handle(expression)
+expression.accept(TestSupport.handlers().xmlExporter())
         );
     }
 
     @Test
     void escapesSpecialCharacters() {
-        var xml = new XmlExporter().handle(factory.addition(
+        var xml =factory.addition(
             factory.variableReference("a&b<q>\""),
             factory.literal("<&\">")
-        ));
+        ).accept(TestSupport.handlers().xmlExporter());
 
         assertTrue(xml.contains("<VariableReference name=\"a&amp;b&lt;q&gt;&quot;\"/>"));
         assertTrue(xml.contains("<Literal value=\"&lt;&amp;&quot;&gt;\"/>"));
@@ -42,7 +42,7 @@ class XmlExporterTest {
 
     @Test
     void exportsTraversalExpressionThroughAllCompositeVisitMethods() {
-        var xml = new XmlExporter().handle(TestSupport.sampleTraversalExpression());
+        var xml =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().xmlExporter());
 
         for (var tag : new String[] {
             "Conditional", "Conjunction", "LessThan", "LogicalNot", "Equality", "Addition",
@@ -62,7 +62,7 @@ class XmlExporterTest {
             "<FunctionCall>\n"
                 + "  <VariableReference name=\"ping\"/>\n"
                 + "</FunctionCall>\n",
-            new XmlExporter().handle(factory.functionCall(factory.variableReference("ping")))
+factory.functionCall(factory.variableReference("ping")).accept(TestSupport.handlers().xmlExporter())
         );
     }
 }

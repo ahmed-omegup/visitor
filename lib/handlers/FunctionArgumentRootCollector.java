@@ -5,7 +5,9 @@ import java.util.List;
 
 import lib.expression.*;
 
-public class FunctionArgumentRootCollector {
+public class FunctionArgumentRootCollector extends AbstractHandlerVisitor<List<String>> {
+    FunctionArgumentRootCollector() {}
+
     public List<String> handle(Expression expression) {
         var labels = new ArrayList<String>();
         collect(expression, labels);

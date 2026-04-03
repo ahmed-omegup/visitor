@@ -7,16 +7,16 @@ import java.util.function.Function;
 
 import lib.expression.*;
 
-public class IntegerEvaluator {
+public class IntegerEvaluator extends AbstractHandlerVisitor<Integer> {
     private final Map<String, Integer> variables;
     private final Map<String, Function<List<Integer>, Integer>> functions;
     private final VariableReferenceExtractor variableReferenceExtractor = new VariableReferenceExtractor();
 
-    public IntegerEvaluator() {
+    IntegerEvaluator() {
         this(Map.of(), Map.of());
     }
 
-    public IntegerEvaluator(Map<String, Integer> variables, Map<String, Function<List<Integer>, Integer>> functions) {
+    IntegerEvaluator(Map<String, Integer> variables, Map<String, Function<List<Integer>, Integer>> functions) {
         this.variables = variables;
         this.functions = functions;
     }

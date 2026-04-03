@@ -22,12 +22,10 @@ class DistinctLeafLabelCollectorTest {
     void keepsDistinctLeafLabelsInEncounterOrder() {
         assertEquals(
             new LinkedHashSet<>(List.of("literal:1", "variable:f", "variable:x")),
-            new DistinctLeafLabelCollector().handle(
-                factory.addition(
+factory.addition(
                     factory.literal("1"),
                     factory.functionCall(factory.variableReference("f"), factory.literal("1"), factory.variableReference("x"), factory.variableReference("x"))
-                )
-            )
+                ).accept(TestSupport.handlers().distinctLeafLabelCollector())
         );
     }
 
@@ -49,7 +47,7 @@ class DistinctLeafLabelCollectorTest {
                 "literal:5",
                 "literal:6"
             )),
-            new DistinctLeafLabelCollector().handle(TestSupport.sampleTraversalExpression())
+TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().distinctLeafLabelCollector())
         );
     }
 }

@@ -9,6 +9,6 @@ import lib.handlers.DeepestNodePathFinder;
 class DeepestNodePathFinderTest {
     @Test
     void findsDeepestPathInTraversalExpression() {
-        assertEquals("0.2.7.0", new DeepestNodePathFinder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals("0.2.7.0",TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().deepestNodePathFinder()));
     }
 }

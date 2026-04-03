@@ -2,7 +2,9 @@ package lib.handlers;
 
 import lib.expression.*;
 
-public class IndentedTracePrinter {
+public class IndentedTracePrinter extends AbstractVoidHandlerVisitor {
+    IndentedTracePrinter() {}
+
     public void handle(Expression expression) {
         print(expression, 0);
     }

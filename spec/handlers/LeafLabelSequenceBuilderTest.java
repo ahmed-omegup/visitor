@@ -18,7 +18,7 @@ class LeafLabelSequenceBuilderTest {
                 "literal:3", "literal:5", "literal:6", "literal:7", "literal:1", "literal:2",
                 "literal:2", "literal:3", "literal:3", "literal:0", "literal:1", "literal:4"
             ),
-            new LeafLabelSequenceBuilder().handle(TestSupport.sampleTraversalExpression())
+TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().leafLabelSequenceBuilder())
         );
     }
 }

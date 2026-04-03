@@ -3,11 +3,11 @@ package lib.handlers;
 import lib.expression.*;
 import port.IFactory;
 
-public class ConstantFolder {
+public class ConstantFolder extends AbstractHandlerVisitor<Expression> {
     private final IFactory factory;
     private final LiteralValueExtractor literalValueExtractor = new LiteralValueExtractor();
 
-    public ConstantFolder(IFactory factory) {
+    ConstantFolder(IFactory factory) {
         this.factory = factory;
     }
 

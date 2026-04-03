@@ -11,6 +11,6 @@ import lib.handlers.FunctionArityCollector;
 class FunctionArityCollectorTest {
     @Test
     void collectsFunctionAritiesInTraversalOrder() {
-        assertEquals(List.of(7), new FunctionArityCollector().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(List.of(7),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().functionArityCollector()));
     }
 }

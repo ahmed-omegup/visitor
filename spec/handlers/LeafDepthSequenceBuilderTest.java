@@ -21,7 +21,7 @@ class LeafDepthSequenceBuilderTest {
     void recordsLeafDepthsInEncounterOrder() {
         assertEquals(
             List.of(1, 2),
-            new LeafDepthSequenceBuilder().handle(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(TestSupport.handlers().leafDepthSequenceBuilder())
         );
     }
 
@@ -29,7 +29,7 @@ class LeafDepthSequenceBuilderTest {
     void recordsTraversalExpressionLeafDepths() {
         assertEquals(
             List.of(3, 3, 4, 4, 3, 3, 4, 4, 4, 4, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3),
-            new LeafDepthSequenceBuilder().handle(TestSupport.sampleTraversalExpression())
+TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().leafDepthSequenceBuilder())
         );
     }
 }

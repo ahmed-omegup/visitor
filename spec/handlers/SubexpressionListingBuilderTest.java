@@ -22,13 +22,13 @@ class SubexpressionListingBuilderTest {
     void listsLeavesBeforeContainingExpressions() {
         assertEquals(
             List.of("x", "2", "(-2)", "(x + (-2))"),
-            new SubexpressionListingBuilder().handle(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(TestSupport.handlers().subexpressionListingBuilder())
         );
     }
 
     @Test
     void listsTraversalSubexpressionsIncludingFinalRoot() {
-        var values = new SubexpressionListingBuilder().handle(TestSupport.sampleTraversalExpression());
+        var values =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().subexpressionListingBuilder());
 
         assertTrue(values.contains("(7 - 2)"));
         assertTrue(values.stream().anyMatch(value -> value.startsWith("f(")));

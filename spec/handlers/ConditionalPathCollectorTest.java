@@ -19,14 +19,12 @@ class ConditionalPathCollectorTest {
     void collectsPathsToNestedConditionals() {
         assertEquals(
             List.of("root", "root.whenFalse"),
-            new ConditionalPathCollector().handle(
-                factory.conditional(factory.literal("1"), factory.literal("2"), factory.conditional(factory.literal("0"), factory.literal("3"), factory.literal("4")))
-            )
+factory.conditional(factory.literal("1"), factory.literal("2"), factory.conditional(factory.literal("0"), factory.literal("3"), factory.literal("4"))).accept(TestSupport.handlers().conditionalPathCollector())
         );
     }
 
     @Test
     void collectsTraversalExpressionConditionalRootPath() {
-        assertEquals(List.of("root"), new ConditionalPathCollector().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(List.of("root"),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().conditionalPathCollector()));
     }
 }

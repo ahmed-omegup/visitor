@@ -1,8 +1,8 @@
 package spec.handlers;
 
 import lib.expression.Factory;
+import lib.handlers.HandlerFactory;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -12,7 +12,12 @@ import lib.expression.*;
 
 final class TestSupport {
     private static final Factory factory = new Factory();
+    private static final HandlerFactory handlerFactory = new HandlerFactory();
     private TestSupport() {}
+
+    static HandlerFactory handlers() {
+        return handlerFactory;
+    }
 
     static Expression sampleTraversalExpression() {
         return factory.conditional(
@@ -38,17 +43,6 @@ final class TestSupport {
                 factory.negation(factory.literal("4"))
             )
         );
-    }
-
-    static Object newPackagePrivateInstance(String className) {
-        try {
-            Class<?> type = Class.forName(className);
-            Constructor<?> constructor = type.getDeclaredConstructor();
-            constructor.setAccessible(true);
-            return constructor.newInstance();
-        } catch (ReflectiveOperationException exception) {
-            throw new AssertionError("failed to create " + className, exception);
-        }
     }
 
     static Object invokeHandle(Object target, Expression expression) {

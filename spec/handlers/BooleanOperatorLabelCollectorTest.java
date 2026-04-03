@@ -11,6 +11,6 @@ import lib.handlers.BooleanOperatorLabelCollector;
 class BooleanOperatorLabelCollectorTest {
     @Test
     void collectsBooleanOperatorLabelsInPreorder() {
-        assertEquals(List.of("Conjunction", "LogicalNot", "Disjunction"), new BooleanOperatorLabelCollector().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(List.of("Conjunction", "LogicalNot", "Disjunction"),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().booleanOperatorLabelCollector()));
     }
 }

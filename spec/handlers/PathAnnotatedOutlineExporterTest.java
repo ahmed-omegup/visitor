@@ -23,13 +23,13 @@ class PathAnnotatedOutlineExporterTest {
                 + "0.0 VariableReference(x)\n"
                 + "0.1 Negation\n"
                 + "0.1.0 Literal(2)\n",
-            new PathAnnotatedOutlineExporter().handle(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(TestSupport.handlers().pathAnnotatedOutlineExporter())
         );
     }
 
     @Test
     void coversConditionalAndFunctionCallPathBranches() {
-        var outline = new PathAnnotatedOutlineExporter().handle(TestSupport.sampleTraversalExpression());
+        var outline =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().pathAnnotatedOutlineExporter());
 
         assertTrue(outline.contains("0 Conditional\n"));
         assertTrue(outline.contains("0.2 FunctionCall\n"));

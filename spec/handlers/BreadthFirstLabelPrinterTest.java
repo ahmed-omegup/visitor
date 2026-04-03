@@ -20,13 +20,13 @@ class BreadthFirstLabelPrinterTest {
     void printsLabelsBreadthFirst() {
         assertEquals(
             "Addition | VariableReference(x) | Negation | Literal(2)",
-            new BreadthFirstLabelPrinter().handle(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(TestSupport.handlers().breadthFirstLabelPrinter())
         );
     }
 
     @Test
     void printsTraversalExpressionBreadthFirst() {
-        var labels = new BreadthFirstLabelPrinter().handle(TestSupport.sampleTraversalExpression());
+        var labels =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().breadthFirstLabelPrinter());
 
         assertTrue(labels.startsWith("Conditional | Conjunction | Addition | FunctionCall | LessThan"));
         assertTrue(labels.contains("GreaterThanOrEqual | Disjunction | Negation"));

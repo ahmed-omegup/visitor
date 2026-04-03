@@ -21,17 +21,15 @@ class FunctionCallPathCollectorTest {
     void collectsPathsToNestedFunctionCalls() {
         assertEquals(
             List.of("root.left", "root.right", "root.right.callee"),
-            new FunctionCallPathCollector().handle(
-                factory.addition(
+factory.addition(
                     factory.functionCall(factory.variableReference("f"), factory.literal("1")),
                     factory.functionCall(factory.functionCall(factory.variableReference("g")), factory.literal("2"))
-                )
-            )
+                ).accept(TestSupport.handlers().functionCallPathCollector())
         );
     }
 
     @Test
     void collectsTraversalExpressionFunctionCallPath() {
-        assertEquals(List.of("root.whenFalse"), new FunctionCallPathCollector().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(List.of("root.whenFalse"),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().functionCallPathCollector()));
     }
 }

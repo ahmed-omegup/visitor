@@ -15,6 +15,6 @@ class LiteralLengthHistogramBuilderTest {
         expected.put(2, 1);
         expected.put(1, 21);
 
-        assertEquals(expected, new LiteralLengthHistogramBuilder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().literalLengthHistogramBuilder()));
     }
 }

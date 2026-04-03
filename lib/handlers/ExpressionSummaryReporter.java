@@ -1,12 +1,14 @@
 package lib.handlers;
 
-public class ExpressionSummaryReporter {
+public class ExpressionSummaryReporter extends AbstractHandlerVisitor<String> {
+    ExpressionSummaryReporter() {}
+
     public String handle(lib.expression.Expression expression) {
-        var nodeCount = new NodeCounter().handle(expression);
-        var leafCount = new LeafCounter().handle(expression);
-        var depth = new DepthCalculator().handle(expression);
-        var variables = new VariableCollector().handle(expression);
-        var literals = new LiteralCollector().handle(expression);
+        var nodeCount = expression.accept(new NodeCounter());
+        var leafCount = expression.accept(new LeafCounter());
+        var depth = expression.accept(new DepthCalculator());
+        var variables = expression.accept(new VariableCollector());
+        var literals = expression.accept(new LiteralCollector());
         return "nodes=" + nodeCount + ", leaves=" + leafCount + ", depth=" + depth + ", variables=" + variables + ", literals=" + literals;
     }
 }

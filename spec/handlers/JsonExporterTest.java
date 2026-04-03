@@ -17,7 +17,7 @@ class JsonExporterTest {
     private final IFactory factory = new Factory();
     @Test
     void exportsTraversalExpressionIncludingAllSemanticTypes() {
-        var json = new JsonExporter().handle(TestSupport.sampleTraversalExpression());
+        var json =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().jsonExporter());
 
         for (var type : new String[] {
             "Conditional", "Conjunction", "LessThan", "VariableReference", "Literal",
@@ -38,7 +38,7 @@ class JsonExporterTest {
 
         assertEquals(
             "{\"type\":\"FunctionCall\",\"children\":[{\"type\":\"VariableReference\",\"name\":\"say\\\"hi\"},{\"type\":\"Literal\",\"value\":\"a\\\\b\\\"c\"}]}",
-            new JsonExporter().handle(expression)
+expression.accept(TestSupport.handlers().jsonExporter())
         );
     }
 }

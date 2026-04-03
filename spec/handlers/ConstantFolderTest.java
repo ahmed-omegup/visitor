@@ -14,55 +14,49 @@ class ConstantFolderTest {
     private final IFactory factory = new Factory();
     @Test
     void collapsesArithmeticBranches() {
-        var folder = new ConstantFolder(factory);
-        var folded = folder.handle(
-            factory.addition(
+        var folder = TestSupport.handlers().constantFolder( factory);
+        var folded =factory.addition(
                 factory.multiplication(factory.literal("2"), factory.literal("3")),
                 factory.literal("4")
-            )
-        );
+            ).accept(folder);
 
         assertLiteralValue("10", folded, "constant arithmetic should fold to one literal");
     }
 
     @Test
     void collapsesComparisonsAndBooleanOperators() {
-        var folder = new ConstantFolder(factory);
+        var folder = TestSupport.handlers().constantFolder( factory);
 
-        assertLiteralValue("1", folder.handle(factory.equality(factory.literal("8"), factory.literal("8"))), "equality should fold");
-        assertLiteralValue("1", folder.handle(factory.inequality(factory.literal("8"), factory.literal("2"))), "inequality should fold");
-        assertLiteralValue("1", folder.handle(factory.lessThan(factory.literal("2"), factory.literal("8"))), "less-than should fold");
-        assertLiteralValue("1", folder.handle(factory.greaterThan(factory.literal("8"), factory.literal("2"))), "greater-than should fold");
-        assertLiteralValue("1", folder.handle(factory.lessThanOrEqual(factory.literal("2"), factory.literal("2"))), "less-than-or-equal should fold");
-        assertLiteralValue("1", folder.handle(factory.greaterThanOrEqual(factory.literal("8"), factory.literal("8"))), "greater-than-or-equal should fold");
-        assertLiteralValue("1", folder.handle(factory.conjunction(factory.literal("1"), factory.literal("4"))), "conjunction should fold");
-        assertLiteralValue("1", folder.handle(factory.disjunction(factory.literal("0"), factory.literal("4"))), "disjunction should fold");
-        assertLiteralValue("1", folder.handle(factory.logicalNot(factory.literal("0"))), "logical-not should fold");
-        assertLiteralValue("8", folder.handle(factory.exponentiation(factory.literal("2"), factory.literal("3"))), "exponentiation should fold");
-        assertLiteralValue("1", folder.handle(factory.modulo(factory.literal("7"), factory.literal("3"))), "modulo should fold");
-        assertLiteralValue("-3", folder.handle(factory.negation(factory.literal("3"))), "negation should fold");
+        assertLiteralValue("1",factory.equality(factory.literal("8"), factory.literal("8")).accept(folder), "equality should fold");
+        assertLiteralValue("1",factory.inequality(factory.literal("8"), factory.literal("2")).accept(folder), "inequality should fold");
+        assertLiteralValue("1",factory.lessThan(factory.literal("2"), factory.literal("8")).accept(folder), "less-than should fold");
+        assertLiteralValue("1",factory.greaterThan(factory.literal("8"), factory.literal("2")).accept(folder), "greater-than should fold");
+        assertLiteralValue("1",factory.lessThanOrEqual(factory.literal("2"), factory.literal("2")).accept(folder), "less-than-or-equal should fold");
+        assertLiteralValue("1",factory.greaterThanOrEqual(factory.literal("8"), factory.literal("8")).accept(folder), "greater-than-or-equal should fold");
+        assertLiteralValue("1",factory.conjunction(factory.literal("1"), factory.literal("4")).accept(folder), "conjunction should fold");
+        assertLiteralValue("1",factory.disjunction(factory.literal("0"), factory.literal("4")).accept(folder), "disjunction should fold");
+        assertLiteralValue("1",factory.logicalNot(factory.literal("0")).accept(folder), "logical-not should fold");
+        assertLiteralValue("8",factory.exponentiation(factory.literal("2"), factory.literal("3")).accept(folder), "exponentiation should fold");
+        assertLiteralValue("1",factory.modulo(factory.literal("7"), factory.literal("3")).accept(folder), "modulo should fold");
+        assertLiteralValue("-3",factory.negation(factory.literal("3")).accept(folder), "negation should fold");
     }
 
     @Test
     void resolvesConstantConditional() {
-        var folder = new ConstantFolder(factory);
-        var folded = folder.handle(
-            factory.conditional(
+        var folder = TestSupport.handlers().constantFolder( factory);
+        var folded =factory.conditional(
                 factory.logicalNot(factory.literal("0")),
                 factory.literal("11"),
                 factory.literal("22")
-            )
-        );
+            ).accept(folder);
 
         assertLiteralValue("11", folded, "constant condition should choose the true branch");
     }
 
     @Test
     void preservesDynamicExpressions() {
-        var folder = new ConstantFolder(factory);
-        var folded = folder.handle(
-            factory.addition(factory.variableReference("x"), factory.literal("2"))
-        );
+        var folder = TestSupport.handlers().constantFolder( factory);
+        var folded =factory.addition(factory.variableReference("x"), factory.literal("2")).accept(folder);
 
         var addition = assertInstanceOf(Addition.class, folded, "dynamic addition should remain an Addition");
         assertVariableReferenceName("x", addition.left, "left operand should remain the original variable reference");
@@ -71,29 +65,29 @@ class ConstantFolderTest {
 
     @Test
     void visitsEveryExpressionType() {
-        var folder = new ConstantFolder(factory);
+        var folder = TestSupport.handlers().constantFolder( factory);
 
-        assertLiteralValue("3", folder.handle(factory.literal("3")), "literal should remain unchanged");
-        assertVariableReferenceName("x", folder.handle(factory.variableReference("x")), "variable reference should remain unchanged");
-        assertLiteralValue("3", folder.handle(factory.addition(factory.literal("1"), factory.literal("2"))), "addition should fold");
-        assertLiteralValue("1", folder.handle(factory.subtraction(factory.literal("3"), factory.literal("2"))), "subtraction should fold");
-        assertLiteralValue("6", folder.handle(factory.multiplication(factory.literal("3"), factory.literal("2"))), "multiplication should fold");
-        assertLiteralValue("2", folder.handle(factory.division(factory.literal("6"), factory.literal("3"))), "division should fold");
-        assertLiteralValue("-2", folder.handle(factory.negation(factory.literal("2"))), "negation should fold");
-        assertLiteralValue("1", folder.handle(factory.modulo(factory.literal("7"), factory.literal("3"))), "modulo should fold");
-        assertLiteralValue("8", folder.handle(factory.exponentiation(factory.literal("2"), factory.literal("3"))), "exponentiation should fold");
-        assertLiteralValue("1", folder.handle(factory.equality(factory.literal("2"), factory.literal("2"))), "equality should fold");
-        assertLiteralValue("1", folder.handle(factory.inequality(factory.literal("2"), factory.literal("3"))), "inequality should fold");
-        assertLiteralValue("1", folder.handle(factory.lessThan(factory.literal("2"), factory.literal("3"))), "less-than should fold");
-        assertLiteralValue("1", folder.handle(factory.greaterThan(factory.literal("3"), factory.literal("2"))), "greater-than should fold");
-        assertLiteralValue("1", folder.handle(factory.lessThanOrEqual(factory.literal("2"), factory.literal("2"))), "less-than-or-equal should fold");
-        assertLiteralValue("1", folder.handle(factory.greaterThanOrEqual(factory.literal("3"), factory.literal("3"))), "greater-than-or-equal should fold");
-        assertLiteralValue("1", folder.handle(factory.conjunction(factory.literal("1"), factory.literal("1"))), "conjunction should fold");
-        assertLiteralValue("1", folder.handle(factory.disjunction(factory.literal("0"), factory.literal("1"))), "disjunction should fold");
-        assertLiteralValue("1", folder.handle(factory.logicalNot(factory.literal("0"))), "logical-not should fold");
-        assertLiteralValue("4", folder.handle(factory.conditional(factory.literal("1"), factory.literal("4"), factory.literal("5"))), "conditional should fold");
+        assertLiteralValue("3",factory.literal("3").accept(folder), "literal should remain unchanged");
+        assertVariableReferenceName("x",factory.variableReference("x").accept(folder), "variable reference should remain unchanged");
+        assertLiteralValue("3",factory.addition(factory.literal("1"), factory.literal("2")).accept(folder), "addition should fold");
+        assertLiteralValue("1",factory.subtraction(factory.literal("3"), factory.literal("2")).accept(folder), "subtraction should fold");
+        assertLiteralValue("6",factory.multiplication(factory.literal("3"), factory.literal("2")).accept(folder), "multiplication should fold");
+        assertLiteralValue("2",factory.division(factory.literal("6"), factory.literal("3")).accept(folder), "division should fold");
+        assertLiteralValue("-2",factory.negation(factory.literal("2")).accept(folder), "negation should fold");
+        assertLiteralValue("1",factory.modulo(factory.literal("7"), factory.literal("3")).accept(folder), "modulo should fold");
+        assertLiteralValue("8",factory.exponentiation(factory.literal("2"), factory.literal("3")).accept(folder), "exponentiation should fold");
+        assertLiteralValue("1",factory.equality(factory.literal("2"), factory.literal("2")).accept(folder), "equality should fold");
+        assertLiteralValue("1",factory.inequality(factory.literal("2"), factory.literal("3")).accept(folder), "inequality should fold");
+        assertLiteralValue("1",factory.lessThan(factory.literal("2"), factory.literal("3")).accept(folder), "less-than should fold");
+        assertLiteralValue("1",factory.greaterThan(factory.literal("3"), factory.literal("2")).accept(folder), "greater-than should fold");
+        assertLiteralValue("1",factory.lessThanOrEqual(factory.literal("2"), factory.literal("2")).accept(folder), "less-than-or-equal should fold");
+        assertLiteralValue("1",factory.greaterThanOrEqual(factory.literal("3"), factory.literal("3")).accept(folder), "greater-than-or-equal should fold");
+        assertLiteralValue("1",factory.conjunction(factory.literal("1"), factory.literal("1")).accept(folder), "conjunction should fold");
+        assertLiteralValue("1",factory.disjunction(factory.literal("0"), factory.literal("1")).accept(folder), "disjunction should fold");
+        assertLiteralValue("1",factory.logicalNot(factory.literal("0")).accept(folder), "logical-not should fold");
+        assertLiteralValue("4",factory.conditional(factory.literal("1"), factory.literal("4"), factory.literal("5")).accept(folder), "conditional should fold");
 
-        var functionCall = folder.handle(factory.functionCall(factory.variableReference("sum"), factory.addition(factory.literal("1"), factory.literal("2")), factory.literal("4")));
+        var functionCall =factory.functionCall(factory.variableReference("sum"), factory.addition(factory.literal("1"), factory.literal("2")), factory.literal("4")).accept(folder);
         var call = assertInstanceOf(FunctionCall.class, functionCall, "function call should remain a FunctionCall");
         assertVariableReferenceName("sum", call.callee, "function call callee should remain a variable reference");
         assertLiteralValue("3", call.arguments[0], "function call arguments should be folded");

@@ -14,11 +14,11 @@ class LeafCounterTest {
     private final IFactory factory = new Factory();
     @Test
     void countsLeavesInTraversalExpression() {
-        assertEquals(24, new LeafCounter().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(24,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().leafCounter()));
     }
 
     @Test
     void countsSingleLiteralAsOneLeaf() {
-        assertEquals(1, new LeafCounter().handle(factory.literal("3")));
+        assertEquals(1,factory.literal("3").accept(TestSupport.handlers().leafCounter()));
     }
 }

@@ -21,7 +21,7 @@ class NonLeafDepthSequenceBuilderTest {
     void recordsCompositeNodesWithTheirDepth() {
         assertEquals(
             List.of("0:Addition", "1:Negation"),
-            new NonLeafDepthSequenceBuilder().handle(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(TestSupport.handlers().nonLeafDepthSequenceBuilder())
         );
     }
 
@@ -48,7 +48,7 @@ class NonLeafDepthSequenceBuilderTest {
                 "2:Disjunction",
                 "2:Negation"
             ),
-            new NonLeafDepthSequenceBuilder().handle(TestSupport.sampleTraversalExpression())
+TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().nonLeafDepthSequenceBuilder())
         );
     }
 }

@@ -11,6 +11,6 @@ import lib.handlers.VariableDepthSequenceBuilder;
 class VariableDepthSequenceBuilderTest {
     @Test
     void recordsVariableDepthsInEncounterOrder() {
-        assertEquals(List.of(3, 2), new VariableDepthSequenceBuilder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(List.of(3, 2),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().variableDepthSequenceBuilder()));
     }
 }

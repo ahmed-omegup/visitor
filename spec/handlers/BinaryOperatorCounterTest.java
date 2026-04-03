@@ -9,6 +9,6 @@ import lib.handlers.BinaryOperatorCounter;
 class BinaryOperatorCounterTest {
     @Test
     void countsBinaryOperatorsInTraversalExpression() {
-        assertEquals(14, new BinaryOperatorCounter().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(14,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().binaryOperatorCounter()));
     }
 }

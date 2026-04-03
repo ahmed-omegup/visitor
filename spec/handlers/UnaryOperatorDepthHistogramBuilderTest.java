@@ -14,6 +14,6 @@ class UnaryOperatorDepthHistogramBuilderTest {
         var expected = new LinkedHashMap<Integer, Integer>();
         expected.put(2, 2);
 
-        assertEquals(expected, new UnaryOperatorDepthHistogramBuilder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().unaryOperatorDepthHistogramBuilder()));
     }
 }

@@ -14,7 +14,7 @@ class VariableCollectorTest {
     void collectsVariablesInEncounterOrder() {
         assertEquals(
             new LinkedHashSet<>(List.of("x", "f")),
-            new VariableCollector().handle(TestSupport.sampleTraversalExpression())
+TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().variableCollector())
         );
     }
 }

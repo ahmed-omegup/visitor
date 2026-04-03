@@ -21,17 +21,15 @@ class FunctionAritySequenceBuilderTest {
     void recordsFunctionAritiesInPreorder() {
         assertEquals(
             List.of(2, 1, 0),
-            new FunctionAritySequenceBuilder().handle(
-                factory.addition(
+factory.addition(
                     factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")),
                     factory.functionCall(factory.functionCall(factory.variableReference("g")), factory.literal("3"))
-                )
-            )
+                ).accept(TestSupport.handlers().functionAritySequenceBuilder())
         );
     }
 
     @Test
     void recordsTraversalExpressionFunctionArity() {
-        assertEquals(List.of(7), new FunctionAritySequenceBuilder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(List.of(7),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().functionAritySequenceBuilder()));
     }
 }

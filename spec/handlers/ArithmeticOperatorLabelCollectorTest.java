@@ -13,7 +13,7 @@ class ArithmeticOperatorLabelCollectorTest {
     void collectsArithmeticOperatorLabelsInPreorder() {
         assertEquals(
             List.of("Addition", "Subtraction", "Multiplication", "Division", "Modulo", "Exponentiation", "Negation"),
-            new ArithmeticOperatorLabelCollector().handle(TestSupport.sampleTraversalExpression())
+TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().arithmeticOperatorLabelCollector())
         );
     }
 }

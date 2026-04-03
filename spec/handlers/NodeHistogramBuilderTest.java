@@ -33,6 +33,6 @@ class NodeHistogramBuilderTest {
         expected.put("Disjunction", 1);
         expected.put("Negation", 1);
 
-        assertEquals(expected, new NodeHistogramBuilder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().nodeHistogramBuilder()));
     }
 }

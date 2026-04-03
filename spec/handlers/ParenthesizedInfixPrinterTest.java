@@ -9,11 +9,11 @@ import lib.handlers.ParenthesizedInfixPrinter;
 class ParenthesizedInfixPrinterTest {
     @Test
     void rendersAllExpressionTypesWithParentheses() {
-        var printer = new ParenthesizedInfixPrinter();
+        var printer = TestSupport.handlers().parenthesizedInfixPrinter();
 
         assertEquals(
             "(((x < 10) && (!(1 == 0))) ? ((7 - 2) + ((8 / 2) * (9 % 4))) : f((2 ^ 3), (5 != 6), (7 > 1), (2 <= 2), (3 >= 3), (0 || 1), (-4)))",
-            printer.handle(TestSupport.sampleTraversalExpression())
+TestSupport.sampleTraversalExpression().accept(printer)
         );
     }
 }

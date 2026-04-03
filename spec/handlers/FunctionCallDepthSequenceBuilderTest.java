@@ -18,10 +18,10 @@ class FunctionCallDepthSequenceBuilderTest {
     private final IFactory factory = new Factory();
     @Test
     void recordsFunctionCallDepthsInEncounterOrder() {
-        assertEquals(List.of(1), new FunctionCallDepthSequenceBuilder().handle(TestSupport.sampleTraversalExpression()));
+        assertEquals(List.of(1),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().functionCallDepthSequenceBuilder()));
         assertEquals(
             List.of(0, 1),
-            new FunctionCallDepthSequenceBuilder().handle(factory.functionCall(factory.functionCall(factory.variableReference("f")), factory.literal("1")))
+factory.functionCall(factory.functionCall(factory.variableReference("f")), factory.literal("1")).accept(TestSupport.handlers().functionCallDepthSequenceBuilder())
         );
     }
 }
