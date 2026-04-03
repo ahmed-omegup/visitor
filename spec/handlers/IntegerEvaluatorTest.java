@@ -1,6 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Factory;
+import lib.visitors.IntegerEvaluator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -11,7 +12,6 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import lib.expression.*;
-import lib.handlers.IntegerEvaluator;
 import port.IFactory;
 
 class IntegerEvaluatorTest {

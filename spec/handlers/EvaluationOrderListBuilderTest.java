@@ -13,7 +13,7 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
-import lib.handlers.EvaluationOrderListBuilder;
+import lib.visitors.EvaluationOrderListBuilder;
 import port.IFactory;
 
 class EvaluationOrderListBuilderTest {

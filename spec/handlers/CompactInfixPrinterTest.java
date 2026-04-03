@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import lib.handlers.CompactInfixPrinter;
+import lib.visitors.CompactInfixPrinter;
 
 class CompactInfixPrinterTest {
     @Test

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.Negation;
-import lib.handlers.ExecutionPlanBuilder;
+import lib.visitors.ExecutionPlanBuilder;
 import port.IFactory;
 
 class ExecutionPlanBuilderTest {

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.Conditional;
 import lib.expression.Literal;
-import lib.handlers.ConditionalDepthSequenceBuilder;
+import lib.visitors.ConditionalDepthSequenceBuilder;
 import port.IFactory;
 
 class ConditionalDepthSequenceBuilderTest {

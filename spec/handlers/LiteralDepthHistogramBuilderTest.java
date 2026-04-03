@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.Negation;
-import lib.handlers.LiteralDepthHistogramBuilder;
+import lib.visitors.LiteralDepthHistogramBuilder;
 import port.IFactory;
 
 class LiteralDepthHistogramBuilderTest {

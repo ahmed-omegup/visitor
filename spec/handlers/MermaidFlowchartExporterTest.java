@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.handlers.MermaidFlowchartExporter;
+import lib.visitors.MermaidFlowchartExporter;
 import port.IFactory;
 
 class MermaidFlowchartExporterTest {

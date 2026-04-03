@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import lib.handlers.FunctionArityCollector;
+import lib.visitors.FunctionArityCollector;
 
 class FunctionArityCollectorTest {
     @Test

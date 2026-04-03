@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import lib.handlers.VariableCollector;
+import lib.visitors.VariableCollector;
 
 class VariableCollectorTest {
     @Test

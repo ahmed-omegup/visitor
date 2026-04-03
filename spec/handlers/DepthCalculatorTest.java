@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.FunctionCall;
 import lib.expression.VariableReference;
-import lib.handlers.DepthCalculator;
+import lib.visitors.DepthCalculator;
 import port.IFactory;
 
 class DepthCalculatorTest {

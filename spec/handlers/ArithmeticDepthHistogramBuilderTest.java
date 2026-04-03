@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 
 import org.junit.jupiter.api.Test;
 
-import lib.handlers.ArithmeticDepthHistogramBuilder;
+import lib.visitors.ArithmeticDepthHistogramBuilder;
 
 class ArithmeticDepthHistogramBuilderTest {
     @Test

@@ -12,7 +12,7 @@ import lib.expression.Addition;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.handlers.LeafPathCollector;
+import lib.visitors.LeafPathCollector;
 import port.IFactory;
 
 class LeafPathCollectorTest {

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.Addition;
 import lib.expression.Literal;
-import lib.handlers.DotGraphExporter;
+import lib.visitors.DotGraphExporter;
 import port.IFactory;
 
 class DotGraphExporterTest {

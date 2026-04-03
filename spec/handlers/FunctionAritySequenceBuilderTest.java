@@ -12,7 +12,7 @@ import lib.expression.Addition;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.handlers.FunctionAritySequenceBuilder;
+import lib.visitors.FunctionAritySequenceBuilder;
 import port.IFactory;
 
 class FunctionAritySequenceBuilderTest {

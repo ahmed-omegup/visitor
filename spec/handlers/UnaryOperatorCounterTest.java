@@ -10,7 +10,7 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.LogicalNot;
 import lib.expression.Negation;
-import lib.handlers.UnaryOperatorCounter;
+import lib.visitors.UnaryOperatorCounter;
 import port.IFactory;
 
 class UnaryOperatorCounterTest {

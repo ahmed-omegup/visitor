@@ -13,7 +13,7 @@ import lib.expression.Addition;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.handlers.ArityHistogramBuilder;
+import lib.visitors.ArityHistogramBuilder;
 import port.IFactory;
 
 class ArityHistogramBuilderTest {

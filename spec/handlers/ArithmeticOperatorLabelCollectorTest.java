@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import lib.handlers.ArithmeticOperatorLabelCollector;
+import lib.visitors.ArithmeticOperatorLabelCollector;
 
 class ArithmeticOperatorLabelCollectorTest {
     @Test

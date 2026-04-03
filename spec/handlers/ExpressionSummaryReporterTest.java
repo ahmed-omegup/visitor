@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import lib.handlers.ExpressionSummaryReporter;
+import lib.visitors.ExpressionSummaryReporter;
 
 class ExpressionSummaryReporterTest {
     @Test

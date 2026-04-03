@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 
 import org.junit.jupiter.api.Test;
 
-import lib.handlers.BinaryOperatorDepthHistogramBuilder;
+import lib.visitors.BinaryOperatorDepthHistogramBuilder;
 
 class BinaryOperatorDepthHistogramBuilderTest {
     @Test

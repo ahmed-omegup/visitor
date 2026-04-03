@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import lib.handlers.PrefixNotationPrinter;
+import lib.visitors.PrefixNotationPrinter;
 
 class PrefixNotationPrinterTest {
     @Test

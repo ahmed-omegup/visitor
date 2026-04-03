@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 
 import org.junit.jupiter.api.Test;
 
-import lib.handlers.LiteralLengthHistogramBuilder;
+import lib.visitors.LiteralLengthHistogramBuilder;
 
 class LiteralLengthHistogramBuilderTest {
     @Test

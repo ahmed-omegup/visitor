@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.handlers.ExpressionFingerprintReporter;
+import lib.visitors.ExpressionFingerprintReporter;
 import port.IFactory;
 
 class ExpressionFingerprintReporterTest {

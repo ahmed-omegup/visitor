@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.handlers.HtmlExpressionExporter;
+import lib.visitors.HtmlExpressionExporter;
 import port.IFactory;
 
 class HtmlExpressionExporterTest {

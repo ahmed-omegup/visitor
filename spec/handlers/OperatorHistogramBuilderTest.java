@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.Negation;
-import lib.handlers.OperatorHistogramBuilder;
+import lib.visitors.OperatorHistogramBuilder;
 import port.IFactory;
 
 class OperatorHistogramBuilderTest {

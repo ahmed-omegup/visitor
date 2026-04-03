@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Addition;
 import lib.expression.FunctionCall;
 import lib.expression.VariableReference;
-import lib.handlers.VariablePathCollector;
+import lib.visitors.VariablePathCollector;
 import port.IFactory;
 
 class VariablePathCollectorTest {

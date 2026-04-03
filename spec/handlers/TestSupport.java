@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Factory;
-import lib.handlers.HandlerFactory;
+import lib.visitors.HandlerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -12,7 +12,7 @@ import lib.expression.*;
 
 final class TestSupport {
     private static final Factory factory = new Factory();
-    private static final HandlerFactory handlerFactory = new HandlerFactory();
+    public static final HandlerFactory v = new HandlerFactory();
     private TestSupport() {}
 
     static HandlerFactory handlers() {

@@ -13,7 +13,7 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
-import lib.handlers.SubexpressionListingBuilder;
+import lib.visitors.SubexpressionListingBuilder;
 import port.IFactory;
 
 class SubexpressionListingBuilderTest {

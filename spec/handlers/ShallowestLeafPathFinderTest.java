@@ -11,7 +11,7 @@ import lib.expression.Conditional;
 import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
-import lib.handlers.ShallowestLeafPathFinder;
+import lib.visitors.ShallowestLeafPathFinder;
 import port.IFactory;
 
 class ShallowestLeafPathFinderTest {

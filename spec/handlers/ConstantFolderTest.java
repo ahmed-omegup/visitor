@@ -1,6 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Factory;
+import lib.visitors.ConstantFolder;
 import port.IFactory;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -8,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import org.junit.jupiter.api.Test;
 
 import lib.expression.*;
-import lib.handlers.ConstantFolder;
 
 class ConstantFolderTest {
     private final IFactory factory = new Factory();

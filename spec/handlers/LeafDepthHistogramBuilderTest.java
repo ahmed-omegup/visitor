@@ -13,7 +13,7 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
-import lib.handlers.LeafDepthHistogramBuilder;
+import lib.visitors.LeafDepthHistogramBuilder;
 import port.IFactory;
 
 class LeafDepthHistogramBuilderTest {

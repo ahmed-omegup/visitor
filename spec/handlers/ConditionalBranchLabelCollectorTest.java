@@ -17,7 +17,7 @@ import lib.expression.FunctionCall;
 import lib.expression.LessThan;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.handlers.ConditionalBranchLabelCollector;
+import lib.visitors.ConditionalBranchLabelCollector;
 import port.IFactory;
 
 class ConditionalBranchLabelCollectorTest {

@@ -12,7 +12,7 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
-import lib.handlers.LeafDepthSequenceBuilder;
+import lib.visitors.LeafDepthSequenceBuilder;
 import port.IFactory;
 
 class LeafDepthSequenceBuilderTest {

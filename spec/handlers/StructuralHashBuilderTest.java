@@ -11,7 +11,7 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.Multiplication;
 import lib.expression.VariableReference;
-import lib.handlers.StructuralHashBuilder;
+import lib.visitors.StructuralHashBuilder;
 import port.IFactory;
 
 class StructuralHashBuilderTest {

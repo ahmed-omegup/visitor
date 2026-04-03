@@ -16,7 +16,7 @@ import lib.expression.Expression;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.handlers.FunctionCallSignatureCollector;
+import lib.visitors.FunctionCallSignatureCollector;
 import port.IFactory;
 
 class FunctionCallSignatureCollectorTest {

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.handlers.JsonExporter;
+import lib.visitors.JsonExporter;
 import port.IFactory;
 
 class JsonExporterTest {

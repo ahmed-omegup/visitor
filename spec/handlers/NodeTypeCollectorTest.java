@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import lib.handlers.NodeTypeCollector;
+import lib.visitors.NodeTypeCollector;
 
 class NodeTypeCollectorTest {
     @Test

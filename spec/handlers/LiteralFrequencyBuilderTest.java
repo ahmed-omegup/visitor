@@ -1,6 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Factory;
+import lib.visitors.LiteralFrequencyBuilder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,7 +9,6 @@ import java.util.LinkedHashMap;
 
 import org.junit.jupiter.api.Test;
 
-import lib.handlers.LiteralFrequencyBuilder;
 import port.IFactory;
 
 class LiteralFrequencyBuilderTest {

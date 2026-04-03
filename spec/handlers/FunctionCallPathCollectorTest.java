@@ -12,7 +12,7 @@ import lib.expression.Addition;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.handlers.FunctionCallPathCollector;
+import lib.visitors.FunctionCallPathCollector;
 import port.IFactory;
 
 class FunctionCallPathCollectorTest {

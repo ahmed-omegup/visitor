@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import lib.handlers.BinaryOperatorCounter;
+import lib.visitors.BinaryOperatorCounter;
 
 class BinaryOperatorCounterTest {
     @Test

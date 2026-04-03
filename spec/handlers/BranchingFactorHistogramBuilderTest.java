@@ -12,7 +12,7 @@ import lib.expression.Addition;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.handlers.BranchingFactorHistogramBuilder;
+import lib.visitors.BranchingFactorHistogramBuilder;
 import port.IFactory;
 
 class BranchingFactorHistogramBuilderTest {

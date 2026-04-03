@@ -15,7 +15,7 @@ import lib.expression.Expression;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.handlers.FunctionArgumentRootCollector;
+import lib.visitors.FunctionArgumentRootCollector;
 import port.IFactory;
 
 class FunctionArgumentRootCollectorTest {

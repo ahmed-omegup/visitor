@@ -1,6 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Factory;
+import lib.visitors.SideEffectFreeChecker;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.*;
-import lib.handlers.SideEffectFreeChecker;
 import port.IFactory;
 
 class SideEffectFreeCheckerTest {

@@ -1,6 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Factory;
+import lib.visitors.MaxFunctionArityFinder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.*;
-import lib.handlers.MaxFunctionArityFinder;
 import port.IFactory;
 
 class MaxFunctionArityFinderTest {

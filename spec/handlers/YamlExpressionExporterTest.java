@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.handlers.YamlExpressionExporter;
+import lib.visitors.YamlExpressionExporter;
 import port.IFactory;
 
 class YamlExpressionExporterTest {

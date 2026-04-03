@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import lib.handlers.ParenthesizedInfixPrinter;
+import lib.visitors.ParenthesizedInfixPrinter;
 
 class ParenthesizedInfixPrinterTest {
     @Test

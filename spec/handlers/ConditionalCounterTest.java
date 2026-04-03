@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.Conditional;
 import lib.expression.Literal;
-import lib.handlers.ConditionalCounter;
+import lib.visitors.ConditionalCounter;
 import port.IFactory;
 
 class ConditionalCounterTest {

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.FunctionCall;
 import lib.expression.VariableReference;
-import lib.handlers.TreeDiagramPrinter;
+import lib.visitors.TreeDiagramPrinter;
 import port.IFactory;
 
 class TreeDiagramPrinterTest {

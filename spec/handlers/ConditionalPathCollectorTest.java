@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.Conditional;
 import lib.expression.Literal;
-import lib.handlers.ConditionalPathCollector;
+import lib.visitors.ConditionalPathCollector;
 import port.IFactory;
 
 class ConditionalPathCollectorTest {

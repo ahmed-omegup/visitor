@@ -12,7 +12,7 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
-import lib.handlers.MarkdownOutlineExporter;
+import lib.visitors.MarkdownOutlineExporter;
 import port.IFactory;
 
 class MarkdownOutlineExporterTest {

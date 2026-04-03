@@ -10,7 +10,7 @@ import lib.expression.Addition;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.handlers.LongestVariableNameFinder;
+import lib.visitors.LongestVariableNameFinder;
 import port.IFactory;
 
 class LongestVariableNameFinderTest {

@@ -14,7 +14,7 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
-import lib.handlers.LevelWidthHistogramBuilder;
+import lib.visitors.LevelWidthHistogramBuilder;
 import port.IFactory;
 
 class LevelWidthHistogramBuilderTest {

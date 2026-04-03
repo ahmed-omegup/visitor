@@ -11,7 +11,7 @@ import lib.expression.Addition;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.handlers.XmlExporter;
+import lib.visitors.XmlExporter;
 import port.IFactory;
 
 class XmlExporterTest {

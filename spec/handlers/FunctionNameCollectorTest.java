@@ -16,7 +16,7 @@ import lib.expression.Addition;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.handlers.FunctionNameCollector;
+import lib.visitors.FunctionNameCollector;
 import port.IFactory;
 
 class FunctionNameCollectorTest {

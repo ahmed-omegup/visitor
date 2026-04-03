@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import lib.expression.Literal;
-import lib.handlers.MaximumBranchingFactorFinder;
+import lib.visitors.MaximumBranchingFactorFinder;
 import port.IFactory;
 
 class MaximumBranchingFactorFinderTest {
