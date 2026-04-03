@@ -5,138 +5,209 @@ import java.util.List;
 
 import lib.expression.*;
 
-public class SubexpressionListingBuilder implements Visitor<String> {
+public class SubexpressionListingBuilder implements Visitor<List<String>> {
     SubexpressionListingBuilder() {}
 
+    private boolean active;
     private List<String> expressions;
+    private String current;
 
     public List<String> handle(Expression expression) {
         var expressions = new ArrayList<String>();
         collect(expression, expressions);
         return expressions;
     }
+
     private String collect(Expression expression, List<String> expressions) {
+        boolean previousActive = this.active;
         List<String> previousExpressions = this.expressions;
+        String previousCurrent = this.current;
+        this.active = true;
         this.expressions = expressions;
-        String result = expression.accept(this);
+        expression.accept(this);
+        String result = this.current;
+        this.current = previousCurrent;
         this.expressions = previousExpressions;
+        this.active = previousActive;
         return result;
     }
 
-    public String visit(Literal expression) {
-        expressions.add(expression.value);
-        return expression.value;
-    }
-
-    public String visit(VariableReference expression) {
-        expressions.add(expression.name);
-        return expression.name;
-    }
-
-    public String visit(Addition expression) {
-        var current = "(" + collect(expression.left, expressions) + " + " + collect(expression.right, expressions) + ")";
+    public List<String> visit(Literal expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = expression.value;
         expressions.add(current);
-        return current;
+        return null;
     }
 
-    public String visit(Subtraction expression) {
-        var current = "(" + collect(expression.left, expressions) + " - " + collect(expression.right, expressions) + ")";
+    public List<String> visit(VariableReference expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = expression.name;
         expressions.add(current);
-        return current;
+        return null;
     }
 
-    public String visit(Multiplication expression) {
-        var current = "(" + collect(expression.left, expressions) + " * " + collect(expression.right, expressions) + ")";
+    public List<String> visit(Addition expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = "(" + collect(expression.left, expressions) + " + " + collect(expression.right, expressions) + ")";
         expressions.add(current);
-        return current;
+        return null;
     }
 
-    public String visit(Division expression) {
-        var current = "(" + collect(expression.dividend, expressions) + " / " + collect(expression.divisor, expressions) + ")";
+    public List<String> visit(Subtraction expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = "(" + collect(expression.left, expressions) + " - " + collect(expression.right, expressions) + ")";
         expressions.add(current);
-        return current;
+        return null;
     }
 
-    public String visit(Negation expression) {
-        var current = "(-" + collect(expression.operand, expressions) + ")";
+    public List<String> visit(Multiplication expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = "(" + collect(expression.left, expressions) + " * " + collect(expression.right, expressions) + ")";
         expressions.add(current);
-        return current;
+        return null;
     }
 
-    public String visit(Modulo expression) {
-        var current = "(" + collect(expression.left, expressions) + " % " + collect(expression.right, expressions) + ")";
+    public List<String> visit(Division expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = "(" + collect(expression.dividend, expressions) + " / " + collect(expression.divisor, expressions) + ")";
         expressions.add(current);
-        return current;
+        return null;
     }
 
-    public String visit(Exponentiation expression) {
-        var current = "(" + collect(expression.base, expressions) + " ^ " + collect(expression.exponent, expressions) + ")";
+    public List<String> visit(Negation expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = "(-" + collect(expression.operand, expressions) + ")";
         expressions.add(current);
-        return current;
+        return null;
     }
 
-    public String visit(Equality expression) {
-        var current = "(" + collect(expression.left, expressions) + " == " + collect(expression.right, expressions) + ")";
+    public List<String> visit(Modulo expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = "(" + collect(expression.left, expressions) + " % " + collect(expression.right, expressions) + ")";
         expressions.add(current);
-        return current;
+        return null;
     }
 
-    public String visit(Inequality expression) {
-        var current = "(" + collect(expression.left, expressions) + " != " + collect(expression.right, expressions) + ")";
+    public List<String> visit(Exponentiation expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = "(" + collect(expression.base, expressions) + " ^ " + collect(expression.exponent, expressions) + ")";
         expressions.add(current);
-        return current;
+        return null;
     }
 
-    public String visit(LessThan expression) {
-        var current = "(" + collect(expression.left, expressions) + " < " + collect(expression.right, expressions) + ")";
+    public List<String> visit(Equality expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = "(" + collect(expression.left, expressions) + " == " + collect(expression.right, expressions) + ")";
         expressions.add(current);
-        return current;
+        return null;
     }
 
-    public String visit(GreaterThan expression) {
-        var current = "(" + collect(expression.left, expressions) + " > " + collect(expression.right, expressions) + ")";
+    public List<String> visit(Inequality expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = "(" + collect(expression.left, expressions) + " != " + collect(expression.right, expressions) + ")";
         expressions.add(current);
-        return current;
+        return null;
     }
 
-    public String visit(LessThanOrEqual expression) {
-        var current = "(" + collect(expression.left, expressions) + " <= " + collect(expression.right, expressions) + ")";
+    public List<String> visit(LessThan expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = "(" + collect(expression.left, expressions) + " < " + collect(expression.right, expressions) + ")";
         expressions.add(current);
-        return current;
+        return null;
     }
 
-    public String visit(GreaterThanOrEqual expression) {
-        var current = "(" + collect(expression.left, expressions) + " >= " + collect(expression.right, expressions) + ")";
+    public List<String> visit(GreaterThan expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = "(" + collect(expression.left, expressions) + " > " + collect(expression.right, expressions) + ")";
         expressions.add(current);
-        return current;
+        return null;
     }
 
-    public String visit(Conjunction expression) {
-        var current = "(" + collect(expression.left, expressions) + " && " + collect(expression.right, expressions) + ")";
+    public List<String> visit(LessThanOrEqual expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = "(" + collect(expression.left, expressions) + " <= " + collect(expression.right, expressions) + ")";
         expressions.add(current);
-        return current;
+        return null;
     }
 
-    public String visit(Disjunction expression) {
-        var current = "(" + collect(expression.left, expressions) + " || " + collect(expression.right, expressions) + ")";
+    public List<String> visit(GreaterThanOrEqual expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = "(" + collect(expression.left, expressions) + " >= " + collect(expression.right, expressions) + ")";
         expressions.add(current);
-        return current;
+        return null;
     }
 
-    public String visit(LogicalNot expression) {
-        var current = "(!" + collect(expression.operand, expressions) + ")";
+    public List<String> visit(Conjunction expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = "(" + collect(expression.left, expressions) + " && " + collect(expression.right, expressions) + ")";
         expressions.add(current);
-        return current;
+        return null;
     }
 
-    public String visit(Conditional expression) {
-        var current = "(" + collect(expression.condition, expressions) + " ? " + collect(expression.whenTrue, expressions)
+    public List<String> visit(Disjunction expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = "(" + collect(expression.left, expressions) + " || " + collect(expression.right, expressions) + ")";
+        expressions.add(current);
+        return null;
+    }
+
+    public List<String> visit(LogicalNot expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = "(!" + collect(expression.operand, expressions) + ")";
+        expressions.add(current);
+        return null;
+    }
+
+    public List<String> visit(Conditional expression) {
+        if (!active) {
+            return handle(expression);
+        }
+        current = "(" + collect(expression.condition, expressions) + " ? " + collect(expression.whenTrue, expressions)
             + " : " + collect(expression.whenFalse, expressions) + ")";
         expressions.add(current);
-        return current;
+        return null;
     }
 
-    public String visit(FunctionCall expression) {
+    public List<String> visit(FunctionCall expression) {
+        if (!active) {
+            return handle(expression);
+        }
         var builder = new StringBuilder();
         builder.append(collect(expression.callee, expressions)).append('(');
         for (int index = 0; index < expression.arguments.length; index++) {
@@ -145,9 +216,8 @@ public class SubexpressionListingBuilder implements Visitor<String> {
             }
             builder.append(collect(expression.arguments[index], expressions));
         }
-        var current = builder.append(')').toString();
+        current = builder.append(')').toString();
         expressions.add(current);
-        return current;
+        return null;
     }
-
 }

@@ -5,8 +5,13 @@ import java.util.List;
 
 import lib.expression.*;
 
-public class ConditionalBranchLabelCollector extends AbstractHandlerVisitor<List<String>> {
+public class ConditionalBranchLabelCollector implements Visitor<List<String>> {
     ConditionalBranchLabelCollector() {}
+
+    private boolean active;
+    private boolean labeling;
+    private List<String> labels;
+    private String currentLabel;
 
     public List<String> handle(Expression expression) {
         var labels = new ArrayList<String>();
@@ -15,66 +20,77 @@ public class ConditionalBranchLabelCollector extends AbstractHandlerVisitor<List
     }
 
     private void collect(Expression expression, List<String> labels) {
-        expression.accept(new Visitor<Void>() {
-            public Void visit(Literal expression) { return null; }
-            public Void visit(VariableReference expression) { return null; }
-            public Void visit(Addition expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(Subtraction expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(Multiplication expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(Division expression) { collect(expression.dividend, labels); collect(expression.divisor, labels); return null; }
-            public Void visit(Negation expression) { collect(expression.operand, labels); return null; }
-            public Void visit(Modulo expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(Exponentiation expression) { collect(expression.base, labels); collect(expression.exponent, labels); return null; }
-            public Void visit(Equality expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(Inequality expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(LessThan expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(GreaterThan expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(LessThanOrEqual expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(GreaterThanOrEqual expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(Conjunction expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(Disjunction expression) { collect(expression.left, labels); collect(expression.right, labels); return null; }
-            public Void visit(LogicalNot expression) { collect(expression.operand, labels); return null; }
-            public Void visit(Conditional expression) {
-                labels.add("condition=" + label(expression.condition));
-                labels.add("whenTrue=" + label(expression.whenTrue));
-                labels.add("whenFalse=" + label(expression.whenFalse));
-                collect(expression.condition, labels);
-                collect(expression.whenTrue, labels);
-                collect(expression.whenFalse, labels);
-                return null;
-            }
-            public Void visit(FunctionCall expression) {
-                collect(expression.callee, labels);
-                for (var argument : expression.arguments) {
-                    collect(argument, labels);
-                }
-                return null;
-            }
-        });
+        boolean previousActive = this.active;
+        this.active = true;
+        List<String> previousLabels = this.labels;
+        this.labels = labels;
+        expression.accept(this);
+        this.labels = previousLabels;
+        this.active = previousActive;
     }
 
     private String label(Expression expression) {
-        return expression.accept(new Visitor<String>() {
-            public String visit(Literal expression) { return "Literal"; }
-            public String visit(VariableReference expression) { return "VariableReference"; }
-            public String visit(Addition expression) { return "Addition"; }
-            public String visit(Subtraction expression) { return "Subtraction"; }
-            public String visit(Multiplication expression) { return "Multiplication"; }
-            public String visit(Division expression) { return "Division"; }
-            public String visit(Negation expression) { return "Negation"; }
-            public String visit(Modulo expression) { return "Modulo"; }
-            public String visit(Exponentiation expression) { return "Exponentiation"; }
-            public String visit(Equality expression) { return "Equality"; }
-            public String visit(Inequality expression) { return "Inequality"; }
-            public String visit(LessThan expression) { return "LessThan"; }
-            public String visit(GreaterThan expression) { return "GreaterThan"; }
-            public String visit(LessThanOrEqual expression) { return "LessThanOrEqual"; }
-            public String visit(GreaterThanOrEqual expression) { return "GreaterThanOrEqual"; }
-            public String visit(Conjunction expression) { return "Conjunction"; }
-            public String visit(Disjunction expression) { return "Disjunction"; }
-            public String visit(LogicalNot expression) { return "LogicalNot"; }
-            public String visit(Conditional expression) { return "Conditional"; }
-            public String visit(FunctionCall expression) { return "FunctionCall"; }
-        });
+        boolean previousLabeling = this.labeling;
+        String previousLabel = this.currentLabel;
+        this.labeling = true;
+        expression.accept(this);
+        String result = this.currentLabel;
+        this.currentLabel = previousLabel;
+        this.labeling = previousLabeling;
+        return result;
+    }
+
+    private List<String> setLabel(String value) {
+        currentLabel = value;
+        return null;
+    }
+
+    public List<String> visit(Literal expression) { if (labeling) { return setLabel("Literal"); } if (!active) { return handle(expression); } return null; }
+    public List<String> visit(VariableReference expression) { if (labeling) { return setLabel("VariableReference"); } if (!active) { return handle(expression); } return null; }
+    public List<String> visit(Addition expression) { if (labeling) { return setLabel("Addition"); } if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(Subtraction expression) { if (labeling) { return setLabel("Subtraction"); } if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(Multiplication expression) { if (labeling) { return setLabel("Multiplication"); } if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(Division expression) { if (labeling) { return setLabel("Division"); } if (!active) { return handle(expression); } collect(expression.dividend, labels); collect(expression.divisor, labels); return null; }
+    public List<String> visit(Negation expression) { if (labeling) { return setLabel("Negation"); } if (!active) { return handle(expression); } collect(expression.operand, labels); return null; }
+    public List<String> visit(Modulo expression) { if (labeling) { return setLabel("Modulo"); } if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(Exponentiation expression) { if (labeling) { return setLabel("Exponentiation"); } if (!active) { return handle(expression); } collect(expression.base, labels); collect(expression.exponent, labels); return null; }
+    public List<String> visit(Equality expression) { if (labeling) { return setLabel("Equality"); } if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(Inequality expression) { if (labeling) { return setLabel("Inequality"); } if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(LessThan expression) { if (labeling) { return setLabel("LessThan"); } if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(GreaterThan expression) { if (labeling) { return setLabel("GreaterThan"); } if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(LessThanOrEqual expression) { if (labeling) { return setLabel("LessThanOrEqual"); } if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(GreaterThanOrEqual expression) { if (labeling) { return setLabel("GreaterThanOrEqual"); } if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(Conjunction expression) { if (labeling) { return setLabel("Conjunction"); } if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(Disjunction expression) { if (labeling) { return setLabel("Disjunction"); } if (!active) { return handle(expression); } collect(expression.left, labels); collect(expression.right, labels); return null; }
+    public List<String> visit(LogicalNot expression) { if (labeling) { return setLabel("LogicalNot"); } if (!active) { return handle(expression); } collect(expression.operand, labels); return null; }
+
+    public List<String> visit(Conditional expression) {
+        if (labeling) {
+            return setLabel("Conditional");
+        }
+        if (!active) {
+            return handle(expression);
+        }
+        labels.add("condition=" + label(expression.condition));
+        labels.add("whenTrue=" + label(expression.whenTrue));
+        labels.add("whenFalse=" + label(expression.whenFalse));
+        collect(expression.condition, labels);
+        collect(expression.whenTrue, labels);
+        collect(expression.whenFalse, labels);
+        return null;
+    }
+
+    public List<String> visit(FunctionCall expression) {
+        if (labeling) {
+            return setLabel("FunctionCall");
+        }
+        if (!active) {
+            return handle(expression);
+        }
+        collect(expression.callee, labels);
+        for (var argument : expression.arguments) {
+            collect(argument, labels);
+        }
+        return null;
     }
 }
