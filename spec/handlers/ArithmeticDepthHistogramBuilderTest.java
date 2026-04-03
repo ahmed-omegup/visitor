@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import org.junit.jupiter.api.Test;
 
 import lib.visitors.ArithmeticDepthHistogramBuilder;
+import static spec.handlers.TestSupport.*;
 
 class ArithmeticDepthHistogramBuilderTest {
     @Test
@@ -16,6 +17,7 @@ class ArithmeticDepthHistogramBuilderTest {
         expected.put(2, 4);
         expected.put(3, 2);
 
-        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().arithmeticDepthHistogramBuilder()));
+        assertEquals(expected, sampleTraversalExpression()
+                .accept(v.arithmeticDepthHistogramBuilder()));
     }
 }

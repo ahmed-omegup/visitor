@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,7 +20,7 @@ class StructuralHashBuilderTest {
     private final IFactory factory = new Factory();
     @Test
     void hashesEqualShapesEquallyAndDifferentShapesDifferently() {
-        var builder = TestSupport.handlers().structuralHashBuilder();
+        var builder = v.structuralHashBuilder();
 
         assertEquals(
 factory.addition(factory.variableReference("x"), factory.literal("1")).accept(builder),
@@ -32,8 +34,8 @@ factory.multiplication(factory.variableReference("x"), factory.literal("1")).acc
 
     @Test
     void isStableForRepeatedComputation() {
-        var builder = TestSupport.handlers().structuralHashBuilder();
-        var expression = TestSupport.sampleTraversalExpression();
+        var builder = v.structuralHashBuilder();
+        var expression = sampleTraversalExpression();
 
         assertEquals(expression.accept(builder),expression.accept(builder));
     }

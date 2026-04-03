@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,12 +28,12 @@ class LeafDepthHistogramBuilderTest {
 
         assertEquals(
             expected,
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(TestSupport.handlers().leafDepthHistogramBuilder())
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(v.leafDepthHistogramBuilder())
         );
     }
 
     @Test
     void countsTraversalExpressionLeafDepths() {
-        assertEquals(Map.of(2, 1, 3, 17, 4, 6),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().leafDepthHistogramBuilder()));
+        assertEquals(Map.of(2, 1, 3, 17, 4, 6),sampleTraversalExpression().accept(v.leafDepthHistogramBuilder()));
     }
 }

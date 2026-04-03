@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,7 +19,7 @@ class JsonExporterTest {
     private final IFactory factory = new Factory();
     @Test
     void exportsTraversalExpressionIncludingAllSemanticTypes() {
-        var json =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().jsonExporter());
+        var json =sampleTraversalExpression().accept(v.jsonExporter());
 
         for (var type : new String[] {
             "Conditional", "Conjunction", "LessThan", "VariableReference", "Literal",
@@ -38,7 +40,7 @@ class JsonExporterTest {
 
         assertEquals(
             "{\"type\":\"FunctionCall\",\"children\":[{\"type\":\"VariableReference\",\"name\":\"say\\\"hi\"},{\"type\":\"Literal\",\"value\":\"a\\\\b\\\"c\"}]}",
-expression.accept(TestSupport.handlers().jsonExporter())
+expression.accept(v.jsonExporter())
         );
     }
 }

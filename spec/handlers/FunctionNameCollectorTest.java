@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,21 +30,21 @@ class FunctionNameCollectorTest {
 factory.addition(
                     factory.functionCall(factory.variableReference("sum"), factory.literal("1")),
                     factory.functionCall(factory.variableReference("max"), factory.literal("2"), factory.literal("3"))
-                ).accept(TestSupport.handlers().functionNameCollector())
+                ).accept(v.functionNameCollector())
         );
     }
 
     @Test
     void collectsTraversalExpressionFunctionName() {
-        assertEquals(new LinkedHashSet<>(List.of("f")),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().functionNameCollector()));
+        assertEquals(new LinkedHashSet<>(List.of("f")),sampleTraversalExpression().accept(v.functionNameCollector()));
     }
 
     @TestFactory
     Iterable<DynamicTest> ignoresNonVariableCalleesAcrossExpressionKinds() {
-        var collector = TestSupport.handlers().functionNameCollector();
+        var collector = v.functionNameCollector();
         var cases = new java.util.ArrayList<lib.expression.Expression>();
         cases.add(factory.literal("1"));
-        cases.addAll(TestSupport.sampleNonVariableExpressions().stream()
+        cases.addAll(sampleNonVariableExpressions().stream()
             .filter(expression -> !(expression instanceof FunctionCall))
             .toList());
         return cases.stream()
@@ -58,7 +60,7 @@ factory.functionCall(callee, factory.literal("9")).accept(collector)
     void collectsNestedFunctionNamesFromFunctionValuedCallee() {
         assertEquals(
             new LinkedHashSet<>(List.of("sum")),
-factory.functionCall(factory.functionCall(factory.variableReference("sum"), factory.literal("1")), factory.literal("9")).accept(TestSupport.handlers().functionNameCollector())
+factory.functionCall(factory.functionCall(factory.variableReference("sum"), factory.literal("1")), factory.literal("9")).accept(v.functionNameCollector())
         );
     }
 }

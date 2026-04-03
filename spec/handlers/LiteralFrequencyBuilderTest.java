@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 import lib.visitors.LiteralFrequencyBuilder;
 
@@ -28,14 +30,14 @@ class LiteralFrequencyBuilderTest {
         expected.put("5", 1);
         expected.put("6", 1);
 
-        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().literalFrequencyBuilder()));
+        assertEquals(expected,sampleTraversalExpression().accept(v.literalFrequencyBuilder()));
     }
 
     @Test
     void returnsEmptyMapWhenNoLiteralsExist() {
         assertEquals(
             new LinkedHashMap<String, Integer>(),
-factory.variableReference("x").accept(TestSupport.handlers().literalFrequencyBuilder())
+factory.variableReference("x").accept(v.literalFrequencyBuilder())
         );
     }
 }

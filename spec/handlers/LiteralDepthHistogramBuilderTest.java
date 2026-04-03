@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,7 +24,7 @@ class LiteralDepthHistogramBuilderTest {
         expected.put(1, 1);
         expected.put(2, 1);
 
-        assertEquals(expected,factory.addition(factory.literal("1"), factory.negation(factory.literal("2"))).accept(TestSupport.handlers().literalDepthHistogramBuilder()));
+        assertEquals(expected,factory.addition(factory.literal("1"), factory.negation(factory.literal("2"))).accept(v.literalDepthHistogramBuilder()));
     }
 
     @Test
@@ -31,6 +33,6 @@ class LiteralDepthHistogramBuilderTest {
         expected.put(3, 16);
         expected.put(4, 6);
 
-        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().literalDepthHistogramBuilder()));
+        assertEquals(expected,sampleTraversalExpression().accept(v.literalDepthHistogramBuilder()));
     }
 }

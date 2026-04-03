@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 import lib.visitors.ConstantExpressionChecker;
 
@@ -17,7 +19,7 @@ class ConstantExpressionCheckerTest {
     private final IFactory factory = new Factory();
     @Test
     void detectsConstantAndNonConstantExpressions() {
-        var checker = TestSupport.handlers().constantExpressionChecker();
+        var checker = v.constantExpressionChecker();
 
         assertTrue(factory.addition(factory.literal("1"), factory.literal("2")).accept(checker));
         assertFalse(factory.addition(factory.variableReference("x"), factory.literal("2")).accept(checker));
@@ -26,13 +28,13 @@ class ConstantExpressionCheckerTest {
 
     @Test
     void rejectsTraversalExpressionBecauseOfVariablesAndFunctionCalls() {
-        assertFalse(TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().constantExpressionChecker()));
+        assertFalse(sampleTraversalExpression().accept(v.constantExpressionChecker()));
     }
 
     @TestFactory
     Iterable<DynamicTest> acceptsAllNonVariableNonCallExpressionKindsFromSupport() {
-        var checker = TestSupport.handlers().constantExpressionChecker();
-        return TestSupport.sampleNonVariableExpressions().stream()
+        var checker = v.constantExpressionChecker();
+        return sampleNonVariableExpressions().stream()
             .map(expression -> DynamicTest.dynamicTest(expression.getClass().getSimpleName(), () ->
                 org.junit.jupiter.api.Assertions.assertEquals(!(expression instanceof FunctionCall),expression.accept(checker))))
             .toList();
@@ -40,7 +42,7 @@ class ConstantExpressionCheckerTest {
 
     @TestFactory
     Iterable<DynamicTest> rejectsLeftAndRightVariableBranchesAcrossOperators() {
-        var checker = TestSupport.handlers().constantExpressionChecker();
+        var checker = v.constantExpressionChecker();
         return java.util.List.of(
             factory.addition(factory.variableReference("x"), factory.literal("1")),
             factory.addition(factory.literal("1"), factory.variableReference("x")),

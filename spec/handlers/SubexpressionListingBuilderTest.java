@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,13 +24,13 @@ class SubexpressionListingBuilderTest {
     void listsLeavesBeforeContainingExpressions() {
         assertEquals(
             List.of("x", "2", "(-2)", "(x + (-2))"),
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(TestSupport.handlers().subexpressionListingBuilder())
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(v.subexpressionListingBuilder())
         );
     }
 
     @Test
     void listsTraversalSubexpressionsIncludingFinalRoot() {
-        var values =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().subexpressionListingBuilder());
+        var values =sampleTraversalExpression().accept(v.subexpressionListingBuilder());
 
         assertTrue(values.contains("(7 - 2)"));
         assertTrue(values.stream().anyMatch(value -> value.startsWith("f(")));

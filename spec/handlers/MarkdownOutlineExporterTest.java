@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,13 +34,13 @@ class MarkdownOutlineExporterTest {
                 + "    - Literal(2)\n"
                 + "  - Negation\n"
                 + "    - VariableReference(x)\n",
-expression.accept(TestSupport.handlers().markdownOutlineExporter())
+expression.accept(v.markdownOutlineExporter())
         );
     }
 
     @Test
     void visitsAllExpressionTypes() {
-        var markdown =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().markdownOutlineExporter());
+        var markdown =sampleTraversalExpression().accept(v.markdownOutlineExporter());
 
         assertTrue(markdown.contains("- LessThanOrEqual\n"));
         assertTrue(markdown.contains("- GreaterThanOrEqual\n"));

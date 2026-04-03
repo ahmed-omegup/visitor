@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,13 +22,13 @@ class PostOrderLabelPrinterTest {
     void printsLabelsInPostOrder() {
         assertEquals(
             "VariableReference(x) -> Literal(2) -> Addition",
-factory.addition(factory.variableReference("x"), factory.literal("2")).accept(TestSupport.handlers().postOrderLabelPrinter())
+factory.addition(factory.variableReference("x"), factory.literal("2")).accept(v.postOrderLabelPrinter())
         );
     }
 
     @Test
     void printsTraversalExpressionInPostOrder() {
-        var labels =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().postOrderLabelPrinter());
+        var labels =sampleTraversalExpression().accept(v.postOrderLabelPrinter());
 
         assertTrue(labels.startsWith("VariableReference(x) -> Literal(10) -> LessThan"));
         assertTrue(labels.contains("Literal(4) -> Negation -> FunctionCall"));
@@ -35,7 +37,7 @@ factory.addition(factory.variableReference("x"), factory.literal("2")).accept(Te
 
     @Test
     void printsTraversalExpressionPostOrder() {
-        var labels =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().postOrderLabelPrinter());
+        var labels =sampleTraversalExpression().accept(v.postOrderLabelPrinter());
 
         assertTrue(labels.startsWith("VariableReference(x) -> Literal(10)"));
         assertTrue(labels.contains("Literal(4) -> Negation"));

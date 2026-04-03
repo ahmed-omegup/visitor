@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,13 +31,13 @@ class YamlExpressionExporterTest {
                 + "  -\n"
                 + "    type: Literal\n"
                 + "    value: \"2\"\n",
-factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")).accept(TestSupport.handlers().yamlExpressionExporter())
+factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")).accept(v.yamlExpressionExporter())
         );
     }
 
     @Test
     void exportsTraversalExpressionIncludingCompositeBranches() {
-        var yaml =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().yamlExpressionExporter());
+        var yaml =sampleTraversalExpression().accept(v.yamlExpressionExporter());
 
         assertTrue(yaml.contains("type: Conditional\n"));
         assertTrue(yaml.contains("type: GreaterThanOrEqual\n"));

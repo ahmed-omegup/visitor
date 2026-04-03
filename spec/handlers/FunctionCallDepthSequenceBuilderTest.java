@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,10 +20,10 @@ class FunctionCallDepthSequenceBuilderTest {
     private final IFactory factory = new Factory();
     @Test
     void recordsFunctionCallDepthsInEncounterOrder() {
-        assertEquals(List.of(1),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().functionCallDepthSequenceBuilder()));
+        assertEquals(List.of(1),sampleTraversalExpression().accept(v.functionCallDepthSequenceBuilder()));
         assertEquals(
             List.of(0, 1),
-factory.functionCall(factory.functionCall(factory.variableReference("f")), factory.literal("1")).accept(TestSupport.handlers().functionCallDepthSequenceBuilder())
+factory.functionCall(factory.functionCall(factory.variableReference("f")), factory.literal("1")).accept(v.functionCallDepthSequenceBuilder())
         );
     }
 }

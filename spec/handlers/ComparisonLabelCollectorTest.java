@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
@@ -13,7 +15,7 @@ class ComparisonLabelCollectorTest {
     void collectsComparisonLabelsInPreorder() {
         assertEquals(
             List.of("LessThan", "Equality", "Inequality", "GreaterThan", "LessThanOrEqual", "GreaterThanOrEqual"),
-TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().comparisonLabelCollector())
+sampleTraversalExpression().accept(v.comparisonLabelCollector())
         );
     }
 }

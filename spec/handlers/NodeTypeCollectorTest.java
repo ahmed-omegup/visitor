@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashSet;
@@ -19,7 +21,7 @@ class NodeTypeCollectorTest {
                 "Division", "Modulo", "FunctionCall", "Exponentiation", "Inequality",
                 "GreaterThan", "LessThanOrEqual", "GreaterThanOrEqual", "Disjunction", "Negation"
             )),
-TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().nodeTypeCollector())
+sampleTraversalExpression().accept(v.nodeTypeCollector())
         );
     }
 }

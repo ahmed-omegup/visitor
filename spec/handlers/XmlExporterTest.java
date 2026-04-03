@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,7 +27,7 @@ class XmlExporterTest {
                 + "  <VariableReference name=\"x\"/>\n"
                 + "  <Literal value=\"2\"/>\n"
                 + "</Addition>\n",
-expression.accept(TestSupport.handlers().xmlExporter())
+expression.accept(v.xmlExporter())
         );
     }
 
@@ -34,7 +36,7 @@ expression.accept(TestSupport.handlers().xmlExporter())
         var xml =factory.addition(
             factory.variableReference("a&b<q>\""),
             factory.literal("<&\">")
-        ).accept(TestSupport.handlers().xmlExporter());
+        ).accept(v.xmlExporter());
 
         assertTrue(xml.contains("<VariableReference name=\"a&amp;b&lt;q&gt;&quot;\"/>"));
         assertTrue(xml.contains("<Literal value=\"&lt;&amp;&quot;&gt;\"/>"));
@@ -42,7 +44,7 @@ expression.accept(TestSupport.handlers().xmlExporter())
 
     @Test
     void exportsTraversalExpressionThroughAllCompositeVisitMethods() {
-        var xml =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().xmlExporter());
+        var xml =sampleTraversalExpression().accept(v.xmlExporter());
 
         for (var tag : new String[] {
             "Conditional", "Conjunction", "LessThan", "LogicalNot", "Equality", "Addition",
@@ -62,7 +64,7 @@ expression.accept(TestSupport.handlers().xmlExporter())
             "<FunctionCall>\n"
                 + "  <VariableReference name=\"ping\"/>\n"
                 + "</FunctionCall>\n",
-factory.functionCall(factory.variableReference("ping")).accept(TestSupport.handlers().xmlExporter())
+factory.functionCall(factory.variableReference("ping")).accept(v.xmlExporter())
         );
     }
 }

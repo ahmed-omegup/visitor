@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,7 +26,7 @@ class FunctionArgumentRootCollectorTest {
     void collectsTopLevelArgumentKindsForEachFunctionCall() {
         assertEquals(
             List.of("Exponentiation", "Inequality", "GreaterThan", "LessThanOrEqual", "GreaterThanOrEqual", "Disjunction", "Negation"),
-TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().functionArgumentRootCollector())
+sampleTraversalExpression().accept(v.functionArgumentRootCollector())
         );
     }
 
@@ -33,13 +35,13 @@ TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().functionAr
         var cases = new ArrayList<Expression>();
         cases.add(factory.literal("7"));
         cases.add(factory.variableReference("x"));
-        cases.addAll(TestSupport.sampleNonVariableExpressions());
+        cases.addAll(sampleNonVariableExpressions());
 
         return cases.stream()
             .map(expression -> DynamicTest.dynamicTest("argument-" + expression.getClass().getSimpleName(), () ->
                 assertEquals(
                     expression instanceof VariableReference ? "VariableReference" : expression.getClass().getSimpleName(),
-factory.functionCall(factory.variableReference("f"), expression).accept(TestSupport.handlers().functionArgumentRootCollector()).get(0)
+factory.functionCall(factory.variableReference("f"), expression).accept(v.functionArgumentRootCollector()).get(0)
                 )))
             .toList();
     }

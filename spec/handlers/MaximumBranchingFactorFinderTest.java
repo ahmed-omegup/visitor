@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,7 +16,7 @@ class MaximumBranchingFactorFinderTest {
     private final IFactory factory = new Factory();
     @Test
     void returnsLargestObservedBranchingFactor() {
-        assertEquals(8,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().maximumBranchingFactorFinder()));
-        assertEquals(0,factory.literal("1").accept(TestSupport.handlers().maximumBranchingFactorFinder()));
+        assertEquals(8,sampleTraversalExpression().accept(v.maximumBranchingFactorFinder()));
+        assertEquals(0,factory.literal("1").accept(v.maximumBranchingFactorFinder()));
     }
 }

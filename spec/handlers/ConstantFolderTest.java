@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 import lib.visitors.ConstantFolder;
 import port.IFactory;
@@ -14,7 +16,7 @@ class ConstantFolderTest {
     private final IFactory factory = new Factory();
     @Test
     void collapsesArithmeticBranches() {
-        var folder = TestSupport.handlers().constantFolder( factory);
+        var folder = v.constantFolder( factory);
         var folded =factory.addition(
                 factory.multiplication(factory.literal("2"), factory.literal("3")),
                 factory.literal("4")
@@ -25,7 +27,7 @@ class ConstantFolderTest {
 
     @Test
     void collapsesComparisonsAndBooleanOperators() {
-        var folder = TestSupport.handlers().constantFolder( factory);
+        var folder = v.constantFolder( factory);
 
         assertLiteralValue("1",factory.equality(factory.literal("8"), factory.literal("8")).accept(folder), "equality should fold");
         assertLiteralValue("1",factory.inequality(factory.literal("8"), factory.literal("2")).accept(folder), "inequality should fold");
@@ -43,7 +45,7 @@ class ConstantFolderTest {
 
     @Test
     void resolvesConstantConditional() {
-        var folder = TestSupport.handlers().constantFolder( factory);
+        var folder = v.constantFolder( factory);
         var folded =factory.conditional(
                 factory.logicalNot(factory.literal("0")),
                 factory.literal("11"),
@@ -55,7 +57,7 @@ class ConstantFolderTest {
 
     @Test
     void preservesDynamicExpressions() {
-        var folder = TestSupport.handlers().constantFolder( factory);
+        var folder = v.constantFolder( factory);
         var folded =factory.addition(factory.variableReference("x"), factory.literal("2")).accept(folder);
 
         var addition = assertInstanceOf(Addition.class, folded, "dynamic addition should remain an Addition");
@@ -65,7 +67,7 @@ class ConstantFolderTest {
 
     @Test
     void visitsEveryExpressionType() {
-        var folder = TestSupport.handlers().constantFolder( factory);
+        var folder = v.constantFolder( factory);
 
         assertLiteralValue("3",factory.literal("3").accept(folder), "literal should remain unchanged");
         assertVariableReferenceName("x",factory.variableReference("x").accept(folder), "variable reference should remain unchanged");

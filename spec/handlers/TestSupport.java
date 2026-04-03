@@ -15,9 +15,6 @@ final class TestSupport {
     public static final HandlerFactory v = new HandlerFactory();
     private TestSupport() {}
 
-    static HandlerFactory handlers() {
-        return handlerFactory;
-    }
 
     static Expression sampleTraversalExpression() {
         return factory.conditional(

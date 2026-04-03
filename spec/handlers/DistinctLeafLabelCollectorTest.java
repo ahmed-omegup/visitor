@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,7 +27,7 @@ class DistinctLeafLabelCollectorTest {
 factory.addition(
                     factory.literal("1"),
                     factory.functionCall(factory.variableReference("f"), factory.literal("1"), factory.variableReference("x"), factory.variableReference("x"))
-                ).accept(TestSupport.handlers().distinctLeafLabelCollector())
+                ).accept(v.distinctLeafLabelCollector())
         );
     }
 
@@ -47,7 +49,7 @@ factory.addition(
                 "literal:5",
                 "literal:6"
             )),
-TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().distinctLeafLabelCollector())
+sampleTraversalExpression().accept(v.distinctLeafLabelCollector())
         );
     }
 }

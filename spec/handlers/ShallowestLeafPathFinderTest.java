@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,12 +26,12 @@ factory.conditional(
                     factory.addition(factory.literal("1"), factory.literal("2")),
                     factory.variableReference("x"),
                     factory.negation(factory.literal("3"))
-                ).accept(TestSupport.handlers().shallowestLeafPathFinder())
+                ).accept(v.shallowestLeafPathFinder())
         );
     }
 
     @Test
     void findsTraversalExpressionShallowestLeaf() {
-        assertEquals("root.whenFalse.callee",TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().shallowestLeafPathFinder()));
+        assertEquals("root.whenFalse.callee",sampleTraversalExpression().accept(v.shallowestLeafPathFinder()));
     }
 }

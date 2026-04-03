@@ -15,6 +15,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.ArityHistogramBuilder;
 import port.IFactory;
+import static spec.handlers.TestSupport.*;
 
 class ArityHistogramBuilderTest {
     private final IFactory factory = new Factory();
@@ -29,12 +30,12 @@ class ArityHistogramBuilderTest {
 factory.addition(
                     factory.functionCall(factory.variableReference("ping")),
                     factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2"))
-                ).accept(TestSupport.handlers().arityHistogramBuilder())
+                ).accept(v.arityHistogramBuilder())
         );
     }
 
     @Test
     void countsTraversalExpressionFunctionArity() {
-        assertEquals(Map.of(7, 1),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().arityHistogramBuilder()));
+        assertEquals(Map.of(7, 1),sampleTraversalExpression().accept(v.arityHistogramBuilder()));
     }
 }

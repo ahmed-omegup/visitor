@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,12 +21,12 @@ class ConditionalPathCollectorTest {
     void collectsPathsToNestedConditionals() {
         assertEquals(
             List.of("root", "root.whenFalse"),
-factory.conditional(factory.literal("1"), factory.literal("2"), factory.conditional(factory.literal("0"), factory.literal("3"), factory.literal("4"))).accept(TestSupport.handlers().conditionalPathCollector())
+factory.conditional(factory.literal("1"), factory.literal("2"), factory.conditional(factory.literal("0"), factory.literal("3"), factory.literal("4"))).accept(v.conditionalPathCollector())
         );
     }
 
     @Test
     void collectsTraversalExpressionConditionalRootPath() {
-        assertEquals(List.of("root"),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().conditionalPathCollector()));
+        assertEquals(List.of("root"),sampleTraversalExpression().accept(v.conditionalPathCollector()));
     }
 }

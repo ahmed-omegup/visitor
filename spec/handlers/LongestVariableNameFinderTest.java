@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,7 +21,7 @@ class LongestVariableNameFinderTest {
     void findsLongestVariableName() {
         assertEquals(
             "threshold",
-factory.addition(factory.variableReference("threshold"), factory.literal("1")).accept(TestSupport.handlers().longestVariableNameFinder())
+factory.addition(factory.variableReference("threshold"), factory.literal("1")).accept(v.longestVariableNameFinder())
         );
     }
 
@@ -27,12 +29,12 @@ factory.addition(factory.variableReference("threshold"), factory.literal("1")).a
     void keepsLeftVariableOnEqualLengthTie() {
         assertEquals(
             "alpha",
-factory.addition(factory.variableReference("alpha"), factory.variableReference("bravo")).accept(TestSupport.handlers().longestVariableNameFinder())
+factory.addition(factory.variableReference("alpha"), factory.variableReference("bravo")).accept(v.longestVariableNameFinder())
         );
     }
 
     @Test
     void findsLongestVariableAcrossTraversalExpression() {
-        assertEquals("x",TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().longestVariableNameFinder()));
+        assertEquals("x",sampleTraversalExpression().accept(v.longestVariableNameFinder()));
     }
 }

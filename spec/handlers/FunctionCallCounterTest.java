@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,12 +24,12 @@ class FunctionCallCounterTest {
 factory.addition(
                     factory.functionCall(factory.variableReference("left"), factory.literal("1")),
                     factory.functionCall(factory.variableReference("right"), factory.literal("2"), factory.literal("3"))
-                ).accept(TestSupport.handlers().functionCallCounter())
+                ).accept(v.functionCallCounter())
         );
     }
 
     @Test
     void countsTraversalExpressionFunctionCall() {
-        assertEquals(1,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().functionCallCounter()));
+        assertEquals(1,sampleTraversalExpression().accept(v.functionCallCounter()));
     }
 }

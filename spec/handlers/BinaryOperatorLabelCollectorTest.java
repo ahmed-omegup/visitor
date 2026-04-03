@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
@@ -17,7 +19,7 @@ class BinaryOperatorLabelCollectorTest {
                 "Division", "Modulo", "Exponentiation", "Inequality", "GreaterThan", "LessThanOrEqual",
                 "GreaterThanOrEqual", "Disjunction"
             ),
-TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().binaryOperatorLabelCollector())
+sampleTraversalExpression().accept(v.binaryOperatorLabelCollector())
         );
     }
 }

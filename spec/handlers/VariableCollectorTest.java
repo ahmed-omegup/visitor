@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashSet;
@@ -14,7 +16,7 @@ class VariableCollectorTest {
     void collectsVariablesInEncounterOrder() {
         assertEquals(
             new LinkedHashSet<>(List.of("x", "f")),
-TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().variableCollector())
+sampleTraversalExpression().accept(v.variableCollector())
         );
     }
 }

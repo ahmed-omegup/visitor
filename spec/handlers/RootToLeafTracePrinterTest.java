@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,13 +22,13 @@ class RootToLeafTracePrinterTest {
     void printsOneTracePerLeaf() {
         assertEquals(
             String.join("\n", "Addition -> VariableReference(x)", "Addition -> Negation -> Literal(2)"),
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(TestSupport.handlers().rootToLeafTracePrinter())
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(v.rootToLeafTracePrinter())
         );
     }
 
     @Test
     void printsTraversalExpressionRootToLeafTraces() {
-        var traces =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().rootToLeafTracePrinter()).lines().toList();
+        var traces =sampleTraversalExpression().accept(v.rootToLeafTracePrinter()).lines().toList();
 
         assertEquals(24, traces.size());
         assertEquals("Conditional -> Conjunction -> LessThan -> VariableReference(x)", traces.get(0));

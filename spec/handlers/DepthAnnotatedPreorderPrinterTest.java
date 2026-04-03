@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,13 +21,13 @@ class DepthAnnotatedPreorderPrinterTest {
     void printsPreorderNodesWithDepth() {
         assertEquals(
             String.join("\n", "0: Addition", "1: VariableReference(x)", "1: Literal(2)"),
-factory.addition(factory.variableReference("x"), factory.literal("2")).accept(TestSupport.handlers().depthAnnotatedPreorderPrinter())
+factory.addition(factory.variableReference("x"), factory.literal("2")).accept(v.depthAnnotatedPreorderPrinter())
         );
     }
 
     @Test
     void printsTraversalExpressionAcrossAllVisitorBranches() {
-        var rendered =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().depthAnnotatedPreorderPrinter());
+        var rendered =sampleTraversalExpression().accept(v.depthAnnotatedPreorderPrinter());
         var lines = rendered.lines().toList();
 
         assertEquals(42, lines.size());

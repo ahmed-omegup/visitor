@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,12 +26,12 @@ class FunctionAritySequenceBuilderTest {
 factory.addition(
                     factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")),
                     factory.functionCall(factory.functionCall(factory.variableReference("g")), factory.literal("3"))
-                ).accept(TestSupport.handlers().functionAritySequenceBuilder())
+                ).accept(v.functionAritySequenceBuilder())
         );
     }
 
     @Test
     void recordsTraversalExpressionFunctionArity() {
-        assertEquals(List.of(7),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().functionAritySequenceBuilder()));
+        assertEquals(List.of(7),sampleTraversalExpression().accept(v.functionAritySequenceBuilder()));
     }
 }

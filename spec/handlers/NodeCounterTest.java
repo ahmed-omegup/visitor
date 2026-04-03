@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,11 +16,11 @@ class NodeCounterTest {
     private final IFactory factory = new Factory();
     @Test
     void countsAllNodesInTraversalExpression() {
-        assertEquals(42,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().nodeCounter()));
+        assertEquals(42,sampleTraversalExpression().accept(v.nodeCounter()));
     }
 
     @Test
     void countsSingleLiteralAsOneNode() {
-        assertEquals(1,factory.literal("3").accept(TestSupport.handlers().nodeCounter()));
+        assertEquals(1,factory.literal("3").accept(v.nodeCounter()));
     }
 }

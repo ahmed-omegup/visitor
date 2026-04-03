@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 import lib.visitors.SideEffectFreeChecker;
 
@@ -17,7 +19,7 @@ class SideEffectFreeCheckerTest {
     private final IFactory factory = new Factory();
     @Test
     void treatsFunctionCallsAsSideEffectCandidates() {
-        var checker = TestSupport.handlers().sideEffectFreeChecker();
+        var checker = v.sideEffectFreeChecker();
 
         assertTrue(factory.addition(factory.variableReference("x"), factory.literal("1")).accept(checker));
         assertFalse(factory.functionCall(factory.variableReference("sum"), factory.literal("1")).accept(checker));
@@ -25,13 +27,13 @@ class SideEffectFreeCheckerTest {
 
     @Test
     void rejectsTraversalExpressionBecauseOfFunctionCall() {
-        assertFalse(TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().sideEffectFreeChecker()));
+        assertFalse(sampleTraversalExpression().accept(v.sideEffectFreeChecker()));
     }
 
     @TestFactory
     Iterable<DynamicTest> acceptsAllNonCallExpressionKindsFromSupport() {
-        var checker = TestSupport.handlers().sideEffectFreeChecker();
-        return TestSupport.sampleNonVariableExpressions().stream()
+        var checker = v.sideEffectFreeChecker();
+        return sampleNonVariableExpressions().stream()
             .map(expression -> DynamicTest.dynamicTest(expression.getClass().getSimpleName(), () ->
                 org.junit.jupiter.api.Assertions.assertEquals(!(expression instanceof FunctionCall),expression.accept(checker))))
             .toList();
@@ -39,7 +41,7 @@ class SideEffectFreeCheckerTest {
 
     @TestFactory
     Iterable<DynamicTest> rejectsEmbeddedFunctionCallsAcrossOperators() {
-        var checker = TestSupport.handlers().sideEffectFreeChecker();
+        var checker = v.sideEffectFreeChecker();
         var call = factory.functionCall(factory.variableReference("sum"), factory.literal("1"));
         return java.util.List.of(
             factory.addition(call, factory.literal("1")),

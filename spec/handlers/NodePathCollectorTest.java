@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,13 +23,13 @@ class NodePathCollectorTest {
     void collectsTypedPaths() {
         assertEquals(
             List.of("0:Addition", "0.0:VariableReference", "0.1:Literal"),
-factory.addition(factory.variableReference("x"), factory.literal("2")).accept(TestSupport.handlers().nodePathCollector())
+factory.addition(factory.variableReference("x"), factory.literal("2")).accept(v.nodePathCollector())
         );
     }
 
     @Test
     void collectsPathsForTraversalExpressionKinds() {
-        var paths =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().nodePathCollector());
+        var paths =sampleTraversalExpression().accept(v.nodePathCollector());
 
         assertTrue(paths.contains("0:Conditional"));
         assertTrue(paths.contains("0.1.1:Multiplication"));

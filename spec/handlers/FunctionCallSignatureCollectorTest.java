@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,13 +30,13 @@ class FunctionCallSignatureCollectorTest {
 factory.addition(
                     factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")),
                     factory.functionCall(factory.functionCall(factory.variableReference("g")), factory.literal("3"))
-                ).accept(TestSupport.handlers().functionCallSignatureCollector())
+                ).accept(v.functionCallSignatureCollector())
         );
     }
 
     @Test
     void recordsTraversalExpressionFunctionSignature() {
-        assertEquals(List.of("f/7"),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().functionCallSignatureCollector()));
+        assertEquals(List.of("f/7"),sampleTraversalExpression().accept(v.functionCallSignatureCollector()));
     }
 
     @TestFactory
@@ -42,11 +44,11 @@ factory.addition(
         var cases = new ArrayList<Expression>();
         cases.add(factory.literal("7"));
         cases.add(factory.variableReference("name"));
-        cases.addAll(TestSupport.sampleNonVariableExpressions());
+        cases.addAll(sampleNonVariableExpressions());
 
         return cases.stream()
             .map(expression -> DynamicTest.dynamicTest("callee-" + expression.getClass().getSimpleName(), () -> {
-                var signatures =factory.functionCall(expression, factory.literal("9")).accept(TestSupport.handlers().functionCallSignatureCollector());
+                var signatures =factory.functionCall(expression, factory.literal("9")).accept(v.functionCallSignatureCollector());
                 var expectedLabel = expression instanceof VariableReference variableReference
                     ? variableReference.name
                     : expression.getClass().getSimpleName();

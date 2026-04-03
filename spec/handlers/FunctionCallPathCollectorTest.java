@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,12 +26,12 @@ class FunctionCallPathCollectorTest {
 factory.addition(
                     factory.functionCall(factory.variableReference("f"), factory.literal("1")),
                     factory.functionCall(factory.functionCall(factory.variableReference("g")), factory.literal("2"))
-                ).accept(TestSupport.handlers().functionCallPathCollector())
+                ).accept(v.functionCallPathCollector())
         );
     }
 
     @Test
     void collectsTraversalExpressionFunctionCallPath() {
-        assertEquals(List.of("root.whenFalse"),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().functionCallPathCollector()));
+        assertEquals(List.of("root.whenFalse"),sampleTraversalExpression().accept(v.functionCallPathCollector()));
     }
 }

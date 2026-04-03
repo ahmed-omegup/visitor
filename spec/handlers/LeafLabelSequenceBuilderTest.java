@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
@@ -18,7 +20,7 @@ class LeafLabelSequenceBuilderTest {
                 "literal:3", "literal:5", "literal:6", "literal:7", "literal:1", "literal:2",
                 "literal:2", "literal:3", "literal:3", "literal:0", "literal:1", "literal:4"
             ),
-TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().leafLabelSequenceBuilder())
+sampleTraversalExpression().accept(v.leafLabelSequenceBuilder())
         );
     }
 }

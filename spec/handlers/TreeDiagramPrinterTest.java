@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,13 +21,13 @@ class TreeDiagramPrinterTest {
         assertEquals(
             "└── FunctionCall\n"
                 + "    └── VariableReference(ping)\n",
-factory.functionCall(factory.variableReference("ping")).accept(TestSupport.handlers().treeDiagramPrinter())
+factory.functionCall(factory.variableReference("ping")).accept(v.treeDiagramPrinter())
         );
     }
 
     @Test
     void rendersAllExpressionKinds() {
-        var tree =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().treeDiagramPrinter());
+        var tree =sampleTraversalExpression().accept(v.treeDiagramPrinter());
 
         assertTrue(tree.contains("└── Conditional\n"));
         assertTrue(tree.contains("├── LessThanOrEqual\n") || tree.contains("└── LessThanOrEqual\n"));

@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,12 +30,12 @@ class VariableUsageCounterTest {
 factory.addition(
                     factory.variableReference("x"),
                     factory.functionCall(factory.variableReference("sum"), factory.variableReference("x"))
-                ).accept(TestSupport.handlers().variableUsageCounter())
+                ).accept(v.variableUsageCounter())
         );
     }
 
     @Test
     void countsTraversalExpressionVariablesIncludingFunctionCallee() {
-        assertEquals(Map.of("x", 1, "f", 1),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().variableUsageCounter()));
+        assertEquals(Map.of("x", 1, "f", 1),sampleTraversalExpression().accept(v.variableUsageCounter()));
     }
 }

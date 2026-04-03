@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,10 +17,10 @@ class ConditionalCounterTest {
     private final IFactory factory = new Factory();
     @Test
     void countsConditionalsAcrossTraversal() {
-        assertEquals(1,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().conditionalCounter()));
+        assertEquals(1,sampleTraversalExpression().accept(v.conditionalCounter()));
         assertEquals(
             2,
-factory.conditional(factory.literal("1"), factory.literal("2"), factory.conditional(factory.literal("0"), factory.literal("3"), factory.literal("4"))).accept(TestSupport.handlers().conditionalCounter())
+factory.conditional(factory.literal("1"), factory.literal("2"), factory.conditional(factory.literal("0"), factory.literal("3"), factory.literal("4"))).accept(v.conditionalCounter())
         );
     }
 }

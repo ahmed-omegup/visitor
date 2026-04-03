@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,7 +23,7 @@ class LeafDepthSequenceBuilderTest {
     void recordsLeafDepthsInEncounterOrder() {
         assertEquals(
             List.of(1, 2),
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(TestSupport.handlers().leafDepthSequenceBuilder())
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(v.leafDepthSequenceBuilder())
         );
     }
 
@@ -29,7 +31,7 @@ factory.addition(factory.variableReference("x"), factory.negation(factory.litera
     void recordsTraversalExpressionLeafDepths() {
         assertEquals(
             List.of(3, 3, 4, 4, 3, 3, 4, 4, 4, 4, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3),
-TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().leafDepthSequenceBuilder())
+sampleTraversalExpression().accept(v.leafDepthSequenceBuilder())
         );
     }
 }

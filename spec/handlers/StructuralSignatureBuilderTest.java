@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,7 +19,7 @@ class StructuralSignatureBuilderTest {
     private final IFactory factory = new Factory();
     @Test
     void ignoresLeafValuesAndKeepsOnlyShape() {
-        var builder = TestSupport.handlers().structuralSignatureBuilder();
+        var builder = v.structuralSignatureBuilder();
 
         assertEquals(
 factory.addition(factory.variableReference("x"), factory.literal("1")).accept(builder),
@@ -27,7 +29,7 @@ factory.addition(factory.variableReference("y"), factory.literal("9")).accept(bu
 
     @Test
     void includesAllCompositeTypesInTraversalSignature() {
-        var signature =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().structuralSignatureBuilder());
+        var signature =sampleTraversalExpression().accept(v.structuralSignatureBuilder());
 
         assertTrue(signature.contains("Conditional("));
         assertTrue(signature.contains("FunctionCall("));

@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,17 +30,17 @@ class LevelWidthHistogramBuilderTest {
 
         assertEquals(
             expected,
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(TestSupport.handlers().levelWidthHistogramBuilder())
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(v.levelWidthHistogramBuilder())
         );
     }
 
     @Test
     void countsTraversalExpressionWidthsAcrossMultipleLevels() {
-        assertEquals(Map.of(0, 1, 1, 3, 2, 12, 3, 20, 4, 6),TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().levelWidthHistogramBuilder()));
+        assertEquals(Map.of(0, 1, 1, 3, 2, 12, 3, 20, 4, 6),sampleTraversalExpression().accept(v.levelWidthHistogramBuilder()));
     }
 
     @Test
     void countsZeroArgumentFunctionCallWithoutArgumentLoopIterations() {
-        assertEquals(Map.of(0, 1, 1, 1),factory.functionCall(factory.variableReference("ping")).accept(TestSupport.handlers().levelWidthHistogramBuilder()));
+        assertEquals(Map.of(0, 1, 1, 1),factory.functionCall(factory.variableReference("ping")).accept(v.levelWidthHistogramBuilder()));
     }
 }

@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,7 +21,7 @@ class HtmlExpressionExporterTest {
     void exportsSimpleAdditionAsHtml() {
         assertEquals(
             "<span class=\"expression addition\"><span class=\"expression literal\">1</span> <span class=\"operator\">+</span> <span class=\"expression variable-reference\">x</span></span>",
-factory.addition(factory.literal("1"), factory.variableReference("x")).accept(TestSupport.handlers().htmlExpressionExporter())
+factory.addition(factory.literal("1"), factory.variableReference("x")).accept(v.htmlExpressionExporter())
         );
     }
 
@@ -27,13 +29,13 @@ factory.addition(factory.literal("1"), factory.variableReference("x")).accept(Te
     void escapesHtmlSensitiveLeafValues() {
         assertEquals(
             "<span class=\"expression variable-reference\">a&amp;&lt;b&gt;&quot;</span>",
-factory.variableReference("a&<b>\"").accept(TestSupport.handlers().htmlExpressionExporter())
+factory.variableReference("a&<b>\"").accept(v.htmlExpressionExporter())
         );
     }
 
     @Test
     void exportsTraversalExpressionThroughAllVisitorBranches() {
-        var html =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().htmlExpressionExporter());
+        var html =sampleTraversalExpression().accept(v.htmlExpressionExporter());
 
         assertTrue(html.contains("class=\"expression conditional\""));
         assertTrue(html.contains("class=\"expression function-call\""));

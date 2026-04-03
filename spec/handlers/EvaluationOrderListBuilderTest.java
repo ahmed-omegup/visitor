@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,13 +24,13 @@ class EvaluationOrderListBuilderTest {
     void recordsPreorderEvaluationSteps() {
         assertEquals(
             List.of("Addition", "VariableReference(x)", "Negation", "Literal(2)"),
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(TestSupport.handlers().evaluationOrderListBuilder())
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(v.evaluationOrderListBuilder())
         );
     }
 
     @Test
     void recordsTraversalExpressionEvaluationOrder() {
-        var steps =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().evaluationOrderListBuilder());
+        var steps =sampleTraversalExpression().accept(v.evaluationOrderListBuilder());
 
         assertEquals("Conditional", steps.get(0));
         assertTrue(steps.contains("FunctionCall"));

@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,13 +30,13 @@ class OperatorHistogramBuilderTest {
 factory.addition(
                     factory.addition(factory.literal("1"), factory.literal("2")),
                     factory.negation(factory.literal("3"))
-                ).accept(TestSupport.handlers().operatorHistogramBuilder())
+                ).accept(v.operatorHistogramBuilder())
         );
     }
 
     @Test
     void countsAllOperatorKindsInTraversalExpression() {
-        var histogram =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().operatorHistogramBuilder());
+        var histogram =sampleTraversalExpression().accept(v.operatorHistogramBuilder());
 
         for (var operator : new String[] {
             "Conditional", "Conjunction", "LessThan", "LogicalNot", "Equality", "Addition", "Subtraction", "Multiplication",

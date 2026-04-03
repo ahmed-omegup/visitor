@@ -25,7 +25,7 @@ rm -rf coverage/html
 javac -d coverage/classes \
     port/*.java \
     lib/expression/*.java \
-    lib/handlers/*.java
+    lib/visitors/*.java
 
 javac -cp "coverage/classes:$JUNIT_JAR" -d coverage/test-classes \
     spec/handlers/*.java
@@ -39,8 +39,8 @@ java \
     --disable-banner
 
 java -jar .coverage-tools/jacococli.jar report coverage/jacoco.exec \
-    --classfiles coverage/classes/lib/handlers \
-    --sourcefiles lib/handlers \
+    --classfiles coverage/classes/lib/visitors \
+    --sourcefiles lib/visitors \
     --html coverage/html \
     --xml coverage/jacoco.xml \
     --csv coverage/jacoco.csv

@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,13 +30,13 @@ class IndentedTracePrinterTest {
                 + "  Literal(1)\n"
                 + "  Negation\n"
                 + "    Literal(2)\n",
-            captureOutput(() -> expression.accept(TestSupport.handlers().indentedTracePrinter()))
+            captureOutput(() -> expression.accept(v.indentedTracePrinter()))
         );
     }
 
     @Test
     void visitsAllExpressionKinds() {
-        var output = captureOutput(() -> TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().indentedTracePrinter()));
+        var output = captureOutput(() -> sampleTraversalExpression().accept(v.indentedTracePrinter()));
 
         assertTrue(output.contains("LessThanOrEqual\n"));
         assertTrue(output.contains("GreaterThanOrEqual\n"));

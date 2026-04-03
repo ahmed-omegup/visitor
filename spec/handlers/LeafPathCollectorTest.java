@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,7 +23,7 @@ class LeafPathCollectorTest {
     void collectsLeafPathsAcrossFunctionArguments() {
         assertEquals(
             List.of("root.callee", "root.arguments[0].left", "root.arguments[0].right"),
-factory.functionCall(factory.variableReference("f"), factory.addition(factory.literal("1"), factory.variableReference("x"))).accept(TestSupport.handlers().leafPathCollector())
+factory.functionCall(factory.variableReference("f"), factory.addition(factory.literal("1"), factory.variableReference("x"))).accept(v.leafPathCollector())
         );
     }
 
@@ -54,7 +56,7 @@ factory.functionCall(factory.variableReference("f"), factory.addition(factory.li
                 "root.whenFalse.arguments[5].right",
                 "root.whenFalse.arguments[6].operand"
             ),
-TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().leafPathCollector())
+sampleTraversalExpression().accept(v.leafPathCollector())
         );
     }
 }

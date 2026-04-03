@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,7 +32,7 @@ factory.conditional(
                     factory.lessThan(factory.variableReference("x"), factory.literal("1")),
                     factory.literal("2"),
                     factory.functionCall(factory.variableReference("fallback"), factory.literal("0"))
-                ).accept(TestSupport.handlers().conditionalBranchLabelCollector())
+                ).accept(v.conditionalBranchLabelCollector())
         );
     }
 
@@ -38,7 +40,7 @@ factory.conditional(
     void reportsTraversalExpressionBranchKinds() {
         assertEquals(
             List.of("condition=Conjunction", "whenTrue=Addition", "whenFalse=FunctionCall"),
-TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().conditionalBranchLabelCollector())
+sampleTraversalExpression().accept(v.conditionalBranchLabelCollector())
         );
     }
 
@@ -46,14 +48,14 @@ TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().conditiona
     Iterable<DynamicTest> labelsEverySupportedConditionalBranchKind() {
         var cases = new ArrayList<Expression>();
         cases.add(factory.variableReference("x"));
-        cases.addAll(TestSupport.sampleNonVariableExpressions());
+        cases.addAll(sampleNonVariableExpressions());
         cases.add(factory.literal("1"));
 
         return cases.stream()
             .map(expression -> DynamicTest.dynamicTest("condition-" + expression.getClass().getSimpleName(), () ->
                 assertEquals(
                     "condition=" + expression.getClass().getSimpleName(),
-factory.conditional(expression, factory.literal("2"), factory.literal("3")).accept(TestSupport.handlers().conditionalBranchLabelCollector()).get(0)
+factory.conditional(expression, factory.literal("2"), factory.literal("3")).accept(v.conditionalBranchLabelCollector()).get(0)
                 )))
             .toList();
     }

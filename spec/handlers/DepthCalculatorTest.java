@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,11 +17,11 @@ class DepthCalculatorTest {
     private final IFactory factory = new Factory();
     @Test
     void computesDepthForTraversalExpression() {
-        assertEquals(5,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().depthCalculator()));
+        assertEquals(5,sampleTraversalExpression().accept(v.depthCalculator()));
     }
 
     @Test
     void countsZeroArgumentFunctionCallDepth() {
-        assertEquals(2,factory.functionCall(factory.variableReference("ping")).accept(TestSupport.handlers().depthCalculator()));
+        assertEquals(2,factory.functionCall(factory.variableReference("ping")).accept(v.depthCalculator()));
     }
 }

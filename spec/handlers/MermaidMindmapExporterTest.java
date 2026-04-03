@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,12 +24,12 @@ class MermaidMindmapExporterTest {
                 + "  Addition\n"
                 + "    VariableReference(x)\n"
                 + "    Literal(2)\n",
-factory.addition(factory.variableReference("x"), factory.literal("2")).accept(TestSupport.handlers().mermaidMindmapExporter())
+factory.addition(factory.variableReference("x"), factory.literal("2")).accept(v.mermaidMindmapExporter())
         );
     }
 
     @Test
     void includesFunctionCallInTraversalMindmap() {
-        assertTrue(TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().mermaidMindmapExporter()).contains("    FunctionCall\n"));
+        assertTrue(sampleTraversalExpression().accept(v.mermaidMindmapExporter()).contains("    FunctionCall\n"));
     }
 }

@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,7 +27,7 @@ class VariablePathCollectorTest {
 
         assertEquals(
             expected,
-factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), factory.variableReference("x"))).accept(TestSupport.handlers().variablePathCollector())
+factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), factory.variableReference("x"))).accept(v.variablePathCollector())
         );
     }
 
@@ -35,6 +37,6 @@ factory.addition(factory.variableReference("x"), factory.functionCall(factory.va
         expected.put("x", List.of("root.condition.left.left"));
         expected.put("f", List.of("root.whenFalse.callee"));
 
-        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().variablePathCollector()));
+        assertEquals(expected,sampleTraversalExpression().accept(v.variablePathCollector()));
     }
 }

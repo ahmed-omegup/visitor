@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,7 +28,7 @@ class BranchingFactorHistogramBuilderTest {
 
         assertEquals(
             expected,
-factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), factory.literal("1"), factory.literal("2"))).accept(TestSupport.handlers().branchingFactorHistogramBuilder())
+factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), factory.literal("1"), factory.literal("2"))).accept(v.branchingFactorHistogramBuilder())
         );
     }
 
@@ -39,6 +41,6 @@ factory.addition(factory.variableReference("x"), factory.functionCall(factory.va
         expected.put(1, 2);
         expected.put(8, 1);
 
-        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().branchingFactorHistogramBuilder()));
+        assertEquals(expected,sampleTraversalExpression().accept(v.branchingFactorHistogramBuilder()));
     }
 }

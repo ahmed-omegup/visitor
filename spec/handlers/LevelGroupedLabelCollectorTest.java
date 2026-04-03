@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,13 +29,13 @@ class LevelGroupedLabelCollectorTest {
 
         assertEquals(
             expected,
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(TestSupport.handlers().levelGroupedLabelCollector())
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(v.levelGroupedLabelCollector())
         );
     }
 
     @Test
     void groupsTraversalExpressionLabelsByLevel() {
-        var grouped =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().levelGroupedLabelCollector());
+        var grouped =sampleTraversalExpression().accept(v.levelGroupedLabelCollector());
 
         assertEquals(List.of("Conditional"), grouped.get(0));
         assertEquals(List.of("Conjunction", "Addition", "FunctionCall"), grouped.get(1));

@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,13 +26,13 @@ class MermaidFlowchartExporterTest {
                 + "  n0 --> n1\n"
                 + "  n2[\"Literal(2)\"]\n"
                 + "  n0 --> n2\n",
-factory.addition(factory.variableReference("x"), factory.literal("2")).accept(TestSupport.handlers().mermaidFlowchartExporter())
+factory.addition(factory.variableReference("x"), factory.literal("2")).accept(v.mermaidFlowchartExporter())
         );
     }
 
     @Test
     void exportsTraversalExpressionKinds() {
-        var chart =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().mermaidFlowchartExporter());
+        var chart =sampleTraversalExpression().accept(v.mermaidFlowchartExporter());
 
         assertTrue(chart.contains("[\"Conditional\"]"));
         assertTrue(chart.contains("[\"FunctionCall\"]"));
@@ -40,7 +42,7 @@ factory.addition(factory.variableReference("x"), factory.literal("2")).accept(Te
     @Test
     void reusesExistingNodeForSharedExpressionReference() {
         var shared = factory.literal("a\"b");
-        var chart =factory.addition(shared, shared).accept(TestSupport.handlers().mermaidFlowchartExporter());
+        var chart =factory.addition(shared, shared).accept(v.mermaidFlowchartExporter());
 
         assertEquals(1, occurrences(chart, "[\"Literal(a\\\"b)\"]"));
         assertEquals(2, occurrences(chart, "n0 --> n1"));

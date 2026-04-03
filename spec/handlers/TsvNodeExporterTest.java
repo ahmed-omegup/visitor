@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,13 +24,13 @@ class TsvNodeExporterTest {
                 + "0\tAddition\t\n"
                 + "0.0\tVariableReference\tx\n"
                 + "0.1\tLiteral\t2\n",
-factory.addition(factory.variableReference("x"), factory.literal("2")).accept(TestSupport.handlers().tsvNodeExporter())
+factory.addition(factory.variableReference("x"), factory.literal("2")).accept(v.tsvNodeExporter())
         );
     }
 
     @Test
     void exportsTraversalExpressionIncludingFunctionCallRows() {
-        var tsv =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().tsvNodeExporter());
+        var tsv =sampleTraversalExpression().accept(v.tsvNodeExporter());
 
         assertTrue(tsv.contains("0\tConditional\t\n"));
         assertTrue(tsv.contains("0.2\tFunctionCall\t7\n"));

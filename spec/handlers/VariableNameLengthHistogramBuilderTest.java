@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashMap;
@@ -14,6 +16,6 @@ class VariableNameLengthHistogramBuilderTest {
         var expected = new LinkedHashMap<Integer, Integer>();
         expected.put(1, 2);
 
-        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().variableNameLengthHistogramBuilder()));
+        assertEquals(expected,sampleTraversalExpression().accept(v.variableNameLengthHistogramBuilder()));
     }
 }

@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 import lib.visitors.IntegerEvaluator;
 
@@ -18,7 +20,7 @@ class IntegerEvaluatorTest {
     private final IFactory factory = new Factory();
     @Test
     void evaluatesExpressionsWithVariablesAndFunctions() {
-        var evaluator = TestSupport.handlers().integerEvaluator( 
+        var evaluator = v.integerEvaluator( 
             Map.of("threshold", 4, "fallback", 9),
             Map.of(
                 "max", values -> Math.max(values.get(0), values.get(1)),
@@ -40,7 +42,7 @@ class IntegerEvaluatorTest {
 
     @Test
     void evaluatesEveryOperator() {
-        var evaluator = TestSupport.handlers().integerEvaluator( 
+        var evaluator = v.integerEvaluator( 
             Map.of("x", 8, "y", 2, "zero", 0),
             Map.of("sum", values -> values.stream().mapToInt(Integer::intValue).sum())
         );
@@ -68,21 +70,21 @@ class IntegerEvaluatorTest {
 
     @Test
     void rejectsUnknownVariable() {
-        var evaluator = TestSupport.handlers().integerEvaluator( Map.of(), Map.of());
+        var evaluator = v.integerEvaluator( Map.of(), Map.of());
 
         assertEquals("Unknown variable: missing", assertThrows(IllegalArgumentException.class, () -> factory.variableReference("missing").accept(evaluator)).getMessage());
     }
 
     @Test
     void rejectsUnknownFunction() {
-        var evaluator = TestSupport.handlers().integerEvaluator( Map.of(), Map.of());
+        var evaluator = v.integerEvaluator( Map.of(), Map.of());
 
         assertEquals("Unknown function: missing", assertThrows(IllegalArgumentException.class, () -> factory.functionCall(factory.variableReference("missing"), factory.literal("1")).accept(evaluator)).getMessage());
     }
 
     @Test
     void rejectsNonIntegerLiteral() {
-        var evaluator = TestSupport.handlers().integerEvaluator( Map.of(), Map.of());
+        var evaluator = v.integerEvaluator( Map.of(), Map.of());
 
         var exception = assertThrows(IllegalArgumentException.class, () -> factory.literal("nan").accept(evaluator));
         assertTrue(exception.getMessage().contains("Literal is not an integer: nan"), "non-integer literal should describe the failure");
@@ -90,7 +92,7 @@ class IntegerEvaluatorTest {
 
     @Test
     void rejectsInvalidFunctionCallee() {
-        var evaluator = TestSupport.handlers().integerEvaluator( Map.of(), Map.of("f", values -> values.get(0)));
+        var evaluator = v.integerEvaluator( Map.of(), Map.of("f", values -> values.get(0)));
         var invalidCall = factory.functionCall(factory.addition(factory.literal("1"), factory.literal("2")), factory.literal("3"));
 
         assertEquals("Function call requires a variable reference callee", assertThrows(IllegalArgumentException.class, () -> invalidCall.accept(evaluator)).getMessage());

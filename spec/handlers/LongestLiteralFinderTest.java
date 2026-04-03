@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,7 +21,7 @@ class LongestLiteralFinderTest {
     void findsLongestLiteralValue() {
         assertEquals(
             "12345",
-factory.addition(factory.literal("12345"), factory.variableReference("x")).accept(TestSupport.handlers().longestLiteralFinder())
+factory.addition(factory.literal("12345"), factory.variableReference("x")).accept(v.longestLiteralFinder())
         );
     }
 
@@ -27,12 +29,12 @@ factory.addition(factory.literal("12345"), factory.variableReference("x")).accep
     void keepsLeftValueOnEqualLengthTie() {
         assertEquals(
             "alpha",
-factory.functionCall(factory.variableReference("f"), factory.literal("alpha"), factory.literal("bravo")).accept(TestSupport.handlers().longestLiteralFinder())
+factory.functionCall(factory.variableReference("f"), factory.literal("alpha"), factory.literal("bravo")).accept(v.longestLiteralFinder())
         );
     }
 
     @Test
     void findsLongestLiteralAcrossTraversalExpression() {
-        assertEquals("10",TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().longestLiteralFinder()));
+        assertEquals("10",sampleTraversalExpression().accept(v.longestLiteralFinder()));
     }
 }

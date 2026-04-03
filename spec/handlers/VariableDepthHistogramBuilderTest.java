@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashMap;
@@ -15,6 +17,6 @@ class VariableDepthHistogramBuilderTest {
         expected.put(3, 1);
         expected.put(2, 1);
 
-        assertEquals(expected,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().variableDepthHistogramBuilder()));
+        assertEquals(expected,sampleTraversalExpression().accept(v.variableDepthHistogramBuilder()));
     }
 }

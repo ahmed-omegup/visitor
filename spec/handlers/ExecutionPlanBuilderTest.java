@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,13 +26,13 @@ class ExecutionPlanBuilderTest {
                 + "  2. inspect Literal(1)\n"
                 + "  3. inspect Negation\n"
                 + "    4. inspect Literal(2)\n",
-expression.accept(TestSupport.handlers().executionPlanBuilder())
+expression.accept(v.executionPlanBuilder())
         );
     }
 
     @Test
     void visitsAllExpressionKindsInTraversalExpression() {
-        var plan =TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().executionPlanBuilder());
+        var plan =sampleTraversalExpression().accept(v.executionPlanBuilder());
 
         assertTrue(plan.contains("inspect LessThanOrEqual"));
         assertTrue(plan.contains("inspect GreaterThanOrEqual"));

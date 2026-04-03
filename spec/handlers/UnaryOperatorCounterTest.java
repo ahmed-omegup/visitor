@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,12 +21,12 @@ class UnaryOperatorCounterTest {
     void countsUnaryOperators() {
         assertEquals(
             2,
-factory.addition(factory.negation(factory.literal("1")), factory.logicalNot(factory.literal("0"))).accept(TestSupport.handlers().unaryOperatorCounter())
+factory.addition(factory.negation(factory.literal("1")), factory.logicalNot(factory.literal("0"))).accept(v.unaryOperatorCounter())
         );
     }
 
     @Test
     void countsUnaryOperatorsAcrossTraversalExpression() {
-        assertEquals(2,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().unaryOperatorCounter()));
+        assertEquals(2,sampleTraversalExpression().accept(v.unaryOperatorCounter()));
     }
 }

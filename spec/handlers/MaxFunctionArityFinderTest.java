@@ -1,5 +1,7 @@
 package spec.handlers;
 
+import static spec.handlers.TestSupport.*;
+
 import lib.expression.Factory;
 import lib.visitors.MaxFunctionArityFinder;
 
@@ -21,23 +23,23 @@ class MaxFunctionArityFinderTest {
 factory.addition(
                     factory.functionCall(factory.variableReference("ping")),
                     factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2"), factory.literal("3"))
-                ).accept(TestSupport.handlers().maxFunctionArityFinder())
+                ).accept(v.maxFunctionArityFinder())
         );
     }
 
     @Test
     void returnsZeroWhenNoFunctionCallExists() {
-        assertEquals(0,factory.addition(factory.literal("1"), factory.literal("2")).accept(TestSupport.handlers().maxFunctionArityFinder()));
+        assertEquals(0,factory.addition(factory.literal("1"), factory.literal("2")).accept(v.maxFunctionArityFinder()));
     }
 
     @Test
     void followsTraversalExpressionToLargestArity() {
-        assertEquals(7,TestSupport.sampleTraversalExpression().accept(TestSupport.handlers().maxFunctionArityFinder()));
+        assertEquals(7,sampleTraversalExpression().accept(v.maxFunctionArityFinder()));
     }
 
     @TestFactory
     Iterable<DynamicTest> traversesEveryOperatorShapeWithoutFunctionCalls() {
-        var finder = TestSupport.handlers().maxFunctionArityFinder();
+        var finder = v.maxFunctionArityFinder();
         return java.util.List.of(
             factory.literal("1"),
             factory.variableReference("x"),
