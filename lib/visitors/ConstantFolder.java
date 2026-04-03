@@ -45,7 +45,7 @@ public class ConstantFolder implements Visitor<Expression> {
 
     public Expression visit(Negation expression) {
         var operand = fold(expression.operand);
-        var value = literalValueExtractor.handle(operand);
+        var value = operand.accept(literalValueExtractor);
         return value == null ? factory.negation(operand) : factory.literal(Integer.toString(-value));
     }
 
@@ -91,7 +91,7 @@ public class ConstantFolder implements Visitor<Expression> {
 
     public Expression visit(LogicalNot expression) {
         var operand = fold(expression.operand);
-        var value = literalValueExtractor.handle(operand);
+        var value = operand.accept(literalValueExtractor);
         return value == null ? factory.logicalNot(operand) : factory.literal(value == 0 ? "1" : "0");
     }
 
@@ -99,7 +99,7 @@ public class ConstantFolder implements Visitor<Expression> {
         var condition = fold(expression.condition);
         var whenTrue = fold(expression.whenTrue);
         var whenFalse = fold(expression.whenFalse);
-        var value = literalValueExtractor.handle(condition);
+        var value = condition.accept(literalValueExtractor);
         if (value == null) {
             return factory.conditional(condition, whenTrue, whenFalse);
         }
@@ -116,8 +116,8 @@ public class ConstantFolder implements Visitor<Expression> {
     }
 
     private Expression foldBinary(Expression left, Expression right, BinaryFactory binaryFactory, BinaryOperation operation) {
-        var leftValue = literalValueExtractor.handle(left);
-        var rightValue = literalValueExtractor.handle(right);
+        var leftValue = left.accept(literalValueExtractor);
+        var rightValue = right.accept(literalValueExtractor);
         if (leftValue != null && rightValue != null) {
             return factory.literal(Integer.toString(operation.apply(leftValue, rightValue)));
         }
@@ -125,8 +125,8 @@ public class ConstantFolder implements Visitor<Expression> {
     }
 
     private Expression foldComparison(Expression left, Expression right, BinaryFactory binaryFactory, ComparisonOperation operation) {
-        var leftValue = literalValueExtractor.handle(left);
-        var rightValue = literalValueExtractor.handle(right);
+        var leftValue = left.accept(literalValueExtractor);
+        var rightValue = right.accept(literalValueExtractor);
         if (leftValue != null && rightValue != null) {
             return factory.literal(operation.apply(leftValue, rightValue) ? "1" : "0");
         }

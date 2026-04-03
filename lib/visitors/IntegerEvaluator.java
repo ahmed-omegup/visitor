@@ -10,7 +10,9 @@ import lib.expression.*;
 public class IntegerEvaluator implements Visitor<Integer> {
     private final Map<String, Integer> variables;
     private final Map<String, Function<List<Integer>, Integer>> functions;
-    private final VariableReferenceExtractor variableReferenceExtractor = new VariableReferenceExtractor();
+    private final VariableReferenceExtractor variableReferenceExtractor = new VariableReferenceExtractor(
+        "Function call requires a variable reference callee"
+    );
 
     IntegerEvaluator() {
         this(Map.of(), Map.of());
@@ -63,7 +65,7 @@ public class IntegerEvaluator implements Visitor<Integer> {
     public Integer visit(Conditional expression) { return truthy(evaluate(expression.condition)) ? evaluate(expression.whenTrue) : evaluate(expression.whenFalse); }
 
     public Integer visit(FunctionCall expression) {
-        var callee = variableReferenceExtractor.handle(expression.callee, "Function call requires a variable reference callee");
+        var callee = expression.callee.accept(variableReferenceExtractor);
         if (!functions.containsKey(callee.name)) {
             throw new IllegalArgumentException("Unknown function: " + callee.name);
         }

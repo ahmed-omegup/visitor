@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import lib.expression.VariableReference;
+import lib.expression.Visitor;
 import port.IFactory;
 
 public final class HandlerFactory {
@@ -249,7 +251,7 @@ public final class HandlerFactory {
         return new LiteralPathCollector();
     }
 
-    public Object literalValueExtractor() {
+    public Visitor<Integer> literalValueExtractor() {
         return new LiteralValueExtractor();
     }
 
@@ -401,7 +403,7 @@ public final class HandlerFactory {
         return new VariablePathCollector();
     }
 
-    public Object variableReferenceExtractor() {
+    public Visitor<VariableReference> variableReferenceExtractor() {
         return new VariableReferenceExtractor();
     }
 

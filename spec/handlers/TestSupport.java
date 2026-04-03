@@ -3,8 +3,6 @@ package spec.handlers;
 import lib.expression.Factory;
 import lib.visitors.HandlerFactory;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,44 +38,6 @@ final class TestSupport {
                 factory.negation(factory.literal("4"))
             )
         );
-    }
-
-    static Object invokeHandle(Object target, Expression expression) {
-        try {
-            Method method = target.getClass().getDeclaredMethod("handle", Expression.class);
-            method.setAccessible(true);
-            return method.invoke(target, expression);
-        } catch (InvocationTargetException exception) {
-            Throwable cause = exception.getCause();
-            if (cause instanceof RuntimeException runtimeException) {
-                throw runtimeException;
-            }
-            if (cause instanceof Error error) {
-                throw error;
-            }
-            throw new AssertionError("handle invocation failed", cause);
-        } catch (ReflectiveOperationException exception) {
-            throw new AssertionError("failed to invoke handle", exception);
-        }
-    }
-
-    static Object invokeHandleWithMessage(Object target, Expression expression, String message) {
-        try {
-            Method method = target.getClass().getDeclaredMethod("handle", Expression.class, String.class);
-            method.setAccessible(true);
-            return method.invoke(target, expression, message);
-        } catch (InvocationTargetException exception) {
-            Throwable cause = exception.getCause();
-            if (cause instanceof RuntimeException runtimeException) {
-                throw runtimeException;
-            }
-            if (cause instanceof Error error) {
-                throw error;
-            }
-            throw new AssertionError("handle invocation failed", cause);
-        } catch (ReflectiveOperationException exception) {
-            throw new AssertionError("failed to invoke handle", exception);
-        }
     }
 
     static List<Expression> sampleNonVariableExpressions() {
