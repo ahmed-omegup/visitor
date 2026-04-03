@@ -1,13 +1,13 @@
 package lib.visitors;
 
 import lib.expression.*;
-import port.IFactory;
+import port.IExpressionFactory;
 
 public class ConstantFolder implements Visitor<Expression> {
-    private final IFactory factory;
+    private final IExpressionFactory<Expression> factory;
     private final LiteralValueExtractor literalValueExtractor = new LiteralValueExtractor();
 
-    ConstantFolder(IFactory factory) {
+    ConstantFolder(IExpressionFactory<Expression> factory) {
         this.factory = factory;
     }
 

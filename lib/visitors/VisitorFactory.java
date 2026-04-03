@@ -4,12 +4,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import lib.expression.Expression;
+import lib.expression.Factory;
 import lib.expression.VariableReference;
 import lib.expression.Visitor;
-import port.IFactory;
+import port.IExpressionFactory;
+import port.IVisitorFactory;
 
-public final class HandlerFactory {
-    public HandlerFactory() {}
+public final class VisitorFactory implements IVisitorFactory {
+    public VisitorFactory() {}
+
+    public IExpressionFactory<Expression> expressionFactory() {
+        return new Factory();
+    }
 
     public ArithmeticDepthHistogramBuilder arithmeticDepthHistogramBuilder() {
         return new ArithmeticDepthHistogramBuilder();
@@ -95,7 +102,7 @@ public final class HandlerFactory {
         return new ConstantExpressionChecker();
     }
 
-    public ConstantFolder constantFolder(IFactory factory) {
+    public ConstantFolder constantFolder(IExpressionFactory<Expression> factory) {
         return new ConstantFolder(factory);
     }
 

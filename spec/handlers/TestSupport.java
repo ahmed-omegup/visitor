@@ -1,16 +1,17 @@
 package spec.handlers;
 
 import lib.expression.Factory;
-import lib.visitors.HandlerFactory;
+import lib.visitors.VisitorFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import lib.expression.*;
+import port.IVisitorFactory;
 
 final class TestSupport {
     private static final Factory factory = new Factory();
-    public static final HandlerFactory v = new HandlerFactory();
+    public static final IVisitorFactory v = new VisitorFactory();
     private TestSupport() {}
 
 
