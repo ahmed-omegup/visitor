@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.PrefixNotationPrinter;
 
-abstract class PrefixNotationPrinterTestBase<E extends Expression> extends TestBase<E> {
+abstract class PrefixNotationPrinterTestBase<E> extends TestBase<E> {
     PrefixNotationPrinterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -27,6 +27,6 @@ testSupport.sampleTraversalExpression().accept(testSupport.v.prefixNotationPrint
 
 class PrefixNotationPrinterTest extends PrefixNotationPrinterTestBase<Expression> {
     PrefixNotationPrinterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

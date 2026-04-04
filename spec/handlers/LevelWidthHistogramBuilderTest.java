@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -21,7 +21,7 @@ import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.LevelWidthHistogramBuilder;
 
-abstract class LevelWidthHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class LevelWidthHistogramBuilderTestBase<E> extends TestBase<E> {
     LevelWidthHistogramBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -53,6 +53,6 @@ factory.addition(factory.variableReference("x"), factory.negation(factory.litera
 
 class LevelWidthHistogramBuilderTest extends LevelWidthHistogramBuilderTestBase<Expression> {
     LevelWidthHistogramBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

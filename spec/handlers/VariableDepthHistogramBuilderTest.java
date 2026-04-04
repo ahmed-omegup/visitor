@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.VariableDepthHistogramBuilder;
 
-abstract class VariableDepthHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class VariableDepthHistogramBuilderTestBase<E> extends TestBase<E> {
     VariableDepthHistogramBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -30,6 +30,6 @@ abstract class VariableDepthHistogramBuilderTestBase<E extends Expression> exten
 
 class VariableDepthHistogramBuilderTest extends VariableDepthHistogramBuilderTestBase<Expression> {
     VariableDepthHistogramBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

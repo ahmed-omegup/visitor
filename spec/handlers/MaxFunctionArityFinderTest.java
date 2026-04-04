@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -16,7 +16,7 @@ import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.*;
 
-abstract class MaxFunctionArityFinderTestBase<E extends Expression> extends TestBase<E> {
+abstract class MaxFunctionArityFinderTestBase<E> extends TestBase<E> {
     MaxFunctionArityFinderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -73,6 +73,6 @@ factory.addition(
 
 class MaxFunctionArityFinderTest extends MaxFunctionArityFinderTestBase<Expression> {
     MaxFunctionArityFinderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -16,7 +16,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.MermaidMindmapExporter;
 
-abstract class MermaidMindmapExporterTestBase<E extends Expression> extends TestBase<E> {
+abstract class MermaidMindmapExporterTestBase<E> extends TestBase<E> {
     MermaidMindmapExporterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -41,6 +41,6 @@ factory.addition(factory.variableReference("x"), factory.literal("2")).accept(te
 
 class MermaidMindmapExporterTest extends MermaidMindmapExporterTestBase<Expression> {
     MermaidMindmapExporterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

@@ -15,14 +15,14 @@ import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.Conditional;
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 import lib.expression.FunctionCall;
 import lib.expression.LessThan;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.ConditionalBranchLabelCollector;
 
-abstract class ConditionalBranchLabelCollectorTestBase<E extends Expression> extends TestBase<E> {
+abstract class ConditionalBranchLabelCollectorTestBase<E> extends TestBase<E> {
     ConditionalBranchLabelCollectorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -67,6 +67,6 @@ factory.conditional(expression, factory.literal("2"), factory.literal("3")).acce
 
 class ConditionalBranchLabelCollectorTest extends ConditionalBranchLabelCollectorTestBase<Expression> {
     ConditionalBranchLabelCollectorTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

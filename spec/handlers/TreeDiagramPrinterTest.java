@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -16,7 +16,7 @@ import lib.expression.FunctionCall;
 import lib.expression.VariableReference;
 import lib.visitors.TreeDiagramPrinter;
 
-abstract class TreeDiagramPrinterTestBase<E extends Expression> extends TestBase<E> {
+abstract class TreeDiagramPrinterTestBase<E> extends TestBase<E> {
     TreeDiagramPrinterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -43,6 +43,6 @@ factory.functionCall(factory.variableReference("ping"), of()).accept(testSupport
 
 class TreeDiagramPrinterTest extends TreeDiagramPrinterTestBase<Expression> {
     TreeDiagramPrinterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

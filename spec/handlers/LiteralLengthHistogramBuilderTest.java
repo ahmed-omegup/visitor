@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.LiteralLengthHistogramBuilder;
 
-abstract class LiteralLengthHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class LiteralLengthHistogramBuilderTestBase<E> extends TestBase<E> {
     LiteralLengthHistogramBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -30,6 +30,6 @@ abstract class LiteralLengthHistogramBuilderTestBase<E extends Expression> exten
 
 class LiteralLengthHistogramBuilderTest extends LiteralLengthHistogramBuilderTestBase<Expression> {
     LiteralLengthHistogramBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

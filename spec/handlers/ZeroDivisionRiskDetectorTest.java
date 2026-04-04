@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -17,7 +17,7 @@ import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.*;
 
-abstract class ZeroDivisionRiskDetectorTestBase<E extends Expression> extends TestBase<E> {
+abstract class ZeroDivisionRiskDetectorTestBase<E> extends TestBase<E> {
     ZeroDivisionRiskDetectorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -107,6 +107,6 @@ abstract class ZeroDivisionRiskDetectorTestBase<E extends Expression> extends Te
 
 class ZeroDivisionRiskDetectorTest extends ZeroDivisionRiskDetectorTestBase<Expression> {
     ZeroDivisionRiskDetectorTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

@@ -15,13 +15,13 @@ import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.Addition;
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.FunctionCallSignatureCollector;
 
-abstract class FunctionCallSignatureCollectorTestBase<E extends Expression> extends TestBase<E> {
+abstract class FunctionCallSignatureCollectorTestBase<E> extends TestBase<E> {
     FunctionCallSignatureCollectorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -64,6 +64,6 @@ factory.addition(
 
 class FunctionCallSignatureCollectorTest extends FunctionCallSignatureCollectorTestBase<Expression> {
     FunctionCallSignatureCollectorTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

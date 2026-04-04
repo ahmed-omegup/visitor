@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Literal;
 import lib.visitors.MaximumBranchingFactorFinder;
 
-abstract class MaximumBranchingFactorFinderTestBase<E extends Expression> extends TestBase<E> {
+abstract class MaximumBranchingFactorFinderTestBase<E> extends TestBase<E> {
     MaximumBranchingFactorFinderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -28,6 +28,6 @@ abstract class MaximumBranchingFactorFinderTestBase<E extends Expression> extend
 
 class MaximumBranchingFactorFinderTest extends MaximumBranchingFactorFinderTestBase<Expression> {
     MaximumBranchingFactorFinderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

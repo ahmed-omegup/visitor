@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -16,7 +16,7 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 
-abstract class VariableReferenceExtractorTestBase<E extends Expression> extends TestBase<E> {
+abstract class VariableReferenceExtractorTestBase<E> extends TestBase<E> {
     VariableReferenceExtractorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -50,6 +50,6 @@ abstract class VariableReferenceExtractorTestBase<E extends Expression> extends 
 
 class VariableReferenceExtractorTest extends VariableReferenceExtractorTestBase<Expression> {
     VariableReferenceExtractorTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

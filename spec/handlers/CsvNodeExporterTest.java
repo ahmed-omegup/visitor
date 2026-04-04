@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -17,7 +17,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.CsvNodeExporter;
 
-abstract class CsvNodeExporterTestBase<E extends Expression> extends TestBase<E> {
+abstract class CsvNodeExporterTestBase<E> extends TestBase<E> {
     CsvNodeExporterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -48,6 +48,6 @@ factory.functionCall(factory.variableReference("sum"), of( factory.literal("1"),
 
 class CsvNodeExporterTest extends CsvNodeExporterTestBase<Expression> {
     CsvNodeExporterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

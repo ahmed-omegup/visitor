@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -23,7 +23,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.FunctionNameCollector;
 
-abstract class FunctionNameCollectorTestBase<E extends Expression> extends TestBase<E> {
+abstract class FunctionNameCollectorTestBase<E> extends TestBase<E> {
     FunctionNameCollectorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -73,6 +73,6 @@ factory.functionCall(factory.functionCall(factory.variableReference("sum"), of(f
 
 class FunctionNameCollectorTest extends FunctionNameCollectorTestBase<Expression> {
     FunctionNameCollectorTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

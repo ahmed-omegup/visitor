@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.ComparisonOperatorCounter;
 
-abstract class ComparisonOperatorCounterTestBase<E extends Expression> extends TestBase<E> {
+abstract class ComparisonOperatorCounterTestBase<E> extends TestBase<E> {
     ComparisonOperatorCounterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -24,6 +24,6 @@ abstract class ComparisonOperatorCounterTestBase<E extends Expression> extends T
 
 class ComparisonOperatorCounterTest extends ComparisonOperatorCounterTestBase<Expression> {
     ComparisonOperatorCounterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

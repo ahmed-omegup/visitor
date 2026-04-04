@@ -28,10 +28,10 @@ import lib.expression.Subtraction;
 import lib.expression.VariableReference;
 import lib.expression.Visitor;
 import port.IExpressionFactory;
-import port.IVisitorFactory;
+import port.IHandlerFactory;
 
-public final class VisitorFactory implements IVisitorFactory<Expression> {
-    public VisitorFactory() {}
+public final class HandlerFactory implements IHandlerFactory<Expression> {
+    public HandlerFactory() {}
 
     public IExpressionFactory<Expression> expressionFactory() {
         return new Factory();

@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -17,7 +17,7 @@ import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.*;
 
-abstract class ConstantExpressionCheckerTestBase<E extends Expression> extends TestBase<E> {
+abstract class ConstantExpressionCheckerTestBase<E> extends TestBase<E> {
     ConstantExpressionCheckerTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -90,6 +90,6 @@ abstract class ConstantExpressionCheckerTestBase<E extends Expression> extends T
 
 class ConstantExpressionCheckerTest extends ConstantExpressionCheckerTestBase<Expression> {
     ConstantExpressionCheckerTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

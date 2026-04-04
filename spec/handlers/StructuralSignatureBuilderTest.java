@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -16,7 +16,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.StructuralSignatureBuilder;
 
-abstract class StructuralSignatureBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class StructuralSignatureBuilderTestBase<E> extends TestBase<E> {
     StructuralSignatureBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -44,6 +44,6 @@ factory.addition(factory.variableReference("y"), factory.literal("9")).accept(bu
 
 class StructuralSignatureBuilderTest extends StructuralSignatureBuilderTestBase<Expression> {
     StructuralSignatureBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

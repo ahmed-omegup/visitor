@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Literal;
 import lib.visitors.NodeCounter;
 
-abstract class NodeCounterTestBase<E extends Expression> extends TestBase<E> {
+abstract class NodeCounterTestBase<E> extends TestBase<E> {
     NodeCounterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -32,6 +32,6 @@ abstract class NodeCounterTestBase<E extends Expression> extends TestBase<E> {
 
 class NodeCounterTest extends NodeCounterTestBase<Expression> {
     NodeCounterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

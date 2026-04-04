@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -19,7 +19,7 @@ import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.LeafDepthHistogramBuilder;
 
-abstract class LeafDepthHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class LeafDepthHistogramBuilderTestBase<E> extends TestBase<E> {
     LeafDepthHistogramBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -45,6 +45,6 @@ factory.addition(factory.variableReference("x"), factory.negation(factory.litera
 
 class LeafDepthHistogramBuilderTest extends LeafDepthHistogramBuilderTestBase<Expression> {
     LeafDepthHistogramBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

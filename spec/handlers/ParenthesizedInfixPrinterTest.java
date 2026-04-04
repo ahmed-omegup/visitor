@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.ParenthesizedInfixPrinter;
 
-abstract class ParenthesizedInfixPrinterTestBase<E extends Expression> extends TestBase<E> {
+abstract class ParenthesizedInfixPrinterTestBase<E> extends TestBase<E> {
     ParenthesizedInfixPrinterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -29,6 +29,6 @@ testSupport.sampleTraversalExpression().accept(printer)
 
 class ParenthesizedInfixPrinterTest extends ParenthesizedInfixPrinterTestBase<Expression> {
     ParenthesizedInfixPrinterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

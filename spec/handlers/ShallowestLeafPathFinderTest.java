@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -17,7 +17,7 @@ import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.ShallowestLeafPathFinder;
 
-abstract class ShallowestLeafPathFinderTestBase<E extends Expression> extends TestBase<E> {
+abstract class ShallowestLeafPathFinderTestBase<E> extends TestBase<E> {
     ShallowestLeafPathFinderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -43,6 +43,6 @@ factory.conditional(
 
 class ShallowestLeafPathFinderTest extends ShallowestLeafPathFinderTestBase<Expression> {
     ShallowestLeafPathFinderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

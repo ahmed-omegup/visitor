@@ -1,8 +1,10 @@
 package lib.visitors;
 
+import java.util.function.Consumer;
+
 import lib.expression.*;
 
-public class IndentedTracePrinter implements Visitor<Void> {
+public class IndentedTracePrinter implements Visitor<Void>, Consumer<Expression> {
     IndentedTracePrinter() {}
 
     private boolean active;
@@ -10,6 +12,11 @@ public class IndentedTracePrinter implements Visitor<Void> {
 
     public void handle(Expression expression) {
         print(expression, 0);
+    }
+
+    @Override
+    public void accept(Expression expression) {
+        handle(expression);
     }
 
     private void print(Expression expression, int depth) {

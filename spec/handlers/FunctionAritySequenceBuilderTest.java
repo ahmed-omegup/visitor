@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -19,7 +19,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.FunctionAritySequenceBuilder;
 
-abstract class FunctionAritySequenceBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class FunctionAritySequenceBuilderTestBase<E> extends TestBase<E> {
     FunctionAritySequenceBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -44,6 +44,6 @@ factory.addition(
 
 class FunctionAritySequenceBuilderTest extends FunctionAritySequenceBuilderTestBase<Expression> {
     FunctionAritySequenceBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

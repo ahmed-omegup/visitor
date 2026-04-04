@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.*;
 
-abstract class IntegerEvaluatorTestBase<E extends Expression> extends TestBase<E> {
+abstract class IntegerEvaluatorTestBase<E> extends TestBase<E> {
     IntegerEvaluatorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -107,6 +107,6 @@ abstract class IntegerEvaluatorTestBase<E extends Expression> extends TestBase<E
 
 class IntegerEvaluatorTest extends IntegerEvaluatorTestBase<Expression> {
     IntegerEvaluatorTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

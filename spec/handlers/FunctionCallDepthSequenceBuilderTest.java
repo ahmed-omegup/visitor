@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -18,7 +18,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.FunctionCallDepthSequenceBuilder;
 
-abstract class FunctionCallDepthSequenceBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class FunctionCallDepthSequenceBuilderTestBase<E> extends TestBase<E> {
     FunctionCallDepthSequenceBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -36,6 +36,6 @@ factory.functionCall(factory.functionCall(factory.variableReference("f"), of()),
 
 class FunctionCallDepthSequenceBuilderTest extends FunctionCallDepthSequenceBuilderTestBase<Expression> {
     FunctionCallDepthSequenceBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

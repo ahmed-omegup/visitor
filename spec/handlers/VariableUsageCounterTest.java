@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -19,7 +19,7 @@ import lib.expression.FunctionCall;
 import lib.expression.VariableReference;
 import lib.visitors.VariableUsageCounter;
 
-abstract class VariableUsageCounterTestBase<E extends Expression> extends TestBase<E> {
+abstract class VariableUsageCounterTestBase<E> extends TestBase<E> {
     VariableUsageCounterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -48,6 +48,6 @@ factory.addition(
 
 class VariableUsageCounterTest extends VariableUsageCounterTestBase<Expression> {
     VariableUsageCounterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -20,7 +20,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.DistinctLeafLabelCollector;
 
-abstract class DistinctLeafLabelCollectorTestBase<E extends Expression> extends TestBase<E> {
+abstract class DistinctLeafLabelCollectorTestBase<E> extends TestBase<E> {
     DistinctLeafLabelCollectorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -62,6 +62,6 @@ testSupport.sampleTraversalExpression().accept(testSupport.v.distinctLeafLabelCo
 
 class DistinctLeafLabelCollectorTest extends DistinctLeafLabelCollectorTestBase<Expression> {
     DistinctLeafLabelCollectorTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

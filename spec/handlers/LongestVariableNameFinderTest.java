@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -16,7 +16,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.LongestVariableNameFinder;
 
-abstract class LongestVariableNameFinderTestBase<E extends Expression> extends TestBase<E> {
+abstract class LongestVariableNameFinderTestBase<E> extends TestBase<E> {
     LongestVariableNameFinderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -46,6 +46,6 @@ factory.addition(factory.variableReference("alpha"), factory.variableReference("
 
 class LongestVariableNameFinderTest extends LongestVariableNameFinderTestBase<Expression> {
     LongestVariableNameFinderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

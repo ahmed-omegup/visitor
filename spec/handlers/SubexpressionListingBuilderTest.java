@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -20,7 +20,7 @@ import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.SubexpressionListingBuilder;
 
-abstract class SubexpressionListingBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class SubexpressionListingBuilderTestBase<E> extends TestBase<E> {
     SubexpressionListingBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -46,6 +46,6 @@ factory.addition(factory.variableReference("x"), factory.negation(factory.litera
 
 class SubexpressionListingBuilderTest extends SubexpressionListingBuilderTestBase<Expression> {
     SubexpressionListingBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

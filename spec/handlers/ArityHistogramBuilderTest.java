@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 import lib.expression.Factory;
 
@@ -18,7 +18,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.ArityHistogramBuilder;
 
-abstract class ArityHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class ArityHistogramBuilderTestBase<E> extends TestBase<E> {
     ArityHistogramBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -47,6 +47,6 @@ factory.addition(
 
 class ArityHistogramBuilderTest extends ArityHistogramBuilderTestBase<Expression> {
     ArityHistogramBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

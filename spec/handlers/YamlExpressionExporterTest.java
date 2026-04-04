@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -17,7 +17,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.YamlExpressionExporter;
 
-abstract class YamlExpressionExporterTestBase<E extends Expression> extends TestBase<E> {
+abstract class YamlExpressionExporterTestBase<E> extends TestBase<E> {
     YamlExpressionExporterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -54,6 +54,6 @@ factory.functionCall(factory.variableReference("sum"), of( factory.literal("1"),
 
 class YamlExpressionExporterTest extends YamlExpressionExporterTestBase<Expression> {
     YamlExpressionExporterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

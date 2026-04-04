@@ -14,13 +14,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.FunctionArgumentRootCollector;
 
-abstract class FunctionArgumentRootCollectorTestBase<E extends Expression> extends TestBase<E> {
+abstract class FunctionArgumentRootCollectorTestBase<E> extends TestBase<E> {
     FunctionArgumentRootCollectorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -53,6 +53,6 @@ factory.functionCall(factory.variableReference("f"), of( expression)).accept(tes
 
 class FunctionArgumentRootCollectorTest extends FunctionArgumentRootCollectorTestBase<Expression> {
     FunctionArgumentRootCollectorTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

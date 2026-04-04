@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -15,7 +15,7 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.visitors.DotGraphExporter;
 
-abstract class DotGraphExporterTestBase<E extends Expression> extends TestBase<E> {
+abstract class DotGraphExporterTestBase<E> extends TestBase<E> {
     DotGraphExporterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -58,6 +58,6 @@ abstract class DotGraphExporterTestBase<E extends Expression> extends TestBase<E
 
 class DotGraphExporterTest extends DotGraphExporterTestBase<Expression> {
     DotGraphExporterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

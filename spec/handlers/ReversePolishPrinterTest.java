@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.ReversePolishPrinter;
 
-abstract class ReversePolishPrinterTestBase<E extends Expression> extends TestBase<E> {
+abstract class ReversePolishPrinterTestBase<E> extends TestBase<E> {
     ReversePolishPrinterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -27,6 +27,6 @@ testSupport.sampleTraversalExpression().accept(testSupport.v.reversePolishPrinte
 
 class ReversePolishPrinterTest extends ReversePolishPrinterTestBase<Expression> {
     ReversePolishPrinterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

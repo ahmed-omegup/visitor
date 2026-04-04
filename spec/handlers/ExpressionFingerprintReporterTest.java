@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -15,7 +15,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.ExpressionFingerprintReporter;
 
-abstract class ExpressionFingerprintReporterTestBase<E extends Expression> extends TestBase<E> {
+abstract class ExpressionFingerprintReporterTestBase<E> extends TestBase<E> {
     ExpressionFingerprintReporterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -32,6 +32,6 @@ abstract class ExpressionFingerprintReporterTestBase<E extends Expression> exten
 
 class ExpressionFingerprintReporterTest extends ExpressionFingerprintReporterTestBase<Expression> {
     ExpressionFingerprintReporterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

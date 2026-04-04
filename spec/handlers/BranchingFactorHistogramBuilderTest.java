@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -19,7 +19,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.BranchingFactorHistogramBuilder;
 
-abstract class BranchingFactorHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class BranchingFactorHistogramBuilderTestBase<E> extends TestBase<E> {
     BranchingFactorHistogramBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -53,6 +53,6 @@ factory.addition(factory.variableReference("x"), factory.functionCall(factory.va
 
 class BranchingFactorHistogramBuilderTest extends BranchingFactorHistogramBuilderTestBase<Expression> {
     BranchingFactorHistogramBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

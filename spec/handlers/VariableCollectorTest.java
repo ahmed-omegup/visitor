@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.VariableCollector;
 
-abstract class VariableCollectorTestBase<E extends Expression> extends TestBase<E> {
+abstract class VariableCollectorTestBase<E> extends TestBase<E> {
     VariableCollectorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -31,6 +31,6 @@ testSupport.sampleTraversalExpression().accept(testSupport.v.variableCollector()
 
 class VariableCollectorTest extends VariableCollectorTestBase<Expression> {
     VariableCollectorTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

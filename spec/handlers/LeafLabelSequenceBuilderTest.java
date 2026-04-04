@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.LeafLabelSequenceBuilder;
 
-abstract class LeafLabelSequenceBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class LeafLabelSequenceBuilderTestBase<E> extends TestBase<E> {
     LeafLabelSequenceBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -35,6 +35,6 @@ testSupport.sampleTraversalExpression().accept(testSupport.v.leafLabelSequenceBu
 
 class LeafLabelSequenceBuilderTest extends LeafLabelSequenceBuilderTestBase<Expression> {
     LeafLabelSequenceBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

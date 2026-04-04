@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -19,7 +19,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.NodePathCollector;
 
-abstract class NodePathCollectorTestBase<E extends Expression> extends TestBase<E> {
+abstract class NodePathCollectorTestBase<E> extends TestBase<E> {
     NodePathCollectorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -46,6 +46,6 @@ factory.addition(factory.variableReference("x"), factory.literal("2")).accept(te
 
 class NodePathCollectorTest extends NodePathCollectorTestBase<Expression> {
     NodePathCollectorTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

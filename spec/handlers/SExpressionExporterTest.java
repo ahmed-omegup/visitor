@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.SExpressionExporter;
 
-abstract class SExpressionExporterTestBase<E extends Expression> extends TestBase<E> {
+abstract class SExpressionExporterTestBase<E> extends TestBase<E> {
     SExpressionExporterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -29,6 +29,6 @@ testSupport.sampleTraversalExpression().accept(exporter)
 
 class SExpressionExporterTest extends SExpressionExporterTestBase<Expression> {
     SExpressionExporterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

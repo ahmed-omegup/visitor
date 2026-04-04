@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -16,7 +16,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.HtmlExpressionExporter;
 
-abstract class HtmlExpressionExporterTestBase<E extends Expression> extends TestBase<E> {
+abstract class HtmlExpressionExporterTestBase<E> extends TestBase<E> {
     HtmlExpressionExporterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -53,6 +53,6 @@ factory.variableReference("a&<b>\"").accept(testSupport.v.htmlExpressionExporter
 
 class HtmlExpressionExporterTest extends HtmlExpressionExporterTestBase<Expression> {
     HtmlExpressionExporterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

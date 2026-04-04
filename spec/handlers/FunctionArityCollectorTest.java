@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.FunctionArityCollector;
 
-abstract class FunctionArityCollectorTestBase<E extends Expression> extends TestBase<E> {
+abstract class FunctionArityCollectorTestBase<E> extends TestBase<E> {
     FunctionArityCollectorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -27,6 +27,6 @@ abstract class FunctionArityCollectorTestBase<E extends Expression> extends Test
 
 class FunctionArityCollectorTest extends FunctionArityCollectorTestBase<Expression> {
     FunctionArityCollectorTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

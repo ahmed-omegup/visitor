@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -16,7 +16,7 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.visitors.ExecutionPlanBuilder;
 
-abstract class ExecutionPlanBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class ExecutionPlanBuilderTestBase<E> extends TestBase<E> {
     ExecutionPlanBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -47,6 +47,6 @@ expression.accept(testSupport.v.executionPlanBuilder())
 
 class ExecutionPlanBuilderTest extends ExecutionPlanBuilderTestBase<Expression> {
     ExecutionPlanBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

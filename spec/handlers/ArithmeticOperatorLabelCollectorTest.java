@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static java.util.List.of;
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.ArithmeticOperatorLabelCollector;
 
-abstract class ArithmeticOperatorLabelCollectorTestBase<E extends Expression> extends TestBase<E> {
+abstract class ArithmeticOperatorLabelCollectorTestBase<E> extends TestBase<E> {
     ArithmeticOperatorLabelCollectorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -30,6 +30,6 @@ abstract class ArithmeticOperatorLabelCollectorTestBase<E extends Expression> ex
 
 class ArithmeticOperatorLabelCollectorTest extends ArithmeticOperatorLabelCollectorTestBase<Expression> {
     ArithmeticOperatorLabelCollectorTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -17,7 +17,7 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.visitors.LiteralDepthHistogramBuilder;
 
-abstract class LiteralDepthHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class LiteralDepthHistogramBuilderTestBase<E> extends TestBase<E> {
     LiteralDepthHistogramBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -44,6 +44,6 @@ abstract class LiteralDepthHistogramBuilderTestBase<E extends Expression> extend
 
 class LiteralDepthHistogramBuilderTest extends LiteralDepthHistogramBuilderTestBase<Expression> {
     LiteralDepthHistogramBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

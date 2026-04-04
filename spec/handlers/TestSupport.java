@@ -1,20 +1,20 @@
 package spec.handlers;
 
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import lib.expression.*;
 import port.IExpressionFactory;
-import port.IVisitorFactory;
+import port.IHandlerFactory;
 import static java.util.List.of;
 
-final class TestSupport<E extends Expression> {
-    final IVisitorFactory<E> v;
+final class TestSupport<E> {
+    final IHandlerFactory<E> v;
     final IExpressionFactory<E> factory;
 
-    TestSupport(IVisitorFactory<E> v) {
+    TestSupport(IHandlerFactory<E> v) {
         this.v = v;
         this.factory = v.expressionFactory();
     }

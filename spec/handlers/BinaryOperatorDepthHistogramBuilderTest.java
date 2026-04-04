@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.BinaryOperatorDepthHistogramBuilder;
 
-abstract class BinaryOperatorDepthHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class BinaryOperatorDepthHistogramBuilderTestBase<E> extends TestBase<E> {
     BinaryOperatorDepthHistogramBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -31,6 +31,6 @@ abstract class BinaryOperatorDepthHistogramBuilderTestBase<E extends Expression>
 
 class BinaryOperatorDepthHistogramBuilderTest extends BinaryOperatorDepthHistogramBuilderTestBase<Expression> {
     BinaryOperatorDepthHistogramBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

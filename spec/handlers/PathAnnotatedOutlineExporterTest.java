@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -17,7 +17,7 @@ import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.PathAnnotatedOutlineExporter;
 
-abstract class PathAnnotatedOutlineExporterTestBase<E extends Expression> extends TestBase<E> {
+abstract class PathAnnotatedOutlineExporterTestBase<E> extends TestBase<E> {
     PathAnnotatedOutlineExporterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -46,6 +46,6 @@ factory.addition(factory.variableReference("x"), factory.negation(factory.litera
 
 class PathAnnotatedOutlineExporterTest extends PathAnnotatedOutlineExporterTestBase<Expression> {
     PathAnnotatedOutlineExporterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

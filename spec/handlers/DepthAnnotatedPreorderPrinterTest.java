@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -16,7 +16,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.DepthAnnotatedPreorderPrinter;
 
-abstract class DepthAnnotatedPreorderPrinterTestBase<E extends Expression> extends TestBase<E> {
+abstract class DepthAnnotatedPreorderPrinterTestBase<E> extends TestBase<E> {
     DepthAnnotatedPreorderPrinterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -59,6 +59,6 @@ factory.addition(factory.variableReference("x"), factory.literal("2")).accept(te
 
 class DepthAnnotatedPreorderPrinterTest extends DepthAnnotatedPreorderPrinterTestBase<Expression> {
     DepthAnnotatedPreorderPrinterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

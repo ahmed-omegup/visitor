@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -14,7 +14,7 @@ import lib.expression.Conditional;
 import lib.expression.Literal;
 import lib.visitors.ConditionalCounter;
 
-abstract class ConditionalCounterTestBase<E extends Expression> extends TestBase<E> {
+abstract class ConditionalCounterTestBase<E> extends TestBase<E> {
     ConditionalCounterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -32,6 +32,6 @@ factory.conditional(factory.literal("1"), factory.literal("2"), factory.conditio
 
 class ConditionalCounterTest extends ConditionalCounterTestBase<Expression> {
     ConditionalCounterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

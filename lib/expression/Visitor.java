@@ -1,6 +1,12 @@
 package lib.expression;
 
-public interface Visitor<R> {
+import java.util.function.Function;
+
+public interface Visitor<R> extends Function<Expression, R> {
+    default R apply(Expression expression) {
+        return expression.accept(this);
+    }
+
     R visit(Literal e);
     R visit(VariableReference e);
     R visit(Addition e);

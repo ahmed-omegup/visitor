@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.*;
 
-abstract class ConstantFolderTestBase<E extends Expression> extends TestBase<E> {
+abstract class ConstantFolderTestBase<E> extends TestBase<E> {
     ConstantFolderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -115,6 +115,6 @@ abstract class ConstantFolderTestBase<E extends Expression> extends TestBase<E> 
 
 class ConstantFolderTest extends ConstantFolderTestBase<Expression> {
     ConstantFolderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

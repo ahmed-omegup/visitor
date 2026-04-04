@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.OperatorSequenceCollector;
 
-abstract class OperatorSequenceCollectorTestBase<E extends Expression> extends TestBase<E> {
+abstract class OperatorSequenceCollectorTestBase<E> extends TestBase<E> {
     OperatorSequenceCollectorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -34,6 +34,6 @@ testSupport.sampleTraversalExpression().accept(testSupport.v.operatorSequenceCol
 
 class OperatorSequenceCollectorTest extends OperatorSequenceCollectorTestBase<Expression> {
     OperatorSequenceCollectorTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

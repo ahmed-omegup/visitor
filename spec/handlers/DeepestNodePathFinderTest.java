@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.DeepestNodePathFinder;
 
-abstract class DeepestNodePathFinderTestBase<E extends Expression> extends TestBase<E> {
+abstract class DeepestNodePathFinderTestBase<E> extends TestBase<E> {
     DeepestNodePathFinderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -24,6 +24,6 @@ abstract class DeepestNodePathFinderTestBase<E extends Expression> extends TestB
 
 class DeepestNodePathFinderTest extends DeepestNodePathFinderTestBase<Expression> {
     DeepestNodePathFinderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

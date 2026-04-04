@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -20,7 +20,7 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.visitors.IndentedTracePrinter;
 
-abstract class IndentedTracePrinterTestBase<E extends Expression> extends TestBase<E> {
+abstract class IndentedTracePrinterTestBase<E> extends TestBase<E> {
     IndentedTracePrinterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -65,6 +65,6 @@ abstract class IndentedTracePrinterTestBase<E extends Expression> extends TestBa
 
 class IndentedTracePrinterTest extends IndentedTracePrinterTestBase<Expression> {
     IndentedTracePrinterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.JavaLikeExpressionEmitter;
 
-abstract class JavaLikeExpressionEmitterTestBase<E extends Expression> extends TestBase<E> {
+abstract class JavaLikeExpressionEmitterTestBase<E> extends TestBase<E> {
     JavaLikeExpressionEmitterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -27,6 +27,6 @@ testSupport.sampleTraversalExpression().accept(testSupport.v.javaLikeExpressionE
 
 class JavaLikeExpressionEmitterTest extends JavaLikeExpressionEmitterTestBase<Expression> {
     JavaLikeExpressionEmitterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

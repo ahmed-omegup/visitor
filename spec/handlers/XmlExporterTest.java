@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -18,7 +18,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.XmlExporter;
 
-abstract class XmlExporterTestBase<E extends Expression> extends TestBase<E> {
+abstract class XmlExporterTestBase<E> extends TestBase<E> {
     XmlExporterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -77,6 +77,6 @@ factory.functionCall(factory.variableReference("ping"), of()).accept(testSupport
 
 class XmlExporterTest extends XmlExporterTestBase<Expression> {
     XmlExporterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

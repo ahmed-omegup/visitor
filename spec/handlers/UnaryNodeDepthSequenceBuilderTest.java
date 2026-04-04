@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.UnaryNodeDepthSequenceBuilder;
 
-abstract class UnaryNodeDepthSequenceBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class UnaryNodeDepthSequenceBuilderTestBase<E> extends TestBase<E> {
     UnaryNodeDepthSequenceBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -27,6 +27,6 @@ abstract class UnaryNodeDepthSequenceBuilderTestBase<E extends Expression> exten
 
 class UnaryNodeDepthSequenceBuilderTest extends UnaryNodeDepthSequenceBuilderTestBase<Expression> {
     UnaryNodeDepthSequenceBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

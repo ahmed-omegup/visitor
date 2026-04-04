@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -20,7 +20,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.LiteralPathCollector;
 
-abstract class LiteralPathCollectorTestBase<E extends Expression> extends TestBase<E> {
+abstract class LiteralPathCollectorTestBase<E> extends TestBase<E> {
     LiteralPathCollectorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -59,6 +59,6 @@ factory.addition(factory.literal("1"), factory.functionCall(factory.variableRefe
 
 class LiteralPathCollectorTest extends LiteralPathCollectorTestBase<Expression> {
     LiteralPathCollectorTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

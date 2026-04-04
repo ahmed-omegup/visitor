@@ -1,9 +1,8 @@
 package spec.handlers;
 
-import lib.expression.Expression;
 import port.IExpressionFactory;
 
-abstract class TestBase<E extends Expression> {
+abstract class TestBase<E> {
     protected final TestSupport<E> testSupport;
     protected final IExpressionFactory<E> factory;
 

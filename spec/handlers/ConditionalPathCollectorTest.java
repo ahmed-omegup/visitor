@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -17,7 +17,7 @@ import lib.expression.Conditional;
 import lib.expression.Literal;
 import lib.visitors.ConditionalPathCollector;
 
-abstract class ConditionalPathCollectorTestBase<E extends Expression> extends TestBase<E> {
+abstract class ConditionalPathCollectorTestBase<E> extends TestBase<E> {
     ConditionalPathCollectorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -39,6 +39,6 @@ factory.conditional(factory.literal("1"), factory.literal("2"), factory.conditio
 
 class ConditionalPathCollectorTest extends ConditionalPathCollectorTestBase<Expression> {
     ConditionalPathCollectorTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -14,7 +14,7 @@ import java.util.LinkedHashMap;
 import org.junit.jupiter.api.Test;
 
 
-abstract class LiteralFrequencyBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class LiteralFrequencyBuilderTestBase<E> extends TestBase<E> {
     LiteralFrequencyBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -49,6 +49,6 @@ factory.variableReference("x").accept(testSupport.v.literalFrequencyBuilder())
 
 class LiteralFrequencyBuilderTest extends LiteralFrequencyBuilderTestBase<Expression> {
     LiteralFrequencyBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

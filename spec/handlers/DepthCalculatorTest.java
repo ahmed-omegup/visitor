@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -15,7 +15,7 @@ import lib.expression.FunctionCall;
 import lib.expression.VariableReference;
 import lib.visitors.DepthCalculator;
 
-abstract class DepthCalculatorTestBase<E extends Expression> extends TestBase<E> {
+abstract class DepthCalculatorTestBase<E> extends TestBase<E> {
     DepthCalculatorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -34,6 +34,6 @@ abstract class DepthCalculatorTestBase<E extends Expression> extends TestBase<E>
 
 class DepthCalculatorTest extends DepthCalculatorTestBase<Expression> {
     DepthCalculatorTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

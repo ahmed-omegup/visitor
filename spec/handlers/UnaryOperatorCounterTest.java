@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -16,7 +16,7 @@ import lib.expression.LogicalNot;
 import lib.expression.Negation;
 import lib.visitors.UnaryOperatorCounter;
 
-abstract class UnaryOperatorCounterTestBase<E extends Expression> extends TestBase<E> {
+abstract class UnaryOperatorCounterTestBase<E> extends TestBase<E> {
     UnaryOperatorCounterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -38,6 +38,6 @@ factory.addition(factory.negation(factory.literal("1")), factory.logicalNot(fact
 
 class UnaryOperatorCounterTest extends UnaryOperatorCounterTestBase<Expression> {
     UnaryOperatorCounterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

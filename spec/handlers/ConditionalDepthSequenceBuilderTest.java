@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -17,7 +17,7 @@ import lib.expression.Conditional;
 import lib.expression.Literal;
 import lib.visitors.ConditionalDepthSequenceBuilder;
 
-abstract class ConditionalDepthSequenceBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class ConditionalDepthSequenceBuilderTestBase<E> extends TestBase<E> {
     ConditionalDepthSequenceBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -35,6 +35,6 @@ factory.conditional(factory.literal("1"), factory.conditional(factory.literal("0
 
 class ConditionalDepthSequenceBuilderTest extends ConditionalDepthSequenceBuilderTestBase<Expression> {
     ConditionalDepthSequenceBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

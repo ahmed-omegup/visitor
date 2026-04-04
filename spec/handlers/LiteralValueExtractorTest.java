@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Addition;
 import lib.expression.Literal;
 
-abstract class LiteralValueExtractorTestBase<E extends Expression> extends TestBase<E> {
+abstract class LiteralValueExtractorTestBase<E> extends TestBase<E> {
     LiteralValueExtractorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -48,6 +48,6 @@ abstract class LiteralValueExtractorTestBase<E extends Expression> extends TestB
 
 class LiteralValueExtractorTest extends LiteralValueExtractorTestBase<Expression> {
     LiteralValueExtractorTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

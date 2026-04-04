@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -17,7 +17,7 @@ import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.*;
 
-abstract class SideEffectFreeCheckerTestBase<E extends Expression> extends TestBase<E> {
+abstract class SideEffectFreeCheckerTestBase<E> extends TestBase<E> {
     SideEffectFreeCheckerTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -90,6 +90,6 @@ abstract class SideEffectFreeCheckerTestBase<E extends Expression> extends TestB
 
 class SideEffectFreeCheckerTest extends SideEffectFreeCheckerTestBase<Expression> {
     SideEffectFreeCheckerTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

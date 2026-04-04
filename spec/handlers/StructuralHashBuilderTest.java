@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -17,7 +17,7 @@ import lib.expression.Multiplication;
 import lib.expression.VariableReference;
 import lib.visitors.StructuralHashBuilder;
 
-abstract class StructuralHashBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class StructuralHashBuilderTestBase<E> extends TestBase<E> {
     StructuralHashBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -48,6 +48,6 @@ factory.multiplication(factory.variableReference("x"), factory.literal("1")).acc
 
 class StructuralHashBuilderTest extends StructuralHashBuilderTestBase<Expression> {
     StructuralHashBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

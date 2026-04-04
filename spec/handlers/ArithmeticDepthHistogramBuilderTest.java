@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.Expression;
 import lib.visitors.ArithmeticDepthHistogramBuilder;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
-abstract class ArithmeticDepthHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class ArithmeticDepthHistogramBuilderTestBase<E> extends TestBase<E> {
     ArithmeticDepthHistogramBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -29,6 +29,6 @@ abstract class ArithmeticDepthHistogramBuilderTestBase<E extends Expression> ext
 
 class ArithmeticDepthHistogramBuilderTest extends ArithmeticDepthHistogramBuilderTestBase<Expression> {
     ArithmeticDepthHistogramBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

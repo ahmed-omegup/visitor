@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -19,7 +19,7 @@ import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.NonLeafDepthSequenceBuilder;
 
-abstract class NonLeafDepthSequenceBuilderTestBase<E extends Expression> extends TestBase<E> {
+abstract class NonLeafDepthSequenceBuilderTestBase<E> extends TestBase<E> {
     NonLeafDepthSequenceBuilderTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -63,6 +63,6 @@ testSupport.sampleTraversalExpression().accept(testSupport.v.nonLeafDepthSequenc
 
 class NonLeafDepthSequenceBuilderTest extends NonLeafDepthSequenceBuilderTestBase<Expression> {
     NonLeafDepthSequenceBuilderTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

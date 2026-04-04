@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -16,7 +16,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.TsvNodeExporter;
 
-abstract class TsvNodeExporterTestBase<E extends Expression> extends TestBase<E> {
+abstract class TsvNodeExporterTestBase<E> extends TestBase<E> {
     TsvNodeExporterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -46,6 +46,6 @@ factory.addition(factory.variableReference("x"), factory.literal("2")).accept(te
 
 class TsvNodeExporterTest extends TsvNodeExporterTestBase<Expression> {
     TsvNodeExporterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

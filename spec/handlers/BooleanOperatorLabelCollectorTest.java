@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.BooleanOperatorLabelCollector;
 
-abstract class BooleanOperatorLabelCollectorTestBase<E extends Expression> extends TestBase<E> {
+abstract class BooleanOperatorLabelCollectorTestBase<E> extends TestBase<E> {
     BooleanOperatorLabelCollectorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -27,6 +27,6 @@ abstract class BooleanOperatorLabelCollectorTestBase<E extends Expression> exten
 
 class BooleanOperatorLabelCollectorTest extends BooleanOperatorLabelCollectorTestBase<Expression> {
     BooleanOperatorLabelCollectorTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

@@ -1,7 +1,7 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.VisitorFactory;
+import lib.visitors.HandlerFactory;
 
 
 import lib.expression.Factory;
@@ -19,7 +19,7 @@ import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.MarkdownOutlineExporter;
 
-abstract class MarkdownOutlineExporterTestBase<E extends Expression> extends TestBase<E> {
+abstract class MarkdownOutlineExporterTestBase<E> extends TestBase<E> {
     MarkdownOutlineExporterTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
@@ -56,6 +56,6 @@ expression.accept(testSupport.v.markdownOutlineExporter())
 
 class MarkdownOutlineExporterTest extends MarkdownOutlineExporterTestBase<Expression> {
     MarkdownOutlineExporterTest() {
-        super(new TestSupport<>(new VisitorFactory()));
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }
