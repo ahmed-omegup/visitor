@@ -20,7 +20,6 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.LevelWidthHistogramBuilder;
-import port.IFactory;
 
 abstract class LevelWidthHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
     LevelWidthHistogramBuilderTestBase(TestSupport<E> testSupport) {

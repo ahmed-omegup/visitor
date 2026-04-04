@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.Literal;
 import lib.visitors.LeafCounter;
-import port.IFactory;
 
 abstract class LeafCounterTestBase<E extends Expression> extends TestBase<E> {
     LeafCounterTestBase(TestSupport<E> testSupport) {

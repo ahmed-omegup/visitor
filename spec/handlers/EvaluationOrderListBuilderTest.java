@@ -19,7 +19,6 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.EvaluationOrderListBuilder;
-import port.IFactory;
 
 abstract class EvaluationOrderListBuilderTestBase<E extends Expression> extends TestBase<E> {
     EvaluationOrderListBuilderTestBase(TestSupport<E> testSupport) {

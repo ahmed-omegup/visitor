@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import lib.expression.FunctionCall;
 import lib.expression.VariableReference;
 import lib.visitors.DepthCalculator;
-import port.IFactory;
 
 abstract class DepthCalculatorTestBase<E extends Expression> extends TestBase<E> {
     DepthCalculatorTestBase(TestSupport<E> testSupport) {

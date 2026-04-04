@@ -21,7 +21,6 @@ import lib.expression.LessThan;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.ConditionalBranchLabelCollector;
-import port.IFactory;
 
 abstract class ConditionalBranchLabelCollectorTestBase<E extends Expression> extends TestBase<E> {
     ConditionalBranchLabelCollectorTestBase(TestSupport<E> testSupport) {

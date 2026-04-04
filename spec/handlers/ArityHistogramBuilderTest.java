@@ -17,7 +17,6 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.ArityHistogramBuilder;
-import port.IFactory;
 
 abstract class ArityHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
     ArityHistogramBuilderTestBase(TestSupport<E> testSupport) {

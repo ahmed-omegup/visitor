@@ -16,7 +16,6 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.JsonExporter;
-import port.IFactory;
 
 abstract class JsonExporterTestBase<E extends Expression> extends TestBase<E> {
     JsonExporterTestBase(TestSupport<E> testSupport) {

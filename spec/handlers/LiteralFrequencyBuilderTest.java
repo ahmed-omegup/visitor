@@ -13,7 +13,6 @@ import java.util.LinkedHashMap;
 
 import org.junit.jupiter.api.Test;
 
-import port.IFactory;
 
 abstract class LiteralFrequencyBuilderTestBase<E extends Expression> extends TestBase<E> {
     LiteralFrequencyBuilderTestBase(TestSupport<E> testSupport) {

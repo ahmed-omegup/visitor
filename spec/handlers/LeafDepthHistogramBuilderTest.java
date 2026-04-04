@@ -18,7 +18,6 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.LeafDepthHistogramBuilder;
-import port.IFactory;
 
 abstract class LeafDepthHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
     LeafDepthHistogramBuilderTestBase(TestSupport<E> testSupport) {

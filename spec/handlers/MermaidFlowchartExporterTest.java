@@ -15,7 +15,6 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.MermaidFlowchartExporter;
-import port.IFactory;
 
 abstract class MermaidFlowchartExporterTestBase<E extends Expression> extends TestBase<E> {
     MermaidFlowchartExporterTestBase(TestSupport<E> testSupport) {

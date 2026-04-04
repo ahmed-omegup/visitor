@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.*;
-import port.IFactory;
 
 abstract class MaxFunctionArityFinderTestBase<E extends Expression> extends TestBase<E> {
     MaxFunctionArityFinderTestBase(TestSupport<E> testSupport) {

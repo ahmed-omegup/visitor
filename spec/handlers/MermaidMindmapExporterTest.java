@@ -15,7 +15,6 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.MermaidMindmapExporter;
-import port.IFactory;
 
 abstract class MermaidMindmapExporterTestBase<E extends Expression> extends TestBase<E> {
     MermaidMindmapExporterTestBase(TestSupport<E> testSupport) {

@@ -18,7 +18,6 @@ import lib.expression.Addition;
 import lib.expression.FunctionCall;
 import lib.expression.VariableReference;
 import lib.visitors.VariableUsageCounter;
-import port.IFactory;
 
 abstract class VariableUsageCounterTestBase<E extends Expression> extends TestBase<E> {
     VariableUsageCounterTestBase(TestSupport<E> testSupport) {

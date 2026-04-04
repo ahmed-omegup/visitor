@@ -16,7 +16,6 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.BreadthFirstLabelPrinter;
-import port.IFactory;
 
 abstract class BreadthFirstLabelPrinterTestBase<E extends Expression> extends TestBase<E> {
     BreadthFirstLabelPrinterTestBase(TestSupport<E> testSupport) {

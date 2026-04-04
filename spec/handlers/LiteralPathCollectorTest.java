@@ -19,7 +19,6 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.LiteralPathCollector;
-import port.IFactory;
 
 abstract class LiteralPathCollectorTestBase<E extends Expression> extends TestBase<E> {
     LiteralPathCollectorTestBase(TestSupport<E> testSupport) {

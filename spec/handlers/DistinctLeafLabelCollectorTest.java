@@ -19,7 +19,6 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.DistinctLeafLabelCollector;
-import port.IFactory;
 
 abstract class DistinctLeafLabelCollectorTestBase<E extends Expression> extends TestBase<E> {
     DistinctLeafLabelCollectorTestBase(TestSupport<E> testSupport) {

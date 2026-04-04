@@ -16,7 +16,6 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.PostOrderLabelPrinter;
-import port.IFactory;
 
 abstract class PostOrderLabelPrinterTestBase<E extends Expression> extends TestBase<E> {
     PostOrderLabelPrinterTestBase(TestSupport<E> testSupport) {

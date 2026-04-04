@@ -17,7 +17,6 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.visitors.OperatorHistogramBuilder;
-import port.IFactory;
 
 abstract class OperatorHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
     OperatorHistogramBuilderTestBase(TestSupport<E> testSupport) {

@@ -15,7 +15,6 @@ import lib.expression.Literal;
 import lib.expression.LogicalNot;
 import lib.expression.Negation;
 import lib.visitors.UnaryOperatorCounter;
-import port.IFactory;
 
 abstract class UnaryOperatorCounterTestBase<E extends Expression> extends TestBase<E> {
     UnaryOperatorCounterTestBase(TestSupport<E> testSupport) {

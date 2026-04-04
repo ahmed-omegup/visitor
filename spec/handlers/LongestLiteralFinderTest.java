@@ -16,7 +16,6 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.LongestLiteralFinder;
-import port.IFactory;
 
 abstract class LongestLiteralFinderTestBase<E extends Expression> extends TestBase<E> {
     LongestLiteralFinderTestBase(TestSupport<E> testSupport) {

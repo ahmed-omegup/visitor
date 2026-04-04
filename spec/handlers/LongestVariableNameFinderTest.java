@@ -15,7 +15,6 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.LongestVariableNameFinder;
-import port.IFactory;
 
 abstract class LongestVariableNameFinderTestBase<E extends Expression> extends TestBase<E> {
     LongestVariableNameFinderTestBase(TestSupport<E> testSupport) {

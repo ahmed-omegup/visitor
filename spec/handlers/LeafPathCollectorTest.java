@@ -18,7 +18,6 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.LeafPathCollector;
-import port.IFactory;
 
 abstract class LeafPathCollectorTestBase<E extends Expression> extends TestBase<E> {
     LeafPathCollectorTestBase(TestSupport<E> testSupport) {

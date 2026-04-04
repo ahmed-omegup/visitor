@@ -18,7 +18,6 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.MarkdownOutlineExporter;
-import port.IFactory;
 
 abstract class MarkdownOutlineExporterTestBase<E extends Expression> extends TestBase<E> {
     MarkdownOutlineExporterTestBase(TestSupport<E> testSupport) {

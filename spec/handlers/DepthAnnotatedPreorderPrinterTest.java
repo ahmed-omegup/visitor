@@ -15,7 +15,6 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.DepthAnnotatedPreorderPrinter;
-import port.IFactory;
 
 abstract class DepthAnnotatedPreorderPrinterTestBase<E extends Expression> extends TestBase<E> {
     DepthAnnotatedPreorderPrinterTestBase(TestSupport<E> testSupport) {

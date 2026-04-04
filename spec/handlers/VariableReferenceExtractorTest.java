@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import port.IFactory;
 
 abstract class VariableReferenceExtractorTestBase<E extends Expression> extends TestBase<E> {
     VariableReferenceExtractorTestBase(TestSupport<E> testSupport) {

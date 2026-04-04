@@ -19,7 +19,6 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.visitors.IndentedTracePrinter;
-import port.IFactory;
 
 abstract class IndentedTracePrinterTestBase<E extends Expression> extends TestBase<E> {
     IndentedTracePrinterTestBase(TestSupport<E> testSupport) {

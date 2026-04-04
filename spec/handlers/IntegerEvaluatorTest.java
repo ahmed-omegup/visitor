@@ -17,7 +17,6 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import lib.expression.*;
-import port.IFactory;
 
 abstract class IntegerEvaluatorTestBase<E extends Expression> extends TestBase<E> {
     IntegerEvaluatorTestBase(TestSupport<E> testSupport) {

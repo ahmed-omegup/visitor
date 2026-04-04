@@ -17,7 +17,6 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.FunctionCallDepthSequenceBuilder;
-import port.IFactory;
 
 abstract class FunctionCallDepthSequenceBuilderTestBase<E extends Expression> extends TestBase<E> {
     FunctionCallDepthSequenceBuilderTestBase(TestSupport<E> testSupport) {

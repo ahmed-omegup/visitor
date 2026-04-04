@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import lib.expression.FunctionCall;
 import lib.expression.VariableReference;
 import lib.visitors.TreeDiagramPrinter;
-import port.IFactory;
 
 abstract class TreeDiagramPrinterTestBase<E extends Expression> extends TestBase<E> {
     TreeDiagramPrinterTestBase(TestSupport<E> testSupport) {

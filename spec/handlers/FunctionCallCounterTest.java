@@ -16,7 +16,6 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.FunctionCallCounter;
-import port.IFactory;
 
 abstract class FunctionCallCounterTestBase<E extends Expression> extends TestBase<E> {
     FunctionCallCounterTestBase(TestSupport<E> testSupport) {

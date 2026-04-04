@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.Literal;
 import lib.visitors.MaximumBranchingFactorFinder;
-import port.IFactory;
 
 abstract class MaximumBranchingFactorFinderTestBase<E extends Expression> extends TestBase<E> {
     MaximumBranchingFactorFinderTestBase(TestSupport<E> testSupport) {

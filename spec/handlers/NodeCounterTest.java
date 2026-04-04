@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.Literal;
 import lib.visitors.NodeCounter;
-import port.IFactory;
 
 abstract class NodeCounterTestBase<E extends Expression> extends TestBase<E> {
     NodeCounterTestBase(TestSupport<E> testSupport) {

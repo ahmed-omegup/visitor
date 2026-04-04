@@ -15,7 +15,6 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.TsvNodeExporter;
-import port.IFactory;
 
 abstract class TsvNodeExporterTestBase<E extends Expression> extends TestBase<E> {
     TsvNodeExporterTestBase(TestSupport<E> testSupport) {

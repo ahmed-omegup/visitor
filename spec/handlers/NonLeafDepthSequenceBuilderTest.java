@@ -18,7 +18,6 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.NonLeafDepthSequenceBuilder;
-import port.IFactory;
 
 abstract class NonLeafDepthSequenceBuilderTestBase<E extends Expression> extends TestBase<E> {
     NonLeafDepthSequenceBuilderTestBase(TestSupport<E> testSupport) {

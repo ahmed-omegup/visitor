@@ -18,7 +18,6 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.FunctionAritySequenceBuilder;
-import port.IFactory;
 
 abstract class FunctionAritySequenceBuilderTestBase<E extends Expression> extends TestBase<E> {
     FunctionAritySequenceBuilderTestBase(TestSupport<E> testSupport) {

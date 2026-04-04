@@ -1,8 +1,9 @@
 package lib.expression;
 
 import java.util.List;
+import port.IExpressionFactory;
 
-public final class Factory implements port.IFactory {
+public final class Factory implements IExpressionFactory<Expression> {
     public Factory() {}
 
     public Literal literal(String value) {

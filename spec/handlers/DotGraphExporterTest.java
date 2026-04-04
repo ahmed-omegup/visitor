@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.visitors.DotGraphExporter;
-import port.IFactory;
 
 abstract class DotGraphExporterTestBase<E extends Expression> extends TestBase<E> {
     DotGraphExporterTestBase(TestSupport<E> testSupport) {

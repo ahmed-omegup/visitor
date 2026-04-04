@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.Addition;
 import lib.expression.Literal;
-import port.IFactory;
 
 abstract class LiteralValueExtractorTestBase<E extends Expression> extends TestBase<E> {
     LiteralValueExtractorTestBase(TestSupport<E> testSupport) {

@@ -19,7 +19,6 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.SubexpressionListingBuilder;
-import port.IFactory;
 
 abstract class SubexpressionListingBuilderTestBase<E extends Expression> extends TestBase<E> {
     SubexpressionListingBuilderTestBase(TestSupport<E> testSupport) {

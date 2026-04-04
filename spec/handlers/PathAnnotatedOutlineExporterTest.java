@@ -16,7 +16,6 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.PathAnnotatedOutlineExporter;
-import port.IFactory;
 
 abstract class PathAnnotatedOutlineExporterTestBase<E extends Expression> extends TestBase<E> {
     PathAnnotatedOutlineExporterTestBase(TestSupport<E> testSupport) {

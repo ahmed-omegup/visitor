@@ -18,7 +18,6 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.FunctionCallPathCollector;
-import port.IFactory;
 
 abstract class FunctionCallPathCollectorTestBase<E extends Expression> extends TestBase<E> {
     FunctionCallPathCollectorTestBase(TestSupport<E> testSupport) {

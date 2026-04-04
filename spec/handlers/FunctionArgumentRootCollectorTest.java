@@ -19,7 +19,6 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.FunctionArgumentRootCollector;
-import port.IFactory;
 
 abstract class FunctionArgumentRootCollectorTestBase<E extends Expression> extends TestBase<E> {
     FunctionArgumentRootCollectorTestBase(TestSupport<E> testSupport) {

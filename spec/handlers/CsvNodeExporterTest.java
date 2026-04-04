@@ -16,7 +16,6 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.CsvNodeExporter;
-import port.IFactory;
 
 abstract class CsvNodeExporterTestBase<E extends Expression> extends TestBase<E> {
     CsvNodeExporterTestBase(TestSupport<E> testSupport) {

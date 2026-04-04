@@ -17,7 +17,6 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.XmlExporter;
-import port.IFactory;
 
 abstract class XmlExporterTestBase<E extends Expression> extends TestBase<E> {
     XmlExporterTestBase(TestSupport<E> testSupport) {

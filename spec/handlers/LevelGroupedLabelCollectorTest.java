@@ -19,7 +19,6 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.LevelGroupedLabelCollector;
-import port.IFactory;
 
 abstract class LevelGroupedLabelCollectorTestBase<E extends Expression> extends TestBase<E> {
     LevelGroupedLabelCollectorTestBase(TestSupport<E> testSupport) {

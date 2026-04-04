@@ -18,7 +18,6 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.LeafDepthSequenceBuilder;
-import port.IFactory;
 
 abstract class LeafDepthSequenceBuilderTestBase<E extends Expression> extends TestBase<E> {
     LeafDepthSequenceBuilderTestBase(TestSupport<E> testSupport) {

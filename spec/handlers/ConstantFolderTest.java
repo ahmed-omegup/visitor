@@ -6,7 +6,6 @@ import lib.visitors.VisitorFactory;
 
 import lib.expression.Factory;
 import lib.visitors.ConstantFolder;
-import port.IFactory;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static java.util.List.of;

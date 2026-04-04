@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.*;
-import port.IFactory;
 
 abstract class ConstantExpressionCheckerTestBase<E extends Expression> extends TestBase<E> {
     ConstantExpressionCheckerTestBase(TestSupport<E> testSupport) {

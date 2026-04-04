@@ -16,7 +16,6 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.YamlExpressionExporter;
-import port.IFactory;
 
 abstract class YamlExpressionExporterTestBase<E extends Expression> extends TestBase<E> {
     YamlExpressionExporterTestBase(TestSupport<E> testSupport) {

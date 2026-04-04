@@ -16,7 +16,6 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.ShallowestLeafPathFinder;
-import port.IFactory;
 
 abstract class ShallowestLeafPathFinderTestBase<E extends Expression> extends TestBase<E> {
     ShallowestLeafPathFinderTestBase(TestSupport<E> testSupport) {

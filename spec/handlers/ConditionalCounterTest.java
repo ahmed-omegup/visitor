@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Conditional;
 import lib.expression.Literal;
 import lib.visitors.ConditionalCounter;
-import port.IFactory;
 
 abstract class ConditionalCounterTestBase<E extends Expression> extends TestBase<E> {
     ConditionalCounterTestBase(TestSupport<E> testSupport) {

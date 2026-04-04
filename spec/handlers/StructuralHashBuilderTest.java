@@ -16,7 +16,6 @@ import lib.expression.Literal;
 import lib.expression.Multiplication;
 import lib.expression.VariableReference;
 import lib.visitors.StructuralHashBuilder;
-import port.IFactory;
 
 abstract class StructuralHashBuilderTestBase<E extends Expression> extends TestBase<E> {
     StructuralHashBuilderTestBase(TestSupport<E> testSupport) {

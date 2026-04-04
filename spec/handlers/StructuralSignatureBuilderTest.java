@@ -15,7 +15,6 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.StructuralSignatureBuilder;
-import port.IFactory;
 
 abstract class StructuralSignatureBuilderTestBase<E extends Expression> extends TestBase<E> {
     StructuralSignatureBuilderTestBase(TestSupport<E> testSupport) {

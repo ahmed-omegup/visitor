@@ -14,7 +14,6 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.ExpressionFingerprintReporter;
-import port.IFactory;
 
 abstract class ExpressionFingerprintReporterTestBase<E extends Expression> extends TestBase<E> {
     ExpressionFingerprintReporterTestBase(TestSupport<E> testSupport) {

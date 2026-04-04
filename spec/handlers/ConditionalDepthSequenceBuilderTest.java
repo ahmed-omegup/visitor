@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Conditional;
 import lib.expression.Literal;
 import lib.visitors.ConditionalDepthSequenceBuilder;
-import port.IFactory;
 
 abstract class ConditionalDepthSequenceBuilderTestBase<E extends Expression> extends TestBase<E> {
     ConditionalDepthSequenceBuilderTestBase(TestSupport<E> testSupport) {

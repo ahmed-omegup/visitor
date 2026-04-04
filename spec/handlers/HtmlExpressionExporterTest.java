@@ -15,7 +15,6 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.HtmlExpressionExporter;
-import port.IFactory;
 
 abstract class HtmlExpressionExporterTestBase<E extends Expression> extends TestBase<E> {
     HtmlExpressionExporterTestBase(TestSupport<E> testSupport) {

@@ -20,7 +20,6 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.FunctionCallSignatureCollector;
-import port.IFactory;
 
 abstract class FunctionCallSignatureCollectorTestBase<E extends Expression> extends TestBase<E> {
     FunctionCallSignatureCollectorTestBase(TestSupport<E> testSupport) {

@@ -18,7 +18,6 @@ import lib.expression.Addition;
 import lib.expression.FunctionCall;
 import lib.expression.VariableReference;
 import lib.visitors.VariablePathCollector;
-import port.IFactory;
 
 abstract class VariablePathCollectorTestBase<E extends Expression> extends TestBase<E> {
     VariablePathCollectorTestBase(TestSupport<E> testSupport) {

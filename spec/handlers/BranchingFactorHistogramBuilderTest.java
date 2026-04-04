@@ -18,7 +18,6 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.BranchingFactorHistogramBuilder;
-import port.IFactory;
 
 abstract class BranchingFactorHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
     BranchingFactorHistogramBuilderTestBase(TestSupport<E> testSupport) {

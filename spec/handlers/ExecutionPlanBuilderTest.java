@@ -15,7 +15,6 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.visitors.ExecutionPlanBuilder;
-import port.IFactory;
 
 abstract class ExecutionPlanBuilderTestBase<E extends Expression> extends TestBase<E> {
     ExecutionPlanBuilderTestBase(TestSupport<E> testSupport) {

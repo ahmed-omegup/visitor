@@ -18,7 +18,6 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.NodePathCollector;
-import port.IFactory;
 
 abstract class NodePathCollectorTestBase<E extends Expression> extends TestBase<E> {
     NodePathCollectorTestBase(TestSupport<E> testSupport) {

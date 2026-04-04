@@ -22,7 +22,6 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.FunctionNameCollector;
-import port.IFactory;
 
 abstract class FunctionNameCollectorTestBase<E extends Expression> extends TestBase<E> {
     FunctionNameCollectorTestBase(TestSupport<E> testSupport) {

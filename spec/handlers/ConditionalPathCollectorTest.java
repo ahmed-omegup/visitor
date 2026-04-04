@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Conditional;
 import lib.expression.Literal;
 import lib.visitors.ConditionalPathCollector;
-import port.IFactory;
 
 abstract class ConditionalPathCollectorTestBase<E extends Expression> extends TestBase<E> {
     ConditionalPathCollectorTestBase(TestSupport<E> testSupport) {

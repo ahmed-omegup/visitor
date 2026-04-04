@@ -16,7 +16,6 @@ import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
 import lib.visitors.RootToLeafTracePrinter;
-import port.IFactory;
 
 abstract class RootToLeafTracePrinterTestBase<E extends Expression> extends TestBase<E> {
     RootToLeafTracePrinterTestBase(TestSupport<E> testSupport) {

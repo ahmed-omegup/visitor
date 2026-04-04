@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.*;
-import port.IFactory;
 
 abstract class ZeroDivisionRiskDetectorTestBase<E extends Expression> extends TestBase<E> {
     ZeroDivisionRiskDetectorTestBase(TestSupport<E> testSupport) {
