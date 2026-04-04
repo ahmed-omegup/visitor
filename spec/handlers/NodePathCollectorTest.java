@@ -8,6 +8,7 @@ import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ abstract class NodePathCollectorTestBase<E extends Expression> extends TestBase<
         @Test
     void collectsTypedPaths() {
         assertEquals(
-            List.of("0:Addition", "0.0:VariableReference", "0.1:Literal"),
+            of("0:Addition", "0.0:VariableReference", "0.1:Literal"),
 factory.addition(factory.variableReference("x"), factory.literal("2")).accept(testSupport.v.nodePathCollector())
         );
     }

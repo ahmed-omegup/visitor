@@ -7,6 +7,7 @@ import lib.visitors.VisitorFactory;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -26,14 +27,14 @@ abstract class ConditionalPathCollectorTestBase<E extends Expression> extends Te
         @Test
     void collectsPathsToNestedConditionals() {
         assertEquals(
-            List.of("root", "root.whenFalse"),
+            of("root", "root.whenFalse"),
 factory.conditional(factory.literal("1"), factory.literal("2"), factory.conditional(factory.literal("0"), factory.literal("3"), factory.literal("4"))).accept(testSupport.v.conditionalPathCollector())
         );
     }
 
     @Test
     void collectsTraversalExpressionConditionalRootPath() {
-        assertEquals(List.of("root"),testSupport.sampleTraversalExpression().accept(testSupport.v.conditionalPathCollector()));
+        assertEquals(of("root"),testSupport.sampleTraversalExpression().accept(testSupport.v.conditionalPathCollector()));
     }
 }
 

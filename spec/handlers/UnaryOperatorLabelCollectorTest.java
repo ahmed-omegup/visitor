@@ -5,6 +5,7 @@ import lib.visitors.VisitorFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ abstract class UnaryOperatorLabelCollectorTestBase<E extends Expression> extends
 
     @Test
     void collectsUnaryOperatorLabelsInPreorder() {
-        assertEquals(List.of("LogicalNot", "Negation"),testSupport.sampleTraversalExpression().accept(testSupport.v.unaryOperatorLabelCollector()));
+        assertEquals(of("LogicalNot", "Negation"),testSupport.sampleTraversalExpression().accept(testSupport.v.unaryOperatorLabelCollector()));
     }
 }
 

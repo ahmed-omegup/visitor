@@ -5,6 +5,7 @@ import lib.visitors.VisitorFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -22,7 +23,7 @@ abstract class NodeTypeCollectorTestBase<E extends Expression> extends TestBase<
     @Test
     void collectsUniqueTypesInEncounterOrder() {
         assertEquals(
-            new LinkedHashSet<>(List.of(
+            new LinkedHashSet<>(of(
                 "Conditional", "Conjunction", "LessThan", "VariableReference", "Literal",
                 "LogicalNot", "Equality", "Addition", "Subtraction", "Multiplication",
                 "Division", "Modulo", "FunctionCall", "Exponentiation", "Inequality",

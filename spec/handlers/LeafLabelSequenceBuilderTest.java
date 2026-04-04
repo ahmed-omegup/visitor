@@ -5,6 +5,7 @@ import lib.visitors.VisitorFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ abstract class LeafLabelSequenceBuilderTestBase<E extends Expression> extends Te
     @Test
     void recordsLeafLabelsInEncounterOrder() {
         assertEquals(
-            List.of(
+            of(
                 "variable:x", "literal:10", "literal:1", "literal:0", "literal:7", "literal:2",
                 "literal:8", "literal:2", "literal:9", "literal:4", "variable:f", "literal:2",
                 "literal:3", "literal:5", "literal:6", "literal:7", "literal:1", "literal:2",

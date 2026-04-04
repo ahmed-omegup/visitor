@@ -7,6 +7,7 @@ import lib.visitors.VisitorFactory;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -29,10 +30,10 @@ abstract class DistinctLeafLabelCollectorTestBase<E extends Expression> extends 
         @Test
     void keepsDistinctLeafLabelsInEncounterOrder() {
         assertEquals(
-            new LinkedHashSet<>(List.of("literal:1", "variable:f", "variable:x")),
+            new LinkedHashSet<>(of("literal:1", "variable:f", "variable:x")),
 factory.addition(
                     factory.literal("1"),
-                    factory.functionCall(factory.variableReference("f"), java.util.List.of( factory.literal("1"), factory.variableReference("x"), factory.variableReference("x")))
+                    factory.functionCall(factory.variableReference("f"), of( factory.literal("1"), factory.variableReference("x"), factory.variableReference("x")))
                 ).accept(testSupport.v.distinctLeafLabelCollector())
         );
     }
@@ -40,7 +41,7 @@ factory.addition(
     @Test
     void collectsDistinctTraversalExpressionLeafLabels() {
         assertEquals(
-            new LinkedHashSet<>(List.of(
+            new LinkedHashSet<>(of(
                 "variable:x",
                 "literal:10",
                 "literal:1",

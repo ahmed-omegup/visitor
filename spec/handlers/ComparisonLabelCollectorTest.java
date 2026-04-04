@@ -5,6 +5,7 @@ import lib.visitors.VisitorFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ abstract class ComparisonLabelCollectorTestBase<E extends Expression> extends Te
     @Test
     void collectsComparisonLabelsInPreorder() {
         assertEquals(
-            List.of("LessThan", "Equality", "Inequality", "GreaterThan", "LessThanOrEqual", "GreaterThanOrEqual"),
+            of("LessThan", "Equality", "Inequality", "GreaterThan", "LessThanOrEqual", "GreaterThanOrEqual"),
 testSupport.sampleTraversalExpression().accept(testSupport.v.comparisonLabelCollector())
         );
     }

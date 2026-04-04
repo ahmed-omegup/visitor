@@ -7,6 +7,7 @@ import lib.visitors.VisitorFactory;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +36,7 @@ factory.addition(factory.literal("12345"), factory.variableReference("x")).accep
     void keepsLeftValueOnEqualLengthTie() {
         assertEquals(
             "alpha",
-factory.functionCall(factory.variableReference("f"), java.util.List.of( factory.literal("alpha"), factory.literal("bravo"))).accept(testSupport.v.longestLiteralFinder())
+factory.functionCall(factory.variableReference("f"), of( factory.literal("alpha"), factory.literal("bravo"))).accept(testSupport.v.longestLiteralFinder())
         );
     }
 

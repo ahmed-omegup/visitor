@@ -9,6 +9,7 @@ import lib.visitors.ZeroDivisionRiskDetector;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static java.util.List.of;
 
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
@@ -52,7 +53,7 @@ abstract class ZeroDivisionRiskDetectorTestBase<E extends Expression> extends Te
     Iterable<DynamicTest> detectsRiskWhenItAppearsOnEitherSideOfOperators() {
         var detector = testSupport.v.zeroDivisionRiskDetector();
         var risky = factory.division(factory.literal("8"), factory.literal("0"));
-        return java.util.List.of(
+        return of(
             factory.addition(risky, factory.literal("1")),
             factory.addition(factory.literal("1"), risky),
             factory.subtraction(risky, factory.literal("1")),
@@ -82,8 +83,8 @@ abstract class ZeroDivisionRiskDetectorTestBase<E extends Expression> extends Te
             factory.conditional(risky, factory.literal("1"), factory.literal("2")),
             factory.conditional(factory.literal("1"), risky, factory.literal("2")),
             factory.conditional(factory.literal("1"), factory.literal("2"), risky),
-            factory.functionCall(risky, java.util.List.of( factory.literal("1"))),
-            factory.functionCall(factory.variableReference("sum"), java.util.List.of( risky))
+            factory.functionCall(risky, of( factory.literal("1"))),
+            factory.functionCall(factory.variableReference("sum"), of( risky))
         ).stream().map(expression -> DynamicTest.dynamicTest("risky-" + expression.getClass().getSimpleName(), () ->
             assertTrue(expression.accept(detector)))).toList();
     }

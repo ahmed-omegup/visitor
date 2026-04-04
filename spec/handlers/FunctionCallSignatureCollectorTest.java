@@ -4,6 +4,7 @@ package spec.handlers;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,17 +31,17 @@ abstract class FunctionCallSignatureCollectorTestBase<E extends Expression> exte
         @Test
     void recordsSignaturesForDirectAndFunctionValuedCallees() {
         assertEquals(
-            List.of("sum/2", "FunctionCall/1", "g/0"),
+            of("sum/2", "FunctionCall/1", "g/0"),
 factory.addition(
-                    factory.functionCall(factory.variableReference("sum"), java.util.List.of(factory.literal("1"), factory.literal("2"))),
-                    factory.functionCall(factory.functionCall(factory.variableReference("g"), java.util.List.of()), java.util.List.of(factory.literal("3")))
+                    factory.functionCall(factory.variableReference("sum"), of(factory.literal("1"), factory.literal("2"))),
+                    factory.functionCall(factory.functionCall(factory.variableReference("g"), of()), of(factory.literal("3")))
                 ).accept(testSupport.v.functionCallSignatureCollector())
         );
     }
 
     @Test
     void recordsTraversalExpressionFunctionSignature() {
-        assertEquals(List.of("f/7"),testSupport.sampleTraversalExpression().accept(testSupport.v.functionCallSignatureCollector()));
+        assertEquals(of("f/7"),testSupport.sampleTraversalExpression().accept(testSupport.v.functionCallSignatureCollector()));
     }
 
     @TestFactory
@@ -52,7 +53,7 @@ factory.addition(
 
         return cases.stream()
             .map(expression -> DynamicTest.dynamicTest("callee-" + expression.getClass().getSimpleName(), () -> {
-                var signatures =factory.functionCall(expression, java.util.List.of( factory.literal("9"))).accept(testSupport.v.functionCallSignatureCollector());
+                var signatures =factory.functionCall(expression, of( factory.literal("9"))).accept(testSupport.v.functionCallSignatureCollector());
                 var expectedLabel = expression instanceof VariableReference variableReference
                     ? variableReference.name
                     : expression.getClass().getSimpleName();

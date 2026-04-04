@@ -7,6 +7,7 @@ import lib.visitors.VisitorFactory;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -35,7 +36,7 @@ abstract class VariableUsageCounterTestBase<E extends Expression> extends TestBa
             expected,
 factory.addition(
                     factory.variableReference("x"),
-                    factory.functionCall(factory.variableReference("sum"), java.util.List.of( factory.variableReference("x")))
+                    factory.functionCall(factory.variableReference("sum"), of( factory.variableReference("x")))
                 ).accept(testSupport.v.variableUsageCounter())
         );
     }

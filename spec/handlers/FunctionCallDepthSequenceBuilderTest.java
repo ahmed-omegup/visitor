@@ -7,6 +7,7 @@ import lib.visitors.VisitorFactory;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -26,10 +27,10 @@ abstract class FunctionCallDepthSequenceBuilderTestBase<E extends Expression> ex
 
         @Test
     void recordsFunctionCallDepthsInEncounterOrder() {
-        assertEquals(List.of(1),testSupport.sampleTraversalExpression().accept(testSupport.v.functionCallDepthSequenceBuilder()));
+        assertEquals(of(1),testSupport.sampleTraversalExpression().accept(testSupport.v.functionCallDepthSequenceBuilder()));
         assertEquals(
-            List.of(0, 1),
-factory.functionCall(factory.functionCall(factory.variableReference("f"), java.util.List.of()), java.util.List.of(factory.literal("1"))).accept(testSupport.v.functionCallDepthSequenceBuilder())
+            of(0, 1),
+factory.functionCall(factory.functionCall(factory.variableReference("f"), of()), of(factory.literal("1"))).accept(testSupport.v.functionCallDepthSequenceBuilder())
         );
     }
 }

@@ -7,6 +7,7 @@ import lib.visitors.VisitorFactory;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -32,17 +33,17 @@ abstract class FunctionNameCollectorTestBase<E extends Expression> extends TestB
         @Test
     void collectsFunctionNamesFromVariableCallees() {
         assertEquals(
-            new LinkedHashSet<>(List.of("sum", "max")),
+            new LinkedHashSet<>(of("sum", "max")),
 factory.addition(
-                    factory.functionCall(factory.variableReference("sum"), java.util.List.of( factory.literal("1"))),
-                    factory.functionCall(factory.variableReference("max"), java.util.List.of( factory.literal("2"), factory.literal("3")))
+                    factory.functionCall(factory.variableReference("sum"), of( factory.literal("1"))),
+                    factory.functionCall(factory.variableReference("max"), of( factory.literal("2"), factory.literal("3")))
                 ).accept(testSupport.v.functionNameCollector())
         );
     }
 
     @Test
     void collectsTraversalExpressionFunctionName() {
-        assertEquals(new LinkedHashSet<>(List.of("f")),testSupport.sampleTraversalExpression().accept(testSupport.v.functionNameCollector()));
+        assertEquals(new LinkedHashSet<>(of("f")),testSupport.sampleTraversalExpression().accept(testSupport.v.functionNameCollector()));
     }
 
     @TestFactory
@@ -56,8 +57,8 @@ factory.addition(
         return cases.stream()
             .map(callee -> DynamicTest.dynamicTest("callee-" + callee.getClass().getSimpleName(), () ->
                 assertEquals(
-                    new LinkedHashSet<>(List.of()),
-factory.functionCall(callee, java.util.List.of( factory.literal("9"))).accept(collector)
+                    new LinkedHashSet<>(of()),
+factory.functionCall(callee, of( factory.literal("9"))).accept(collector)
                 )))
             .toList();
     }
@@ -65,8 +66,8 @@ factory.functionCall(callee, java.util.List.of( factory.literal("9"))).accept(co
     @Test
     void collectsNestedFunctionNamesFromFunctionValuedCallee() {
         assertEquals(
-            new LinkedHashSet<>(List.of("sum")),
-factory.functionCall(factory.functionCall(factory.variableReference("sum"), java.util.List.of(factory.literal("1"))), java.util.List.of(factory.literal("9"))).accept(testSupport.v.functionNameCollector())
+            new LinkedHashSet<>(of("sum")),
+factory.functionCall(factory.functionCall(factory.variableReference("sum"), of(factory.literal("1"))), of(factory.literal("9"))).accept(testSupport.v.functionNameCollector())
         );
     }
 }

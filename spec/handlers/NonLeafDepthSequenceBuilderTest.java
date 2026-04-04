@@ -7,6 +7,7 @@ import lib.visitors.VisitorFactory;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ abstract class NonLeafDepthSequenceBuilderTestBase<E extends Expression> extends
         @Test
     void recordsCompositeNodesWithTheirDepth() {
         assertEquals(
-            List.of("0:Addition", "1:Negation"),
+            of("0:Addition", "1:Negation"),
 factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.nonLeafDepthSequenceBuilder())
         );
     }
@@ -36,7 +37,7 @@ factory.addition(factory.variableReference("x"), factory.negation(factory.litera
     @Test
     void recordsTraversalExpressionCompositeSequence() {
         assertEquals(
-            List.of(
+            of(
                 "0:Conditional",
                 "1:Conjunction",
                 "2:LessThan",

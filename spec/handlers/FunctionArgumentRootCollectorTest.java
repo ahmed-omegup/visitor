@@ -4,6 +4,7 @@ package spec.handlers;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ abstract class FunctionArgumentRootCollectorTestBase<E extends Expression> exten
         @Test
     void collectsTopLevelArgumentKindsForEachFunctionCall() {
         assertEquals(
-            List.of("Exponentiation", "Inequality", "GreaterThan", "LessThanOrEqual", "GreaterThanOrEqual", "Disjunction", "Negation"),
+            of("Exponentiation", "Inequality", "GreaterThan", "LessThanOrEqual", "GreaterThanOrEqual", "Disjunction", "Negation"),
 testSupport.sampleTraversalExpression().accept(testSupport.v.functionArgumentRootCollector())
         );
     }
@@ -45,7 +46,7 @@ testSupport.sampleTraversalExpression().accept(testSupport.v.functionArgumentRoo
             .map(expression -> DynamicTest.dynamicTest("argument-" + expression.getClass().getSimpleName(), () ->
                 assertEquals(
                     expression instanceof VariableReference ? "VariableReference" : expression.getClass().getSimpleName(),
-factory.functionCall(factory.variableReference("f"), java.util.List.of( expression)).accept(testSupport.v.functionArgumentRootCollector()).get(0)
+factory.functionCall(factory.variableReference("f"), of( expression)).accept(testSupport.v.functionArgumentRootCollector()).get(0)
                 )))
             .toList();
     }

@@ -8,6 +8,7 @@ import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static java.util.List.of;
 
 import org.junit.jupiter.api.Test;
 
@@ -40,7 +41,7 @@ abstract class JsonExporterTestBase<E extends Expression> extends TestBase<E> {
     @Test
     void escapesBackslashesAndQuotes() {
         var expression = factory.functionCall(
-            factory.variableReference("say\"hi"), java.util.List.of(
+            factory.variableReference("say\"hi"), of(
             factory.literal("a\\b\"c")
         ));
 

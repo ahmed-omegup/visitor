@@ -7,6 +7,7 @@ import lib.visitors.VisitorFactory;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -28,17 +29,17 @@ abstract class FunctionCallPathCollectorTestBase<E extends Expression> extends T
         @Test
     void collectsPathsToNestedFunctionCalls() {
         assertEquals(
-            List.of("root.left", "root.right", "root.right.callee"),
+            of("root.left", "root.right", "root.right.callee"),
 factory.addition(
-                    factory.functionCall(factory.variableReference("f"), java.util.List.of(factory.literal("1"))),
-                    factory.functionCall(factory.functionCall(factory.variableReference("g"), java.util.List.of()), java.util.List.of(factory.literal("2")))
+                    factory.functionCall(factory.variableReference("f"), of(factory.literal("1"))),
+                    factory.functionCall(factory.functionCall(factory.variableReference("g"), of()), of(factory.literal("2")))
                 ).accept(testSupport.v.functionCallPathCollector())
         );
     }
 
     @Test
     void collectsTraversalExpressionFunctionCallPath() {
-        assertEquals(List.of("root.whenFalse"),testSupport.sampleTraversalExpression().accept(testSupport.v.functionCallPathCollector()));
+        assertEquals(of("root.whenFalse"),testSupport.sampleTraversalExpression().accept(testSupport.v.functionCallPathCollector()));
     }
 }
 

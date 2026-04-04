@@ -8,6 +8,7 @@ import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static java.util.List.of;
 
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +29,7 @@ abstract class MarkdownOutlineExporterTestBase<E extends Expression> extends Tes
         @Test
     void exportsNestedExpressionsAsMarkdownOutline() {
         var expression = factory.addition(
-            factory.functionCall(factory.variableReference("sum"), java.util.List.of( factory.literal("1"), factory.literal("2"))),
+            factory.functionCall(factory.variableReference("sum"), of( factory.literal("1"), factory.literal("2"))),
             factory.negation(factory.variableReference("x"))
         );
 

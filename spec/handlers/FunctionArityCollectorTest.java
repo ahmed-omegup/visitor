@@ -5,6 +5,7 @@ import lib.visitors.VisitorFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ abstract class FunctionArityCollectorTestBase<E extends Expression> extends Test
 
     @Test
     void collectsFunctionAritiesInTraversalOrder() {
-        assertEquals(List.of(7),testSupport.sampleTraversalExpression().accept(testSupport.v.functionArityCollector()));
+        assertEquals(of(7),testSupport.sampleTraversalExpression().accept(testSupport.v.functionArityCollector()));
     }
 }
 

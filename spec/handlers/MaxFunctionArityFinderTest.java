@@ -8,6 +8,7 @@ import lib.expression.Factory;
 import lib.visitors.MaxFunctionArityFinder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
@@ -27,8 +28,8 @@ abstract class MaxFunctionArityFinderTestBase<E extends Expression> extends Test
         assertEquals(
             3,
 factory.addition(
-                    factory.functionCall(factory.variableReference("ping"), java.util.List.of()),
-                    factory.functionCall(factory.variableReference("sum"), java.util.List.of( factory.literal("1"), factory.literal("2"), factory.literal("3")))
+                    factory.functionCall(factory.variableReference("ping"), of()),
+                    factory.functionCall(factory.variableReference("sum"), of( factory.literal("1"), factory.literal("2"), factory.literal("3")))
                 ).accept(testSupport.v.maxFunctionArityFinder())
         );
     }
@@ -46,7 +47,7 @@ factory.addition(
     @TestFactory
     Iterable<DynamicTest> traversesEveryOperatorShapeWithoutFunctionCalls() {
         var finder = testSupport.v.maxFunctionArityFinder();
-        return java.util.List.of(
+        return of(
             factory.literal("1"),
             factory.variableReference("x"),
             factory.addition(factory.literal("1"), factory.literal("2")),

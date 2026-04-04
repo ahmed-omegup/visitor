@@ -7,6 +7,7 @@ import lib.visitors.VisitorFactory;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -28,15 +29,15 @@ abstract class LeafPathCollectorTestBase<E extends Expression> extends TestBase<
         @Test
     void collectsLeafPathsAcrossFunctionArguments() {
         assertEquals(
-            List.of("root.callee", "root.arguments[0].left", "root.arguments[0].right"),
-factory.functionCall(factory.variableReference("f"), java.util.List.of( factory.addition(factory.literal("1"), factory.variableReference("x")))).accept(testSupport.v.leafPathCollector())
+            of("root.callee", "root.arguments[0].left", "root.arguments[0].right"),
+factory.functionCall(factory.variableReference("f"), of( factory.addition(factory.literal("1"), factory.variableReference("x")))).accept(testSupport.v.leafPathCollector())
         );
     }
 
     @Test
     void collectsTraversalExpressionLeafPaths() {
         assertEquals(
-            List.of(
+            of(
                 "root.condition.left.left",
                 "root.condition.left.right",
                 "root.condition.right.operand.left",

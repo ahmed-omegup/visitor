@@ -6,7 +6,7 @@ import lib.visitors.VisitorFactory;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import static java.util.List.of;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -34,8 +34,8 @@ abstract class ArityHistogramBuilderTestBase<E extends Expression> extends TestB
         assertEquals(
             expected,
 factory.addition(
-                    factory.functionCall(factory.variableReference("ping"), java.util.List.of()),
-                    factory.functionCall(factory.variableReference("sum"), java.util.List.of( factory.literal("1"), factory.literal("2")))
+                    factory.functionCall(factory.variableReference("ping"), of()),
+                    factory.functionCall(factory.variableReference("sum"), of( factory.literal("1"), factory.literal("2")))
                 ).accept(testSupport.v.arityHistogramBuilder())
         );
     }

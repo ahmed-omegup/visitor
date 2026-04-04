@@ -8,6 +8,7 @@ import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static java.util.List.of;
 
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +38,7 @@ abstract class YamlExpressionExporterTestBase<E extends Expression> extends Test
                 + "  -\n"
                 + "    type: Literal\n"
                 + "    value: \"2\"\n",
-factory.functionCall(factory.variableReference("sum"), java.util.List.of( factory.literal("1"), factory.literal("2"))).accept(testSupport.v.yamlExpressionExporter())
+factory.functionCall(factory.variableReference("sum"), of( factory.literal("1"), factory.literal("2"))).accept(testSupport.v.yamlExpressionExporter())
         );
     }
 

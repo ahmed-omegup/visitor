@@ -4,6 +4,7 @@ import lib.expression.Expression;
 import lib.visitors.VisitorFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ abstract class ArithmeticOperatorLabelCollectorTestBase<E extends Expression> ex
     @Test
     void collectsArithmeticOperatorLabelsInPreorder() {
         assertEquals(
-                List.of("Addition", "Subtraction", "Multiplication", "Division", "Modulo", "Exponentiation",
+                of("Addition", "Subtraction", "Multiplication", "Division", "Modulo", "Exponentiation",
                         "Negation"),
                 testSupport.sampleTraversalExpression()
                         .accept(testSupport.v.arithmeticOperatorLabelCollector()));

@@ -5,6 +5,7 @@ import lib.visitors.VisitorFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ abstract class VariableDepthSequenceBuilderTestBase<E extends Expression> extend
 
     @Test
     void recordsVariableDepthsInEncounterOrder() {
-        assertEquals(List.of(3, 2),testSupport.sampleTraversalExpression().accept(testSupport.v.variableDepthSequenceBuilder()));
+        assertEquals(of(3, 2),testSupport.sampleTraversalExpression().accept(testSupport.v.variableDepthSequenceBuilder()));
     }
 }
 

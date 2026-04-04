@@ -7,6 +7,7 @@ import lib.visitors.VisitorFactory;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -47,7 +48,7 @@ factory.addition(factory.variableReference("x"), factory.negation(factory.litera
 
     @Test
     void countsZeroArgumentFunctionCallWithoutArgumentLoopIterations() {
-        assertEquals(Map.of(0, 1, 1, 1),factory.functionCall(factory.variableReference("ping"), java.util.List.of()).accept(testSupport.v.levelWidthHistogramBuilder()));
+        assertEquals(Map.of(0, 1, 1, 1),factory.functionCall(factory.variableReference("ping"), of()).accept(testSupport.v.levelWidthHistogramBuilder()));
     }
 }
 

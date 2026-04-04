@@ -7,6 +7,7 @@ import lib.visitors.VisitorFactory;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -29,9 +30,9 @@ abstract class LevelGroupedLabelCollectorTestBase<E extends Expression> extends 
         @Test
     void groupsEncounteredLabelsByDepth() {
         var expected = new LinkedHashMap<Integer, List<String>>();
-        expected.put(0, List.of("Addition"));
-        expected.put(1, List.of("VariableReference", "Negation"));
-        expected.put(2, List.of("Literal"));
+        expected.put(0, of("Addition"));
+        expected.put(1, of("VariableReference", "Negation"));
+        expected.put(2, of("Literal"));
 
         assertEquals(
             expected,
@@ -43,8 +44,8 @@ factory.addition(factory.variableReference("x"), factory.negation(factory.litera
     void groupsTraversalExpressionLabelsByLevel() {
         var grouped =testSupport.sampleTraversalExpression().accept(testSupport.v.levelGroupedLabelCollector());
 
-        assertEquals(List.of("Conditional"), grouped.get(0));
-        assertEquals(List.of("Conjunction", "Addition", "FunctionCall"), grouped.get(1));
+        assertEquals(of("Conditional"), grouped.get(0));
+        assertEquals(of("Conjunction", "Addition", "FunctionCall"), grouped.get(1));
         assertEquals(12, grouped.get(2).size());
         assertEquals(20, grouped.get(3).size());
         assertEquals(6, grouped.get(4).size());

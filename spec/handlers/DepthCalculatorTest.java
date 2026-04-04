@@ -7,6 +7,7 @@ import lib.visitors.VisitorFactory;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +29,7 @@ abstract class DepthCalculatorTestBase<E extends Expression> extends TestBase<E>
 
     @Test
     void countsZeroArgumentFunctionCallDepth() {
-        assertEquals(2,factory.functionCall(factory.variableReference("ping"), java.util.List.of()).accept(testSupport.v.depthCalculator()));
+        assertEquals(2,factory.functionCall(factory.variableReference("ping"), of()).accept(testSupport.v.depthCalculator()));
     }
 }
 

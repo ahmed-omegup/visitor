@@ -7,6 +7,7 @@ import lib.visitors.VisitorFactory;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ abstract class LeafDepthSequenceBuilderTestBase<E extends Expression> extends Te
         @Test
     void recordsLeafDepthsInEncounterOrder() {
         assertEquals(
-            List.of(1, 2),
+            of(1, 2),
 factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.leafDepthSequenceBuilder())
         );
     }
@@ -36,7 +37,7 @@ factory.addition(factory.variableReference("x"), factory.negation(factory.litera
     @Test
     void recordsTraversalExpressionLeafDepths() {
         assertEquals(
-            List.of(3, 3, 4, 4, 3, 3, 4, 4, 4, 4, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3),
+            of(3, 3, 4, 4, 3, 3, 4, 4, 4, 4, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3),
 testSupport.sampleTraversalExpression().accept(testSupport.v.leafDepthSequenceBuilder())
         );
     }

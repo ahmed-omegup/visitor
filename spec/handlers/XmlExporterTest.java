@@ -8,6 +8,7 @@ import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static java.util.List.of;
 
 import org.junit.jupiter.api.Test;
 
@@ -70,7 +71,7 @@ expression.accept(testSupport.v.xmlExporter())
             "<FunctionCall>\n"
                 + "  <VariableReference name=\"ping\"/>\n"
                 + "</FunctionCall>\n",
-factory.functionCall(factory.variableReference("ping"), java.util.List.of()).accept(testSupport.v.xmlExporter())
+factory.functionCall(factory.variableReference("ping"), of()).accept(testSupport.v.xmlExporter())
         );
     }
 }

@@ -9,6 +9,7 @@ import lib.visitors.ConstantExpressionChecker;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static java.util.List.of;
 
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,7 @@ abstract class ConstantExpressionCheckerTestBase<E extends Expression> extends T
 
         assertTrue(factory.addition(factory.literal("1"), factory.literal("2")).accept(checker));
         assertFalse(factory.addition(factory.variableReference("x"), factory.literal("2")).accept(checker));
-        assertFalse(factory.functionCall(factory.variableReference("sum"), java.util.List.of( factory.literal("1"))).accept(checker));
+        assertFalse(factory.functionCall(factory.variableReference("sum"), of( factory.literal("1"))).accept(checker));
     }
 
     @Test
@@ -49,7 +50,7 @@ abstract class ConstantExpressionCheckerTestBase<E extends Expression> extends T
     @TestFactory
     Iterable<DynamicTest> rejectsLeftAndRightVariableBranchesAcrossOperators() {
         var checker = testSupport.v.constantExpressionChecker();
-        return java.util.List.of(
+        return of(
             factory.addition(factory.variableReference("x"), factory.literal("1")),
             factory.addition(factory.literal("1"), factory.variableReference("x")),
             factory.subtraction(factory.variableReference("x"), factory.literal("1")),

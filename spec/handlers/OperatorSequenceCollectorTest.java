@@ -5,6 +5,7 @@ import lib.visitors.VisitorFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ abstract class OperatorSequenceCollectorTestBase<E extends Expression> extends T
     @Test
     void collectsOperatorsInPreorder() {
         assertEquals(
-            List.of(
+            of(
                 "Conditional", "Conjunction", "LessThan", "LogicalNot", "Equality", "Addition", "Subtraction", "Multiplication",
                 "Division", "Modulo", "FunctionCall", "Exponentiation", "Inequality", "GreaterThan", "LessThanOrEqual",
                 "GreaterThanOrEqual", "Disjunction", "Negation"

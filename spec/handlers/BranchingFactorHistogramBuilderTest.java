@@ -7,6 +7,7 @@ import lib.visitors.VisitorFactory;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.LinkedHashMap;
 
@@ -34,7 +35,7 @@ abstract class BranchingFactorHistogramBuilderTestBase<E extends Expression> ext
 
         assertEquals(
             expected,
-factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), java.util.List.of( factory.literal("1"), factory.literal("2")))).accept(testSupport.v.branchingFactorHistogramBuilder())
+factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), of( factory.literal("1"), factory.literal("2")))).accept(testSupport.v.branchingFactorHistogramBuilder())
         );
     }
 

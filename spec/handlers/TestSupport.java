@@ -8,6 +8,7 @@ import java.util.List;
 import lib.expression.*;
 import port.IExpressionFactory;
 import port.IVisitorFactory;
+import static java.util.List.of;
 
 final class TestSupport<E extends Expression> {
     final IVisitorFactory<E> v;
@@ -34,7 +35,7 @@ final class TestSupport<E extends Expression> {
             ),
             factory.functionCall(
                 factory.variableReference("f"),
-                List.of(
+                of(
                     factory.exponentiation(factory.literal("2"), factory.literal("3")),
                     factory.inequality(factory.literal("5"), factory.literal("6")),
                     factory.greaterThan(factory.literal("7"), factory.literal("1")),
@@ -66,7 +67,7 @@ final class TestSupport<E extends Expression> {
         expressions.add(factory.disjunction(factory.literal("0"), factory.literal("1")));
         expressions.add(factory.logicalNot(factory.literal("0")));
         expressions.add(factory.conditional(factory.literal("1"), factory.literal("2"), factory.literal("3")));
-        expressions.add(factory.functionCall(factory.variableReference("sum"), List.of(factory.literal("1"), factory.literal("2"))));
+        expressions.add(factory.functionCall(factory.variableReference("sum"), of(factory.literal("1"), factory.literal("2"))));
         return expressions;
     }
 }

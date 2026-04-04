@@ -5,6 +5,7 @@ import lib.visitors.VisitorFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ abstract class BooleanOperatorLabelCollectorTestBase<E extends Expression> exten
 
     @Test
     void collectsBooleanOperatorLabelsInPreorder() {
-        assertEquals(List.of("Conjunction", "LogicalNot", "Disjunction"),testSupport.sampleTraversalExpression().accept(testSupport.v.booleanOperatorLabelCollector()));
+        assertEquals(of("Conjunction", "LogicalNot", "Disjunction"),testSupport.sampleTraversalExpression().accept(testSupport.v.booleanOperatorLabelCollector()));
     }
 }
 

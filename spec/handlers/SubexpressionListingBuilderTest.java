@@ -8,6 +8,7 @@ import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ abstract class SubexpressionListingBuilderTestBase<E extends Expression> extends
         @Test
     void listsLeavesBeforeContainingExpressions() {
         assertEquals(
-            List.of("x", "2", "(-2)", "(x + (-2))"),
+            of("x", "2", "(-2)", "(x + (-2))"),
 factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.subexpressionListingBuilder())
         );
     }

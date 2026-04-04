@@ -5,6 +5,7 @@ import lib.visitors.VisitorFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ abstract class BinaryOperatorLabelCollectorTestBase<E extends Expression> extend
     @Test
     void collectsBinaryOperatorLabelsInPreorder() {
         assertEquals(
-            List.of(
+            of(
                 "Conjunction", "LessThan", "Equality", "Addition", "Subtraction", "Multiplication",
                 "Division", "Modulo", "Exponentiation", "Inequality", "GreaterThan", "LessThanOrEqual",
                 "GreaterThanOrEqual", "Disjunction"

@@ -4,6 +4,7 @@ package spec.handlers;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +32,11 @@ abstract class ConditionalBranchLabelCollectorTestBase<E extends Expression> ext
         @Test
     void reportsDirectChildKindsForConditionalBranches() {
         assertEquals(
-            List.of("condition=LessThan", "whenTrue=Literal", "whenFalse=FunctionCall"),
+            of("condition=LessThan", "whenTrue=Literal", "whenFalse=FunctionCall"),
 factory.conditional(
                     factory.lessThan(factory.variableReference("x"), factory.literal("1")),
                     factory.literal("2"),
-                    factory.functionCall(factory.variableReference("fallback"), java.util.List.of( factory.literal("0")))
+                    factory.functionCall(factory.variableReference("fallback"), of( factory.literal("0")))
                 ).accept(testSupport.v.conditionalBranchLabelCollector())
         );
     }
@@ -43,7 +44,7 @@ factory.conditional(
     @Test
     void reportsTraversalExpressionBranchKinds() {
         assertEquals(
-            List.of("condition=Conjunction", "whenTrue=Addition", "whenFalse=FunctionCall"),
+            of("condition=Conjunction", "whenTrue=Addition", "whenFalse=FunctionCall"),
 testSupport.sampleTraversalExpression().accept(testSupport.v.conditionalBranchLabelCollector())
         );
     }

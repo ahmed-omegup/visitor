@@ -7,6 +7,7 @@ import lib.visitors.VisitorFactory;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import org.junit.jupiter.api.Test;
 
@@ -28,8 +29,8 @@ abstract class FunctionCallCounterTestBase<E extends Expression> extends TestBas
         assertEquals(
             2,
 factory.addition(
-                    factory.functionCall(factory.variableReference("left"), java.util.List.of( factory.literal("1"))),
-                    factory.functionCall(factory.variableReference("right"), java.util.List.of( factory.literal("2"), factory.literal("3")))
+                    factory.functionCall(factory.variableReference("left"), of( factory.literal("1"))),
+                    factory.functionCall(factory.variableReference("right"), of( factory.literal("2"), factory.literal("3")))
                 ).accept(testSupport.v.functionCallCounter())
         );
     }

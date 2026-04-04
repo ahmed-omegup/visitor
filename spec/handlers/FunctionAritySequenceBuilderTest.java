@@ -7,6 +7,7 @@ import lib.visitors.VisitorFactory;
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -28,17 +29,17 @@ abstract class FunctionAritySequenceBuilderTestBase<E extends Expression> extend
         @Test
     void recordsFunctionAritiesInPreorder() {
         assertEquals(
-            List.of(2, 1, 0),
+            of(2, 1, 0),
 factory.addition(
-                    factory.functionCall(factory.variableReference("sum"), java.util.List.of(factory.literal("1"), factory.literal("2"))),
-                    factory.functionCall(factory.functionCall(factory.variableReference("g"), java.util.List.of()), java.util.List.of(factory.literal("3")))
+                    factory.functionCall(factory.variableReference("sum"), of(factory.literal("1"), factory.literal("2"))),
+                    factory.functionCall(factory.functionCall(factory.variableReference("g"), of()), of(factory.literal("3")))
                 ).accept(testSupport.v.functionAritySequenceBuilder())
         );
     }
 
     @Test
     void recordsTraversalExpressionFunctionArity() {
-        assertEquals(List.of(7),testSupport.sampleTraversalExpression().accept(testSupport.v.functionAritySequenceBuilder()));
+        assertEquals(of(7),testSupport.sampleTraversalExpression().accept(testSupport.v.functionAritySequenceBuilder()));
     }
 }
 

@@ -5,6 +5,7 @@ import lib.visitors.VisitorFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ abstract class UnaryNodeDepthSequenceBuilderTestBase<E extends Expression> exten
 
     @Test
     void recordsUnaryNodeDepths() {
-        assertEquals(List.of(2, 2),testSupport.sampleTraversalExpression().accept(testSupport.v.unaryNodeDepthSequenceBuilder()));
+        assertEquals(of(2, 2),testSupport.sampleTraversalExpression().accept(testSupport.v.unaryNodeDepthSequenceBuilder()));
     }
 }
 

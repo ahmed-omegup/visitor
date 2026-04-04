@@ -5,6 +5,7 @@ import lib.visitors.VisitorFactory;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ abstract class LiteralCollectorTestBase<E extends Expression> extends TestBase<E
     @Test
     void collectsLiteralsInTraversalOrder() {
         assertEquals(
-            List.of("10", "1", "0", "7", "2", "8", "2", "9", "4", "2", "3", "5", "6", "7", "1", "2", "2", "3", "3", "0", "1", "4"),
+            of("10", "1", "0", "7", "2", "8", "2", "9", "4", "2", "3", "5", "6", "7", "1", "2", "2", "3", "3", "0", "1", "4"),
 testSupport.sampleTraversalExpression().accept(testSupport.v.literalCollector())
         );
     }
