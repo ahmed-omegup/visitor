@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -16,21 +18,31 @@ import lib.expression.VariableReference;
 import lib.visitors.BreadthFirstLabelPrinter;
 import port.IFactory;
 
-class BreadthFirstLabelPrinterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class BreadthFirstLabelPrinterTestBase<E extends Expression> extends TestBase<E> {
+    BreadthFirstLabelPrinterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void printsLabelsBreadthFirst() {
         assertEquals(
             "Addition | VariableReference(x) | Negation | Literal(2)",
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(v.breadthFirstLabelPrinter())
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.breadthFirstLabelPrinter())
         );
     }
 
     @Test
     void printsTraversalExpressionBreadthFirst() {
-        var labels =sampleTraversalExpression().accept(v.breadthFirstLabelPrinter());
+        var labels =testSupport.sampleTraversalExpression().accept(testSupport.v.breadthFirstLabelPrinter());
 
         assertTrue(labels.startsWith("Conditional | Conjunction | Addition | FunctionCall | LessThan"));
         assertTrue(labels.contains("GreaterThanOrEqual | Disjunction | Negation"));
+    }
+}
+
+class BreadthFirstLabelPrinterTest extends BreadthFirstLabelPrinterTestBase<Expression> {
+    BreadthFirstLabelPrinterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

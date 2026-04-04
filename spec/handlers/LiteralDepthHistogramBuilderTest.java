@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -16,15 +18,19 @@ import lib.expression.Negation;
 import lib.visitors.LiteralDepthHistogramBuilder;
 import port.IFactory;
 
-class LiteralDepthHistogramBuilderTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class LiteralDepthHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+    LiteralDepthHistogramBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void countsLiteralsPerDepth() {
         var expected = new LinkedHashMap<Integer, Integer>();
         expected.put(1, 1);
         expected.put(2, 1);
 
-        assertEquals(expected,factory.addition(factory.literal("1"), factory.negation(factory.literal("2"))).accept(v.literalDepthHistogramBuilder()));
+        assertEquals(expected,factory.addition(factory.literal("1"), factory.negation(factory.literal("2"))).accept(testSupport.v.literalDepthHistogramBuilder()));
     }
 
     @Test
@@ -33,6 +39,12 @@ class LiteralDepthHistogramBuilderTest {
         expected.put(3, 16);
         expected.put(4, 6);
 
-        assertEquals(expected,sampleTraversalExpression().accept(v.literalDepthHistogramBuilder()));
+        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.literalDepthHistogramBuilder()));
+    }
+}
+
+class LiteralDepthHistogramBuilderTest extends LiteralDepthHistogramBuilderTestBase<Expression> {
+    LiteralDepthHistogramBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

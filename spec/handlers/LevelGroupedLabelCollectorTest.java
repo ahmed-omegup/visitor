@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -18,9 +20,13 @@ import lib.expression.VariableReference;
 import lib.visitors.LevelGroupedLabelCollector;
 import port.IFactory;
 
-class LevelGroupedLabelCollectorTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class LevelGroupedLabelCollectorTestBase<E extends Expression> extends TestBase<E> {
+    LevelGroupedLabelCollectorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void groupsEncounteredLabelsByDepth() {
         var expected = new LinkedHashMap<Integer, List<String>>();
         expected.put(0, List.of("Addition"));
@@ -29,18 +35,24 @@ class LevelGroupedLabelCollectorTest {
 
         assertEquals(
             expected,
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(v.levelGroupedLabelCollector())
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.levelGroupedLabelCollector())
         );
     }
 
     @Test
     void groupsTraversalExpressionLabelsByLevel() {
-        var grouped =sampleTraversalExpression().accept(v.levelGroupedLabelCollector());
+        var grouped =testSupport.sampleTraversalExpression().accept(testSupport.v.levelGroupedLabelCollector());
 
         assertEquals(List.of("Conditional"), grouped.get(0));
         assertEquals(List.of("Conjunction", "Addition", "FunctionCall"), grouped.get(1));
         assertEquals(12, grouped.get(2).size());
         assertEquals(20, grouped.get(3).size());
         assertEquals(6, grouped.get(4).size());
+    }
+}
+
+class LevelGroupedLabelCollectorTest extends LevelGroupedLabelCollectorTestBase<Expression> {
+    LevelGroupedLabelCollectorTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,7 +12,12 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.BinaryOperatorDepthHistogramBuilder;
 
-class BinaryOperatorDepthHistogramBuilderTest {
+abstract class BinaryOperatorDepthHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+    BinaryOperatorDepthHistogramBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
     @Test
     void countsBinaryOperatorDepths() {
         var expected = new LinkedHashMap<Integer, Integer>();
@@ -18,6 +25,12 @@ class BinaryOperatorDepthHistogramBuilderTest {
         expected.put(2, 9);
         expected.put(3, 3);
 
-        assertEquals(expected,sampleTraversalExpression().accept(v.binaryOperatorDepthHistogramBuilder()));
+        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.binaryOperatorDepthHistogramBuilder()));
+    }
+}
+
+class BinaryOperatorDepthHistogramBuilderTest extends BinaryOperatorDepthHistogramBuilderTestBase<Expression> {
+    BinaryOperatorDepthHistogramBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

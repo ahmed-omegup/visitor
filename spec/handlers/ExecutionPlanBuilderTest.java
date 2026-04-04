@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -15,9 +17,13 @@ import lib.expression.Negation;
 import lib.visitors.ExecutionPlanBuilder;
 import port.IFactory;
 
-class ExecutionPlanBuilderTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class ExecutionPlanBuilderTestBase<E extends Expression> extends TestBase<E> {
+    ExecutionPlanBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void numbersIndentedExecutionSteps() {
         var expression = factory.addition(factory.literal("1"), factory.negation(factory.literal("2")));
 
@@ -26,16 +32,22 @@ class ExecutionPlanBuilderTest {
                 + "  2. inspect Literal(1)\n"
                 + "  3. inspect Negation\n"
                 + "    4. inspect Literal(2)\n",
-expression.accept(v.executionPlanBuilder())
+expression.accept(testSupport.v.executionPlanBuilder())
         );
     }
 
     @Test
     void visitsAllExpressionKindsInTraversalExpression() {
-        var plan =sampleTraversalExpression().accept(v.executionPlanBuilder());
+        var plan =testSupport.sampleTraversalExpression().accept(testSupport.v.executionPlanBuilder());
 
         assertTrue(plan.contains("inspect LessThanOrEqual"));
         assertTrue(plan.contains("inspect GreaterThanOrEqual"));
         assertTrue(plan.contains("inspect FunctionCall"));
+    }
+}
+
+class ExecutionPlanBuilderTest extends ExecutionPlanBuilderTestBase<Expression> {
+    ExecutionPlanBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

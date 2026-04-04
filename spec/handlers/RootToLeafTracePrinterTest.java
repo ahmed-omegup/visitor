@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -16,19 +18,23 @@ import lib.expression.VariableReference;
 import lib.visitors.RootToLeafTracePrinter;
 import port.IFactory;
 
-class RootToLeafTracePrinterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class RootToLeafTracePrinterTestBase<E extends Expression> extends TestBase<E> {
+    RootToLeafTracePrinterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void printsOneTracePerLeaf() {
         assertEquals(
             String.join("\n", "Addition -> VariableReference(x)", "Addition -> Negation -> Literal(2)"),
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(v.rootToLeafTracePrinter())
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.rootToLeafTracePrinter())
         );
     }
 
     @Test
     void printsTraversalExpressionRootToLeafTraces() {
-        var traces =sampleTraversalExpression().accept(v.rootToLeafTracePrinter()).lines().toList();
+        var traces =testSupport.sampleTraversalExpression().accept(testSupport.v.rootToLeafTracePrinter()).lines().toList();
 
         assertEquals(24, traces.size());
         assertEquals("Conditional -> Conjunction -> LessThan -> VariableReference(x)", traces.get(0));
@@ -36,5 +42,11 @@ factory.addition(factory.variableReference("x"), factory.negation(factory.litera
         assertTrue(traces.contains("Conditional -> Addition -> Multiplication -> Division -> Literal(8)"));
         assertTrue(traces.contains("Conditional -> FunctionCall -> VariableReference(f)"));
         assertEquals("Conditional -> FunctionCall -> Negation -> Literal(4)", traces.get(traces.size() - 1));
+    }
+}
+
+class RootToLeafTracePrinterTest extends RootToLeafTracePrinterTestBase<Expression> {
+    RootToLeafTracePrinterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -15,19 +17,23 @@ import lib.expression.VariableReference;
 import lib.visitors.DepthAnnotatedPreorderPrinter;
 import port.IFactory;
 
-class DepthAnnotatedPreorderPrinterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class DepthAnnotatedPreorderPrinterTestBase<E extends Expression> extends TestBase<E> {
+    DepthAnnotatedPreorderPrinterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void printsPreorderNodesWithDepth() {
         assertEquals(
             String.join("\n", "0: Addition", "1: VariableReference(x)", "1: Literal(2)"),
-factory.addition(factory.variableReference("x"), factory.literal("2")).accept(v.depthAnnotatedPreorderPrinter())
+factory.addition(factory.variableReference("x"), factory.literal("2")).accept(testSupport.v.depthAnnotatedPreorderPrinter())
         );
     }
 
     @Test
     void printsTraversalExpressionAcrossAllVisitorBranches() {
-        var rendered =sampleTraversalExpression().accept(v.depthAnnotatedPreorderPrinter());
+        var rendered =testSupport.sampleTraversalExpression().accept(testSupport.v.depthAnnotatedPreorderPrinter());
         var lines = rendered.lines().toList();
 
         assertEquals(42, lines.size());
@@ -49,5 +55,11 @@ factory.addition(factory.variableReference("x"), factory.literal("2")).accept(v.
         assertTrue(lines.contains("2: Disjunction"));
         assertTrue(lines.contains("2: Negation"));
         assertEquals("3: Literal(4)", lines.get(lines.size() - 1));
+    }
+}
+
+class DepthAnnotatedPreorderPrinterTest extends DepthAnnotatedPreorderPrinterTestBase<Expression> {
+    DepthAnnotatedPreorderPrinterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

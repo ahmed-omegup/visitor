@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,7 +12,12 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.LeafLabelSequenceBuilder;
 
-class LeafLabelSequenceBuilderTest {
+abstract class LeafLabelSequenceBuilderTestBase<E extends Expression> extends TestBase<E> {
+    LeafLabelSequenceBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
     @Test
     void recordsLeafLabelsInEncounterOrder() {
         assertEquals(
@@ -20,7 +27,13 @@ class LeafLabelSequenceBuilderTest {
                 "literal:3", "literal:5", "literal:6", "literal:7", "literal:1", "literal:2",
                 "literal:2", "literal:3", "literal:3", "literal:0", "literal:1", "literal:4"
             ),
-sampleTraversalExpression().accept(v.leafLabelSequenceBuilder())
+testSupport.sampleTraversalExpression().accept(testSupport.v.leafLabelSequenceBuilder())
         );
+    }
+}
+
+class LeafLabelSequenceBuilderTest extends LeafLabelSequenceBuilderTestBase<Expression> {
+    LeafLabelSequenceBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

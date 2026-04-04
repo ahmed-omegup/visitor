@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,12 +10,23 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.ExpressionSummaryReporter;
 
-class ExpressionSummaryReporterTest {
+abstract class ExpressionSummaryReporterTestBase<E extends Expression> extends TestBase<E> {
+    ExpressionSummaryReporterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
     @Test
     void reportsAggregatedMetrics() {
         assertEquals(
             "nodes=42, leaves=24, depth=5, variables=[x, f], literals=[10, 1, 0, 7, 2, 8, 2, 9, 4, 2, 3, 5, 6, 7, 1, 2, 2, 3, 3, 0, 1, 4]",
-sampleTraversalExpression().accept(v.expressionSummaryReporter())
+testSupport.sampleTraversalExpression().accept(testSupport.v.expressionSummaryReporter())
         );
+    }
+}
+
+class ExpressionSummaryReporterTest extends ExpressionSummaryReporterTestBase<Expression> {
+    ExpressionSummaryReporterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

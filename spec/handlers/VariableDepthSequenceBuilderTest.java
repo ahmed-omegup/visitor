@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,9 +12,20 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.VariableDepthSequenceBuilder;
 
-class VariableDepthSequenceBuilderTest {
+abstract class VariableDepthSequenceBuilderTestBase<E extends Expression> extends TestBase<E> {
+    VariableDepthSequenceBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
     @Test
     void recordsVariableDepthsInEncounterOrder() {
-        assertEquals(List.of(3, 2),sampleTraversalExpression().accept(v.variableDepthSequenceBuilder()));
+        assertEquals(List.of(3, 2),testSupport.sampleTraversalExpression().accept(testSupport.v.variableDepthSequenceBuilder()));
+    }
+}
+
+class VariableDepthSequenceBuilderTest extends VariableDepthSequenceBuilderTestBase<Expression> {
+    VariableDepthSequenceBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

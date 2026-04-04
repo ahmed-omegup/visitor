@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -12,15 +14,25 @@ import lib.expression.Literal;
 import lib.visitors.NodeCounter;
 import port.IFactory;
 
-class NodeCounterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class NodeCounterTestBase<E extends Expression> extends TestBase<E> {
+    NodeCounterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void countsAllNodesInTraversalExpression() {
-        assertEquals(42,sampleTraversalExpression().accept(v.nodeCounter()));
+        assertEquals(42,testSupport.sampleTraversalExpression().accept(testSupport.v.nodeCounter()));
     }
 
     @Test
     void countsSingleLiteralAsOneNode() {
-        assertEquals(1,factory.literal("3").accept(v.nodeCounter()));
+        assertEquals(1,factory.literal("3").accept(testSupport.v.nodeCounter()));
+    }
+}
+
+class NodeCounterTest extends NodeCounterTestBase<Expression> {
+    NodeCounterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

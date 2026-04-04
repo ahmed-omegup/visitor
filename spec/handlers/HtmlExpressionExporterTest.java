@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -15,13 +17,17 @@ import lib.expression.VariableReference;
 import lib.visitors.HtmlExpressionExporter;
 import port.IFactory;
 
-class HtmlExpressionExporterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class HtmlExpressionExporterTestBase<E extends Expression> extends TestBase<E> {
+    HtmlExpressionExporterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void exportsSimpleAdditionAsHtml() {
         assertEquals(
             "<span class=\"expression addition\"><span class=\"expression literal\">1</span> <span class=\"operator\">+</span> <span class=\"expression variable-reference\">x</span></span>",
-factory.addition(factory.literal("1"), factory.variableReference("x")).accept(v.htmlExpressionExporter())
+factory.addition(factory.literal("1"), factory.variableReference("x")).accept(testSupport.v.htmlExpressionExporter())
         );
     }
 
@@ -29,13 +35,13 @@ factory.addition(factory.literal("1"), factory.variableReference("x")).accept(v.
     void escapesHtmlSensitiveLeafValues() {
         assertEquals(
             "<span class=\"expression variable-reference\">a&amp;&lt;b&gt;&quot;</span>",
-factory.variableReference("a&<b>\"").accept(v.htmlExpressionExporter())
+factory.variableReference("a&<b>\"").accept(testSupport.v.htmlExpressionExporter())
         );
     }
 
     @Test
     void exportsTraversalExpressionThroughAllVisitorBranches() {
-        var html =sampleTraversalExpression().accept(v.htmlExpressionExporter());
+        var html =testSupport.sampleTraversalExpression().accept(testSupport.v.htmlExpressionExporter());
 
         assertTrue(html.contains("class=\"expression conditional\""));
         assertTrue(html.contains("class=\"expression function-call\""));
@@ -43,5 +49,11 @@ factory.variableReference("a&<b>\"").accept(v.htmlExpressionExporter())
         assertTrue(html.contains("class=\"operator\">&gt;="));
         assertTrue(html.contains("class=\"operator\">&amp;&amp;"));
         assertTrue(html.contains("class=\"punctuation\">, </span>"));
+    }
+}
+
+class HtmlExpressionExporterTest extends HtmlExpressionExporterTestBase<Expression> {
+    HtmlExpressionExporterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

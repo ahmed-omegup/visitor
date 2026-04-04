@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,12 +12,23 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.LiteralDepthSequenceBuilder;
 
-class LiteralDepthSequenceBuilderTest {
+abstract class LiteralDepthSequenceBuilderTestBase<E extends Expression> extends TestBase<E> {
+    LiteralDepthSequenceBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
     @Test
     void recordsLiteralDepthsInEncounterOrder() {
         assertEquals(
             List.of(3, 4, 4, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3),
-sampleTraversalExpression().accept(v.literalDepthSequenceBuilder())
+testSupport.sampleTraversalExpression().accept(testSupport.v.literalDepthSequenceBuilder())
         );
+    }
+}
+
+class LiteralDepthSequenceBuilderTest extends LiteralDepthSequenceBuilderTestBase<Expression> {
+    LiteralDepthSequenceBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

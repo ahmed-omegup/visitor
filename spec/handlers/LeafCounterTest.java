@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -12,15 +14,25 @@ import lib.expression.Literal;
 import lib.visitors.LeafCounter;
 import port.IFactory;
 
-class LeafCounterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class LeafCounterTestBase<E extends Expression> extends TestBase<E> {
+    LeafCounterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void countsLeavesInTraversalExpression() {
-        assertEquals(24,sampleTraversalExpression().accept(v.leafCounter()));
+        assertEquals(24,testSupport.sampleTraversalExpression().accept(testSupport.v.leafCounter()));
     }
 
     @Test
     void countsSingleLiteralAsOneLeaf() {
-        assertEquals(1,factory.literal("3").accept(v.leafCounter()));
+        assertEquals(1,factory.literal("3").accept(testSupport.v.leafCounter()));
+    }
+}
+
+class LeafCounterTest extends LeafCounterTestBase<Expression> {
+    LeafCounterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

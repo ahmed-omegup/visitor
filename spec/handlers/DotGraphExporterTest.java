@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -14,11 +16,15 @@ import lib.expression.Literal;
 import lib.visitors.DotGraphExporter;
 import port.IFactory;
 
-class DotGraphExporterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class DotGraphExporterTestBase<E extends Expression> extends TestBase<E> {
+    DotGraphExporterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void exportsTraversalExpressionAsGraphvizGraph() {
-        var graph =sampleTraversalExpression().accept(v.dotGraphExporter());
+        var graph =testSupport.sampleTraversalExpression().accept(testSupport.v.dotGraphExporter());
 
         assertTrue(graph.startsWith("digraph Expression {\n"));
         for (var label : new String[] {
@@ -34,7 +40,7 @@ class DotGraphExporterTest {
     @Test
     void reusesExistingNodeIdsForSharedSubexpressions() {
         var shared = factory.literal("a\"b");
-        var graph =factory.addition(shared, shared).accept(v.dotGraphExporter());
+        var graph =factory.addition(shared, shared).accept(testSupport.v.dotGraphExporter());
 
         assertEquals(1, occurrences(graph, "n1 [label=\"Literal(a\\\"b)\"]"));
         assertEquals(2, occurrences(graph, "n0 -> n1;"));
@@ -48,5 +54,11 @@ class DotGraphExporterTest {
             index += needle.length();
         }
         return count;
+    }
+}
+
+class DotGraphExporterTest extends DotGraphExporterTestBase<Expression> {
+    DotGraphExporterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

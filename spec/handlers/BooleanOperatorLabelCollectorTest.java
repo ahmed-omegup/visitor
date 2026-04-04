@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,9 +12,20 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.BooleanOperatorLabelCollector;
 
-class BooleanOperatorLabelCollectorTest {
+abstract class BooleanOperatorLabelCollectorTestBase<E extends Expression> extends TestBase<E> {
+    BooleanOperatorLabelCollectorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
     @Test
     void collectsBooleanOperatorLabelsInPreorder() {
-        assertEquals(List.of("Conjunction", "LogicalNot", "Disjunction"),sampleTraversalExpression().accept(v.booleanOperatorLabelCollector()));
+        assertEquals(List.of("Conjunction", "LogicalNot", "Disjunction"),testSupport.sampleTraversalExpression().accept(testSupport.v.booleanOperatorLabelCollector()));
+    }
+}
+
+class BooleanOperatorLabelCollectorTest extends BooleanOperatorLabelCollectorTestBase<Expression> {
+    BooleanOperatorLabelCollectorTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

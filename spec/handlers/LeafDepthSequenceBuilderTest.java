@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -17,13 +19,17 @@ import lib.expression.VariableReference;
 import lib.visitors.LeafDepthSequenceBuilder;
 import port.IFactory;
 
-class LeafDepthSequenceBuilderTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class LeafDepthSequenceBuilderTestBase<E extends Expression> extends TestBase<E> {
+    LeafDepthSequenceBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void recordsLeafDepthsInEncounterOrder() {
         assertEquals(
             List.of(1, 2),
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(v.leafDepthSequenceBuilder())
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.leafDepthSequenceBuilder())
         );
     }
 
@@ -31,7 +37,13 @@ factory.addition(factory.variableReference("x"), factory.negation(factory.litera
     void recordsTraversalExpressionLeafDepths() {
         assertEquals(
             List.of(3, 3, 4, 4, 3, 3, 4, 4, 4, 4, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3),
-sampleTraversalExpression().accept(v.leafDepthSequenceBuilder())
+testSupport.sampleTraversalExpression().accept(testSupport.v.leafDepthSequenceBuilder())
         );
+    }
+}
+
+class LeafDepthSequenceBuilderTest extends LeafDepthSequenceBuilderTestBase<Expression> {
+    LeafDepthSequenceBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

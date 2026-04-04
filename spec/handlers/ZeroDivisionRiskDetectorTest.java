@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 import lib.visitors.ZeroDivisionRiskDetector;
@@ -15,11 +17,15 @@ import org.junit.jupiter.api.TestFactory;
 import lib.expression.*;
 import port.IFactory;
 
-class ZeroDivisionRiskDetectorTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class ZeroDivisionRiskDetectorTestBase<E extends Expression> extends TestBase<E> {
+    ZeroDivisionRiskDetectorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void detectsLiteralZeroDivisionAndModuloRisk() {
-        var detector = v.zeroDivisionRiskDetector();
+        var detector = testSupport.v.zeroDivisionRiskDetector();
 
         assertTrue(factory.division(factory.literal("8"), factory.literal("0")).accept(detector));
         assertTrue(factory.modulo(factory.literal("8"), factory.literal("0")).accept(detector));
@@ -28,13 +34,13 @@ class ZeroDivisionRiskDetectorTest {
 
     @Test
     void detectsRiskInsideTraversalTree() {
-        assertFalse(sampleTraversalExpression().accept(v.zeroDivisionRiskDetector()));
+        assertFalse(testSupport.sampleTraversalExpression().accept(testSupport.v.zeroDivisionRiskDetector()));
     }
 
     @TestFactory
     Iterable<DynamicTest> treatsNonLiteralDivisorsAsSafeCandidatesAcrossExpressionKinds() {
-        var detector = v.zeroDivisionRiskDetector();
-        return sampleNonVariableExpressions().stream()
+        var detector = testSupport.v.zeroDivisionRiskDetector();
+        return testSupport.sampleNonVariableExpressions().stream()
             .map(expression -> DynamicTest.dynamicTest("divisor-" + expression.getClass().getSimpleName(), () -> {
                 assertFalse(factory.division(factory.literal("8"), expression).accept(detector));
                 assertFalse(factory.modulo(factory.literal("8"), expression).accept(detector));
@@ -44,7 +50,7 @@ class ZeroDivisionRiskDetectorTest {
 
     @TestFactory
     Iterable<DynamicTest> detectsRiskWhenItAppearsOnEitherSideOfOperators() {
-        var detector = v.zeroDivisionRiskDetector();
+        var detector = testSupport.v.zeroDivisionRiskDetector();
         var risky = factory.division(factory.literal("8"), factory.literal("0"));
         return java.util.List.of(
             factory.addition(risky, factory.literal("1")),
@@ -84,7 +90,7 @@ class ZeroDivisionRiskDetectorTest {
 
     @Test
     void ignoresNonZeroLiteralDivisors() {
-        var detector = v.zeroDivisionRiskDetector();
+        var detector = testSupport.v.zeroDivisionRiskDetector();
 
         assertFalse(factory.division(factory.literal("8"), factory.literal("2")).accept(detector));
         assertFalse(factory.modulo(factory.literal("8"), factory.literal("3")).accept(detector));
@@ -92,9 +98,15 @@ class ZeroDivisionRiskDetectorTest {
 
     @Test
     void detectsCompositeRiskInDivisorAfterSafePrefixChecks() {
-        var detector = v.zeroDivisionRiskDetector();
+        var detector = testSupport.v.zeroDivisionRiskDetector();
 
         assertTrue(factory.division(factory.literal("8"), factory.addition(factory.literal("1"), factory.division(factory.literal("4"), factory.literal("0")))).accept(detector));
         assertTrue(factory.modulo(factory.literal("8"), factory.addition(factory.literal("1"), factory.division(factory.literal("4"), factory.literal("0")))).accept(detector));
+    }
+}
+
+class ZeroDivisionRiskDetectorTest extends ZeroDivisionRiskDetectorTestBase<Expression> {
+    ZeroDivisionRiskDetectorTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

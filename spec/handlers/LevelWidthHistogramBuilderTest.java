@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -19,9 +21,13 @@ import lib.expression.VariableReference;
 import lib.visitors.LevelWidthHistogramBuilder;
 import port.IFactory;
 
-class LevelWidthHistogramBuilderTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class LevelWidthHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+    LevelWidthHistogramBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void countsNodesPerTreeLevel() {
         var expected = new LinkedHashMap<Integer, Integer>();
         expected.put(0, 1);
@@ -30,17 +36,23 @@ class LevelWidthHistogramBuilderTest {
 
         assertEquals(
             expected,
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(v.levelWidthHistogramBuilder())
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.levelWidthHistogramBuilder())
         );
     }
 
     @Test
     void countsTraversalExpressionWidthsAcrossMultipleLevels() {
-        assertEquals(Map.of(0, 1, 1, 3, 2, 12, 3, 20, 4, 6),sampleTraversalExpression().accept(v.levelWidthHistogramBuilder()));
+        assertEquals(Map.of(0, 1, 1, 3, 2, 12, 3, 20, 4, 6),testSupport.sampleTraversalExpression().accept(testSupport.v.levelWidthHistogramBuilder()));
     }
 
     @Test
     void countsZeroArgumentFunctionCallWithoutArgumentLoopIterations() {
-        assertEquals(Map.of(0, 1, 1, 1),factory.functionCall(factory.variableReference("ping")).accept(v.levelWidthHistogramBuilder()));
+        assertEquals(Map.of(0, 1, 1, 1),factory.functionCall(factory.variableReference("ping")).accept(testSupport.v.levelWidthHistogramBuilder()));
+    }
+}
+
+class LevelWidthHistogramBuilderTest extends LevelWidthHistogramBuilderTestBase<Expression> {
+    LevelWidthHistogramBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

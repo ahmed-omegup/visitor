@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -15,9 +17,13 @@ import lib.expression.VariableReference;
 import lib.visitors.YamlExpressionExporter;
 import port.IFactory;
 
-class YamlExpressionExporterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class YamlExpressionExporterTestBase<E extends Expression> extends TestBase<E> {
+    YamlExpressionExporterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void exportsFunctionCallAsYamlTree() {
         assertEquals(
             "type: FunctionCall\n"
@@ -31,17 +37,23 @@ class YamlExpressionExporterTest {
                 + "  -\n"
                 + "    type: Literal\n"
                 + "    value: \"2\"\n",
-factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")).accept(v.yamlExpressionExporter())
+factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")).accept(testSupport.v.yamlExpressionExporter())
         );
     }
 
     @Test
     void exportsTraversalExpressionIncludingCompositeBranches() {
-        var yaml =sampleTraversalExpression().accept(v.yamlExpressionExporter());
+        var yaml =testSupport.sampleTraversalExpression().accept(testSupport.v.yamlExpressionExporter());
 
         assertTrue(yaml.contains("type: Conditional\n"));
         assertTrue(yaml.contains("type: GreaterThanOrEqual\n"));
         assertTrue(yaml.contains("type: FunctionCall\n"));
         assertTrue(yaml.contains("type: Negation\n"));
+    }
+}
+
+class YamlExpressionExporterTest extends YamlExpressionExporterTestBase<Expression> {
+    YamlExpressionExporterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,12 +12,23 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.ComparisonLabelCollector;
 
-class ComparisonLabelCollectorTest {
+abstract class ComparisonLabelCollectorTestBase<E extends Expression> extends TestBase<E> {
+    ComparisonLabelCollectorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
     @Test
     void collectsComparisonLabelsInPreorder() {
         assertEquals(
             List.of("LessThan", "Equality", "Inequality", "GreaterThan", "LessThanOrEqual", "GreaterThanOrEqual"),
-sampleTraversalExpression().accept(v.comparisonLabelCollector())
+testSupport.sampleTraversalExpression().accept(testSupport.v.comparisonLabelCollector())
         );
+    }
+}
+
+class ComparisonLabelCollectorTest extends ComparisonLabelCollectorTestBase<Expression> {
+    ComparisonLabelCollectorTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

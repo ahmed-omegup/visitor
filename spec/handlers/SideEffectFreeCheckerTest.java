@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 import lib.visitors.SideEffectFreeChecker;
@@ -15,11 +17,15 @@ import org.junit.jupiter.api.TestFactory;
 import lib.expression.*;
 import port.IFactory;
 
-class SideEffectFreeCheckerTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class SideEffectFreeCheckerTestBase<E extends Expression> extends TestBase<E> {
+    SideEffectFreeCheckerTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void treatsFunctionCallsAsSideEffectCandidates() {
-        var checker = v.sideEffectFreeChecker();
+        var checker = testSupport.v.sideEffectFreeChecker();
 
         assertTrue(factory.addition(factory.variableReference("x"), factory.literal("1")).accept(checker));
         assertFalse(factory.functionCall(factory.variableReference("sum"), factory.literal("1")).accept(checker));
@@ -27,13 +33,13 @@ class SideEffectFreeCheckerTest {
 
     @Test
     void rejectsTraversalExpressionBecauseOfFunctionCall() {
-        assertFalse(sampleTraversalExpression().accept(v.sideEffectFreeChecker()));
+        assertFalse(testSupport.sampleTraversalExpression().accept(testSupport.v.sideEffectFreeChecker()));
     }
 
     @TestFactory
     Iterable<DynamicTest> acceptsAllNonCallExpressionKindsFromSupport() {
-        var checker = v.sideEffectFreeChecker();
-        return sampleNonVariableExpressions().stream()
+        var checker = testSupport.v.sideEffectFreeChecker();
+        return testSupport.sampleNonVariableExpressions().stream()
             .map(expression -> DynamicTest.dynamicTest(expression.getClass().getSimpleName(), () ->
                 org.junit.jupiter.api.Assertions.assertEquals(!(expression instanceof FunctionCall),expression.accept(checker))))
             .toList();
@@ -41,7 +47,7 @@ class SideEffectFreeCheckerTest {
 
     @TestFactory
     Iterable<DynamicTest> rejectsEmbeddedFunctionCallsAcrossOperators() {
-        var checker = v.sideEffectFreeChecker();
+        var checker = testSupport.v.sideEffectFreeChecker();
         var call = factory.functionCall(factory.variableReference("sum"), factory.literal("1"));
         return java.util.List.of(
             factory.addition(call, factory.literal("1")),
@@ -79,5 +85,11 @@ class SideEffectFreeCheckerTest {
             factory.conditional(factory.literal("1"), factory.literal("2"), call)
         ).stream().map(expression -> DynamicTest.dynamicTest("side-effect-" + expression.getClass().getSimpleName(), () ->
             assertFalse(expression.accept(checker)))).toList();
+    }
+}
+
+class SideEffectFreeCheckerTest extends SideEffectFreeCheckerTestBase<Expression> {
+    SideEffectFreeCheckerTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

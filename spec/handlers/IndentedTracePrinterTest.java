@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -19,9 +21,13 @@ import lib.expression.Negation;
 import lib.visitors.IndentedTracePrinter;
 import port.IFactory;
 
-class IndentedTracePrinterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class IndentedTracePrinterTestBase<E extends Expression> extends TestBase<E> {
+    IndentedTracePrinterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void printsIndentedTraceLines() {
         var expression = factory.addition(factory.literal("1"), factory.negation(factory.literal("2")));
 
@@ -30,13 +36,13 @@ class IndentedTracePrinterTest {
                 + "  Literal(1)\n"
                 + "  Negation\n"
                 + "    Literal(2)\n",
-            captureOutput(() -> expression.accept(v.indentedTracePrinter()))
+            captureOutput(() -> expression.accept(testSupport.v.indentedTracePrinter()))
         );
     }
 
     @Test
     void visitsAllExpressionKinds() {
-        var output = captureOutput(() -> sampleTraversalExpression().accept(v.indentedTracePrinter()));
+        var output = captureOutput(() -> testSupport.sampleTraversalExpression().accept(testSupport.v.indentedTracePrinter()));
 
         assertTrue(output.contains("LessThanOrEqual\n"));
         assertTrue(output.contains("GreaterThanOrEqual\n"));
@@ -55,5 +61,11 @@ class IndentedTracePrinterTest {
             System.setOut(original);
             stream.close();
         }
+    }
+}
+
+class IndentedTracePrinterTest extends IndentedTracePrinterTestBase<Expression> {
+    IndentedTracePrinterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

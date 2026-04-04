@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,7 +12,12 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.BinaryOperatorLabelCollector;
 
-class BinaryOperatorLabelCollectorTest {
+abstract class BinaryOperatorLabelCollectorTestBase<E extends Expression> extends TestBase<E> {
+    BinaryOperatorLabelCollectorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
     @Test
     void collectsBinaryOperatorLabelsInPreorder() {
         assertEquals(
@@ -19,7 +26,13 @@ class BinaryOperatorLabelCollectorTest {
                 "Division", "Modulo", "Exponentiation", "Inequality", "GreaterThan", "LessThanOrEqual",
                 "GreaterThanOrEqual", "Disjunction"
             ),
-sampleTraversalExpression().accept(v.binaryOperatorLabelCollector())
+testSupport.sampleTraversalExpression().accept(testSupport.v.binaryOperatorLabelCollector())
         );
+    }
+}
+
+class BinaryOperatorLabelCollectorTest extends BinaryOperatorLabelCollectorTestBase<Expression> {
+    BinaryOperatorLabelCollectorTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -17,9 +19,13 @@ import lib.expression.VariableReference;
 import lib.visitors.VariableUsageCounter;
 import port.IFactory;
 
-class VariableUsageCounterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class VariableUsageCounterTestBase<E extends Expression> extends TestBase<E> {
+    VariableUsageCounterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void countsVariableUsagesInEncounterOrder() {
         var expected = new LinkedHashMap<String, Integer>();
         expected.put("x", 2);
@@ -30,12 +36,18 @@ class VariableUsageCounterTest {
 factory.addition(
                     factory.variableReference("x"),
                     factory.functionCall(factory.variableReference("sum"), factory.variableReference("x"))
-                ).accept(v.variableUsageCounter())
+                ).accept(testSupport.v.variableUsageCounter())
         );
     }
 
     @Test
     void countsTraversalExpressionVariablesIncludingFunctionCallee() {
-        assertEquals(Map.of("x", 1, "f", 1),sampleTraversalExpression().accept(v.variableUsageCounter()));
+        assertEquals(Map.of("x", 1, "f", 1),testSupport.sampleTraversalExpression().accept(testSupport.v.variableUsageCounter()));
+    }
+}
+
+class VariableUsageCounterTest extends VariableUsageCounterTestBase<Expression> {
+    VariableUsageCounterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

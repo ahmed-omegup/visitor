@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -17,13 +19,17 @@ import lib.expression.VariableReference;
 import lib.visitors.LeafPathCollector;
 import port.IFactory;
 
-class LeafPathCollectorTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class LeafPathCollectorTestBase<E extends Expression> extends TestBase<E> {
+    LeafPathCollectorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void collectsLeafPathsAcrossFunctionArguments() {
         assertEquals(
             List.of("root.callee", "root.arguments[0].left", "root.arguments[0].right"),
-factory.functionCall(factory.variableReference("f"), factory.addition(factory.literal("1"), factory.variableReference("x"))).accept(v.leafPathCollector())
+factory.functionCall(factory.variableReference("f"), factory.addition(factory.literal("1"), factory.variableReference("x"))).accept(testSupport.v.leafPathCollector())
         );
     }
 
@@ -56,7 +62,13 @@ factory.functionCall(factory.variableReference("f"), factory.addition(factory.li
                 "root.whenFalse.arguments[5].right",
                 "root.whenFalse.arguments[6].operand"
             ),
-sampleTraversalExpression().accept(v.leafPathCollector())
+testSupport.sampleTraversalExpression().accept(testSupport.v.leafPathCollector())
         );
+    }
+}
+
+class LeafPathCollectorTest extends LeafPathCollectorTestBase<Expression> {
+    LeafPathCollectorTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

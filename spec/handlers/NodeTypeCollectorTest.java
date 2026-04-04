@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,7 +13,12 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.NodeTypeCollector;
 
-class NodeTypeCollectorTest {
+abstract class NodeTypeCollectorTestBase<E extends Expression> extends TestBase<E> {
+    NodeTypeCollectorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
     @Test
     void collectsUniqueTypesInEncounterOrder() {
         assertEquals(
@@ -21,7 +28,13 @@ class NodeTypeCollectorTest {
                 "Division", "Modulo", "FunctionCall", "Exponentiation", "Inequality",
                 "GreaterThan", "LessThanOrEqual", "GreaterThanOrEqual", "Disjunction", "Negation"
             )),
-sampleTraversalExpression().accept(v.nodeTypeCollector())
+testSupport.sampleTraversalExpression().accept(testSupport.v.nodeTypeCollector())
         );
+    }
+}
+
+class NodeTypeCollectorTest extends NodeTypeCollectorTestBase<Expression> {
+    NodeTypeCollectorTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

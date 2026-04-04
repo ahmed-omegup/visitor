@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,12 +12,23 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.LiteralCollector;
 
-class LiteralCollectorTest {
+abstract class LiteralCollectorTestBase<E extends Expression> extends TestBase<E> {
+    LiteralCollectorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
     @Test
     void collectsLiteralsInTraversalOrder() {
         assertEquals(
             List.of("10", "1", "0", "7", "2", "8", "2", "9", "4", "2", "3", "5", "6", "7", "1", "2", "2", "3", "3", "0", "1", "4"),
-sampleTraversalExpression().accept(v.literalCollector())
+testSupport.sampleTraversalExpression().accept(testSupport.v.literalCollector())
         );
+    }
+}
+
+class LiteralCollectorTest extends LiteralCollectorTestBase<Expression> {
+    LiteralCollectorTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

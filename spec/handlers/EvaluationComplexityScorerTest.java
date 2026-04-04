@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,9 +10,20 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.EvaluationComplexityScorer;
 
-class EvaluationComplexityScorerTest {
+abstract class EvaluationComplexityScorerTestBase<E extends Expression> extends TestBase<E> {
+    EvaluationComplexityScorerTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
     @Test
     void scoresTraversalExpressionFromExistingMetrics() {
-        assertEquals(64,sampleTraversalExpression().accept(v.evaluationComplexityScorer()));
+        assertEquals(64,testSupport.sampleTraversalExpression().accept(testSupport.v.evaluationComplexityScorer()));
+    }
+}
+
+class EvaluationComplexityScorerTest extends EvaluationComplexityScorerTestBase<Expression> {
+    EvaluationComplexityScorerTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

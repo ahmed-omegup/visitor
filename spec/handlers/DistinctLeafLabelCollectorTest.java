@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -18,16 +20,20 @@ import lib.expression.VariableReference;
 import lib.visitors.DistinctLeafLabelCollector;
 import port.IFactory;
 
-class DistinctLeafLabelCollectorTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class DistinctLeafLabelCollectorTestBase<E extends Expression> extends TestBase<E> {
+    DistinctLeafLabelCollectorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void keepsDistinctLeafLabelsInEncounterOrder() {
         assertEquals(
             new LinkedHashSet<>(List.of("literal:1", "variable:f", "variable:x")),
 factory.addition(
                     factory.literal("1"),
                     factory.functionCall(factory.variableReference("f"), factory.literal("1"), factory.variableReference("x"), factory.variableReference("x"))
-                ).accept(v.distinctLeafLabelCollector())
+                ).accept(testSupport.v.distinctLeafLabelCollector())
         );
     }
 
@@ -49,7 +55,13 @@ factory.addition(
                 "literal:5",
                 "literal:6"
             )),
-sampleTraversalExpression().accept(v.distinctLeafLabelCollector())
+testSupport.sampleTraversalExpression().accept(testSupport.v.distinctLeafLabelCollector())
         );
+    }
+}
+
+class DistinctLeafLabelCollectorTest extends DistinctLeafLabelCollectorTestBase<Expression> {
+    DistinctLeafLabelCollectorTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

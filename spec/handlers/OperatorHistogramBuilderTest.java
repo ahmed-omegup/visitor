@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -17,9 +19,13 @@ import lib.expression.Negation;
 import lib.visitors.OperatorHistogramBuilder;
 import port.IFactory;
 
-class OperatorHistogramBuilderTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class OperatorHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+    OperatorHistogramBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void countsRepeatedOperators() {
         var expected = new LinkedHashMap<String, Integer>();
         expected.put("Addition", 2);
@@ -30,13 +36,13 @@ class OperatorHistogramBuilderTest {
 factory.addition(
                     factory.addition(factory.literal("1"), factory.literal("2")),
                     factory.negation(factory.literal("3"))
-                ).accept(v.operatorHistogramBuilder())
+                ).accept(testSupport.v.operatorHistogramBuilder())
         );
     }
 
     @Test
     void countsAllOperatorKindsInTraversalExpression() {
-        var histogram =sampleTraversalExpression().accept(v.operatorHistogramBuilder());
+        var histogram =testSupport.sampleTraversalExpression().accept(testSupport.v.operatorHistogramBuilder());
 
         for (var operator : new String[] {
             "Conditional", "Conjunction", "LessThan", "LogicalNot", "Equality", "Addition", "Subtraction", "Multiplication",
@@ -45,5 +51,11 @@ factory.addition(
         }) {
             assertEquals(1, histogram.get(operator));
         }
+    }
+}
+
+class OperatorHistogramBuilderTest extends OperatorHistogramBuilderTestBase<Expression> {
+    OperatorHistogramBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

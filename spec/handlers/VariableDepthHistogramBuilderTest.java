@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,13 +12,24 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.VariableDepthHistogramBuilder;
 
-class VariableDepthHistogramBuilderTest {
+abstract class VariableDepthHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+    VariableDepthHistogramBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
     @Test
     void countsVariableReferencesPerDepth() {
         var expected = new LinkedHashMap<Integer, Integer>();
         expected.put(3, 1);
         expected.put(2, 1);
 
-        assertEquals(expected,sampleTraversalExpression().accept(v.variableDepthHistogramBuilder()));
+        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.variableDepthHistogramBuilder()));
+    }
+}
+
+class VariableDepthHistogramBuilderTest extends VariableDepthHistogramBuilderTestBase<Expression> {
+    VariableDepthHistogramBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

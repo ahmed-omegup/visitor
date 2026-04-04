@@ -8,13 +8,11 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.Expression;
 import lib.visitors.ArithmeticDepthHistogramBuilder;
-import static spec.handlers.TestSupport.*;
+import lib.visitors.VisitorFactory;
 
-abstract class ArithmeticDepthHistogramBuilderTestBase<E> {
-    protected final TestSupport<E> testSupport;
-
+abstract class ArithmeticDepthHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
     ArithmeticDepthHistogramBuilderTestBase(TestSupport<E> testSupport) {
-        this.testSupport = testSupport;
+        super(testSupport);
     }
 
     @Test
@@ -31,6 +29,6 @@ abstract class ArithmeticDepthHistogramBuilderTestBase<E> {
 
 class ArithmeticDepthHistogramBuilderTest extends ArithmeticDepthHistogramBuilderTestBase<Expression> {
     ArithmeticDepthHistogramBuilderTest() {
-        super(TestSupport.instance);
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

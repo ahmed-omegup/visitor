@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,12 +10,23 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.PrefixNotationPrinter;
 
-class PrefixNotationPrinterTest {
+abstract class PrefixNotationPrinterTestBase<E extends Expression> extends TestBase<E> {
+    PrefixNotationPrinterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
     @Test
     void rendersTraversalExpressionInPrefixNotation() {
         assertEquals(
             "(?: (&& (< x 10) (! (== 1 0))) (+ (- 7 2) (* (/ 8 2) (% 9 4))) (call f (^ 2 3) (!= 5 6) (> 7 1) (<= 2 2) (>= 3 3) (|| 0 1) (neg 4)))",
-sampleTraversalExpression().accept(v.prefixNotationPrinter())
+testSupport.sampleTraversalExpression().accept(testSupport.v.prefixNotationPrinter())
         );
+    }
+}
+
+class PrefixNotationPrinterTest extends PrefixNotationPrinterTestBase<Expression> {
+    PrefixNotationPrinterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

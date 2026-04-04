@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,9 +12,20 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.UnaryOperatorLabelCollector;
 
-class UnaryOperatorLabelCollectorTest {
+abstract class UnaryOperatorLabelCollectorTestBase<E extends Expression> extends TestBase<E> {
+    UnaryOperatorLabelCollectorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
     @Test
     void collectsUnaryOperatorLabelsInPreorder() {
-        assertEquals(List.of("LogicalNot", "Negation"),sampleTraversalExpression().accept(v.unaryOperatorLabelCollector()));
+        assertEquals(List.of("LogicalNot", "Negation"),testSupport.sampleTraversalExpression().accept(testSupport.v.unaryOperatorLabelCollector()));
+    }
+}
+
+class UnaryOperatorLabelCollectorTest extends UnaryOperatorLabelCollectorTestBase<Expression> {
+    UnaryOperatorLabelCollectorTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -15,9 +17,13 @@ import lib.expression.VariableReference;
 import lib.visitors.MermaidFlowchartExporter;
 import port.IFactory;
 
-class MermaidFlowchartExporterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class MermaidFlowchartExporterTestBase<E extends Expression> extends TestBase<E> {
+    MermaidFlowchartExporterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void exportsSimpleFlowchart() {
         assertEquals(
             "flowchart TD\n"
@@ -26,13 +32,13 @@ class MermaidFlowchartExporterTest {
                 + "  n0 --> n1\n"
                 + "  n2[\"Literal(2)\"]\n"
                 + "  n0 --> n2\n",
-factory.addition(factory.variableReference("x"), factory.literal("2")).accept(v.mermaidFlowchartExporter())
+factory.addition(factory.variableReference("x"), factory.literal("2")).accept(testSupport.v.mermaidFlowchartExporter())
         );
     }
 
     @Test
     void exportsTraversalExpressionKinds() {
-        var chart =sampleTraversalExpression().accept(v.mermaidFlowchartExporter());
+        var chart =testSupport.sampleTraversalExpression().accept(testSupport.v.mermaidFlowchartExporter());
 
         assertTrue(chart.contains("[\"Conditional\"]"));
         assertTrue(chart.contains("[\"FunctionCall\"]"));
@@ -42,7 +48,7 @@ factory.addition(factory.variableReference("x"), factory.literal("2")).accept(v.
     @Test
     void reusesExistingNodeForSharedExpressionReference() {
         var shared = factory.literal("a\"b");
-        var chart =factory.addition(shared, shared).accept(v.mermaidFlowchartExporter());
+        var chart =factory.addition(shared, shared).accept(testSupport.v.mermaidFlowchartExporter());
 
         assertEquals(1, occurrences(chart, "[\"Literal(a\\\"b)\"]"));
         assertEquals(2, occurrences(chart, "n0 --> n1"));
@@ -56,5 +62,11 @@ factory.addition(factory.variableReference("x"), factory.literal("2")).accept(v.
             index += needle.length();
         }
         return count;
+    }
+}
+
+class MermaidFlowchartExporterTest extends MermaidFlowchartExporterTestBase<Expression> {
+    MermaidFlowchartExporterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

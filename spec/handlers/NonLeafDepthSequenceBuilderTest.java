@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -17,13 +19,17 @@ import lib.expression.VariableReference;
 import lib.visitors.NonLeafDepthSequenceBuilder;
 import port.IFactory;
 
-class NonLeafDepthSequenceBuilderTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class NonLeafDepthSequenceBuilderTestBase<E extends Expression> extends TestBase<E> {
+    NonLeafDepthSequenceBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void recordsCompositeNodesWithTheirDepth() {
         assertEquals(
             List.of("0:Addition", "1:Negation"),
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(v.nonLeafDepthSequenceBuilder())
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.nonLeafDepthSequenceBuilder())
         );
     }
 
@@ -50,7 +56,13 @@ factory.addition(factory.variableReference("x"), factory.negation(factory.litera
                 "2:Disjunction",
                 "2:Negation"
             ),
-sampleTraversalExpression().accept(v.nonLeafDepthSequenceBuilder())
+testSupport.sampleTraversalExpression().accept(testSupport.v.nonLeafDepthSequenceBuilder())
         );
+    }
+}
+
+class NonLeafDepthSequenceBuilderTest extends NonLeafDepthSequenceBuilderTestBase<Expression> {
+    NonLeafDepthSequenceBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

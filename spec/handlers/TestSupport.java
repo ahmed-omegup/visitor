@@ -1,6 +1,5 @@
 package spec.handlers;
 
-import lib.expression.Factory;
 import lib.visitors.VisitorFactory;
 
 import java.util.ArrayList;
@@ -10,15 +9,18 @@ import lib.expression.*;
 import port.IExpressionFactory;
 import port.IVisitorFactory;
 
-final class TestSupport<E> {
-    public static final IVisitorFactory<Expression> v = new VisitorFactory();
-    public static final TestSupport<Expression> instance = new TestSupport<>();
-    private static final IExpressionFactory<Expression> factory = v.expressionFactory();
+final class TestSupport<E extends Expression> {
+    final IVisitorFactory<E> v;
+    final IExpressionFactory<E> factory;
 
-    private TestSupport() {}
+    @SuppressWarnings("unchecked")
+    TestSupport(IVisitorFactory<E> v) {
+        this.v = v;
+        this.factory = new ExpressionFactoryAdapter<>((IExpressionFactory<Expression>) v.expressionFactory());
+    }
 
 
-    static Expression sampleTraversalExpression() {
+    E sampleTraversalExpression() {
         return factory.conditional(
             factory.conjunction(
                 factory.lessThan(factory.variableReference("x"), factory.literal("10")),
@@ -44,8 +46,8 @@ final class TestSupport<E> {
         );
     }
 
-    static List<Expression> sampleNonVariableExpressions() {
-        var expressions = new ArrayList<Expression>();
+    List<E> sampleNonVariableExpressions() {
+        var expressions = new ArrayList<E>();
         expressions.add(factory.addition(factory.literal("1"), factory.literal("2")));
         expressions.add(factory.subtraction(factory.literal("3"), factory.literal("1")));
         expressions.add(factory.multiplication(factory.literal("2"), factory.literal("3")));

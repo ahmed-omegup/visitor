@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -21,30 +23,34 @@ import lib.expression.VariableReference;
 import lib.visitors.FunctionNameCollector;
 import port.IFactory;
 
-class FunctionNameCollectorTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class FunctionNameCollectorTestBase<E extends Expression> extends TestBase<E> {
+    FunctionNameCollectorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void collectsFunctionNamesFromVariableCallees() {
         assertEquals(
             new LinkedHashSet<>(List.of("sum", "max")),
 factory.addition(
                     factory.functionCall(factory.variableReference("sum"), factory.literal("1")),
                     factory.functionCall(factory.variableReference("max"), factory.literal("2"), factory.literal("3"))
-                ).accept(v.functionNameCollector())
+                ).accept(testSupport.v.functionNameCollector())
         );
     }
 
     @Test
     void collectsTraversalExpressionFunctionName() {
-        assertEquals(new LinkedHashSet<>(List.of("f")),sampleTraversalExpression().accept(v.functionNameCollector()));
+        assertEquals(new LinkedHashSet<>(List.of("f")),testSupport.sampleTraversalExpression().accept(testSupport.v.functionNameCollector()));
     }
 
     @TestFactory
     Iterable<DynamicTest> ignoresNonVariableCalleesAcrossExpressionKinds() {
-        var collector = v.functionNameCollector();
-        var cases = new java.util.ArrayList<lib.expression.Expression>();
+        var collector = testSupport.v.functionNameCollector();
+        var cases = new java.util.ArrayList<E>();
         cases.add(factory.literal("1"));
-        cases.addAll(sampleNonVariableExpressions().stream()
+        cases.addAll(testSupport.sampleNonVariableExpressions().stream()
             .filter(expression -> !(expression instanceof FunctionCall))
             .toList());
         return cases.stream()
@@ -60,7 +66,13 @@ factory.functionCall(callee, factory.literal("9")).accept(collector)
     void collectsNestedFunctionNamesFromFunctionValuedCallee() {
         assertEquals(
             new LinkedHashSet<>(List.of("sum")),
-factory.functionCall(factory.functionCall(factory.variableReference("sum"), factory.literal("1")), factory.literal("9")).accept(v.functionNameCollector())
+factory.functionCall(factory.functionCall(factory.variableReference("sum"), factory.literal("1")), factory.literal("9")).accept(testSupport.v.functionNameCollector())
         );
+    }
+}
+
+class FunctionNameCollectorTest extends FunctionNameCollectorTestBase<Expression> {
+    FunctionNameCollectorTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

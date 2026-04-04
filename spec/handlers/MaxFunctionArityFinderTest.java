@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 import lib.visitors.MaxFunctionArityFinder;
@@ -14,32 +16,36 @@ import org.junit.jupiter.api.TestFactory;
 import lib.expression.*;
 import port.IFactory;
 
-class MaxFunctionArityFinderTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class MaxFunctionArityFinderTestBase<E extends Expression> extends TestBase<E> {
+    MaxFunctionArityFinderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void returnsLargestFunctionArityInTree() {
         assertEquals(
             3,
 factory.addition(
                     factory.functionCall(factory.variableReference("ping")),
                     factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2"), factory.literal("3"))
-                ).accept(v.maxFunctionArityFinder())
+                ).accept(testSupport.v.maxFunctionArityFinder())
         );
     }
 
     @Test
     void returnsZeroWhenNoFunctionCallExists() {
-        assertEquals(0,factory.addition(factory.literal("1"), factory.literal("2")).accept(v.maxFunctionArityFinder()));
+        assertEquals(0,factory.addition(factory.literal("1"), factory.literal("2")).accept(testSupport.v.maxFunctionArityFinder()));
     }
 
     @Test
     void followsTraversalExpressionToLargestArity() {
-        assertEquals(7,sampleTraversalExpression().accept(v.maxFunctionArityFinder()));
+        assertEquals(7,testSupport.sampleTraversalExpression().accept(testSupport.v.maxFunctionArityFinder()));
     }
 
     @TestFactory
     Iterable<DynamicTest> traversesEveryOperatorShapeWithoutFunctionCalls() {
-        var finder = v.maxFunctionArityFinder();
+        var finder = testSupport.v.maxFunctionArityFinder();
         return java.util.List.of(
             factory.literal("1"),
             factory.variableReference("x"),
@@ -62,5 +68,11 @@ factory.addition(
             factory.conditional(factory.literal("1"), factory.literal("2"), factory.literal("3"))
         ).stream().map(expression -> DynamicTest.dynamicTest("arity-" + expression.getClass().getSimpleName(), () ->
             assertEquals(0,expression.accept(finder)))).toList();
+    }
+}
+
+class MaxFunctionArityFinderTest extends MaxFunctionArityFinderTestBase<Expression> {
+    MaxFunctionArityFinderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

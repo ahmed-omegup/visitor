@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -16,19 +18,23 @@ import lib.expression.VariableReference;
 import lib.visitors.PostOrderLabelPrinter;
 import port.IFactory;
 
-class PostOrderLabelPrinterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class PostOrderLabelPrinterTestBase<E extends Expression> extends TestBase<E> {
+    PostOrderLabelPrinterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void printsLabelsInPostOrder() {
         assertEquals(
             "VariableReference(x) -> Literal(2) -> Addition",
-factory.addition(factory.variableReference("x"), factory.literal("2")).accept(v.postOrderLabelPrinter())
+factory.addition(factory.variableReference("x"), factory.literal("2")).accept(testSupport.v.postOrderLabelPrinter())
         );
     }
 
     @Test
     void printsTraversalExpressionInPostOrder() {
-        var labels =sampleTraversalExpression().accept(v.postOrderLabelPrinter());
+        var labels =testSupport.sampleTraversalExpression().accept(testSupport.v.postOrderLabelPrinter());
 
         assertTrue(labels.startsWith("VariableReference(x) -> Literal(10) -> LessThan"));
         assertTrue(labels.contains("Literal(4) -> Negation -> FunctionCall"));
@@ -37,10 +43,16 @@ factory.addition(factory.variableReference("x"), factory.literal("2")).accept(v.
 
     @Test
     void printsTraversalExpressionPostOrder() {
-        var labels =sampleTraversalExpression().accept(v.postOrderLabelPrinter());
+        var labels =testSupport.sampleTraversalExpression().accept(testSupport.v.postOrderLabelPrinter());
 
         assertTrue(labels.startsWith("VariableReference(x) -> Literal(10)"));
         assertTrue(labels.contains("Literal(4) -> Negation"));
         assertTrue(labels.endsWith("Conditional"));
+    }
+}
+
+class PostOrderLabelPrinterTest extends PostOrderLabelPrinterTestBase<Expression> {
+    PostOrderLabelPrinterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

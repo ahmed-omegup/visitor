@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -16,9 +18,13 @@ import lib.expression.VariableReference;
 import lib.visitors.ShallowestLeafPathFinder;
 import port.IFactory;
 
-class ShallowestLeafPathFinderTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class ShallowestLeafPathFinderTestBase<E extends Expression> extends TestBase<E> {
+    ShallowestLeafPathFinderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void prefersTheEarliestLeafAtTheSmallestDepth() {
         assertEquals(
             "root.whenTrue",
@@ -26,12 +32,18 @@ factory.conditional(
                     factory.addition(factory.literal("1"), factory.literal("2")),
                     factory.variableReference("x"),
                     factory.negation(factory.literal("3"))
-                ).accept(v.shallowestLeafPathFinder())
+                ).accept(testSupport.v.shallowestLeafPathFinder())
         );
     }
 
     @Test
     void findsTraversalExpressionShallowestLeaf() {
-        assertEquals("root.whenFalse.callee",sampleTraversalExpression().accept(v.shallowestLeafPathFinder()));
+        assertEquals("root.whenFalse.callee",testSupport.sampleTraversalExpression().accept(testSupport.v.shallowestLeafPathFinder()));
+    }
+}
+
+class ShallowestLeafPathFinderTest extends ShallowestLeafPathFinderTestBase<Expression> {
+    ShallowestLeafPathFinderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

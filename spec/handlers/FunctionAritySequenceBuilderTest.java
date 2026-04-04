@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -17,21 +19,31 @@ import lib.expression.VariableReference;
 import lib.visitors.FunctionAritySequenceBuilder;
 import port.IFactory;
 
-class FunctionAritySequenceBuilderTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class FunctionAritySequenceBuilderTestBase<E extends Expression> extends TestBase<E> {
+    FunctionAritySequenceBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void recordsFunctionAritiesInPreorder() {
         assertEquals(
             List.of(2, 1, 0),
 factory.addition(
                     factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")),
                     factory.functionCall(factory.functionCall(factory.variableReference("g")), factory.literal("3"))
-                ).accept(v.functionAritySequenceBuilder())
+                ).accept(testSupport.v.functionAritySequenceBuilder())
         );
     }
 
     @Test
     void recordsTraversalExpressionFunctionArity() {
-        assertEquals(List.of(7),sampleTraversalExpression().accept(v.functionAritySequenceBuilder()));
+        assertEquals(List.of(7),testSupport.sampleTraversalExpression().accept(testSupport.v.functionAritySequenceBuilder()));
+    }
+}
+
+class FunctionAritySequenceBuilderTest extends FunctionAritySequenceBuilderTestBase<Expression> {
+    FunctionAritySequenceBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

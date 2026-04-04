@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -17,9 +19,13 @@ import lib.expression.VariableReference;
 import lib.visitors.MarkdownOutlineExporter;
 import port.IFactory;
 
-class MarkdownOutlineExporterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class MarkdownOutlineExporterTestBase<E extends Expression> extends TestBase<E> {
+    MarkdownOutlineExporterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void exportsNestedExpressionsAsMarkdownOutline() {
         var expression = factory.addition(
             factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")),
@@ -34,16 +40,22 @@ class MarkdownOutlineExporterTest {
                 + "    - Literal(2)\n"
                 + "  - Negation\n"
                 + "    - VariableReference(x)\n",
-expression.accept(v.markdownOutlineExporter())
+expression.accept(testSupport.v.markdownOutlineExporter())
         );
     }
 
     @Test
     void visitsAllExpressionTypes() {
-        var markdown =sampleTraversalExpression().accept(v.markdownOutlineExporter());
+        var markdown =testSupport.sampleTraversalExpression().accept(testSupport.v.markdownOutlineExporter());
 
         assertTrue(markdown.contains("- LessThanOrEqual\n"));
         assertTrue(markdown.contains("- GreaterThanOrEqual\n"));
         assertTrue(markdown.contains("- Disjunction\n"));
+    }
+}
+
+class MarkdownOutlineExporterTest extends MarkdownOutlineExporterTestBase<Expression> {
+    MarkdownOutlineExporterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

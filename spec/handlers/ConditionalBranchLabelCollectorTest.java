@@ -1,6 +1,5 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
 
 import lib.expression.Factory;
 
@@ -15,6 +14,7 @@ import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.Conditional;
 import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
 import lib.expression.FunctionCall;
 import lib.expression.LessThan;
 import lib.expression.Literal;
@@ -22,9 +22,13 @@ import lib.expression.VariableReference;
 import lib.visitors.ConditionalBranchLabelCollector;
 import port.IFactory;
 
-class ConditionalBranchLabelCollectorTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class ConditionalBranchLabelCollectorTestBase<E extends Expression> extends TestBase<E> {
+    ConditionalBranchLabelCollectorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void reportsDirectChildKindsForConditionalBranches() {
         assertEquals(
             List.of("condition=LessThan", "whenTrue=Literal", "whenFalse=FunctionCall"),
@@ -32,7 +36,7 @@ factory.conditional(
                     factory.lessThan(factory.variableReference("x"), factory.literal("1")),
                     factory.literal("2"),
                     factory.functionCall(factory.variableReference("fallback"), factory.literal("0"))
-                ).accept(v.conditionalBranchLabelCollector())
+                ).accept(testSupport.v.conditionalBranchLabelCollector())
         );
     }
 
@@ -40,23 +44,29 @@ factory.conditional(
     void reportsTraversalExpressionBranchKinds() {
         assertEquals(
             List.of("condition=Conjunction", "whenTrue=Addition", "whenFalse=FunctionCall"),
-sampleTraversalExpression().accept(v.conditionalBranchLabelCollector())
+testSupport.sampleTraversalExpression().accept(testSupport.v.conditionalBranchLabelCollector())
         );
     }
 
     @TestFactory
     Iterable<DynamicTest> labelsEverySupportedConditionalBranchKind() {
-        var cases = new ArrayList<Expression>();
+        var cases = new ArrayList<E>();
         cases.add(factory.variableReference("x"));
-        cases.addAll(sampleNonVariableExpressions());
+        cases.addAll(testSupport.sampleNonVariableExpressions());
         cases.add(factory.literal("1"));
 
         return cases.stream()
             .map(expression -> DynamicTest.dynamicTest("condition-" + expression.getClass().getSimpleName(), () ->
                 assertEquals(
                     "condition=" + expression.getClass().getSimpleName(),
-factory.conditional(expression, factory.literal("2"), factory.literal("3")).accept(v.conditionalBranchLabelCollector()).get(0)
+factory.conditional(expression, factory.literal("2"), factory.literal("3")).accept(testSupport.v.conditionalBranchLabelCollector()).get(0)
                 )))
             .toList();
+    }
+}
+
+class ConditionalBranchLabelCollectorTest extends ConditionalBranchLabelCollectorTestBase<Expression> {
+    ConditionalBranchLabelCollectorTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

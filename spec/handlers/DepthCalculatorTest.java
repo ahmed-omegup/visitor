@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -13,15 +15,25 @@ import lib.expression.VariableReference;
 import lib.visitors.DepthCalculator;
 import port.IFactory;
 
-class DepthCalculatorTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class DepthCalculatorTestBase<E extends Expression> extends TestBase<E> {
+    DepthCalculatorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void computesDepthForTraversalExpression() {
-        assertEquals(5,sampleTraversalExpression().accept(v.depthCalculator()));
+        assertEquals(5,testSupport.sampleTraversalExpression().accept(testSupport.v.depthCalculator()));
     }
 
     @Test
     void countsZeroArgumentFunctionCallDepth() {
-        assertEquals(2,factory.functionCall(factory.variableReference("ping")).accept(v.depthCalculator()));
+        assertEquals(2,factory.functionCall(factory.variableReference("ping")).accept(testSupport.v.depthCalculator()));
+    }
+}
+
+class DepthCalculatorTest extends DepthCalculatorTestBase<Expression> {
+    DepthCalculatorTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -18,9 +20,13 @@ import lib.expression.VariableReference;
 import lib.visitors.LiteralPathCollector;
 import port.IFactory;
 
-class LiteralPathCollectorTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class LiteralPathCollectorTestBase<E extends Expression> extends TestBase<E> {
+    LiteralPathCollectorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void groupsLiteralPathsByValue() {
         var expected = new LinkedHashMap<String, List<String>>();
         expected.put("1", List.of("root.left", "root.right.arguments[0]"));
@@ -28,7 +34,7 @@ class LiteralPathCollectorTest {
 
         assertEquals(
             expected,
-factory.addition(factory.literal("1"), factory.functionCall(factory.variableReference("f"), factory.literal("1"), factory.literal("2"))).accept(v.literalPathCollector())
+factory.addition(factory.literal("1"), factory.functionCall(factory.variableReference("f"), factory.literal("1"), factory.literal("2"))).accept(testSupport.v.literalPathCollector())
         );
     }
 
@@ -47,6 +53,12 @@ factory.addition(factory.literal("1"), factory.functionCall(factory.variableRefe
         expected.put("5", List.of("root.whenFalse.arguments[1].left"));
         expected.put("6", List.of("root.whenFalse.arguments[1].right"));
 
-        assertEquals(expected,sampleTraversalExpression().accept(v.literalPathCollector()));
+        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.literalPathCollector()));
+    }
+}
+
+class LiteralPathCollectorTest extends LiteralPathCollectorTestBase<Expression> {
+    LiteralPathCollectorTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

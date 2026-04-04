@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -15,9 +17,13 @@ import lib.expression.VariableReference;
 import lib.visitors.CsvNodeExporter;
 import port.IFactory;
 
-class CsvNodeExporterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class CsvNodeExporterTestBase<E extends Expression> extends TestBase<E> {
+    CsvNodeExporterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void exportsNodesAsCsvRows() {
         assertEquals(
             "path,type,detail\n"
@@ -25,17 +31,23 @@ class CsvNodeExporterTest {
                 + "\"0.0\",\"VariableReference\",\"sum\"\n"
                 + "\"0.1\",\"Literal\",\"1\"\n"
                 + "\"0.2\",\"Literal\",\"2\"\n",
-factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")).accept(v.csvNodeExporter())
+factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")).accept(testSupport.v.csvNodeExporter())
         );
     }
 
     @Test
     void exportsTraversalExpressionIncludingAllCompositeRows() {
-        var csv =sampleTraversalExpression().accept(v.csvNodeExporter());
+        var csv =testSupport.sampleTraversalExpression().accept(testSupport.v.csvNodeExporter());
 
         assertTrue(csv.contains("\"0\",\"Conditional\",\"\"\n"));
         assertTrue(csv.contains("\"0.1.1\",\"Multiplication\",\"\"\n"));
         assertTrue(csv.contains("\"0.2\",\"FunctionCall\",\"7\"\n"));
         assertTrue(csv.contains("\"0.2.7.0\",\"Literal\",\"4\"\n"));
+    }
+}
+
+class CsvNodeExporterTest extends CsvNodeExporterTestBase<Expression> {
+    CsvNodeExporterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

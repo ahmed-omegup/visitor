@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -16,25 +18,35 @@ import lib.expression.VariableReference;
 import lib.visitors.PathAnnotatedOutlineExporter;
 import port.IFactory;
 
-class PathAnnotatedOutlineExporterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class PathAnnotatedOutlineExporterTestBase<E extends Expression> extends TestBase<E> {
+    PathAnnotatedOutlineExporterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void annotatesEachNodeWithItsTraversalPath() {
         assertEquals(
             "0 Addition\n"
                 + "0.0 VariableReference(x)\n"
                 + "0.1 Negation\n"
                 + "0.1.0 Literal(2)\n",
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(v.pathAnnotatedOutlineExporter())
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.pathAnnotatedOutlineExporter())
         );
     }
 
     @Test
     void coversConditionalAndFunctionCallPathBranches() {
-        var outline =sampleTraversalExpression().accept(v.pathAnnotatedOutlineExporter());
+        var outline =testSupport.sampleTraversalExpression().accept(testSupport.v.pathAnnotatedOutlineExporter());
 
         assertTrue(outline.contains("0 Conditional\n"));
         assertTrue(outline.contains("0.2 FunctionCall\n"));
         assertTrue(outline.contains("0.2.7 Negation\n"));
+    }
+}
+
+class PathAnnotatedOutlineExporterTest extends PathAnnotatedOutlineExporterTestBase<Expression> {
+    PathAnnotatedOutlineExporterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

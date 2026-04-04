@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -18,22 +20,32 @@ import lib.expression.VariableReference;
 import lib.visitors.EvaluationOrderListBuilder;
 import port.IFactory;
 
-class EvaluationOrderListBuilderTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class EvaluationOrderListBuilderTestBase<E extends Expression> extends TestBase<E> {
+    EvaluationOrderListBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void recordsPreorderEvaluationSteps() {
         assertEquals(
             List.of("Addition", "VariableReference(x)", "Negation", "Literal(2)"),
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(v.evaluationOrderListBuilder())
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.evaluationOrderListBuilder())
         );
     }
 
     @Test
     void recordsTraversalExpressionEvaluationOrder() {
-        var steps =sampleTraversalExpression().accept(v.evaluationOrderListBuilder());
+        var steps =testSupport.sampleTraversalExpression().accept(testSupport.v.evaluationOrderListBuilder());
 
         assertEquals("Conditional", steps.get(0));
         assertTrue(steps.contains("FunctionCall"));
         assertTrue(steps.contains("GreaterThanOrEqual"));
+    }
+}
+
+class EvaluationOrderListBuilderTest extends EvaluationOrderListBuilderTestBase<Expression> {
+    EvaluationOrderListBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

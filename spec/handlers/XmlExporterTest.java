@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -16,9 +18,13 @@ import lib.expression.VariableReference;
 import lib.visitors.XmlExporter;
 import port.IFactory;
 
-class XmlExporterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class XmlExporterTestBase<E extends Expression> extends TestBase<E> {
+    XmlExporterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void exportsNestedExpressionsAsIndentedXml() {
         var expression = factory.addition(factory.variableReference("x"), factory.literal("2"));
 
@@ -27,7 +33,7 @@ class XmlExporterTest {
                 + "  <VariableReference name=\"x\"/>\n"
                 + "  <Literal value=\"2\"/>\n"
                 + "</Addition>\n",
-expression.accept(v.xmlExporter())
+expression.accept(testSupport.v.xmlExporter())
         );
     }
 
@@ -36,7 +42,7 @@ expression.accept(v.xmlExporter())
         var xml =factory.addition(
             factory.variableReference("a&b<q>\""),
             factory.literal("<&\">")
-        ).accept(v.xmlExporter());
+        ).accept(testSupport.v.xmlExporter());
 
         assertTrue(xml.contains("<VariableReference name=\"a&amp;b&lt;q&gt;&quot;\"/>"));
         assertTrue(xml.contains("<Literal value=\"&lt;&amp;&quot;&gt;\"/>"));
@@ -44,7 +50,7 @@ expression.accept(v.xmlExporter())
 
     @Test
     void exportsTraversalExpressionThroughAllCompositeVisitMethods() {
-        var xml =sampleTraversalExpression().accept(v.xmlExporter());
+        var xml =testSupport.sampleTraversalExpression().accept(testSupport.v.xmlExporter());
 
         for (var tag : new String[] {
             "Conditional", "Conjunction", "LessThan", "LogicalNot", "Equality", "Addition",
@@ -64,7 +70,13 @@ expression.accept(v.xmlExporter())
             "<FunctionCall>\n"
                 + "  <VariableReference name=\"ping\"/>\n"
                 + "</FunctionCall>\n",
-factory.functionCall(factory.variableReference("ping")).accept(v.xmlExporter())
+factory.functionCall(factory.variableReference("ping")).accept(testSupport.v.xmlExporter())
         );
+    }
+}
+
+class XmlExporterTest extends XmlExporterTestBase<Expression> {
+    XmlExporterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

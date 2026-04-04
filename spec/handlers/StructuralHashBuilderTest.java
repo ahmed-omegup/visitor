@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -16,11 +18,15 @@ import lib.expression.VariableReference;
 import lib.visitors.StructuralHashBuilder;
 import port.IFactory;
 
-class StructuralHashBuilderTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class StructuralHashBuilderTestBase<E extends Expression> extends TestBase<E> {
+    StructuralHashBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void hashesEqualShapesEquallyAndDifferentShapesDifferently() {
-        var builder = v.structuralHashBuilder();
+        var builder = testSupport.v.structuralHashBuilder();
 
         assertEquals(
 factory.addition(factory.variableReference("x"), factory.literal("1")).accept(builder),
@@ -34,9 +40,15 @@ factory.multiplication(factory.variableReference("x"), factory.literal("1")).acc
 
     @Test
     void isStableForRepeatedComputation() {
-        var builder = v.structuralHashBuilder();
-        var expression = sampleTraversalExpression();
+        var builder = testSupport.v.structuralHashBuilder();
+        var expression = testSupport.sampleTraversalExpression();
 
         assertEquals(expression.accept(builder),expression.accept(builder));
+    }
+}
+
+class StructuralHashBuilderTest extends StructuralHashBuilderTestBase<Expression> {
+    StructuralHashBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

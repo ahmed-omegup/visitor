@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -13,11 +15,15 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import port.IFactory;
 
-class LiteralValueExtractorTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class LiteralValueExtractorTestBase<E extends Expression> extends TestBase<E> {
+    LiteralValueExtractorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void parsesIntegerLiteral() {
-        var extractor = v.literalValueExtractor();
+        var extractor = testSupport.v.literalValueExtractor();
 
         assertEquals(42, factory.literal("42").accept(extractor), "numeric literal should parse");
         assertEquals(-7, factory.literal("-7").accept(extractor), "negative literal should parse");
@@ -25,7 +31,7 @@ class LiteralValueExtractorTest {
 
     @Test
     void rejectsNonLiteralValues() {
-        var extractor = v.literalValueExtractor();
+        var extractor = testSupport.v.literalValueExtractor();
 
         assertNull(factory.literal("not-a-number").accept(extractor), "non-numeric literal should return null");
         assertNull(factory.addition(factory.literal("1"), factory.literal("2")).accept(extractor), "non-literal expression should return null");
@@ -33,10 +39,16 @@ class LiteralValueExtractorTest {
 
     @Test
     void rejectsEveryOtherExpressionType() {
-        var extractor = v.literalValueExtractor();
+        var extractor = testSupport.v.literalValueExtractor();
 
-        for (var expression : sampleNonVariableExpressions()) {
+        for (var expression : testSupport.sampleNonVariableExpressions()) {
             assertNull(expression.accept(extractor), "non-literal expression should return null for " + expression.getClass().getSimpleName());
         }
+    }
+}
+
+class LiteralValueExtractorTest extends LiteralValueExtractorTestBase<Expression> {
+    LiteralValueExtractorTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

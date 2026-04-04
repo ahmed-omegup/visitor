@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -18,22 +20,32 @@ import lib.expression.VariableReference;
 import lib.visitors.SubexpressionListingBuilder;
 import port.IFactory;
 
-class SubexpressionListingBuilderTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class SubexpressionListingBuilderTestBase<E extends Expression> extends TestBase<E> {
+    SubexpressionListingBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void listsLeavesBeforeContainingExpressions() {
         assertEquals(
             List.of("x", "2", "(-2)", "(x + (-2))"),
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(v.subexpressionListingBuilder())
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.subexpressionListingBuilder())
         );
     }
 
     @Test
     void listsTraversalSubexpressionsIncludingFinalRoot() {
-        var values =sampleTraversalExpression().accept(v.subexpressionListingBuilder());
+        var values =testSupport.sampleTraversalExpression().accept(testSupport.v.subexpressionListingBuilder());
 
         assertTrue(values.contains("(7 - 2)"));
         assertTrue(values.stream().anyMatch(value -> value.startsWith("f(")));
         assertTrue(values.get(values.size() - 1).contains(" ? "));
+    }
+}
+
+class SubexpressionListingBuilderTest extends SubexpressionListingBuilderTestBase<Expression> {
+    SubexpressionListingBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

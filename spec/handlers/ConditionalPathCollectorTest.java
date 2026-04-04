@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -15,18 +17,28 @@ import lib.expression.Literal;
 import lib.visitors.ConditionalPathCollector;
 import port.IFactory;
 
-class ConditionalPathCollectorTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class ConditionalPathCollectorTestBase<E extends Expression> extends TestBase<E> {
+    ConditionalPathCollectorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void collectsPathsToNestedConditionals() {
         assertEquals(
             List.of("root", "root.whenFalse"),
-factory.conditional(factory.literal("1"), factory.literal("2"), factory.conditional(factory.literal("0"), factory.literal("3"), factory.literal("4"))).accept(v.conditionalPathCollector())
+factory.conditional(factory.literal("1"), factory.literal("2"), factory.conditional(factory.literal("0"), factory.literal("3"), factory.literal("4"))).accept(testSupport.v.conditionalPathCollector())
         );
     }
 
     @Test
     void collectsTraversalExpressionConditionalRootPath() {
-        assertEquals(List.of("root"),sampleTraversalExpression().accept(v.conditionalPathCollector()));
+        assertEquals(List.of("root"),testSupport.sampleTraversalExpression().accept(testSupport.v.conditionalPathCollector()));
+    }
+}
+
+class ConditionalPathCollectorTest extends ConditionalPathCollectorTestBase<Expression> {
+    ConditionalPathCollectorTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

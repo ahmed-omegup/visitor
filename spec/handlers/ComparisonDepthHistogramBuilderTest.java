@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,13 +12,24 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.ComparisonDepthHistogramBuilder;
 
-class ComparisonDepthHistogramBuilderTest {
+abstract class ComparisonDepthHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+    ComparisonDepthHistogramBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
     @Test
     void countsComparisonDepths() {
         var expected = new LinkedHashMap<Integer, Integer>();
         expected.put(2, 5);
         expected.put(3, 1);
 
-        assertEquals(expected,sampleTraversalExpression().accept(v.comparisonDepthHistogramBuilder()));
+        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.comparisonDepthHistogramBuilder()));
+    }
+}
+
+class ComparisonDepthHistogramBuilderTest extends ComparisonDepthHistogramBuilderTestBase<Expression> {
+    ComparisonDepthHistogramBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

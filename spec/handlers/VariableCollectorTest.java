@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,12 +13,23 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.VariableCollector;
 
-class VariableCollectorTest {
+abstract class VariableCollectorTestBase<E extends Expression> extends TestBase<E> {
+    VariableCollectorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
     @Test
     void collectsVariablesInEncounterOrder() {
         assertEquals(
             new LinkedHashSet<>(List.of("x", "f")),
-sampleTraversalExpression().accept(v.variableCollector())
+testSupport.sampleTraversalExpression().accept(testSupport.v.variableCollector())
         );
+    }
+}
+
+class VariableCollectorTest extends VariableCollectorTestBase<Expression> {
+    VariableCollectorTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 import lib.visitors.LiteralFrequencyBuilder;
@@ -13,9 +15,13 @@ import org.junit.jupiter.api.Test;
 
 import port.IFactory;
 
-class LiteralFrequencyBuilderTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class LiteralFrequencyBuilderTestBase<E extends Expression> extends TestBase<E> {
+    LiteralFrequencyBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void countsLiteralOccurrences() {
         var expected = new LinkedHashMap<String, Integer>();
         expected.put("10", 1);
@@ -30,14 +36,20 @@ class LiteralFrequencyBuilderTest {
         expected.put("5", 1);
         expected.put("6", 1);
 
-        assertEquals(expected,sampleTraversalExpression().accept(v.literalFrequencyBuilder()));
+        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.literalFrequencyBuilder()));
     }
 
     @Test
     void returnsEmptyMapWhenNoLiteralsExist() {
         assertEquals(
             new LinkedHashMap<String, Integer>(),
-factory.variableReference("x").accept(v.literalFrequencyBuilder())
+factory.variableReference("x").accept(testSupport.v.literalFrequencyBuilder())
         );
+    }
+}
+
+class LiteralFrequencyBuilderTest extends LiteralFrequencyBuilderTestBase<Expression> {
+    LiteralFrequencyBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

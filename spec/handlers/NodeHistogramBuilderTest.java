@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,7 +12,12 @@ import org.junit.jupiter.api.Test;
 
 import lib.visitors.NodeHistogramBuilder;
 
-class NodeHistogramBuilderTest {
+abstract class NodeHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+    NodeHistogramBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
     @Test
     void buildsHistogramForTraversalExpression() {
         var expected = new LinkedHashMap<String, Integer>();
@@ -35,6 +42,12 @@ class NodeHistogramBuilderTest {
         expected.put("Disjunction", 1);
         expected.put("Negation", 1);
 
-        assertEquals(expected,sampleTraversalExpression().accept(v.nodeHistogramBuilder()));
+        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.nodeHistogramBuilder()));
+    }
+}
+
+class NodeHistogramBuilderTest extends NodeHistogramBuilderTestBase<Expression> {
+    NodeHistogramBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

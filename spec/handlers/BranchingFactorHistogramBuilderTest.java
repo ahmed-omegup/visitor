@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -17,9 +19,13 @@ import lib.expression.VariableReference;
 import lib.visitors.BranchingFactorHistogramBuilder;
 import port.IFactory;
 
-class BranchingFactorHistogramBuilderTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class BranchingFactorHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+    BranchingFactorHistogramBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void countsNodesByBranchingFactor() {
         var expected = new LinkedHashMap<Integer, Integer>();
         expected.put(2, 1);
@@ -28,7 +34,7 @@ class BranchingFactorHistogramBuilderTest {
 
         assertEquals(
             expected,
-factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), factory.literal("1"), factory.literal("2"))).accept(v.branchingFactorHistogramBuilder())
+factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), factory.literal("1"), factory.literal("2"))).accept(testSupport.v.branchingFactorHistogramBuilder())
         );
     }
 
@@ -41,6 +47,12 @@ factory.addition(factory.variableReference("x"), factory.functionCall(factory.va
         expected.put(1, 2);
         expected.put(8, 1);
 
-        assertEquals(expected,sampleTraversalExpression().accept(v.branchingFactorHistogramBuilder()));
+        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.branchingFactorHistogramBuilder()));
+    }
+}
+
+class BranchingFactorHistogramBuilderTest extends BranchingFactorHistogramBuilderTestBase<Expression> {
+    BranchingFactorHistogramBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

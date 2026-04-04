@@ -1,5 +1,8 @@
 package spec.handlers;
 
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,11 +18,14 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.visitors.ArityHistogramBuilder;
 import port.IFactory;
-import static spec.handlers.TestSupport.*;
 
-class ArityHistogramBuilderTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class ArityHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+    ArityHistogramBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void countsFunctionCallsByArity() {
         var expected = new LinkedHashMap<Integer, Integer>();
         expected.put(0, 1);
@@ -30,12 +36,18 @@ class ArityHistogramBuilderTest {
 factory.addition(
                     factory.functionCall(factory.variableReference("ping")),
                     factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2"))
-                ).accept(v.arityHistogramBuilder())
+                ).accept(testSupport.v.arityHistogramBuilder())
         );
     }
 
     @Test
     void countsTraversalExpressionFunctionArity() {
-        assertEquals(Map.of(7, 1),sampleTraversalExpression().accept(v.arityHistogramBuilder()));
+        assertEquals(Map.of(7, 1),testSupport.sampleTraversalExpression().accept(testSupport.v.arityHistogramBuilder()));
+    }
+}
+
+class ArityHistogramBuilderTest extends ArityHistogramBuilderTestBase<Expression> {
+    ArityHistogramBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

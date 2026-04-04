@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -12,11 +14,21 @@ import lib.expression.Literal;
 import lib.visitors.MaximumBranchingFactorFinder;
 import port.IFactory;
 
-class MaximumBranchingFactorFinderTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class MaximumBranchingFactorFinderTestBase<E extends Expression> extends TestBase<E> {
+    MaximumBranchingFactorFinderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void returnsLargestObservedBranchingFactor() {
-        assertEquals(8,sampleTraversalExpression().accept(v.maximumBranchingFactorFinder()));
-        assertEquals(0,factory.literal("1").accept(v.maximumBranchingFactorFinder()));
+        assertEquals(8,testSupport.sampleTraversalExpression().accept(testSupport.v.maximumBranchingFactorFinder()));
+        assertEquals(0,factory.literal("1").accept(testSupport.v.maximumBranchingFactorFinder()));
+    }
+}
+
+class MaximumBranchingFactorFinderTest extends MaximumBranchingFactorFinderTestBase<Expression> {
+    MaximumBranchingFactorFinderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

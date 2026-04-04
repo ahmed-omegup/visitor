@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -15,18 +17,28 @@ import lib.expression.Negation;
 import lib.visitors.UnaryOperatorCounter;
 import port.IFactory;
 
-class UnaryOperatorCounterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class UnaryOperatorCounterTestBase<E extends Expression> extends TestBase<E> {
+    UnaryOperatorCounterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void countsUnaryOperators() {
         assertEquals(
             2,
-factory.addition(factory.negation(factory.literal("1")), factory.logicalNot(factory.literal("0"))).accept(v.unaryOperatorCounter())
+factory.addition(factory.negation(factory.literal("1")), factory.logicalNot(factory.literal("0"))).accept(testSupport.v.unaryOperatorCounter())
         );
     }
 
     @Test
     void countsUnaryOperatorsAcrossTraversalExpression() {
-        assertEquals(2,sampleTraversalExpression().accept(v.unaryOperatorCounter()));
+        assertEquals(2,testSupport.sampleTraversalExpression().accept(testSupport.v.unaryOperatorCounter()));
+    }
+}
+
+class UnaryOperatorCounterTest extends UnaryOperatorCounterTestBase<Expression> {
+    UnaryOperatorCounterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

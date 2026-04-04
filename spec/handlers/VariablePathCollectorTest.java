@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -17,9 +19,13 @@ import lib.expression.VariableReference;
 import lib.visitors.VariablePathCollector;
 import port.IFactory;
 
-class VariablePathCollectorTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class VariablePathCollectorTestBase<E extends Expression> extends TestBase<E> {
+    VariablePathCollectorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void groupsVariablePathsByName() {
         var expected = new LinkedHashMap<String, List<String>>();
         expected.put("x", List.of("root.left", "root.right.arguments[0]"));
@@ -27,7 +33,7 @@ class VariablePathCollectorTest {
 
         assertEquals(
             expected,
-factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), factory.variableReference("x"))).accept(v.variablePathCollector())
+factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), factory.variableReference("x"))).accept(testSupport.v.variablePathCollector())
         );
     }
 
@@ -37,6 +43,12 @@ factory.addition(factory.variableReference("x"), factory.functionCall(factory.va
         expected.put("x", List.of("root.condition.left.left"));
         expected.put("f", List.of("root.whenFalse.callee"));
 
-        assertEquals(expected,sampleTraversalExpression().accept(v.variablePathCollector()));
+        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.variablePathCollector()));
+    }
+}
+
+class VariablePathCollectorTest extends VariablePathCollectorTestBase<Expression> {
+    VariablePathCollectorTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -18,9 +20,13 @@ import lib.expression.VariableReference;
 import lib.visitors.LeafDepthHistogramBuilder;
 import port.IFactory;
 
-class LeafDepthHistogramBuilderTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class LeafDepthHistogramBuilderTestBase<E extends Expression> extends TestBase<E> {
+    LeafDepthHistogramBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void countsLeavesPerDepth() {
         var expected = new LinkedHashMap<Integer, Integer>();
         expected.put(1, 1);
@@ -28,12 +34,18 @@ class LeafDepthHistogramBuilderTest {
 
         assertEquals(
             expected,
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(v.leafDepthHistogramBuilder())
+factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.leafDepthHistogramBuilder())
         );
     }
 
     @Test
     void countsTraversalExpressionLeafDepths() {
-        assertEquals(Map.of(2, 1, 3, 17, 4, 6),sampleTraversalExpression().accept(v.leafDepthHistogramBuilder()));
+        assertEquals(Map.of(2, 1, 3, 17, 4, 6),testSupport.sampleTraversalExpression().accept(testSupport.v.leafDepthHistogramBuilder()));
+    }
+}
+
+class LeafDepthHistogramBuilderTest extends LeafDepthHistogramBuilderTestBase<Expression> {
+    LeafDepthHistogramBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

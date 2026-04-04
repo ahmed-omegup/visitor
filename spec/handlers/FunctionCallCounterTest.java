@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -15,21 +17,31 @@ import lib.expression.VariableReference;
 import lib.visitors.FunctionCallCounter;
 import port.IFactory;
 
-class FunctionCallCounterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class FunctionCallCounterTestBase<E extends Expression> extends TestBase<E> {
+    FunctionCallCounterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void countsNestedFunctionCalls() {
         assertEquals(
             2,
 factory.addition(
                     factory.functionCall(factory.variableReference("left"), factory.literal("1")),
                     factory.functionCall(factory.variableReference("right"), factory.literal("2"), factory.literal("3"))
-                ).accept(v.functionCallCounter())
+                ).accept(testSupport.v.functionCallCounter())
         );
     }
 
     @Test
     void countsTraversalExpressionFunctionCall() {
-        assertEquals(1,sampleTraversalExpression().accept(v.functionCallCounter()));
+        assertEquals(1,testSupport.sampleTraversalExpression().accept(testSupport.v.functionCallCounter()));
+    }
+}
+
+class FunctionCallCounterTest extends FunctionCallCounterTestBase<Expression> {
+    FunctionCallCounterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

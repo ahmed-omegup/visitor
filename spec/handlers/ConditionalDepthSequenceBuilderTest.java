@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -15,14 +17,24 @@ import lib.expression.Literal;
 import lib.visitors.ConditionalDepthSequenceBuilder;
 import port.IFactory;
 
-class ConditionalDepthSequenceBuilderTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class ConditionalDepthSequenceBuilderTestBase<E extends Expression> extends TestBase<E> {
+    ConditionalDepthSequenceBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void recordsConditionalDepthsInEncounterOrder() {
-        assertEquals(List.of(0),sampleTraversalExpression().accept(v.conditionalDepthSequenceBuilder()));
+        assertEquals(List.of(0),testSupport.sampleTraversalExpression().accept(testSupport.v.conditionalDepthSequenceBuilder()));
         assertEquals(
             List.of(0, 1),
-factory.conditional(factory.literal("1"), factory.conditional(factory.literal("0"), factory.literal("2"), factory.literal("3")), factory.literal("4")).accept(v.conditionalDepthSequenceBuilder())
+factory.conditional(factory.literal("1"), factory.conditional(factory.literal("0"), factory.literal("2"), factory.literal("3")), factory.literal("4")).accept(testSupport.v.conditionalDepthSequenceBuilder())
         );
+    }
+}
+
+class ConditionalDepthSequenceBuilderTest extends ConditionalDepthSequenceBuilderTestBase<Expression> {
+    ConditionalDepthSequenceBuilderTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }

@@ -1,6 +1,8 @@
 package spec.handlers;
 
-import static spec.handlers.TestSupport.*;
+import lib.expression.Expression;
+import lib.visitors.VisitorFactory;
+
 
 import lib.expression.Factory;
 
@@ -15,11 +17,15 @@ import lib.expression.VariableReference;
 import lib.visitors.JsonExporter;
 import port.IFactory;
 
-class JsonExporterTest {
-    private final IFactory factory = new Factory();
-    @Test
+abstract class JsonExporterTestBase<E extends Expression> extends TestBase<E> {
+    JsonExporterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+        @Test
     void exportsTraversalExpressionIncludingAllSemanticTypes() {
-        var json =sampleTraversalExpression().accept(v.jsonExporter());
+        var json =testSupport.sampleTraversalExpression().accept(testSupport.v.jsonExporter());
 
         for (var type : new String[] {
             "Conditional", "Conjunction", "LessThan", "VariableReference", "Literal",
@@ -40,7 +46,13 @@ class JsonExporterTest {
 
         assertEquals(
             "{\"type\":\"FunctionCall\",\"children\":[{\"type\":\"VariableReference\",\"name\":\"say\\\"hi\"},{\"type\":\"Literal\",\"value\":\"a\\\\b\\\"c\"}]}",
-expression.accept(v.jsonExporter())
+expression.accept(testSupport.v.jsonExporter())
         );
+    }
+}
+
+class JsonExporterTest extends JsonExporterTestBase<Expression> {
+    JsonExporterTest() {
+        super(new TestSupport<>(new VisitorFactory()));
     }
 }
