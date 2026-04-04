@@ -5,11 +5,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
-import lib.expression.Expression;
 import lib.expression.Visitor;
 
-public interface IVisitorFactory {
-    IExpressionFactory<Expression> expressionFactory();
+public interface IVisitorFactory<E> {
+    IExpressionFactory<E> expressionFactory();
 
     Visitor<Map<Integer, Integer>> arithmeticDepthHistogramBuilder();
     Visitor<List<String>> arithmeticOperatorLabelCollector();
@@ -32,7 +31,7 @@ public interface IVisitorFactory {
     Visitor<List<Integer>> conditionalDepthSequenceBuilder();
     Visitor<List<String>> conditionalPathCollector();
     Visitor<Boolean> constantExpressionChecker();
-    Visitor<Expression> constantFolder(IExpressionFactory<Expression> factory);
+    Visitor<E> constantFolder();
     Visitor<String> csvNodeExporter();
     Visitor<String> deepestNodePathFinder();
     Visitor<String> depthAnnotatedPreorderPrinter();
@@ -109,7 +108,7 @@ public interface IVisitorFactory {
     Visitor<List<Integer>> variableDepthSequenceBuilder();
     Visitor<Map<Integer, Integer>> variableNameLengthHistogramBuilder();
     Visitor<Map<String, List<String>>> variablePathCollector();
-    Visitor<? extends Expression> variableReferenceExtractor();
+    Visitor<E> variableReferenceExtractor();
     Visitor<Map<String, Integer>> variableUsageCounter();
     Visitor<String> xmlExporter();
     Visitor<String> yamlExpressionExporter();

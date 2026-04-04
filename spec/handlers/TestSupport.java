@@ -7,11 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lib.expression.*;
+import port.IExpressionFactory;
 import port.IVisitorFactory;
 
-final class TestSupport {
-    private static final Factory factory = new Factory();
-    public static final IVisitorFactory v = new VisitorFactory();
+final class TestSupport<E> {
+    public static final IVisitorFactory<Expression> v = new VisitorFactory();
+    public static final TestSupport<Expression> instance = new TestSupport<>();
+    private static final IExpressionFactory<Expression> factory = v.expressionFactory();
+
     private TestSupport() {}
 
 

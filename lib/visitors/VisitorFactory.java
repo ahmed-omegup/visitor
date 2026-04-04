@@ -4,14 +4,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import lib.expression.Addition;
+import lib.expression.Conditional;
+import lib.expression.Conjunction;
+import lib.expression.Disjunction;
+import lib.expression.Division;
+import lib.expression.Equality;
 import lib.expression.Expression;
 import lib.expression.Factory;
+import lib.expression.Exponentiation;
+import lib.expression.FunctionCall;
+import lib.expression.GreaterThan;
+import lib.expression.GreaterThanOrEqual;
+import lib.expression.Inequality;
+import lib.expression.LessThan;
+import lib.expression.LessThanOrEqual;
+import lib.expression.Literal;
+import lib.expression.LogicalNot;
+import lib.expression.Modulo;
+import lib.expression.Multiplication;
+import lib.expression.Negation;
+import lib.expression.Subtraction;
 import lib.expression.VariableReference;
 import lib.expression.Visitor;
 import port.IExpressionFactory;
 import port.IVisitorFactory;
 
-public final class VisitorFactory implements IVisitorFactory {
+public final class VisitorFactory implements IVisitorFactory<Expression> {
     public VisitorFactory() {}
 
     public IExpressionFactory<Expression> expressionFactory() {
@@ -102,8 +121,8 @@ public final class VisitorFactory implements IVisitorFactory {
         return new ConstantExpressionChecker();
     }
 
-    public ConstantFolder constantFolder(IExpressionFactory<Expression> factory) {
-        return new ConstantFolder(factory);
+    public Visitor<Expression> constantFolder() {
+        return new ConstantFolder(expressionFactory());
     }
 
     public CsvNodeExporter csvNodeExporter() {
@@ -410,8 +429,36 @@ public final class VisitorFactory implements IVisitorFactory {
         return new VariablePathCollector();
     }
 
-    public Visitor<VariableReference> variableReferenceExtractor() {
-        return new VariableReferenceExtractor();
+    public Visitor<Expression> variableReferenceExtractor() {
+        var extractor = new VariableReferenceExtractor();
+        return new Visitor<Expression>() {
+            public Expression visit(Literal expression) {
+                return extractor.visit(expression);
+            }
+
+            public Expression visit(VariableReference expression) {
+                return extractor.visit(expression);
+            }
+
+            public Expression visit(Addition expression) { return extractor.visit(expression); }
+            public Expression visit(Subtraction expression) { return extractor.visit(expression); }
+            public Expression visit(Multiplication expression) { return extractor.visit(expression); }
+            public Expression visit(Division expression) { return extractor.visit(expression); }
+            public Expression visit(Negation expression) { return extractor.visit(expression); }
+            public Expression visit(Modulo expression) { return extractor.visit(expression); }
+            public Expression visit(Exponentiation expression) { return extractor.visit(expression); }
+            public Expression visit(Equality expression) { return extractor.visit(expression); }
+            public Expression visit(Inequality expression) { return extractor.visit(expression); }
+            public Expression visit(LessThan expression) { return extractor.visit(expression); }
+            public Expression visit(GreaterThan expression) { return extractor.visit(expression); }
+            public Expression visit(LessThanOrEqual expression) { return extractor.visit(expression); }
+            public Expression visit(GreaterThanOrEqual expression) { return extractor.visit(expression); }
+            public Expression visit(Conjunction expression) { return extractor.visit(expression); }
+            public Expression visit(Disjunction expression) { return extractor.visit(expression); }
+            public Expression visit(LogicalNot expression) { return extractor.visit(expression); }
+            public Expression visit(Conditional expression) { return extractor.visit(expression); }
+            public Expression visit(FunctionCall expression) { return extractor.visit(expression); }
+        };
     }
 
     public VariableUsageCounter variableUsageCounter() {

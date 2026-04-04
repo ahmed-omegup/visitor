@@ -2,7 +2,7 @@ package port;
 
 import lib.expression.Expression;
 
-public interface IExpressionFactory<E extends Expression> {
+public interface IExpressionFactory<E> {
     E literal(String value);
 
     E variableReference(String name);
