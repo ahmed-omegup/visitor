@@ -40,9 +40,9 @@ abstract class JsonExporterTestBase<E extends Expression> extends TestBase<E> {
     @Test
     void escapesBackslashesAndQuotes() {
         var expression = factory.functionCall(
-            factory.variableReference("say\"hi"),
+            factory.variableReference("say\"hi"), java.util.List.of(
             factory.literal("a\\b\"c")
-        );
+        ));
 
         assertEquals(
             "{\"type\":\"FunctionCall\",\"children\":[{\"type\":\"VariableReference\",\"name\":\"say\\\"hi\"},{\"type\":\"Literal\",\"value\":\"a\\\\b\\\"c\"}]}",

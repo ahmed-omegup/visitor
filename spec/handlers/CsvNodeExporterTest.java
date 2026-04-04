@@ -31,7 +31,7 @@ abstract class CsvNodeExporterTestBase<E extends Expression> extends TestBase<E>
                 + "\"0.0\",\"VariableReference\",\"sum\"\n"
                 + "\"0.1\",\"Literal\",\"1\"\n"
                 + "\"0.2\",\"Literal\",\"2\"\n",
-factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")).accept(testSupport.v.csvNodeExporter())
+factory.functionCall(factory.variableReference("sum"), java.util.List.of( factory.literal("1"), factory.literal("2"))).accept(testSupport.v.csvNodeExporter())
         );
     }
 

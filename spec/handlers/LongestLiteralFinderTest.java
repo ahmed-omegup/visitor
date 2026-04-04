@@ -35,7 +35,7 @@ factory.addition(factory.literal("12345"), factory.variableReference("x")).accep
     void keepsLeftValueOnEqualLengthTie() {
         assertEquals(
             "alpha",
-factory.functionCall(factory.variableReference("f"), factory.literal("alpha"), factory.literal("bravo")).accept(testSupport.v.longestLiteralFinder())
+factory.functionCall(factory.variableReference("f"), java.util.List.of( factory.literal("alpha"), factory.literal("bravo"))).accept(testSupport.v.longestLiteralFinder())
         );
     }
 

@@ -37,10 +37,10 @@ abstract class IntegerEvaluatorTestBase<E extends Expression> extends TestBase<E
         var expression = factory.conditional(
             factory.variableReference("threshold"),
             factory.addition(
-                factory.functionCall(factory.variableReference("max"), factory.literal("3"), factory.variableReference("threshold")),
+                factory.functionCall(factory.variableReference("max"), java.util.List.of( factory.literal("3"), factory.variableReference("threshold"))),
                 factory.multiplication(factory.literal("2"), factory.literal("5"))
             ),
-            factory.functionCall(factory.variableReference("fallback"), factory.literal("0"))
+            factory.functionCall(factory.variableReference("fallback"), java.util.List.of( factory.literal("0")))
         );
 
         assertEquals(14,expression.accept(evaluator), "evaluator should resolve variables, conditionals, and function calls");
@@ -70,7 +70,7 @@ abstract class IntegerEvaluatorTestBase<E extends Expression> extends TestBase<E
         assertEquals(1,factory.disjunction(factory.literal("0"), factory.literal("2")).accept(evaluator), "disjunction should evaluate");
         assertEquals(1,factory.logicalNot(factory.literal("0")).accept(evaluator), "logical-not should evaluate");
         assertEquals(22,factory.conditional(factory.literal("0"), factory.literal("11"), factory.literal("22")).accept(evaluator), "conditional false branch should evaluate");
-        assertEquals(12,factory.functionCall(factory.variableReference("sum"), factory.literal("8"), factory.literal("2"), factory.literal("2")).accept(evaluator), "function call should evaluate");
+        assertEquals(12,factory.functionCall(factory.variableReference("sum"), java.util.List.of( factory.literal("8"), factory.literal("2"), factory.literal("2"))).accept(evaluator), "function call should evaluate");
         assertEquals(8,factory.variableReference("x").accept(evaluator), "variable reference should evaluate");
     }
 
@@ -85,7 +85,7 @@ abstract class IntegerEvaluatorTestBase<E extends Expression> extends TestBase<E
     void rejectsUnknownFunction() {
         var evaluator = testSupport.v.integerEvaluator( Map.of(), Map.of());
 
-        assertEquals("Unknown function: missing", assertThrows(IllegalArgumentException.class, () -> factory.functionCall(factory.variableReference("missing"), factory.literal("1")).accept(evaluator)).getMessage());
+        assertEquals("Unknown function: missing", assertThrows(IllegalArgumentException.class, () -> factory.functionCall(factory.variableReference("missing"), java.util.List.of( factory.literal("1"))).accept(evaluator)).getMessage());
     }
 
     @Test
@@ -99,7 +99,7 @@ abstract class IntegerEvaluatorTestBase<E extends Expression> extends TestBase<E
     @Test
     void rejectsInvalidFunctionCallee() {
         var evaluator = testSupport.v.integerEvaluator( Map.of(), Map.of("f", values -> values.get(0)));
-        var invalidCall = factory.functionCall(factory.addition(factory.literal("1"), factory.literal("2")), factory.literal("3"));
+        var invalidCall = factory.functionCall(factory.addition(factory.literal("1"), factory.literal("2")), java.util.List.of( factory.literal("3")));
 
         assertEquals("Function call requires a variable reference callee", assertThrows(IllegalArgumentException.class, () -> invalidCall.accept(evaluator)).getMessage());
     }

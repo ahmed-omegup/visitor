@@ -1,6 +1,6 @@
 package port;
 
-import lib.expression.Expression;
+import java.util.List;
 
 public interface IExpressionFactory<E> {
     E literal(String value);
@@ -41,5 +41,5 @@ public interface IExpressionFactory<E> {
 
     E conditional(E condition, E whenTrue, E whenFalse);
 
-    E functionCall(E callee, E... arguments);
+    E functionCall(E callee, List<E> arguments);
 }

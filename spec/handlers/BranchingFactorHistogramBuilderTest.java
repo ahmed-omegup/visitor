@@ -34,7 +34,7 @@ abstract class BranchingFactorHistogramBuilderTestBase<E extends Expression> ext
 
         assertEquals(
             expected,
-factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), factory.literal("1"), factory.literal("2"))).accept(testSupport.v.branchingFactorHistogramBuilder())
+factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), java.util.List.of( factory.literal("1"), factory.literal("2")))).accept(testSupport.v.branchingFactorHistogramBuilder())
         );
     }
 

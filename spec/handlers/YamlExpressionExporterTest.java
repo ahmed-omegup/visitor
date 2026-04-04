@@ -37,7 +37,7 @@ abstract class YamlExpressionExporterTestBase<E extends Expression> extends Test
                 + "  -\n"
                 + "    type: Literal\n"
                 + "    value: \"2\"\n",
-factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")).accept(testSupport.v.yamlExpressionExporter())
+factory.functionCall(factory.variableReference("sum"), java.util.List.of( factory.literal("1"), factory.literal("2"))).accept(testSupport.v.yamlExpressionExporter())
         );
     }
 

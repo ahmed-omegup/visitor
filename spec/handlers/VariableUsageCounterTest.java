@@ -35,7 +35,7 @@ abstract class VariableUsageCounterTestBase<E extends Expression> extends TestBa
             expected,
 factory.addition(
                     factory.variableReference("x"),
-                    factory.functionCall(factory.variableReference("sum"), factory.variableReference("x"))
+                    factory.functionCall(factory.variableReference("sum"), java.util.List.of( factory.variableReference("x")))
                 ).accept(testSupport.v.variableUsageCounter())
         );
     }

@@ -28,7 +28,7 @@ abstract class SideEffectFreeCheckerTestBase<E extends Expression> extends TestB
         var checker = testSupport.v.sideEffectFreeChecker();
 
         assertTrue(factory.addition(factory.variableReference("x"), factory.literal("1")).accept(checker));
-        assertFalse(factory.functionCall(factory.variableReference("sum"), factory.literal("1")).accept(checker));
+        assertFalse(factory.functionCall(factory.variableReference("sum"), java.util.List.of( factory.literal("1"))).accept(checker));
     }
 
     @Test
@@ -48,7 +48,7 @@ abstract class SideEffectFreeCheckerTestBase<E extends Expression> extends TestB
     @TestFactory
     Iterable<DynamicTest> rejectsEmbeddedFunctionCallsAcrossOperators() {
         var checker = testSupport.v.sideEffectFreeChecker();
-        var call = factory.functionCall(factory.variableReference("sum"), factory.literal("1"));
+        var call = factory.functionCall(factory.variableReference("sum"), java.util.List.of( factory.literal("1")));
         return java.util.List.of(
             factory.addition(call, factory.literal("1")),
             factory.addition(factory.literal("1"), call),

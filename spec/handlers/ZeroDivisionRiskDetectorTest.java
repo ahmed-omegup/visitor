@@ -82,8 +82,8 @@ abstract class ZeroDivisionRiskDetectorTestBase<E extends Expression> extends Te
             factory.conditional(risky, factory.literal("1"), factory.literal("2")),
             factory.conditional(factory.literal("1"), risky, factory.literal("2")),
             factory.conditional(factory.literal("1"), factory.literal("2"), risky),
-            factory.functionCall(risky, factory.literal("1")),
-            factory.functionCall(factory.variableReference("sum"), risky)
+            factory.functionCall(risky, java.util.List.of( factory.literal("1"))),
+            factory.functionCall(factory.variableReference("sum"), java.util.List.of( risky))
         ).stream().map(expression -> DynamicTest.dynamicTest("risky-" + expression.getClass().getSimpleName(), () ->
             assertTrue(expression.accept(detector)))).toList();
     }

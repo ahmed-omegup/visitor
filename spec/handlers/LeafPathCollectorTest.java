@@ -29,7 +29,7 @@ abstract class LeafPathCollectorTestBase<E extends Expression> extends TestBase<
     void collectsLeafPathsAcrossFunctionArguments() {
         assertEquals(
             List.of("root.callee", "root.arguments[0].left", "root.arguments[0].right"),
-factory.functionCall(factory.variableReference("f"), factory.addition(factory.literal("1"), factory.variableReference("x"))).accept(testSupport.v.leafPathCollector())
+factory.functionCall(factory.variableReference("f"), java.util.List.of( factory.addition(factory.literal("1"), factory.variableReference("x")))).accept(testSupport.v.leafPathCollector())
         );
     }
 

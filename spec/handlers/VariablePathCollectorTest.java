@@ -33,7 +33,7 @@ abstract class VariablePathCollectorTestBase<E extends Expression> extends TestB
 
         assertEquals(
             expected,
-factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), factory.variableReference("x"))).accept(testSupport.v.variablePathCollector())
+factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), java.util.List.of( factory.variableReference("x")))).accept(testSupport.v.variablePathCollector())
         );
     }
 

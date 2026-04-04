@@ -70,7 +70,7 @@ expression.accept(testSupport.v.xmlExporter())
             "<FunctionCall>\n"
                 + "  <VariableReference name=\"ping\"/>\n"
                 + "</FunctionCall>\n",
-factory.functionCall(factory.variableReference("ping")).accept(testSupport.v.xmlExporter())
+factory.functionCall(factory.variableReference("ping"), java.util.List.of()).accept(testSupport.v.xmlExporter())
         );
     }
 }

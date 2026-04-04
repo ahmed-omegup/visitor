@@ -112,7 +112,7 @@ public class ConstantFolder implements Visitor<Expression> {
         for (int index = 0; index < expression.arguments.length; index++) {
             arguments[index] = fold(expression.arguments[index]);
         }
-        return factory.functionCall(callee, arguments);
+        return factory.functionCall(callee, java.util.Arrays.asList(arguments));
     }
 
     private Expression foldBinary(Expression left, Expression right, BinaryFactory binaryFactory, BinaryOperation operation) {

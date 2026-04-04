@@ -95,7 +95,7 @@ abstract class ConstantFolderTestBase<E extends Expression> extends TestBase<E> 
         assertLiteralValue("1",factory.logicalNot(factory.literal("0")).accept(folder), "logical-not should fold");
         assertLiteralValue("4",factory.conditional(factory.literal("1"), factory.literal("4"), factory.literal("5")).accept(folder), "conditional should fold");
 
-        var functionCall =factory.functionCall(factory.variableReference("sum"), factory.addition(factory.literal("1"), factory.literal("2")), factory.literal("4")).accept(folder);
+        var functionCall =factory.functionCall(factory.variableReference("sum"), java.util.List.of( factory.addition(factory.literal("1"), factory.literal("2")), factory.literal("4"))).accept(folder);
         var call = assertInstanceOf(FunctionCall.class, functionCall, "function call should remain a FunctionCall");
         assertVariableReferenceName("sum", call.callee, "function call callee should remain a variable reference");
         assertLiteralValue("3", call.arguments[0], "function call arguments should be folded");

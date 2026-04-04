@@ -35,7 +35,7 @@ abstract class ConditionalBranchLabelCollectorTestBase<E extends Expression> ext
 factory.conditional(
                     factory.lessThan(factory.variableReference("x"), factory.literal("1")),
                     factory.literal("2"),
-                    factory.functionCall(factory.variableReference("fallback"), factory.literal("0"))
+                    factory.functionCall(factory.variableReference("fallback"), java.util.List.of( factory.literal("0")))
                 ).accept(testSupport.v.conditionalBranchLabelCollector())
         );
     }

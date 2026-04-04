@@ -30,8 +30,8 @@ abstract class FunctionAritySequenceBuilderTestBase<E extends Expression> extend
         assertEquals(
             List.of(2, 1, 0),
 factory.addition(
-                    factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2")),
-                    factory.functionCall(factory.functionCall(factory.variableReference("g")), factory.literal("3"))
+                    factory.functionCall(factory.variableReference("sum"), java.util.List.of(factory.literal("1"), factory.literal("2"))),
+                    factory.functionCall(factory.functionCall(factory.variableReference("g"), java.util.List.of()), java.util.List.of(factory.literal("3")))
                 ).accept(testSupport.v.functionAritySequenceBuilder())
         );
     }

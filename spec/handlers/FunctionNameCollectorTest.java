@@ -34,8 +34,8 @@ abstract class FunctionNameCollectorTestBase<E extends Expression> extends TestB
         assertEquals(
             new LinkedHashSet<>(List.of("sum", "max")),
 factory.addition(
-                    factory.functionCall(factory.variableReference("sum"), factory.literal("1")),
-                    factory.functionCall(factory.variableReference("max"), factory.literal("2"), factory.literal("3"))
+                    factory.functionCall(factory.variableReference("sum"), java.util.List.of( factory.literal("1"))),
+                    factory.functionCall(factory.variableReference("max"), java.util.List.of( factory.literal("2"), factory.literal("3")))
                 ).accept(testSupport.v.functionNameCollector())
         );
     }
@@ -57,7 +57,7 @@ factory.addition(
             .map(callee -> DynamicTest.dynamicTest("callee-" + callee.getClass().getSimpleName(), () ->
                 assertEquals(
                     new LinkedHashSet<>(List.of()),
-factory.functionCall(callee, factory.literal("9")).accept(collector)
+factory.functionCall(callee, java.util.List.of( factory.literal("9"))).accept(collector)
                 )))
             .toList();
     }
@@ -66,7 +66,7 @@ factory.functionCall(callee, factory.literal("9")).accept(collector)
     void collectsNestedFunctionNamesFromFunctionValuedCallee() {
         assertEquals(
             new LinkedHashSet<>(List.of("sum")),
-factory.functionCall(factory.functionCall(factory.variableReference("sum"), factory.literal("1")), factory.literal("9")).accept(testSupport.v.functionNameCollector())
+factory.functionCall(factory.functionCall(factory.variableReference("sum"), java.util.List.of(factory.literal("1"))), java.util.List.of(factory.literal("9"))).accept(testSupport.v.functionNameCollector())
         );
     }
 }

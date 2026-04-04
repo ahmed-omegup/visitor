@@ -34,7 +34,7 @@ abstract class LiteralPathCollectorTestBase<E extends Expression> extends TestBa
 
         assertEquals(
             expected,
-factory.addition(factory.literal("1"), factory.functionCall(factory.variableReference("f"), factory.literal("1"), factory.literal("2"))).accept(testSupport.v.literalPathCollector())
+factory.addition(factory.literal("1"), factory.functionCall(factory.variableReference("f"), java.util.List.of( factory.literal("1"), factory.literal("2")))).accept(testSupport.v.literalPathCollector())
         );
     }
 

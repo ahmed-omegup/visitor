@@ -27,7 +27,7 @@ abstract class TreeDiagramPrinterTestBase<E extends Expression> extends TestBase
         assertEquals(
             "└── FunctionCall\n"
                 + "    └── VariableReference(ping)\n",
-factory.functionCall(factory.variableReference("ping")).accept(testSupport.v.treeDiagramPrinter())
+factory.functionCall(factory.variableReference("ping"), java.util.List.of()).accept(testSupport.v.treeDiagramPrinter())
         );
     }
 

@@ -1,5 +1,7 @@
 package lib.expression;
 
+import java.util.List;
+
 public final class Factory implements port.IFactory {
     public Factory() {}
 
@@ -79,7 +81,7 @@ public final class Factory implements port.IFactory {
         return new Conditional(condition, whenTrue, whenFalse);
     }
 
-    public FunctionCall functionCall(Expression callee, Expression... arguments) {
+    public FunctionCall functionCall(Expression callee, List<Expression> arguments) {
         return new FunctionCall(callee, arguments);
     }
 }

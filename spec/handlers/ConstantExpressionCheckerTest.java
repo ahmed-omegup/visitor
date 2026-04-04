@@ -29,7 +29,7 @@ abstract class ConstantExpressionCheckerTestBase<E extends Expression> extends T
 
         assertTrue(factory.addition(factory.literal("1"), factory.literal("2")).accept(checker));
         assertFalse(factory.addition(factory.variableReference("x"), factory.literal("2")).accept(checker));
-        assertFalse(factory.functionCall(factory.variableReference("sum"), factory.literal("1")).accept(checker));
+        assertFalse(factory.functionCall(factory.variableReference("sum"), java.util.List.of( factory.literal("1"))).accept(checker));
     }
 
     @Test

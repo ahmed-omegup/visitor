@@ -32,7 +32,7 @@ abstract class DistinctLeafLabelCollectorTestBase<E extends Expression> extends 
             new LinkedHashSet<>(List.of("literal:1", "variable:f", "variable:x")),
 factory.addition(
                     factory.literal("1"),
-                    factory.functionCall(factory.variableReference("f"), factory.literal("1"), factory.variableReference("x"), factory.variableReference("x"))
+                    factory.functionCall(factory.variableReference("f"), java.util.List.of( factory.literal("1"), factory.variableReference("x"), factory.variableReference("x")))
                 ).accept(testSupport.v.distinctLeafLabelCollector())
         );
     }

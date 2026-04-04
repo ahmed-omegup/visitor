@@ -34,8 +34,8 @@ abstract class ArityHistogramBuilderTestBase<E extends Expression> extends TestB
         assertEquals(
             expected,
 factory.addition(
-                    factory.functionCall(factory.variableReference("ping")),
-                    factory.functionCall(factory.variableReference("sum"), factory.literal("1"), factory.literal("2"))
+                    factory.functionCall(factory.variableReference("ping"), java.util.List.of()),
+                    factory.functionCall(factory.variableReference("sum"), java.util.List.of( factory.literal("1"), factory.literal("2")))
                 ).accept(testSupport.v.arityHistogramBuilder())
         );
     }

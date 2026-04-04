@@ -47,7 +47,7 @@ factory.addition(factory.variableReference("x"), factory.negation(factory.litera
 
     @Test
     void countsZeroArgumentFunctionCallWithoutArgumentLoopIterations() {
-        assertEquals(Map.of(0, 1, 1, 1),factory.functionCall(factory.variableReference("ping")).accept(testSupport.v.levelWidthHistogramBuilder()));
+        assertEquals(Map.of(0, 1, 1, 1),factory.functionCall(factory.variableReference("ping"), java.util.List.of()).accept(testSupport.v.levelWidthHistogramBuilder()));
     }
 }
 

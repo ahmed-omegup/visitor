@@ -28,7 +28,7 @@ abstract class DepthCalculatorTestBase<E extends Expression> extends TestBase<E>
 
     @Test
     void countsZeroArgumentFunctionCallDepth() {
-        assertEquals(2,factory.functionCall(factory.variableReference("ping")).accept(testSupport.v.depthCalculator()));
+        assertEquals(2,factory.functionCall(factory.variableReference("ping"), java.util.List.of()).accept(testSupport.v.depthCalculator()));
     }
 }
 

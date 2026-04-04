@@ -45,7 +45,7 @@ testSupport.sampleTraversalExpression().accept(testSupport.v.functionArgumentRoo
             .map(expression -> DynamicTest.dynamicTest("argument-" + expression.getClass().getSimpleName(), () ->
                 assertEquals(
                     expression instanceof VariableReference ? "VariableReference" : expression.getClass().getSimpleName(),
-factory.functionCall(factory.variableReference("f"), expression).accept(testSupport.v.functionArgumentRootCollector()).get(0)
+factory.functionCall(factory.variableReference("f"), java.util.List.of( expression)).accept(testSupport.v.functionArgumentRootCollector()).get(0)
                 )))
             .toList();
     }

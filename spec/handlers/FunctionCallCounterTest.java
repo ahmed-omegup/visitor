@@ -28,8 +28,8 @@ abstract class FunctionCallCounterTestBase<E extends Expression> extends TestBas
         assertEquals(
             2,
 factory.addition(
-                    factory.functionCall(factory.variableReference("left"), factory.literal("1")),
-                    factory.functionCall(factory.variableReference("right"), factory.literal("2"), factory.literal("3"))
+                    factory.functionCall(factory.variableReference("left"), java.util.List.of( factory.literal("1"))),
+                    factory.functionCall(factory.variableReference("right"), java.util.List.of( factory.literal("2"), factory.literal("3")))
                 ).accept(testSupport.v.functionCallCounter())
         );
     }

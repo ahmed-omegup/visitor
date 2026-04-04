@@ -30,8 +30,8 @@ abstract class FunctionCallPathCollectorTestBase<E extends Expression> extends T
         assertEquals(
             List.of("root.left", "root.right", "root.right.callee"),
 factory.addition(
-                    factory.functionCall(factory.variableReference("f"), factory.literal("1")),
-                    factory.functionCall(factory.functionCall(factory.variableReference("g")), factory.literal("2"))
+                    factory.functionCall(factory.variableReference("f"), java.util.List.of(factory.literal("1"))),
+                    factory.functionCall(factory.functionCall(factory.variableReference("g"), java.util.List.of()), java.util.List.of(factory.literal("2")))
                 ).accept(testSupport.v.functionCallPathCollector())
         );
     }

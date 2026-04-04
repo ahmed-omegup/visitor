@@ -29,7 +29,7 @@ abstract class FunctionCallDepthSequenceBuilderTestBase<E extends Expression> ex
         assertEquals(List.of(1),testSupport.sampleTraversalExpression().accept(testSupport.v.functionCallDepthSequenceBuilder()));
         assertEquals(
             List.of(0, 1),
-factory.functionCall(factory.functionCall(factory.variableReference("f")), factory.literal("1")).accept(testSupport.v.functionCallDepthSequenceBuilder())
+factory.functionCall(factory.functionCall(factory.variableReference("f"), java.util.List.of()), java.util.List.of(factory.literal("1"))).accept(testSupport.v.functionCallDepthSequenceBuilder())
         );
     }
 }
