@@ -17,12 +17,6 @@ import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
-import lib.expression.Addition;
-import lib.expression.FunctionCall;
-import lib.expression.Literal;
-import lib.expression.VariableReference;
-import lib.visitors.FunctionNameCollector;
-
 abstract class FunctionNameCollectorTestBase<E> extends TestBase<E> {
     FunctionNameCollectorTestBase(TestSupport<E> testSupport) {
         super(testSupport);
@@ -50,10 +44,10 @@ abstract class FunctionNameCollectorTestBase<E> extends TestBase<E> {
         var cases = new java.util.ArrayList<E>();
         cases.add(factory.literal("1"));
         cases.addAll(testSupport.sampleNonVariableExpressions().stream()
-            .filter(expression -> !(expression instanceof FunctionCall))
+            .filter(expression -> !typeName(expression).equals("FunctionCall"))
             .toList());
         return cases.stream()
-            .map(callee -> DynamicTest.dynamicTest("callee-" + callee.getClass().getSimpleName(), () ->
+            .map(callee -> DynamicTest.dynamicTest("callee-" + typeName(callee), () ->
                 assertEquals(
                     new LinkedHashSet<>(of()),collector.apply(factory.functionCall(callee, of( factory.literal("9"))))
                 )))

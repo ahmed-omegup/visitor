@@ -1,6 +1,5 @@
 package spec.handlers;
 
-import java.lang.reflect.Field;
 import java.util.function.Function;
 
 import lib.expression.Expression;
@@ -11,26 +10,6 @@ import static java.util.List.of;
 
 import org.junit.jupiter.api.Test;
 
-import lib.expression.Addition;
-import lib.expression.Conditional;
-import lib.expression.Conjunction;
-import lib.expression.Disjunction;
-import lib.expression.Division;
-import lib.expression.Equality;
-import lib.expression.Exponentiation;
-import lib.expression.FunctionCall;
-import lib.expression.GreaterThan;
-import lib.expression.GreaterThanOrEqual;
-import lib.expression.Inequality;
-import lib.expression.LessThan;
-import lib.expression.LessThanOrEqual;
-import lib.expression.Literal;
-import lib.expression.LogicalNot;
-import lib.expression.Modulo;
-import lib.expression.Multiplication;
-import lib.expression.Negation;
-import lib.expression.Subtraction;
-import lib.expression.VariableReference;
 import port.IHandlerFactory.Tree;
 
 abstract class ConstantFolderTestBase<E> extends TestBase<E> {
@@ -123,12 +102,12 @@ abstract class ConstantFolderTestBase<E> extends TestBase<E> {
 
     private void assertLiteralValue(String expected, E expression, String message) {
         assertTypeName("Literal", expression, message);
-        assertEquals(expected, stringField(expression, "value"), message);
+        assertEquals(expected, render(expression), message);
     }
 
     private void assertVariableReferenceName(String expected, E expression, String message) {
         assertTypeName("VariableReference", expression, message);
-        assertEquals(expected, stringField(expression, "name"), message);
+        assertEquals(expected, render(expression), message);
     }
 
     private Tree<E> assertTypeName(String expected, E expression, String message) {
@@ -140,11 +119,7 @@ abstract class ConstantFolderTestBase<E> extends TestBase<E> {
         return tree.children().get(childIndex).value();
     }
 
-    protected abstract String typeName(E expression);
-
     protected abstract Tree<E> tree(E expression);
-
-    protected abstract String stringField(E expression, String fieldName);
 }
 
 class ConstantFolderTest extends ConstantFolderTestBase<Expression> {
@@ -153,27 +128,7 @@ class ConstantFolderTest extends ConstantFolderTestBase<Expression> {
     }
 
     @Override
-    protected String typeName(Expression expression) {
-        return testSupport.v.expressionClassNameExtractor().apply(expression);
-    }
-
-    @Override
     protected Tree<Expression> tree(Expression expression) {
         return testSupport.v.expressionTreeBuilder(Function.identity()).apply(expression);
-    }
-
-    @Override
-    protected String stringField(Expression expression, String fieldName) {
-        return readField(expression, fieldName, String.class);
-    }
-
-    private <T> T readField(Object target, String fieldName, Class<T> type) {
-        try {
-            Field field = target.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
-            return type.cast(field.get(target));
-        } catch (ReflectiveOperationException e) {
-            throw new AssertionError("Unable to read field '" + fieldName + "' from " + target.getClass().getSimpleName(), e);
-        }
     }
 }

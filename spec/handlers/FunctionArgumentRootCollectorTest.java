@@ -15,10 +15,6 @@ import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.Expression;
 import lib.visitors.HandlerFactory;
-import lib.expression.FunctionCall;
-import lib.expression.Literal;
-import lib.expression.VariableReference;
-import lib.visitors.FunctionArgumentRootCollector;
 
 abstract class FunctionArgumentRootCollectorTestBase<E> extends TestBase<E> {
     FunctionArgumentRootCollectorTestBase(TestSupport<E> testSupport) {
@@ -41,9 +37,9 @@ abstract class FunctionArgumentRootCollectorTestBase<E> extends TestBase<E> {
         cases.addAll(testSupport.sampleNonVariableExpressions());
 
         return cases.stream()
-            .map(expression -> DynamicTest.dynamicTest("argument-" + expression.getClass().getSimpleName(), () ->
+            .map(expression -> DynamicTest.dynamicTest("argument-" + typeName(expression), () ->
                 assertEquals(
-                    expression instanceof VariableReference ? "VariableReference" : expression.getClass().getSimpleName(),testSupport.v.functionArgumentRootCollector().apply(factory.functionCall(factory.variableReference("f"), of( expression))).get(0)
+                    typeName(expression),testSupport.v.functionArgumentRootCollector().apply(factory.functionCall(factory.variableReference("f"), of( expression))).get(0)
                 )))
             .toList();
     }

@@ -10,4 +10,12 @@ abstract class TestBase<E> {
         this.testSupport = testSupport;
         this.factory = testSupport.factory;
     }
+
+    protected final String typeName(E expression) {
+        return testSupport.v.expressionClassNameExtractor().apply(expression);
+    }
+
+    protected final String render(E expression) {
+        return testSupport.v.compactInfixPrinter().apply(expression);
+    }
 }

@@ -65,7 +65,7 @@ abstract class MaxFunctionArityFinderTestBase<E> extends TestBase<E> {
             factory.disjunction(factory.literal("1"), factory.literal("2")),
             factory.logicalNot(factory.literal("1")),
             factory.conditional(factory.literal("1"), factory.literal("2"), factory.literal("3"))
-        ).stream().map(expression -> DynamicTest.dynamicTest("arity-" + expression.getClass().getSimpleName(), () ->
+        ).stream().map(expression -> DynamicTest.dynamicTest("arity-" + typeName(expression), () ->
             assertEquals(0,finder.apply(expression)))).toList();
     }
 }

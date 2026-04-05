@@ -6,7 +6,6 @@ import lib.expression.Conjunction;
 import lib.expression.Disjunction;
 import lib.expression.Division;
 import lib.expression.Equality;
-import lib.expression.Expression;
 import lib.expression.Exponentiation;
 import lib.expression.FunctionCall;
 import lib.expression.GreaterThan;
@@ -26,28 +25,24 @@ import lib.expression.Visitor;
 public final class ExpressionClassNameExtractor implements Visitor<String> {
     ExpressionClassNameExtractor() {}
 
-    private String name(Expression expression) {
-        return expression.getClass().getSimpleName();
-    }
-
-    public String visit(Literal expression) { return name(expression); }
-    public String visit(VariableReference expression) { return name(expression); }
-    public String visit(Addition expression) { return name(expression); }
-    public String visit(Subtraction expression) { return name(expression); }
-    public String visit(Multiplication expression) { return name(expression); }
-    public String visit(Division expression) { return name(expression); }
-    public String visit(Negation expression) { return name(expression); }
-    public String visit(Modulo expression) { return name(expression); }
-    public String visit(Exponentiation expression) { return name(expression); }
-    public String visit(Equality expression) { return name(expression); }
-    public String visit(Inequality expression) { return name(expression); }
-    public String visit(LessThan expression) { return name(expression); }
-    public String visit(GreaterThan expression) { return name(expression); }
-    public String visit(LessThanOrEqual expression) { return name(expression); }
-    public String visit(GreaterThanOrEqual expression) { return name(expression); }
-    public String visit(Conjunction expression) { return name(expression); }
-    public String visit(Disjunction expression) { return name(expression); }
-    public String visit(LogicalNot expression) { return name(expression); }
-    public String visit(Conditional expression) { return name(expression); }
-    public String visit(FunctionCall expression) { return name(expression); }
+    public String visit(Literal expression) { return "Literal"; }
+    public String visit(VariableReference expression) { return "VariableReference"; }
+    public String visit(Addition expression) { return "Addition"; }
+    public String visit(Subtraction expression) { return "Subtraction"; }
+    public String visit(Multiplication expression) { return "Multiplication"; }
+    public String visit(Division expression) { return "Division"; }
+    public String visit(Negation expression) { return "Negation"; }
+    public String visit(Modulo expression) { return "Modulo"; }
+    public String visit(Exponentiation expression) { return "Exponentiation"; }
+    public String visit(Equality expression) { return "Equality"; }
+    public String visit(Inequality expression) { return "Inequality"; }
+    public String visit(LessThan expression) { return "LessThan"; }
+    public String visit(GreaterThan expression) { return "GreaterThan"; }
+    public String visit(LessThanOrEqual expression) { return "LessThanOrEqual"; }
+    public String visit(GreaterThanOrEqual expression) { return "GreaterThanOrEqual"; }
+    public String visit(Conjunction expression) { return "Conjunction"; }
+    public String visit(Disjunction expression) { return "Disjunction"; }
+    public String visit(LogicalNot expression) { return "LogicalNot"; }
+    public String visit(Conditional expression) { return "Conditional"; }
+    public String visit(FunctionCall expression) { return "FunctionCall"; }
 }

@@ -13,13 +13,8 @@ import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
-import lib.expression.Addition;
 import lib.expression.Expression;
 import lib.visitors.HandlerFactory;
-import lib.expression.FunctionCall;
-import lib.expression.Literal;
-import lib.expression.VariableReference;
-import lib.visitors.FunctionCallSignatureCollector;
 
 abstract class FunctionCallSignatureCollectorTestBase<E> extends TestBase<E> {
     FunctionCallSignatureCollectorTestBase(TestSupport<E> testSupport) {
@@ -50,11 +45,9 @@ abstract class FunctionCallSignatureCollectorTestBase<E> extends TestBase<E> {
         cases.addAll(testSupport.sampleNonVariableExpressions());
 
         return cases.stream()
-            .map(expression -> DynamicTest.dynamicTest("callee-" + expression.getClass().getSimpleName(), () -> {
+            .map(expression -> DynamicTest.dynamicTest("callee-" + typeName(expression), () -> {
                 var signatures =testSupport.v.functionCallSignatureCollector().apply(factory.functionCall(expression, of( factory.literal("9"))));
-                var expectedLabel = expression instanceof VariableReference variableReference
-                    ? variableReference.name
-                    : expression.getClass().getSimpleName();
+                var expectedLabel = typeName(expression).equals("VariableReference") ? render(expression) : typeName(expression);
                 assertEquals(expectedLabel + "/1", signatures.get(0));
             }))
             .toList();

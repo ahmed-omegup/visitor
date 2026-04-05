@@ -41,8 +41,8 @@ abstract class ConstantExpressionCheckerTestBase<E> extends TestBase<E> {
     Iterable<DynamicTest> acceptsAllNonVariableNonCallExpressionKindsFromSupport() {
         var checker = testSupport.v.constantExpressionChecker();
         return testSupport.sampleNonVariableExpressions().stream()
-            .map(expression -> DynamicTest.dynamicTest(expression.getClass().getSimpleName(), () ->
-                org.junit.jupiter.api.Assertions.assertEquals(!(expression instanceof FunctionCall),checker.apply(expression))))
+            .map(expression -> DynamicTest.dynamicTest(typeName(expression), () ->
+                org.junit.jupiter.api.Assertions.assertEquals(!typeName(expression).equals("FunctionCall"),checker.apply(expression))))
             .toList();
     }
 
@@ -83,7 +83,7 @@ abstract class ConstantExpressionCheckerTestBase<E> extends TestBase<E> {
             factory.conditional(factory.variableReference("x"), factory.literal("1"), factory.literal("2")),
             factory.conditional(factory.literal("1"), factory.variableReference("x"), factory.literal("2")),
             factory.conditional(factory.literal("1"), factory.literal("2"), factory.variableReference("x"))
-        ).stream().map(expression -> DynamicTest.dynamicTest("non-constant-" + expression.getClass().getSimpleName(), () ->
+        ).stream().map(expression -> DynamicTest.dynamicTest("non-constant-" + typeName(expression), () ->
             assertFalse(checker.apply(expression)))).toList();
     }
 }

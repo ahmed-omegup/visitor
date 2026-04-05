@@ -41,7 +41,7 @@ abstract class ZeroDivisionRiskDetectorTestBase<E> extends TestBase<E> {
     Iterable<DynamicTest> treatsNonLiteralDivisorsAsSafeCandidatesAcrossExpressionKinds() {
         var detector = testSupport.v.zeroDivisionRiskDetector();
         return testSupport.sampleNonVariableExpressions().stream()
-            .map(expression -> DynamicTest.dynamicTest("divisor-" + expression.getClass().getSimpleName(), () -> {
+            .map(expression -> DynamicTest.dynamicTest("divisor-" + typeName(expression), () -> {
                 assertFalse(detector.apply(factory.division(factory.literal("8"), expression)));
                 assertFalse(detector.apply(factory.modulo(factory.literal("8"), expression)));
             }))
@@ -84,7 +84,7 @@ abstract class ZeroDivisionRiskDetectorTestBase<E> extends TestBase<E> {
             factory.conditional(factory.literal("1"), factory.literal("2"), risky),
             factory.functionCall(risky, of( factory.literal("1"))),
             factory.functionCall(factory.variableReference("sum"), of( risky))
-        ).stream().map(expression -> DynamicTest.dynamicTest("risky-" + expression.getClass().getSimpleName(), () ->
+        ).stream().map(expression -> DynamicTest.dynamicTest("risky-" + typeName(expression), () ->
             assertTrue(detector.apply(expression)))).toList();
     }
 

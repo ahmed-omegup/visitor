@@ -40,8 +40,8 @@ abstract class SideEffectFreeCheckerTestBase<E> extends TestBase<E> {
     Iterable<DynamicTest> acceptsAllNonCallExpressionKindsFromSupport() {
         var checker = testSupport.v.sideEffectFreeChecker();
         return testSupport.sampleNonVariableExpressions().stream()
-            .map(expression -> DynamicTest.dynamicTest(expression.getClass().getSimpleName(), () ->
-                org.junit.jupiter.api.Assertions.assertEquals(!(expression instanceof FunctionCall),checker.apply(expression))))
+            .map(expression -> DynamicTest.dynamicTest(typeName(expression), () ->
+                org.junit.jupiter.api.Assertions.assertEquals(!typeName(expression).equals("FunctionCall"),checker.apply(expression))))
             .toList();
     }
 
@@ -83,7 +83,7 @@ abstract class SideEffectFreeCheckerTestBase<E> extends TestBase<E> {
             factory.conditional(call, factory.literal("1"), factory.literal("2")),
             factory.conditional(factory.literal("1"), call, factory.literal("2")),
             factory.conditional(factory.literal("1"), factory.literal("2"), call)
-        ).stream().map(expression -> DynamicTest.dynamicTest("side-effect-" + expression.getClass().getSimpleName(), () ->
+        ).stream().map(expression -> DynamicTest.dynamicTest("side-effect-" + typeName(expression), () ->
             assertFalse(checker.apply(expression)))).toList();
     }
 }

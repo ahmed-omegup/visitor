@@ -54,9 +54,9 @@ abstract class ConditionalBranchLabelCollectorTestBase<E> extends TestBase<E> {
         cases.add(factory.literal("1"));
 
         return cases.stream()
-            .map(expression -> DynamicTest.dynamicTest("condition-" + expression.getClass().getSimpleName(), () ->
+            .map(expression -> DynamicTest.dynamicTest("condition-" + typeName(expression), () ->
                 assertEquals(
-                    "condition=" + expression.getClass().getSimpleName(),testSupport.v.conditionalBranchLabelCollector().apply(factory.conditional(expression, factory.literal("2"), factory.literal("3"))).get(0)
+                    "condition=" + typeName(expression),testSupport.v.conditionalBranchLabelCollector().apply(factory.conditional(expression, factory.literal("2"), factory.literal("3"))).get(0)
                 )))
             .toList();
     }

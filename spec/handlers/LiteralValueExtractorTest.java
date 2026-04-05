@@ -41,7 +41,7 @@ abstract class LiteralValueExtractorTestBase<E> extends TestBase<E> {
         var extractor = testSupport.v.literalValueExtractor();
 
         for (var expression : testSupport.sampleNonVariableExpressions()) {
-            assertNull(extractor.apply(expression), "non-literal expression should return null for " + expression.getClass().getSimpleName());
+            assertNull(extractor.apply(expression), "non-literal expression should return null for " + typeName(expression));
         }
     }
 }
