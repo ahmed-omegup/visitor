@@ -7,6 +7,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public interface IHandlerFactory<E> {
+    record Tree<T>(T value, List<Tree<T>> children) {}
+
     IExpressionFactory<E> expressionFactory();
 
     Function<E, Map<Integer, Integer>> arithmeticDepthHistogramBuilder();
@@ -40,8 +42,10 @@ public interface IHandlerFactory<E> {
     Function<E, Integer> evaluationComplexityScorer();
     Function<E, List<String>> evaluationOrderListBuilder();
     Function<E, String> executionPlanBuilder();
+    Function<E, String> expressionClassNameExtractor();
     Function<E, String> expressionFingerprintReporter();
     Function<E, String> expressionSummaryReporter();
+    <T> Function<E, Tree<T>> expressionTreeBuilder(Function<E, T> valueBuilder);
     Function<E, List<String>> functionArgumentRootCollector();
     Function<E, List<Integer>> functionArityCollector();
     Function<E, List<Integer>> functionAritySequenceBuilder();

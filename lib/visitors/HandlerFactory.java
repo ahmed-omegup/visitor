@@ -161,12 +161,20 @@ public final class HandlerFactory implements IHandlerFactory<Expression> {
         return new ExecutionPlanBuilder();
     }
 
+    public ExpressionClassNameExtractor expressionClassNameExtractor() {
+        return new ExpressionClassNameExtractor();
+    }
+
     public ExpressionFingerprintReporter expressionFingerprintReporter() {
         return new ExpressionFingerprintReporter();
     }
 
     public ExpressionSummaryReporter expressionSummaryReporter() {
         return new ExpressionSummaryReporter();
+    }
+
+    public <T> ExpressionTreeBuilder<T> expressionTreeBuilder(Function<Expression, T> valueBuilder) {
+        return new ExpressionTreeBuilder<>(valueBuilder);
     }
 
     public FunctionArgumentRootCollector functionArgumentRootCollector() {

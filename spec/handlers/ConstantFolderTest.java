@@ -1,18 +1,37 @@
 package spec.handlers;
 
+import java.lang.reflect.Field;
+import java.util.function.Function;
+
 import lib.expression.Expression;
 import lib.visitors.HandlerFactory;
 
-
-import lib.expression.Factory;
-import lib.visitors.ConstantFolder;
-
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static java.util.List.of;
 
 import org.junit.jupiter.api.Test;
 
-import lib.expression.*;
+import lib.expression.Addition;
+import lib.expression.Conditional;
+import lib.expression.Conjunction;
+import lib.expression.Disjunction;
+import lib.expression.Division;
+import lib.expression.Equality;
+import lib.expression.Exponentiation;
+import lib.expression.FunctionCall;
+import lib.expression.GreaterThan;
+import lib.expression.GreaterThanOrEqual;
+import lib.expression.Inequality;
+import lib.expression.LessThan;
+import lib.expression.LessThanOrEqual;
+import lib.expression.Literal;
+import lib.expression.LogicalNot;
+import lib.expression.Modulo;
+import lib.expression.Multiplication;
+import lib.expression.Negation;
+import lib.expression.Subtraction;
+import lib.expression.VariableReference;
+import port.IHandlerFactory.Tree;
 
 abstract class ConstantFolderTestBase<E> extends TestBase<E> {
     ConstantFolderTestBase(TestSupport<E> testSupport) {
@@ -64,11 +83,11 @@ abstract class ConstantFolderTestBase<E> extends TestBase<E> {
     @Test
     void preservesDynamicExpressions() {
         var folder = testSupport.v.constantFolder();
-        var folded =folder.apply(factory.addition(factory.variableReference("x"), factory.literal("2")));
+        var folded = folder.apply(factory.addition(factory.variableReference("x"), factory.literal("2")));
 
-        var addition = assertInstanceOf(Addition.class, folded, "dynamic addition should remain an Addition");
-        assertVariableReferenceName("x", addition.left, "left operand should remain the original variable reference");
-        assertLiteralValue("2", addition.right, "right operand should remain the literal value");
+        var addition = assertTypeName("Addition", folded, "dynamic addition should remain an Addition");
+        assertVariableReferenceName("x", childExpression(addition, 0), "left operand should remain the original variable reference");
+        assertLiteralValue("2", childExpression(addition, 1), "right operand should remain the literal value");
     }
 
     @Test
@@ -95,26 +114,66 @@ abstract class ConstantFolderTestBase<E> extends TestBase<E> {
         assertLiteralValue("1",folder.apply(factory.logicalNot(factory.literal("0"))), "logical-not should fold");
         assertLiteralValue("4",folder.apply(factory.conditional(factory.literal("1"), factory.literal("4"), factory.literal("5"))), "conditional should fold");
 
-        var functionCall =folder.apply(factory.functionCall(factory.variableReference("sum"), of( factory.addition(factory.literal("1"), factory.literal("2")), factory.literal("4"))));
-        var call = assertInstanceOf(FunctionCall.class, functionCall, "function call should remain a FunctionCall");
-        assertVariableReferenceName("sum", call.callee, "function call callee should remain a variable reference");
-        assertLiteralValue("3", call.arguments[0], "function call arguments should be folded");
-        assertLiteralValue("4", call.arguments[1], "function call arguments should be preserved");
+        var functionCall = folder.apply(factory.functionCall(factory.variableReference("sum"), of(factory.addition(factory.literal("1"), factory.literal("2")), factory.literal("4"))));
+        var call = assertTypeName("FunctionCall", functionCall, "function call should remain a FunctionCall");
+        assertVariableReferenceName("sum", childExpression(call, 0), "function call callee should remain a variable reference");
+        assertLiteralValue("3", childExpression(call, 1), "function call arguments should be folded");
+        assertLiteralValue("4", childExpression(call, 2), "function call arguments should be preserved");
     }
 
     private void assertLiteralValue(String expected, E expression, String message) {
-        var literal = assertInstanceOf(Literal.class, expression, message);
-        org.junit.jupiter.api.Assertions.assertEquals(expected, literal.value, message);
+        assertTypeName("Literal", expression, message);
+        assertEquals(expected, stringField(expression, "value"), message);
     }
 
     private void assertVariableReferenceName(String expected, E expression, String message) {
-        var variable = assertInstanceOf(VariableReference.class, expression, message);
-        org.junit.jupiter.api.Assertions.assertEquals(expected, variable.name, message);
+        assertTypeName("VariableReference", expression, message);
+        assertEquals(expected, stringField(expression, "name"), message);
     }
+
+    private Tree<E> assertTypeName(String expected, E expression, String message) {
+        assertEquals(expected, typeName(expression), message);
+        return tree(expression);
+    }
+
+    private E childExpression(Tree<E> tree, int childIndex) {
+        return tree.children().get(childIndex).value();
+    }
+
+    protected abstract String typeName(E expression);
+
+    protected abstract Tree<E> tree(E expression);
+
+    protected abstract String stringField(E expression, String fieldName);
 }
 
 class ConstantFolderTest extends ConstantFolderTestBase<Expression> {
     ConstantFolderTest() {
         super(new TestSupport<>(new HandlerFactory()));
+    }
+
+    @Override
+    protected String typeName(Expression expression) {
+        return testSupport.v.expressionClassNameExtractor().apply(expression);
+    }
+
+    @Override
+    protected Tree<Expression> tree(Expression expression) {
+        return testSupport.v.expressionTreeBuilder(Function.identity()).apply(expression);
+    }
+
+    @Override
+    protected String stringField(Expression expression, String fieldName) {
+        return readField(expression, fieldName, String.class);
+    }
+
+    private <T> T readField(Object target, String fieldName, Class<T> type) {
+        try {
+            Field field = target.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            return type.cast(field.get(target));
+        } catch (ReflectiveOperationException e) {
+            throw new AssertionError("Unable to read field '" + fieldName + "' from " + target.getClass().getSimpleName(), e);
+        }
     }
 }
