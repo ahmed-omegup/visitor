@@ -50,8 +50,9 @@ public class DeepestNodePathFinder extends AbstractExpressionFunction<String> {
     }
 
     public String visit(FunctionCall expression) { var best = find(expression.callee, path + ".0");
-        for (int index = 0; index < expression.arguments.length; index++) {
-            best = deeper(best, find(expression.arguments[index], path + "." + (index + 1)));
+        var iter = expression.arguments.iterator();
+        for (int index = 0; iter.hasNext(); index++) {
+            best = deeper(best, find(iter.next(), path + "." + (index + 1)));
         }
         result = new Result(best.path, best.depth + 1);
         return result.path;

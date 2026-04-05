@@ -205,7 +205,7 @@ public class FunctionCallSignatureCollector extends AbstractExpressionFunction<L
         if (labeling) {
             currentLabel = "FunctionCall";
             return null;
-        } signatures.add(calleeLabel(expression.callee) + "/" + expression.arguments.length);
+        } signatures.add(calleeLabel(expression.callee) + "/" + expression.arguments.size());
         collect(expression.callee, signatures);
         for (var argument : expression.arguments) {
             collect(argument, signatures);

@@ -46,8 +46,9 @@ public class FunctionCallPathCollector extends AbstractExpressionFunction<List<S
     public List<String> visit(Conditional expression) { collect(expression.condition, path + ".condition", paths); collect(expression.whenTrue, path + ".whenTrue", paths); collect(expression.whenFalse, path + ".whenFalse", paths); return null; }
     public List<String> visit(FunctionCall expression) { paths.add(path);
         collect(expression.callee, path + ".callee", paths);
-        for (int index = 0; index < expression.arguments.length; index++) {
-            collect(expression.arguments[index], path + ".arguments[" + index + "]", paths);
+        var iter = expression.arguments.iterator();
+        for (int index = 0; iter.hasNext(); index++) {
+            collect(iter.next(), path + ".arguments[" + index + "]", paths);
         }
         return null;
     }

@@ -37,11 +37,12 @@ public class JavaLikeExpressionEmitter extends AbstractExpressionFunction<String
     public String visit(FunctionCall expression) {
         var builder = new StringBuilder();
         builder.append(emit(expression.callee)).append('(');
-        for (int index = 0; index < expression.arguments.length; index++) {
+        var iter = expression.arguments.iterator();
+        for (int index = 0; iter.hasNext(); index++) {
             if (index > 0) {
                 builder.append(", ");
             }
-            builder.append(emit(expression.arguments[index]));
+            builder.append(emit(iter.next()));
         }
         return builder.append(')').toString();
     }

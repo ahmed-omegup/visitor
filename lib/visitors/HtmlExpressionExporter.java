@@ -46,11 +46,12 @@ public class HtmlExpressionExporter extends AbstractExpressionFunction<String> {
     public String visit(FunctionCall expression) {
         var builder = new StringBuilder();
         builder.append(export(expression.callee)).append("<span class=\"punctuation\">(</span>");
-        for (int index = 0; index < expression.arguments.length; index++) {
+        var iter = expression.arguments.iterator();
+        for (int index = 0; iter.hasNext(); index++) {
             if (index > 0) {
                 builder.append("<span class=\"punctuation\">, </span>");
             }
-            builder.append(export(expression.arguments[index]));
+            builder.append(export(iter.next()));
         }
         return wrap("function-call", builder.append("<span class=\"punctuation\">)</span>").toString());
     }

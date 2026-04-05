@@ -33,7 +33,7 @@ public class MaxFunctionArityFinder extends AbstractExpressionFunction<Integer> 
     public Integer visit(LogicalNot expression) { return find(expression.operand); }
     public Integer visit(Conditional expression) { return Math.max(find(expression.condition), Math.max(find(expression.whenTrue), find(expression.whenFalse))); }
     public Integer visit(FunctionCall expression) {
-        int max = expression.arguments.length;
+        int max = expression.arguments.size();
         max = Math.max(max, find(expression.callee));
         for (var argument : expression.arguments) {
             max = Math.max(max, find(argument));

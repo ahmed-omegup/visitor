@@ -1,6 +1,10 @@
 package lib.visitors;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.IdentityHashMap;
+import java.util.List;
+import static java.util.List.of;
 
 import lib.expression.*;
 
@@ -45,6 +49,9 @@ public class MermaidFlowchartExporter extends AbstractExpressionFunction<String>
     }
 
     private void node(String text, Expression... children) {
+        node(text, Arrays.asList(children));
+    }
+    private void node(String text, List<Expression> children) {
         builder.append("  ").append(id).append("[\"").append(label(text)).append("\"]\n");
         for (var child : children) {
             append(child, builder, ids);
@@ -72,9 +79,10 @@ public class MermaidFlowchartExporter extends AbstractExpressionFunction<String>
     public String visit(LogicalNot expression) { node("LogicalNot", expression.operand); return null; }
     public String visit(Conditional expression) { node("Conditional", expression.condition, expression.whenTrue, expression.whenFalse); return null; }
 
-    public String visit(FunctionCall expression) { var children = new Expression[expression.arguments.length + 1];
-        children[0] = expression.callee;
-        System.arraycopy(expression.arguments, 0, children, 1, expression.arguments.length);
+    public String visit(FunctionCall expression) {
+        var children = new ArrayList<Expression>(expression.arguments.size() + 1);
+        children.add(expression.callee);
+        children.addAll(expression.arguments);
         node("FunctionCall", children);
         return null;
     }

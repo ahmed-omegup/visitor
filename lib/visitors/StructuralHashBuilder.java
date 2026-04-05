@@ -39,11 +39,12 @@ public class StructuralHashBuilder extends AbstractExpressionFunction<Integer> {
     }
 
     public Integer visit(FunctionCall expression) {
-        var values = new Object[expression.arguments.length + 2];
+        var values = new Object[expression.arguments.size() + 2];
         values[0] = "FunctionCall";
         values[1] = hash(expression.callee);
-        for (int index = 0; index < expression.arguments.length; index++) {
-            values[index + 2] = hash(expression.arguments[index]);
+        var iter = expression.arguments.iterator();
+        for (int index = 0; iter.hasNext(); index++) {
+            values[index + 2] = hash(iter.next());
         }
         return Objects.hash(values);
     }

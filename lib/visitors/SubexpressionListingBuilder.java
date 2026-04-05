@@ -125,11 +125,12 @@ public class SubexpressionListingBuilder extends AbstractExpressionFunction<List
 
     public List<String> visit(FunctionCall expression) { var builder = new StringBuilder();
         builder.append(collect(expression.callee, expressions)).append('(');
-        for (int index = 0; index < expression.arguments.length; index++) {
+        var iter = expression.arguments.iterator();
+        for (int index = 0; iter.hasNext(); index++) {
             if (index > 0) {
                 builder.append(", ");
             }
-            builder.append(collect(expression.arguments[index], expressions));
+            builder.append(collect(iter.next(), expressions));
         }
         current = builder.append(')').toString();
         expressions.add(current);

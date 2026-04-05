@@ -140,9 +140,10 @@ public class TreeDiagramPrinter extends AbstractExpressionFunction<String> {
     }
 
     public String visit(FunctionCall expression) { line("FunctionCall");
-        append(expression.callee, builder, prefix + (last ? "    " : "│   "), expression.arguments.length == 0);
-        for (int index = 0; index < expression.arguments.length; index++) {
-            append(expression.arguments[index], builder, prefix + (last ? "    " : "│   "), index == expression.arguments.length - 1);
+        append(expression.callee, builder, prefix + (last ? "    " : "│   "), expression.arguments.size() == 0);
+        var iter = expression.arguments.iterator();
+        for (int index = 0; iter.hasNext(); index++) {
+            append(iter.next(), builder, prefix + (last ? "    " : "│   "), index == expression.arguments.size() - 1);
         }
         return null;
     }

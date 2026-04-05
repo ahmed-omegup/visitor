@@ -40,7 +40,7 @@ public class FunctionArityCollector extends AbstractExpressionFunction<List<Inte
     public List<Integer> visit(Disjunction expression) { collect(expression.left, arities); collect(expression.right, arities); return null; }
     public List<Integer> visit(LogicalNot expression) { collect(expression.operand, arities); return null; }
     public List<Integer> visit(Conditional expression) { collect(expression.condition, arities); collect(expression.whenTrue, arities); collect(expression.whenFalse, arities); return null; }
-    public List<Integer> visit(FunctionCall expression) { arities.add(expression.arguments.length);
+    public List<Integer> visit(FunctionCall expression) { arities.add(expression.arguments.size());
         collect(expression.callee, arities);
         for (var argument : expression.arguments) {
             collect(argument, arities);

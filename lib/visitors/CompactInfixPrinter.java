@@ -92,11 +92,12 @@ public class CompactInfixPrinter extends AbstractExpressionFunction<String> {
     public String visit(FunctionCall expression) {
         var builder = new StringBuilder();
         builder.append(render(expression.callee)).append('(');
-        for (int index = 0; index < expression.arguments.length; index++) {
+        var iter = expression.arguments.iterator();
+        for (int index = 0; iter.hasNext(); index++) {
             if (index > 0) {
                 builder.append(", ");
             }
-            builder.append(render(expression.arguments[index]));
+            builder.append(render(iter.next()));
         }
         return builder.append(')').toString();
     }

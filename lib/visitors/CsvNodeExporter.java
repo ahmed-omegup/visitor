@@ -52,10 +52,11 @@ public class CsvNodeExporter extends AbstractExpressionFunction<String> {
     public String visit(Disjunction expression) { row("Disjunction", ""); append(expression.left, builder, path + ".0"); append(expression.right, builder, path + ".1"); return null; }
     public String visit(LogicalNot expression) { row("LogicalNot", ""); append(expression.operand, builder, path + ".0"); return null; }
     public String visit(Conditional expression) { row("Conditional", ""); append(expression.condition, builder, path + ".0"); append(expression.whenTrue, builder, path + ".1"); append(expression.whenFalse, builder, path + ".2"); return null; }
-    public String visit(FunctionCall expression) { row("FunctionCall", Integer.toString(expression.arguments.length));
+    public String visit(FunctionCall expression) { row("FunctionCall", Integer.toString(expression.arguments.size()));
         append(expression.callee, builder, path + ".0");
-        for (int index = 0; index < expression.arguments.length; index++) {
-            append(expression.arguments[index], builder, path + "." + (index + 1));
+        var iter = expression.arguments.iterator();
+        for (int index = 0; iter.hasNext(); index++) {
+            append(iter.next(), builder, path + "." + (index + 1));
         }
         return null;
     }

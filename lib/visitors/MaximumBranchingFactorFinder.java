@@ -33,7 +33,7 @@ public class MaximumBranchingFactorFinder extends AbstractExpressionFunction<Int
     public Integer visit(LogicalNot expression) { return Math.max(1, find(expression.operand)); }
     public Integer visit(Conditional expression) { return Math.max(3, Math.max(find(expression.condition), Math.max(find(expression.whenTrue), find(expression.whenFalse)))); }
     public Integer visit(FunctionCall expression) {
-        int max = expression.arguments.length + 1;
+        int max = expression.arguments.size() + 1;
         max = Math.max(max, find(expression.callee));
         for (var argument : expression.arguments) {
             max = Math.max(max, find(argument));

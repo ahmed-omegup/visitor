@@ -108,11 +108,8 @@ public class ConstantFolder extends AbstractExpressionFunction<Expression> {
 
     public Expression visit(FunctionCall expression) {
         var callee = fold(expression.callee);
-        var arguments = new Expression[expression.arguments.length];
-        for (int index = 0; index < expression.arguments.length; index++) {
-            arguments[index] = fold(expression.arguments[index]);
-        }
-        return factory.functionCall(callee, java.util.Arrays.asList(arguments));
+        var arguments = expression.arguments.stream().map(this::fold).toList();
+        return factory.functionCall(callee, arguments);
     }
 
     private Expression foldBinary(Expression left, Expression right, BinaryFactory binaryFactory, BinaryOperation operation) {

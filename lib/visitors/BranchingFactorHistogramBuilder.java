@@ -40,7 +40,7 @@ public class BranchingFactorHistogramBuilder extends AbstractExpressionFunction<
     public Map<Integer, Integer> visit(Disjunction expression) { add(2, histogram); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
     public Map<Integer, Integer> visit(LogicalNot expression) { add(1, histogram); collect(expression.operand, histogram); return null; }
     public Map<Integer, Integer> visit(Conditional expression) { add(3, histogram); collect(expression.condition, histogram); collect(expression.whenTrue, histogram); collect(expression.whenFalse, histogram); return null; }
-    public Map<Integer, Integer> visit(FunctionCall expression) { add(expression.arguments.length + 1, histogram);
+    public Map<Integer, Integer> visit(FunctionCall expression) { add(expression.arguments.size() + 1, histogram);
         collect(expression.callee, histogram);
         for (var argument : expression.arguments) {
             collect(argument, histogram);

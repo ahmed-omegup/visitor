@@ -113,9 +113,9 @@ public final class ExpressionTreeBuilder<T> extends AbstractExpressionFunction<T
     }
 
     public Tree<T> visit(FunctionCall expression) {
-        var children = new ArrayList<Expression>(expression.arguments.length + 1);
+        var children = new ArrayList<Expression>(expression.arguments.size() + 1);
         children.add(expression.callee);
-        children.addAll(Arrays.asList(expression.arguments));
+        children.addAll(expression.arguments);
         return node(expression, children);
     }
 
