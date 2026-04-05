@@ -2,61 +2,80 @@ package lib.visitors;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.function.Function;
 
 import lib.expression.*;
 
-public class FunctionNameCollector implements Visitor<Set<String>> {
+class VariableName implements Visitor1<String> {
+    public String visit(Literal expression) { return null; }
+    public String visit(VariableReference expression) { return expression.name; }
+    public String visit(Addition expression) { return null; }
+    public String visit(Subtraction expression) { return null; }
+    public String visit(Multiplication expression) { return null; }
+    public String visit(Division expression) { return null; }
+    public String visit(Negation expression) { return null; }
+    public String visit(Modulo expression) { return null; }
+    public String visit(Exponentiation expression) { return null; }
+    public String visit(Equality expression) { return null; }
+    public String visit(Inequality expression) { return null; }
+    public String visit(LessThan expression) { return null; }
+    public String visit(GreaterThan expression) { return null; }
+    public String visit(LessThanOrEqual expression) { return null; }
+    public String visit(GreaterThanOrEqual expression) { return null; }
+    public String visit(Conjunction expression) { return null; }
+    public String visit(Disjunction expression) { return null; }
+    public String visit(LogicalNot expression) { return null; }
+    public String visit(Conditional expression) { return null; }
+    public String visit(FunctionCall expression) { return null; }
+}
+
+public class FunctionNameCollector implements Function<Expression, Set<String>> {
     FunctionNameCollector() {}
 
-    private boolean active;
-    private Set<String> names;
-
-    public Set<String> handle(Expression expression) {
+    public Set<String> apply(Expression expression) {
         var names = new LinkedHashSet<String>();
-        collect(expression, names);
+        var visitor = new FunctionNameVisitor(names);
+        expression.accept(visitor);
         return names;
     }
+}
 
-    private void collect(Expression expression, Set<String> names) {
-        boolean previousActive = this.active;
-        Set<String> previousNames = this.names;
-        this.active = true;
+class FunctionNameVisitor implements Visitor1<Void> {
+    private final VariableName variableName = new VariableName();
+    private Set<String> names;
+
+    FunctionNameVisitor(Set<String> names) {
         this.names = names;
-        expression.accept(this);
-        this.names = previousNames;
-        this.active = previousActive;
     }
 
-    public Set<String> visit(Literal expression) { return active ? null : handle(expression); }
-    public Set<String> visit(VariableReference expression) { return active ? null : handle(expression); }
-    public Set<String> visit(Addition expression) { if (!active) { return handle(expression); } collect(expression.left, names); collect(expression.right, names); return null; }
-    public Set<String> visit(Subtraction expression) { if (!active) { return handle(expression); } collect(expression.left, names); collect(expression.right, names); return null; }
-    public Set<String> visit(Multiplication expression) { if (!active) { return handle(expression); } collect(expression.left, names); collect(expression.right, names); return null; }
-    public Set<String> visit(Division expression) { if (!active) { return handle(expression); } collect(expression.dividend, names); collect(expression.divisor, names); return null; }
-    public Set<String> visit(Negation expression) { if (!active) { return handle(expression); } collect(expression.operand, names); return null; }
-    public Set<String> visit(Modulo expression) { if (!active) { return handle(expression); } collect(expression.left, names); collect(expression.right, names); return null; }
-    public Set<String> visit(Exponentiation expression) { if (!active) { return handle(expression); } collect(expression.base, names); collect(expression.exponent, names); return null; }
-    public Set<String> visit(Equality expression) { if (!active) { return handle(expression); } collect(expression.left, names); collect(expression.right, names); return null; }
-    public Set<String> visit(Inequality expression) { if (!active) { return handle(expression); } collect(expression.left, names); collect(expression.right, names); return null; }
-    public Set<String> visit(LessThan expression) { if (!active) { return handle(expression); } collect(expression.left, names); collect(expression.right, names); return null; }
-    public Set<String> visit(GreaterThan expression) { if (!active) { return handle(expression); } collect(expression.left, names); collect(expression.right, names); return null; }
-    public Set<String> visit(LessThanOrEqual expression) { if (!active) { return handle(expression); } collect(expression.left, names); collect(expression.right, names); return null; }
-    public Set<String> visit(GreaterThanOrEqual expression) { if (!active) { return handle(expression); } collect(expression.left, names); collect(expression.right, names); return null; }
-    public Set<String> visit(Conjunction expression) { if (!active) { return handle(expression); } collect(expression.left, names); collect(expression.right, names); return null; }
-    public Set<String> visit(Disjunction expression) { if (!active) { return handle(expression); } collect(expression.left, names); collect(expression.right, names); return null; }
-    public Set<String> visit(LogicalNot expression) { if (!active) { return handle(expression); } collect(expression.operand, names); return null; }
-    public Set<String> visit(Conditional expression) { if (!active) { return handle(expression); } collect(expression.condition, names); collect(expression.whenTrue, names); collect(expression.whenFalse, names); return null; }
+    public Void visit(Literal expression) { return null; }
+    public Void visit(VariableReference expression) { return null; }
+    public Void visit(Addition expression) { expression.left.accept(this); expression.right.accept(this); return null; }
+    public Void visit(Subtraction expression) { expression.left.accept(this); expression.right.accept(this); return null; }
+    public Void visit(Multiplication expression) { expression.left.accept(this); expression.right.accept(this); return null; }
+    public Void visit(Division expression) { expression.dividend.accept(this); expression.divisor.accept(this); return null; }
+    public Void visit(Negation expression) { expression.operand.accept(this); return null; }
+    public Void visit(Modulo expression) { expression.left.accept(this); expression.right.accept(this); return null; }
+    public Void visit(Exponentiation expression) { expression.base.accept(this); expression.exponent.accept(this); return null; }
+    public Void visit(Equality expression) { expression.left.accept(this); expression.right.accept(this); return null; }
+    public Void visit(Inequality expression) { expression.left.accept(this); expression.right.accept(this); return null; }
+    public Void visit(LessThan expression) { expression.left.accept(this); expression.right.accept(this); return null; }
+    public Void visit(GreaterThan expression) { expression.left.accept(this); expression.right.accept(this); return null; }
+    public Void visit(LessThanOrEqual expression) { expression.left.accept(this); expression.right.accept(this); return null; }
+    public Void visit(GreaterThanOrEqual expression) { expression.left.accept(this); expression.right.accept(this); return null; }
+    public Void visit(Conjunction expression) { expression.left.accept(this); expression.right.accept(this); return null; }
+    public Void visit(Disjunction expression) { expression.left.accept(this); expression.right.accept(this); return null; }
+    public Void visit(LogicalNot expression) { expression.operand.accept(this); return null; }
+    public Void visit(Conditional expression) { expression.condition.accept(this); expression.whenTrue.accept(this); expression.whenFalse.accept(this); return null; }
 
-    public Set<String> visit(FunctionCall expression) {
-        if (!active) {
-            return handle(expression);
+    public Void visit(FunctionCall expression) {
+        var calleeName = expression.callee.accept(variableName);
+        if (calleeName != null) {
+            names.add(calleeName);
         }
-        if (expression.callee instanceof VariableReference variableReference) {
-            names.add(variableReference.name);
-        }
-        collect(expression.callee, names);
+        expression.callee.accept(this);
         for (var argument : expression.arguments) {
-            collect(argument, names);
+            argument.accept(this);
         }
         return null;
     }

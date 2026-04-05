@@ -5,7 +5,7 @@ public class Division implements Expression {
         this.dividend = dividend;
         this.divisor = divisor;
     }
-    public <R>R accept(Visitor<R> visitor) {return visitor.visit(this); } 
+    public <R>R accept(Visitor1<R> visitor) {return visitor.visit(this); } 
     public final Expression dividend;
     public final Expression divisor;
 }

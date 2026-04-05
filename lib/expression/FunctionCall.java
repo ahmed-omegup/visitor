@@ -7,7 +7,7 @@ public class FunctionCall implements Expression {
         this.callee = callee;
         this.arguments = arguments.toArray(Expression[]::new);
     }
-    public <R>R accept(Visitor<R> visitor) {return visitor.visit(this); } 
+    public <R>R accept(Visitor1<R> visitor) {return visitor.visit(this); } 
     public final Expression callee;
     public final Expression[] arguments;
 }
