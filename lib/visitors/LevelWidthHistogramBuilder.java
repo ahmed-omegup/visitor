@@ -6,23 +6,18 @@ import java.util.Map;
 
 import lib.expression.*;
 
-public class LevelWidthHistogramBuilder implements Visitor<Map<Integer, Integer>> {
+public class LevelWidthHistogramBuilder extends AbstractExpressionFunction<Map<Integer, Integer>> {
     LevelWidthHistogramBuilder() {}
-
-    private boolean active;
     private ArrayDeque<Expression> queue;
     private ArrayDeque<Integer> depths;
     private Map<Integer, Integer> histogram;
     private int currentDepth;
 
-    public Map<Integer, Integer> handle(Expression expression) {
-        boolean previousActive = this.active;
+    public Map<Integer, Integer> apply(Expression expression) {
         ArrayDeque<Expression> previousQueue = this.queue;
         ArrayDeque<Integer> previousDepths = this.depths;
         Map<Integer, Integer> previousHistogram = this.histogram;
         int previousCurrentDepth = this.currentDepth;
-
-        this.active = true;
         this.queue = new ArrayDeque<>();
         this.depths = new ArrayDeque<>();
         this.histogram = new LinkedHashMap<>();
@@ -33,7 +28,7 @@ public class LevelWidthHistogramBuilder implements Visitor<Map<Integer, Integer>
             var current = queue.removeFirst();
             currentDepth = depths.removeFirst();
             histogram.merge(currentDepth, 1, Integer::sum);
-            current.accept(this);
+            visitExpression(current);
         }
 
         Map<Integer, Integer> result = histogram;
@@ -41,7 +36,6 @@ public class LevelWidthHistogramBuilder implements Visitor<Map<Integer, Integer>
         this.histogram = previousHistogram;
         this.depths = previousDepths;
         this.queue = previousQueue;
-        this.active = previousActive;
         return result;
     }
 
@@ -52,31 +46,27 @@ public class LevelWidthHistogramBuilder implements Visitor<Map<Integer, Integer>
         }
     }
 
-    public Map<Integer, Integer> visit(Literal expression) { return active ? null : handle(expression); }
-    public Map<Integer, Integer> visit(VariableReference expression) { return active ? null : handle(expression); }
-    public Map<Integer, Integer> visit(Addition expression) { if (!active) { return handle(expression); } push(expression.left, expression.right); return null; }
-    public Map<Integer, Integer> visit(Subtraction expression) { if (!active) { return handle(expression); } push(expression.left, expression.right); return null; }
-    public Map<Integer, Integer> visit(Multiplication expression) { if (!active) { return handle(expression); } push(expression.left, expression.right); return null; }
-    public Map<Integer, Integer> visit(Division expression) { if (!active) { return handle(expression); } push(expression.dividend, expression.divisor); return null; }
-    public Map<Integer, Integer> visit(Negation expression) { if (!active) { return handle(expression); } push(expression.operand); return null; }
-    public Map<Integer, Integer> visit(Modulo expression) { if (!active) { return handle(expression); } push(expression.left, expression.right); return null; }
-    public Map<Integer, Integer> visit(Exponentiation expression) { if (!active) { return handle(expression); } push(expression.base, expression.exponent); return null; }
-    public Map<Integer, Integer> visit(Equality expression) { if (!active) { return handle(expression); } push(expression.left, expression.right); return null; }
-    public Map<Integer, Integer> visit(Inequality expression) { if (!active) { return handle(expression); } push(expression.left, expression.right); return null; }
-    public Map<Integer, Integer> visit(LessThan expression) { if (!active) { return handle(expression); } push(expression.left, expression.right); return null; }
-    public Map<Integer, Integer> visit(GreaterThan expression) { if (!active) { return handle(expression); } push(expression.left, expression.right); return null; }
-    public Map<Integer, Integer> visit(LessThanOrEqual expression) { if (!active) { return handle(expression); } push(expression.left, expression.right); return null; }
-    public Map<Integer, Integer> visit(GreaterThanOrEqual expression) { if (!active) { return handle(expression); } push(expression.left, expression.right); return null; }
-    public Map<Integer, Integer> visit(Conjunction expression) { if (!active) { return handle(expression); } push(expression.left, expression.right); return null; }
-    public Map<Integer, Integer> visit(Disjunction expression) { if (!active) { return handle(expression); } push(expression.left, expression.right); return null; }
-    public Map<Integer, Integer> visit(LogicalNot expression) { if (!active) { return handle(expression); } push(expression.operand); return null; }
-    public Map<Integer, Integer> visit(Conditional expression) { if (!active) { return handle(expression); } push(expression.condition, expression.whenTrue, expression.whenFalse); return null; }
+    public Map<Integer, Integer> visit(Literal expression) { return null; }
+    public Map<Integer, Integer> visit(VariableReference expression) { return null; }
+    public Map<Integer, Integer> visit(Addition expression) { push(expression.left, expression.right); return null; }
+    public Map<Integer, Integer> visit(Subtraction expression) { push(expression.left, expression.right); return null; }
+    public Map<Integer, Integer> visit(Multiplication expression) { push(expression.left, expression.right); return null; }
+    public Map<Integer, Integer> visit(Division expression) { push(expression.dividend, expression.divisor); return null; }
+    public Map<Integer, Integer> visit(Negation expression) { push(expression.operand); return null; }
+    public Map<Integer, Integer> visit(Modulo expression) { push(expression.left, expression.right); return null; }
+    public Map<Integer, Integer> visit(Exponentiation expression) { push(expression.base, expression.exponent); return null; }
+    public Map<Integer, Integer> visit(Equality expression) { push(expression.left, expression.right); return null; }
+    public Map<Integer, Integer> visit(Inequality expression) { push(expression.left, expression.right); return null; }
+    public Map<Integer, Integer> visit(LessThan expression) { push(expression.left, expression.right); return null; }
+    public Map<Integer, Integer> visit(GreaterThan expression) { push(expression.left, expression.right); return null; }
+    public Map<Integer, Integer> visit(LessThanOrEqual expression) { push(expression.left, expression.right); return null; }
+    public Map<Integer, Integer> visit(GreaterThanOrEqual expression) { push(expression.left, expression.right); return null; }
+    public Map<Integer, Integer> visit(Conjunction expression) { push(expression.left, expression.right); return null; }
+    public Map<Integer, Integer> visit(Disjunction expression) { push(expression.left, expression.right); return null; }
+    public Map<Integer, Integer> visit(LogicalNot expression) { push(expression.operand); return null; }
+    public Map<Integer, Integer> visit(Conditional expression) { push(expression.condition, expression.whenTrue, expression.whenFalse); return null; }
 
-    public Map<Integer, Integer> visit(FunctionCall expression) {
-        if (!active) {
-            return handle(expression);
-        }
-        queue.addLast(expression.callee);
+    public Map<Integer, Integer> visit(FunctionCall expression) { queue.addLast(expression.callee);
         depths.addLast(currentDepth + 1);
         for (var argument : expression.arguments) {
             queue.addLast(argument);

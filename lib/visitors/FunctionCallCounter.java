@@ -2,14 +2,14 @@ package lib.visitors;
 
 import lib.expression.*;
 
-public class FunctionCallCounter implements Visitor<Integer> {
+public class FunctionCallCounter extends AbstractExpressionFunction<Integer> {
     FunctionCallCounter() {}
 
-    public Integer handle(Expression expression) {
+    public Integer apply(Expression expression) {
         return count(expression);
     }
     private Integer count(Expression expression) {
-        Integer result = expression.accept(this);
+        Integer result = visitExpression(expression);
         return result;
     }
 

@@ -2,14 +2,14 @@ package lib.visitors;
 
 import lib.expression.*;
 
-public class CompactInfixPrinter implements Visitor<String> {
+public class CompactInfixPrinter extends AbstractExpressionFunction<String> {
     CompactInfixPrinter() {}
 
-    public String handle(Expression expression) {
+    public String apply(Expression expression) {
         return render(expression);
     }
     private String render(Expression expression) {
-        String result = expression.accept(this);
+        String result = visitExpression(expression);
         return result;
     }
 

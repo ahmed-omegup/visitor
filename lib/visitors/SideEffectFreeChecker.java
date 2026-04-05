@@ -2,14 +2,14 @@ package lib.visitors;
 
 import lib.expression.*;
 
-public class SideEffectFreeChecker implements Visitor<Boolean> {
+public class SideEffectFreeChecker extends AbstractExpressionFunction<Boolean> {
     SideEffectFreeChecker() {}
 
-    public Boolean handle(Expression expression) {
+    public Boolean apply(Expression expression) {
         return check(expression);
     }
     private Boolean check(Expression expression) {
-        Boolean result = expression.accept(this);
+        Boolean result = visitExpression(expression);
         return result;
     }
 

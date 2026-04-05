@@ -2,14 +2,14 @@ package lib.visitors;
 
 import lib.expression.*;
 
-public class PrefixNotationPrinter implements Visitor<String> {
+public class PrefixNotationPrinter extends AbstractExpressionFunction<String> {
     PrefixNotationPrinter() {}
 
-    public String handle(Expression expression) {
+    public String apply(Expression expression) {
         return render(expression);
     }
     private String render(Expression expression) {
-        String result = expression.accept(this);
+        String result = visitExpression(expression);
         return result;
     }
 

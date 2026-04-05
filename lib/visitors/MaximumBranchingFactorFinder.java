@@ -2,14 +2,14 @@ package lib.visitors;
 
 import lib.expression.*;
 
-public class MaximumBranchingFactorFinder implements Visitor<Integer> {
+public class MaximumBranchingFactorFinder extends AbstractExpressionFunction<Integer> {
     MaximumBranchingFactorFinder() {}
 
-    public int handle(Expression expression) {
+    public Integer apply(Expression expression) {
         return find(expression);
     }
     private int find(Expression expression) {
-        int result = expression.accept(this);
+        int result = visitExpression(expression);
         return result;
     }
 

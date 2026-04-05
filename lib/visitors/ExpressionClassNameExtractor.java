@@ -22,7 +22,7 @@ import lib.expression.Subtraction;
 import lib.expression.VariableReference;
 import lib.expression.Visitor;
 
-public final class ExpressionClassNameExtractor implements Visitor<String> {
+public final class ExpressionClassNameExtractor extends AbstractExpressionFunction<String> {
     ExpressionClassNameExtractor() {}
 
     public String visit(Literal expression) { return "Literal"; }

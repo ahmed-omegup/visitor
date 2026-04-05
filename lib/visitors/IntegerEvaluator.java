@@ -7,7 +7,7 @@ import java.util.function.Function;
 
 import lib.expression.*;
 
-public class IntegerEvaluator implements Visitor<Integer> {
+public class IntegerEvaluator extends AbstractExpressionFunction<Integer> {
     private final Map<String, Integer> variables;
     private final Map<String, Function<List<Integer>, Integer>> functions;
     private final VariableReferenceExtractor variableReferenceExtractor = new VariableReferenceExtractor(
@@ -23,12 +23,12 @@ public class IntegerEvaluator implements Visitor<Integer> {
         this.functions = functions;
     }
 
-    public Integer handle(Expression expression) {
+    public Integer apply(Expression expression) {
         return evaluate(expression);
     }
 
     private Integer evaluate(Expression expression) {
-        return expression.accept(this);
+        return visitExpression(expression);
     }
 
     public Integer visit(Literal expression) {

@@ -29,7 +29,7 @@ import lib.expression.VariableReference;
 import lib.expression.Visitor;
 import port.IHandlerFactory.Tree;
 
-public final class ExpressionTreeBuilder<T> implements Visitor<Tree<T>> {
+public final class ExpressionTreeBuilder<T> extends AbstractExpressionFunction<Tree<T>> {
     private final Function<Expression, T> valueBuilder;
 
     ExpressionTreeBuilder(Function<Expression, T> valueBuilder) {

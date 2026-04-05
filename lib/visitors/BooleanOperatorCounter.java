@@ -2,14 +2,14 @@ package lib.visitors;
 
 import lib.expression.*;
 
-public class BooleanOperatorCounter implements Visitor<Integer> {
+public class BooleanOperatorCounter extends AbstractExpressionFunction<Integer> {
     BooleanOperatorCounter() {}
 
-    public Integer handle(Expression expression) {
+    public Integer apply(Expression expression) {
         return count(expression);
     }
     private Integer count(Expression expression) {
-        Integer result = expression.accept(this);
+        Integer result = visitExpression(expression);
         return result;
     }
 

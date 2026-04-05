@@ -3,7 +3,7 @@ package lib.visitors;
 import lib.expression.*;
 import port.IExpressionFactory;
 
-public class ConstantFolder implements Visitor<Expression> {
+public class ConstantFolder extends AbstractExpressionFunction<Expression> {
     private final IExpressionFactory<Expression> factory;
     private final LiteralValueExtractor literalValueExtractor = new LiteralValueExtractor();
 
@@ -11,12 +11,12 @@ public class ConstantFolder implements Visitor<Expression> {
         this.factory = factory;
     }
 
-    public Expression handle(Expression expression) {
+    public Expression apply(Expression expression) {
         return fold(expression);
     }
 
     private Expression fold(Expression expression) {
-        return expression.accept(this);
+        return visitExpression(expression);
     }
 
     public Expression visit(Literal expression) {

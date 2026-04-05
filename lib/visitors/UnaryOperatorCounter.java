@@ -2,14 +2,14 @@ package lib.visitors;
 
 import lib.expression.*;
 
-public class UnaryOperatorCounter implements Visitor<Integer> {
+public class UnaryOperatorCounter extends AbstractExpressionFunction<Integer> {
     UnaryOperatorCounter() {}
 
-    public Integer handle(Expression expression) {
+    public Integer apply(Expression expression) {
         return count(expression);
     }
     private Integer count(Expression expression) {
-        Integer result = expression.accept(this);
+        Integer result = visitExpression(expression);
         return result;
     }
 

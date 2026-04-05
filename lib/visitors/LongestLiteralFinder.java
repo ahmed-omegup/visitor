@@ -2,14 +2,14 @@ package lib.visitors;
 
 import lib.expression.*;
 
-public class LongestLiteralFinder implements Visitor<String> {
+public class LongestLiteralFinder extends AbstractExpressionFunction<String> {
     LongestLiteralFinder() {}
 
-    public String handle(Expression expression) {
+    public String apply(Expression expression) {
         return find(expression);
     }
     private String find(Expression expression) {
-        String result = expression.accept(this);
+        String result = visitExpression(expression);
         return result;
     }
 

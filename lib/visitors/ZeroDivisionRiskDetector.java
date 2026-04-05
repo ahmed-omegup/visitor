@@ -2,23 +2,23 @@ package lib.visitors;
 
 import lib.expression.*;
 
-public class ZeroDivisionRiskDetector implements Visitor<Boolean> {
+public class ZeroDivisionRiskDetector extends AbstractExpressionFunction<Boolean> {
     ZeroDivisionRiskDetector() {}
 
     private boolean checkingLiteralZero;
 
-    public Boolean handle(Expression expression) {
+    public Boolean apply(Expression expression) {
         return detect(expression);
     }
 
     private Boolean detect(Expression expression) {
-        return expression.accept(this);
+        return visitExpression(expression);
     }
 
     private boolean literalZero(Expression expression) {
         boolean previousCheckingLiteralZero = this.checkingLiteralZero;
         this.checkingLiteralZero = true;
-        boolean result = expression.accept(this);
+        boolean result = visitExpression(expression);
         this.checkingLiteralZero = previousCheckingLiteralZero;
         return result;
     }

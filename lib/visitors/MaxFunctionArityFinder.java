@@ -2,14 +2,14 @@ package lib.visitors;
 
 import lib.expression.*;
 
-public class MaxFunctionArityFinder implements Visitor<Integer> {
+public class MaxFunctionArityFinder extends AbstractExpressionFunction<Integer> {
     MaxFunctionArityFinder() {}
 
-    public Integer handle(Expression expression) {
+    public Integer apply(Expression expression) {
         return find(expression);
     }
     private Integer find(Expression expression) {
-        Integer result = expression.accept(this);
+        Integer result = visitExpression(expression);
         return result;
     }
 

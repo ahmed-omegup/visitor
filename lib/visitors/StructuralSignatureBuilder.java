@@ -2,14 +2,14 @@ package lib.visitors;
 
 import lib.expression.*;
 
-public class StructuralSignatureBuilder implements Visitor<String> {
+public class StructuralSignatureBuilder extends AbstractExpressionFunction<String> {
     StructuralSignatureBuilder() {}
 
-    public String handle(Expression expression) {
+    public String apply(Expression expression) {
         return build(expression);
     }
     private String build(Expression expression) {
-        String result = expression.accept(this);
+        String result = visitExpression(expression);
         return result;
     }
 

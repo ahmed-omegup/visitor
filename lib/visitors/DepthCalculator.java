@@ -2,14 +2,14 @@ package lib.visitors;
 
 import lib.expression.*;
 
-public class DepthCalculator implements Visitor<Integer> {
+public class DepthCalculator extends AbstractExpressionFunction<Integer> {
     DepthCalculator() {}
 
-    public Integer handle(Expression expression) {
+    public Integer apply(Expression expression) {
         return depth(expression);
     }
     private Integer depth(Expression expression) {
-        Integer result = expression.accept(this);
+        Integer result = visitExpression(expression);
         return result;
     }
 

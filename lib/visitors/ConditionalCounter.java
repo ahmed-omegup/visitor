@@ -2,14 +2,14 @@ package lib.visitors;
 
 import lib.expression.*;
 
-public class ConditionalCounter implements Visitor<Integer> {
+public class ConditionalCounter extends AbstractExpressionFunction<Integer> {
     ConditionalCounter() {}
 
-    public int handle(Expression expression) {
+    public Integer apply(Expression expression) {
         return count(expression);
     }
     private int count(Expression expression) {
-        int result = expression.accept(this);
+        int result = visitExpression(expression);
         return result;
     }
 

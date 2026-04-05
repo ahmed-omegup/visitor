@@ -4,15 +4,15 @@ import java.util.Objects;
 
 import lib.expression.*;
 
-public class StructuralHashBuilder implements Visitor<Integer> {
+public class StructuralHashBuilder extends AbstractExpressionFunction<Integer> {
     StructuralHashBuilder() {}
 
-    public Integer handle(Expression expression) {
+    public Integer apply(Expression expression) {
         return hash(expression);
     }
 
     private Integer hash(Expression expression) {
-        return expression.accept(this);
+        return visitExpression(expression);
     }
 
     public Integer visit(Literal expression) { return Objects.hash("Literal"); }

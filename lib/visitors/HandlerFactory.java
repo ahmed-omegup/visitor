@@ -121,7 +121,7 @@ public final class HandlerFactory implements IHandlerFactory<Expression> {
         return new ConstantExpressionChecker();
     }
 
-    public Visitor<Expression> constantFolder() {
+    public ConstantFolder constantFolder() {
         return new ConstantFolder(expressionFactory());
     }
 

@@ -2,14 +2,14 @@ package lib.visitors;
 
 import lib.expression.*;
 
-public class JsonExporter implements Visitor<String> {
+public class JsonExporter extends AbstractExpressionFunction<String> {
     JsonExporter() {}
 
-    public String handle(Expression expression) {
+    public String apply(Expression expression) {
         return export(expression);
     }
     private String export(Expression expression) {
-        String result = expression.accept(this);
+        String result = visitExpression(expression);
         return result;
     }
 

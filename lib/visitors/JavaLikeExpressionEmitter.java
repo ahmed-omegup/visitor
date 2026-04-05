@@ -2,14 +2,14 @@ package lib.visitors;
 
 import lib.expression.*;
 
-public class JavaLikeExpressionEmitter implements Visitor<String> {
+public class JavaLikeExpressionEmitter extends AbstractExpressionFunction<String> {
     JavaLikeExpressionEmitter() {}
 
-    public String handle(Expression expression) {
+    public String apply(Expression expression) {
         return emit(expression);
     }
     private String emit(Expression expression) {
-        String result = expression.accept(this);
+        String result = visitExpression(expression);
         return result;
     }
 

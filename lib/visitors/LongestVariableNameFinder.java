@@ -2,14 +2,14 @@ package lib.visitors;
 
 import lib.expression.*;
 
-public class LongestVariableNameFinder implements Visitor<String> {
+public class LongestVariableNameFinder extends AbstractExpressionFunction<String> {
     LongestVariableNameFinder() {}
 
-    public String handle(Expression expression) {
+    public String apply(Expression expression) {
         return find(expression);
     }
     private String find(Expression expression) {
-        String result = expression.accept(this);
+        String result = visitExpression(expression);
         return result;
     }
 

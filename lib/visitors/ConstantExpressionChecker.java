@@ -2,14 +2,14 @@ package lib.visitors;
 
 import lib.expression.*;
 
-public class ConstantExpressionChecker implements Visitor<Boolean> {
+public class ConstantExpressionChecker extends AbstractExpressionFunction<Boolean> {
     ConstantExpressionChecker() {}
 
-    public Boolean handle(Expression expression) {
+    public Boolean apply(Expression expression) {
         return check(expression);
     }
     private Boolean check(Expression expression) {
-        Boolean result = expression.accept(this);
+        Boolean result = visitExpression(expression);
         return result;
     }
 
