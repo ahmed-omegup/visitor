@@ -17,7 +17,7 @@ public class VariableCollector implements Function<Expression, Set<String>> {
     }
 }
 
-final class VariableCollectorVisitor extends ExpressionVisitorAdapter {
+final class VariableCollectorVisitor extends EmptyVisitor {
     private final Set<String> names;
 
     VariableCollectorVisitor(Set<String> names) {

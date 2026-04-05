@@ -4,27 +4,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.Function;
 
-import lib.expression.Addition;
-import lib.expression.Conditional;
-import lib.expression.Conjunction;
-import lib.expression.Disjunction;
-import lib.expression.Division;
-import lib.expression.Equality;
-import lib.expression.Exponentiation;
-import lib.expression.Expression;
-import lib.expression.FunctionCall;
-import lib.expression.GreaterThan;
-import lib.expression.GreaterThanOrEqual;
-import lib.expression.Inequality;
-import lib.expression.LessThan;
-import lib.expression.LessThanOrEqual;
-import lib.expression.Literal;
-import lib.expression.LogicalNot;
-import lib.expression.Modulo;
-import lib.expression.Multiplication;
-import lib.expression.Negation;
-import lib.expression.Subtraction;
-import lib.expression.VariableReference;
+import lib.expression.*;
 
 public class NodeTypeCollector implements Function<Expression, Set<String>> {
     NodeTypeCollector() {}
@@ -36,7 +16,7 @@ public class NodeTypeCollector implements Function<Expression, Set<String>> {
     }
 }
 
-final class NodeTypeCollectorVisitor extends ExpressionVisitorAdapter {
+final class NodeTypeCollectorVisitor implements Visitor1<Void> {
     private final Set<String> types;
 
     NodeTypeCollectorVisitor(Set<String> types) {

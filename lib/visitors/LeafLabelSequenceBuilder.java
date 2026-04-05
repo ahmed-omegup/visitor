@@ -18,7 +18,7 @@ public class LeafLabelSequenceBuilder implements Function<Expression, List<Strin
     }
 }
 
-final class LeafLabelSequenceBuilderVisitor extends ExpressionVisitorAdapter {
+final class LeafLabelSequenceBuilderVisitor extends EmptyVisitor {
     private final List<String> labels;
 
     LeafLabelSequenceBuilderVisitor(List<String> labels) {

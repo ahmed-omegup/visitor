@@ -17,7 +17,7 @@ public class LiteralCollector implements Function<Expression, List<String>> {
     }
 }
 
-final class LiteralCollectorVisitor extends ExpressionVisitorAdapter {
+final class LiteralCollectorVisitor extends EmptyVisitor {
     private final List<String> literals;
 
     LiteralCollectorVisitor(List<String> literals) {

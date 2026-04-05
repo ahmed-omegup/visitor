@@ -17,7 +17,7 @@ public class FunctionArityCollector implements Function<Expression, List<Integer
     }
 }
 
-final class FunctionArityCollectorVisitor extends ExpressionVisitorAdapter {
+final class FunctionArityCollectorVisitor extends EmptyVisitor {
     private final List<Integer> arities;
 
     FunctionArityCollectorVisitor(List<Integer> arities) {

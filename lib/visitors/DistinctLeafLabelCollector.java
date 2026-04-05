@@ -18,7 +18,7 @@ public class DistinctLeafLabelCollector implements Function<Expression, Set<Stri
     }
 }
 
-final class DistinctLeafLabelCollectorVisitor extends ExpressionVisitorAdapter {
+final class DistinctLeafLabelCollectorVisitor extends EmptyVisitor {
     private final Set<String> labels;
 
     DistinctLeafLabelCollectorVisitor(Set<String> labels) {
