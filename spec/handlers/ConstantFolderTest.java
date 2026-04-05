@@ -102,12 +102,12 @@ abstract class ConstantFolderTestBase<E> extends TestBase<E> {
         assertLiteralValue("4", call.arguments[1], "function call arguments should be preserved");
     }
 
-    private void assertLiteralValue(String expected, lib.expression.Expression expression, String message) {
+    private void assertLiteralValue(String expected, E expression, String message) {
         var literal = assertInstanceOf(Literal.class, expression, message);
         org.junit.jupiter.api.Assertions.assertEquals(expected, literal.value, message);
     }
 
-    private void assertVariableReferenceName(String expected, lib.expression.Expression expression, String message) {
+    private void assertVariableReferenceName(String expected, E expression, String message) {
         var variable = assertInstanceOf(VariableReference.class, expression, message);
         org.junit.jupiter.api.Assertions.assertEquals(expected, variable.name, message);
     }
