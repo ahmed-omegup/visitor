@@ -26,14 +26,13 @@ abstract class TreeDiagramPrinterTestBase<E> extends TestBase<E> {
     void rendersZeroArgumentFunctionCallTree() {
         assertEquals(
             "└── FunctionCall\n"
-                + "    └── VariableReference(ping)\n",
-factory.functionCall(factory.variableReference("ping"), of()).accept(testSupport.v.treeDiagramPrinter())
+                + "    └── VariableReference(ping)\n",testSupport.v.treeDiagramPrinter().apply(factory.functionCall(factory.variableReference("ping"), of()))
         );
     }
 
     @Test
     void rendersAllExpressionKinds() {
-        var tree =testSupport.sampleTraversalExpression().accept(testSupport.v.treeDiagramPrinter());
+        var tree =testSupport.v.treeDiagramPrinter().apply(testSupport.sampleTraversalExpression());
 
         assertTrue(tree.contains("└── Conditional\n"));
         assertTrue(tree.contains("├── LessThanOrEqual\n") || tree.contains("└── LessThanOrEqual\n"));

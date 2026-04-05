@@ -26,8 +26,7 @@ abstract class BinaryOperatorLabelCollectorTestBase<E> extends TestBase<E> {
                 "Conjunction", "LessThan", "Equality", "Addition", "Subtraction", "Multiplication",
                 "Division", "Modulo", "Exponentiation", "Inequality", "GreaterThan", "LessThanOrEqual",
                 "GreaterThanOrEqual", "Disjunction"
-            ),
-testSupport.sampleTraversalExpression().accept(testSupport.v.binaryOperatorLabelCollector())
+            ),testSupport.v.binaryOperatorLabelCollector().apply(testSupport.sampleTraversalExpression())
         );
     }
 }

@@ -25,10 +25,9 @@ abstract class ConditionalDepthSequenceBuilderTestBase<E> extends TestBase<E> {
 
         @Test
     void recordsConditionalDepthsInEncounterOrder() {
-        assertEquals(of(0),testSupport.sampleTraversalExpression().accept(testSupport.v.conditionalDepthSequenceBuilder()));
+        assertEquals(of(0),testSupport.v.conditionalDepthSequenceBuilder().apply(testSupport.sampleTraversalExpression()));
         assertEquals(
-            of(0, 1),
-factory.conditional(factory.literal("1"), factory.conditional(factory.literal("0"), factory.literal("2"), factory.literal("3")), factory.literal("4")).accept(testSupport.v.conditionalDepthSequenceBuilder())
+            of(0, 1),testSupport.v.conditionalDepthSequenceBuilder().apply(factory.conditional(factory.literal("1"), factory.conditional(factory.literal("0"), factory.literal("2"), factory.literal("3")), factory.literal("4")))
         );
     }
 }

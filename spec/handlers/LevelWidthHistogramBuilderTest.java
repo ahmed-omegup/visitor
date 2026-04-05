@@ -35,19 +35,18 @@ abstract class LevelWidthHistogramBuilderTestBase<E> extends TestBase<E> {
         expected.put(2, 1);
 
         assertEquals(
-            expected,
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.levelWidthHistogramBuilder())
+            expected,testSupport.v.levelWidthHistogramBuilder().apply(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
         );
     }
 
     @Test
     void countsTraversalExpressionWidthsAcrossMultipleLevels() {
-        assertEquals(Map.of(0, 1, 1, 3, 2, 12, 3, 20, 4, 6),testSupport.sampleTraversalExpression().accept(testSupport.v.levelWidthHistogramBuilder()));
+        assertEquals(Map.of(0, 1, 1, 3, 2, 12, 3, 20, 4, 6),testSupport.v.levelWidthHistogramBuilder().apply(testSupport.sampleTraversalExpression()));
     }
 
     @Test
     void countsZeroArgumentFunctionCallWithoutArgumentLoopIterations() {
-        assertEquals(Map.of(0, 1, 1, 1),factory.functionCall(factory.variableReference("ping"), of()).accept(testSupport.v.levelWidthHistogramBuilder()));
+        assertEquals(Map.of(0, 1, 1, 1),testSupport.v.levelWidthHistogramBuilder().apply(factory.functionCall(factory.variableReference("ping"), of())));
     }
 }
 

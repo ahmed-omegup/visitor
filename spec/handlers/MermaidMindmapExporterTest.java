@@ -28,14 +28,13 @@ abstract class MermaidMindmapExporterTestBase<E> extends TestBase<E> {
             "mindmap\n"
                 + "  Addition\n"
                 + "    VariableReference(x)\n"
-                + "    Literal(2)\n",
-factory.addition(factory.variableReference("x"), factory.literal("2")).accept(testSupport.v.mermaidMindmapExporter())
+                + "    Literal(2)\n",testSupport.v.mermaidMindmapExporter().apply(factory.addition(factory.variableReference("x"), factory.literal("2")))
         );
     }
 
     @Test
     void includesFunctionCallInTraversalMindmap() {
-        assertTrue(testSupport.sampleTraversalExpression().accept(testSupport.v.mermaidMindmapExporter()).contains("    FunctionCall\n"));
+        assertTrue(testSupport.v.mermaidMindmapExporter().apply(testSupport.sampleTraversalExpression()).contains("    FunctionCall\n"));
     }
 }
 

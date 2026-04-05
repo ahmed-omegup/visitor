@@ -21,7 +21,7 @@ abstract class BooleanOperatorLabelCollectorTestBase<E> extends TestBase<E> {
 
     @Test
     void collectsBooleanOperatorLabelsInPreorder() {
-        assertEquals(of("Conjunction", "LogicalNot", "Disjunction"),testSupport.sampleTraversalExpression().accept(testSupport.v.booleanOperatorLabelCollector()));
+        assertEquals(of("Conjunction", "LogicalNot", "Disjunction"),testSupport.v.booleanOperatorLabelCollector().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

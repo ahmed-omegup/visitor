@@ -33,8 +33,7 @@ abstract class BranchingFactorHistogramBuilderTestBase<E> extends TestBase<E> {
         expected.put(3, 1);
 
         assertEquals(
-            expected,
-factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), of( factory.literal("1"), factory.literal("2")))).accept(testSupport.v.branchingFactorHistogramBuilder())
+            expected,testSupport.v.branchingFactorHistogramBuilder().apply(factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), of( factory.literal("1"), factory.literal("2")))))
         );
     }
 
@@ -47,7 +46,7 @@ factory.addition(factory.variableReference("x"), factory.functionCall(factory.va
         expected.put(1, 2);
         expected.put(8, 1);
 
-        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.branchingFactorHistogramBuilder()));
+        assertEquals(expected,testSupport.v.branchingFactorHistogramBuilder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

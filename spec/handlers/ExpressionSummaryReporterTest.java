@@ -19,8 +19,7 @@ abstract class ExpressionSummaryReporterTestBase<E> extends TestBase<E> {
     @Test
     void reportsAggregatedMetrics() {
         assertEquals(
-            "nodes=42, leaves=24, depth=5, variables=[x, f], literals=[10, 1, 0, 7, 2, 8, 2, 9, 4, 2, 3, 5, 6, 7, 1, 2, 2, 3, 3, 0, 1, 4]",
-testSupport.sampleTraversalExpression().accept(testSupport.v.expressionSummaryReporter())
+            "nodes=42, leaves=24, depth=5, variables=[x, f], literals=[10, 1, 0, 7, 2, 8, 2, 9, 4, 2, 3, 5, 6, 7, 1, 2, 2, 3, 3, 0, 1, 4]",testSupport.v.expressionSummaryReporter().apply(testSupport.sampleTraversalExpression())
         );
     }
 }

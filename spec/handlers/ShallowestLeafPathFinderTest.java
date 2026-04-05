@@ -26,18 +26,17 @@ abstract class ShallowestLeafPathFinderTestBase<E> extends TestBase<E> {
         @Test
     void prefersTheEarliestLeafAtTheSmallestDepth() {
         assertEquals(
-            "root.whenTrue",
-factory.conditional(
+            "root.whenTrue",testSupport.v.shallowestLeafPathFinder().apply(factory.conditional(
                     factory.addition(factory.literal("1"), factory.literal("2")),
                     factory.variableReference("x"),
                     factory.negation(factory.literal("3"))
-                ).accept(testSupport.v.shallowestLeafPathFinder())
+                ))
         );
     }
 
     @Test
     void findsTraversalExpressionShallowestLeaf() {
-        assertEquals("root.whenFalse.callee",testSupport.sampleTraversalExpression().accept(testSupport.v.shallowestLeafPathFinder()));
+        assertEquals("root.whenFalse.callee",testSupport.v.shallowestLeafPathFinder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

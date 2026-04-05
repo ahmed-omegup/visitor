@@ -24,16 +24,16 @@ abstract class LiteralValueExtractorTestBase<E> extends TestBase<E> {
     void parsesIntegerLiteral() {
         var extractor = testSupport.v.literalValueExtractor();
 
-        assertEquals(42, factory.literal("42").accept(extractor), "numeric literal should parse");
-        assertEquals(-7, factory.literal("-7").accept(extractor), "negative literal should parse");
+        assertEquals(42,extractor.apply(factory.literal("42")), "numeric literal should parse");
+        assertEquals(-7,extractor.apply(factory.literal("-7")), "negative literal should parse");
     }
 
     @Test
     void rejectsNonLiteralValues() {
         var extractor = testSupport.v.literalValueExtractor();
 
-        assertNull(factory.literal("not-a-number").accept(extractor), "non-numeric literal should return null");
-        assertNull(factory.addition(factory.literal("1"), factory.literal("2")).accept(extractor), "non-literal expression should return null");
+        assertNull(extractor.apply(factory.literal("not-a-number")), "non-numeric literal should return null");
+        assertNull(extractor.apply(factory.addition(factory.literal("1"), factory.literal("2"))), "non-literal expression should return null");
     }
 
     @Test
@@ -41,7 +41,7 @@ abstract class LiteralValueExtractorTestBase<E> extends TestBase<E> {
         var extractor = testSupport.v.literalValueExtractor();
 
         for (var expression : testSupport.sampleNonVariableExpressions()) {
-            assertNull(expression.accept(extractor), "non-literal expression should return null for " + expression.getClass().getSimpleName());
+            assertNull(extractor.apply(expression), "non-literal expression should return null for " + expression.getClass().getSimpleName());
         }
     }
 }

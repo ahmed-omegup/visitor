@@ -27,14 +27,14 @@ abstract class ZeroDivisionRiskDetectorTestBase<E> extends TestBase<E> {
     void detectsLiteralZeroDivisionAndModuloRisk() {
         var detector = testSupport.v.zeroDivisionRiskDetector();
 
-        assertTrue(factory.division(factory.literal("8"), factory.literal("0")).accept(detector));
-        assertTrue(factory.modulo(factory.literal("8"), factory.literal("0")).accept(detector));
-        assertFalse(factory.addition(factory.division(factory.literal("8"), factory.variableReference("x")), factory.literal("1")).accept(detector));
+        assertTrue(detector.apply(factory.division(factory.literal("8"), factory.literal("0"))));
+        assertTrue(detector.apply(factory.modulo(factory.literal("8"), factory.literal("0"))));
+        assertFalse(detector.apply(factory.addition(factory.division(factory.literal("8"), factory.variableReference("x")), factory.literal("1"))));
     }
 
     @Test
     void detectsRiskInsideTraversalTree() {
-        assertFalse(testSupport.sampleTraversalExpression().accept(testSupport.v.zeroDivisionRiskDetector()));
+        assertFalse(testSupport.v.zeroDivisionRiskDetector().apply(testSupport.sampleTraversalExpression()));
     }
 
     @TestFactory
@@ -42,8 +42,8 @@ abstract class ZeroDivisionRiskDetectorTestBase<E> extends TestBase<E> {
         var detector = testSupport.v.zeroDivisionRiskDetector();
         return testSupport.sampleNonVariableExpressions().stream()
             .map(expression -> DynamicTest.dynamicTest("divisor-" + expression.getClass().getSimpleName(), () -> {
-                assertFalse(factory.division(factory.literal("8"), expression).accept(detector));
-                assertFalse(factory.modulo(factory.literal("8"), expression).accept(detector));
+                assertFalse(detector.apply(factory.division(factory.literal("8"), expression)));
+                assertFalse(detector.apply(factory.modulo(factory.literal("8"), expression)));
             }))
             .toList();
     }
@@ -85,23 +85,23 @@ abstract class ZeroDivisionRiskDetectorTestBase<E> extends TestBase<E> {
             factory.functionCall(risky, of( factory.literal("1"))),
             factory.functionCall(factory.variableReference("sum"), of( risky))
         ).stream().map(expression -> DynamicTest.dynamicTest("risky-" + expression.getClass().getSimpleName(), () ->
-            assertTrue(expression.accept(detector)))).toList();
+            assertTrue(detector.apply(expression)))).toList();
     }
 
     @Test
     void ignoresNonZeroLiteralDivisors() {
         var detector = testSupport.v.zeroDivisionRiskDetector();
 
-        assertFalse(factory.division(factory.literal("8"), factory.literal("2")).accept(detector));
-        assertFalse(factory.modulo(factory.literal("8"), factory.literal("3")).accept(detector));
+        assertFalse(detector.apply(factory.division(factory.literal("8"), factory.literal("2"))));
+        assertFalse(detector.apply(factory.modulo(factory.literal("8"), factory.literal("3"))));
     }
 
     @Test
     void detectsCompositeRiskInDivisorAfterSafePrefixChecks() {
         var detector = testSupport.v.zeroDivisionRiskDetector();
 
-        assertTrue(factory.division(factory.literal("8"), factory.addition(factory.literal("1"), factory.division(factory.literal("4"), factory.literal("0")))).accept(detector));
-        assertTrue(factory.modulo(factory.literal("8"), factory.addition(factory.literal("1"), factory.division(factory.literal("4"), factory.literal("0")))).accept(detector));
+        assertTrue(detector.apply(factory.division(factory.literal("8"), factory.addition(factory.literal("1"), factory.division(factory.literal("4"), factory.literal("0"))))));
+        assertTrue(detector.apply(factory.modulo(factory.literal("8"), factory.addition(factory.literal("1"), factory.division(factory.literal("4"), factory.literal("0"))))));
     }
 }
 

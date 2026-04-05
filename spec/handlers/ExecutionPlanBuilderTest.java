@@ -30,14 +30,13 @@ abstract class ExecutionPlanBuilderTestBase<E> extends TestBase<E> {
             "1. inspect Addition\n"
                 + "  2. inspect Literal(1)\n"
                 + "  3. inspect Negation\n"
-                + "    4. inspect Literal(2)\n",
-expression.accept(testSupport.v.executionPlanBuilder())
+                + "    4. inspect Literal(2)\n",testSupport.v.executionPlanBuilder().apply(expression)
         );
     }
 
     @Test
     void visitsAllExpressionKindsInTraversalExpression() {
-        var plan =testSupport.sampleTraversalExpression().accept(testSupport.v.executionPlanBuilder());
+        var plan =testSupport.v.executionPlanBuilder().apply(testSupport.sampleTraversalExpression());
 
         assertTrue(plan.contains("inspect LessThanOrEqual"));
         assertTrue(plan.contains("inspect GreaterThanOrEqual"));

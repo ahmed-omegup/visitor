@@ -18,7 +18,7 @@ abstract class EvaluationComplexityScorerTestBase<E> extends TestBase<E> {
 
     @Test
     void scoresTraversalExpressionFromExistingMetrics() {
-        assertEquals(64,testSupport.sampleTraversalExpression().accept(testSupport.v.evaluationComplexityScorer()));
+        assertEquals(64,testSupport.v.evaluationComplexityScorer().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

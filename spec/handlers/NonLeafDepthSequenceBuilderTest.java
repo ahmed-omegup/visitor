@@ -28,8 +28,7 @@ abstract class NonLeafDepthSequenceBuilderTestBase<E> extends TestBase<E> {
         @Test
     void recordsCompositeNodesWithTheirDepth() {
         assertEquals(
-            of("0:Addition", "1:Negation"),
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.nonLeafDepthSequenceBuilder())
+            of("0:Addition", "1:Negation"),testSupport.v.nonLeafDepthSequenceBuilder().apply(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
         );
     }
 
@@ -55,8 +54,7 @@ factory.addition(factory.variableReference("x"), factory.negation(factory.litera
                 "2:GreaterThanOrEqual",
                 "2:Disjunction",
                 "2:Negation"
-            ),
-testSupport.sampleTraversalExpression().accept(testSupport.v.nonLeafDepthSequenceBuilder())
+            ),testSupport.v.nonLeafDepthSequenceBuilder().apply(testSupport.sampleTraversalExpression())
         );
     }
 }

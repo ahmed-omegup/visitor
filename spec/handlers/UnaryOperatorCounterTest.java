@@ -25,14 +25,13 @@ abstract class UnaryOperatorCounterTestBase<E> extends TestBase<E> {
         @Test
     void countsUnaryOperators() {
         assertEquals(
-            2,
-factory.addition(factory.negation(factory.literal("1")), factory.logicalNot(factory.literal("0"))).accept(testSupport.v.unaryOperatorCounter())
+            2,testSupport.v.unaryOperatorCounter().apply(factory.addition(factory.negation(factory.literal("1")), factory.logicalNot(factory.literal("0"))))
         );
     }
 
     @Test
     void countsUnaryOperatorsAcrossTraversalExpression() {
-        assertEquals(2,testSupport.sampleTraversalExpression().accept(testSupport.v.unaryOperatorCounter()));
+        assertEquals(2,testSupport.v.unaryOperatorCounter().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

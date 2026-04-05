@@ -26,15 +26,13 @@ abstract class StructuralSignatureBuilderTestBase<E> extends TestBase<E> {
     void ignoresLeafValuesAndKeepsOnlyShape() {
         var builder = testSupport.v.structuralSignatureBuilder();
 
-        assertEquals(
-factory.addition(factory.variableReference("x"), factory.literal("1")).accept(builder),
-factory.addition(factory.variableReference("y"), factory.literal("9")).accept(builder)
+        assertEquals(builder.apply(factory.addition(factory.variableReference("x"), factory.literal("1"))),builder.apply(factory.addition(factory.variableReference("y"), factory.literal("9")))
         );
     }
 
     @Test
     void includesAllCompositeTypesInTraversalSignature() {
-        var signature =testSupport.sampleTraversalExpression().accept(testSupport.v.structuralSignatureBuilder());
+        var signature =testSupport.v.structuralSignatureBuilder().apply(testSupport.sampleTraversalExpression());
 
         assertTrue(signature.contains("Conditional("));
         assertTrue(signature.contains("FunctionCall("));

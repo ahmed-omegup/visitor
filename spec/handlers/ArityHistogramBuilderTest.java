@@ -31,17 +31,16 @@ abstract class ArityHistogramBuilderTestBase<E> extends TestBase<E> {
         expected.put(2, 1);
 
         assertEquals(
-            expected,
-factory.addition(
+            expected,testSupport.v.arityHistogramBuilder().apply(factory.addition(
                     factory.functionCall(factory.variableReference("ping"), of()),
                     factory.functionCall(factory.variableReference("sum"), of( factory.literal("1"), factory.literal("2")))
-                ).accept(testSupport.v.arityHistogramBuilder())
+                ))
         );
     }
 
     @Test
     void countsTraversalExpressionFunctionArity() {
-        assertEquals(Map.of(7, 1),testSupport.sampleTraversalExpression().accept(testSupport.v.arityHistogramBuilder()));
+        assertEquals(Map.of(7, 1),testSupport.v.arityHistogramBuilder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

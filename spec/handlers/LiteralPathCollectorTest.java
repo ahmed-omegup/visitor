@@ -33,8 +33,7 @@ abstract class LiteralPathCollectorTestBase<E> extends TestBase<E> {
         expected.put("2", of("root.right.arguments[1]"));
 
         assertEquals(
-            expected,
-factory.addition(factory.literal("1"), factory.functionCall(factory.variableReference("f"), of( factory.literal("1"), factory.literal("2")))).accept(testSupport.v.literalPathCollector())
+            expected,testSupport.v.literalPathCollector().apply(factory.addition(factory.literal("1"), factory.functionCall(factory.variableReference("f"), of( factory.literal("1"), factory.literal("2")))))
         );
     }
 
@@ -53,7 +52,7 @@ factory.addition(factory.literal("1"), factory.functionCall(factory.variableRefe
         expected.put("5", of("root.whenFalse.arguments[1].left"));
         expected.put("6", of("root.whenFalse.arguments[1].right"));
 
-        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.literalPathCollector()));
+        assertEquals(expected,testSupport.v.literalPathCollector().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

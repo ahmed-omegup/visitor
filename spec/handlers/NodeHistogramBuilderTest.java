@@ -42,7 +42,7 @@ abstract class NodeHistogramBuilderTestBase<E> extends TestBase<E> {
         expected.put("Disjunction", 1);
         expected.put("Negation", 1);
 
-        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.nodeHistogramBuilder()));
+        assertEquals(expected,testSupport.v.nodeHistogramBuilder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

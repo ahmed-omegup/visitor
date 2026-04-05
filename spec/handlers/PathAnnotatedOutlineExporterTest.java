@@ -29,14 +29,13 @@ abstract class PathAnnotatedOutlineExporterTestBase<E> extends TestBase<E> {
             "0 Addition\n"
                 + "0.0 VariableReference(x)\n"
                 + "0.1 Negation\n"
-                + "0.1.0 Literal(2)\n",
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.pathAnnotatedOutlineExporter())
+                + "0.1.0 Literal(2)\n",testSupport.v.pathAnnotatedOutlineExporter().apply(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
         );
     }
 
     @Test
     void coversConditionalAndFunctionCallPathBranches() {
-        var outline =testSupport.sampleTraversalExpression().accept(testSupport.v.pathAnnotatedOutlineExporter());
+        var outline =testSupport.v.pathAnnotatedOutlineExporter().apply(testSupport.sampleTraversalExpression());
 
         assertTrue(outline.contains("0 Conditional\n"));
         assertTrue(outline.contains("0.2 FunctionCall\n"));

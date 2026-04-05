@@ -27,13 +27,13 @@ abstract class SideEffectFreeCheckerTestBase<E> extends TestBase<E> {
     void treatsFunctionCallsAsSideEffectCandidates() {
         var checker = testSupport.v.sideEffectFreeChecker();
 
-        assertTrue(factory.addition(factory.variableReference("x"), factory.literal("1")).accept(checker));
-        assertFalse(factory.functionCall(factory.variableReference("sum"), of( factory.literal("1"))).accept(checker));
+        assertTrue(checker.apply(factory.addition(factory.variableReference("x"), factory.literal("1"))));
+        assertFalse(checker.apply(factory.functionCall(factory.variableReference("sum"), of( factory.literal("1")))));
     }
 
     @Test
     void rejectsTraversalExpressionBecauseOfFunctionCall() {
-        assertFalse(testSupport.sampleTraversalExpression().accept(testSupport.v.sideEffectFreeChecker()));
+        assertFalse(testSupport.v.sideEffectFreeChecker().apply(testSupport.sampleTraversalExpression()));
     }
 
     @TestFactory
@@ -41,7 +41,7 @@ abstract class SideEffectFreeCheckerTestBase<E> extends TestBase<E> {
         var checker = testSupport.v.sideEffectFreeChecker();
         return testSupport.sampleNonVariableExpressions().stream()
             .map(expression -> DynamicTest.dynamicTest(expression.getClass().getSimpleName(), () ->
-                org.junit.jupiter.api.Assertions.assertEquals(!(expression instanceof FunctionCall),expression.accept(checker))))
+                org.junit.jupiter.api.Assertions.assertEquals(!(expression instanceof FunctionCall),checker.apply(expression))))
             .toList();
     }
 
@@ -84,7 +84,7 @@ abstract class SideEffectFreeCheckerTestBase<E> extends TestBase<E> {
             factory.conditional(factory.literal("1"), call, factory.literal("2")),
             factory.conditional(factory.literal("1"), factory.literal("2"), call)
         ).stream().map(expression -> DynamicTest.dynamicTest("side-effect-" + expression.getClass().getSimpleName(), () ->
-            assertFalse(expression.accept(checker)))).toList();
+            assertFalse(checker.apply(expression)))).toList();
     }
 }
 

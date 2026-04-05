@@ -22,9 +22,7 @@ abstract class ArithmeticOperatorLabelCollectorTestBase<E> extends TestBase<E> {
     void collectsArithmeticOperatorLabelsInPreorder() {
         assertEquals(
                 of("Addition", "Subtraction", "Multiplication", "Division", "Modulo", "Exponentiation",
-                        "Negation"),
-                testSupport.sampleTraversalExpression()
-                        .accept(testSupport.v.arithmeticOperatorLabelCollector()));
+                        "Negation"),testSupport.v.arithmeticOperatorLabelCollector().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

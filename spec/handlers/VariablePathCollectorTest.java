@@ -32,8 +32,7 @@ abstract class VariablePathCollectorTestBase<E> extends TestBase<E> {
         expected.put("f", of("root.right.callee"));
 
         assertEquals(
-            expected,
-factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), of( factory.variableReference("x")))).accept(testSupport.v.variablePathCollector())
+            expected,testSupport.v.variablePathCollector().apply(factory.addition(factory.variableReference("x"), factory.functionCall(factory.variableReference("f"), of( factory.variableReference("x")))))
         );
     }
 
@@ -43,7 +42,7 @@ factory.addition(factory.variableReference("x"), factory.functionCall(factory.va
         expected.put("x", of("root.condition.left.left"));
         expected.put("f", of("root.whenFalse.callee"));
 
-        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.variablePathCollector()));
+        assertEquals(expected,testSupport.v.variablePathCollector().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

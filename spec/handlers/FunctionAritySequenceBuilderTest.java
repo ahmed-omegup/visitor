@@ -28,17 +28,16 @@ abstract class FunctionAritySequenceBuilderTestBase<E> extends TestBase<E> {
         @Test
     void recordsFunctionAritiesInPreorder() {
         assertEquals(
-            of(2, 1, 0),
-factory.addition(
+            of(2, 1, 0),testSupport.v.functionAritySequenceBuilder().apply(factory.addition(
                     factory.functionCall(factory.variableReference("sum"), of(factory.literal("1"), factory.literal("2"))),
                     factory.functionCall(factory.functionCall(factory.variableReference("g"), of()), of(factory.literal("3")))
-                ).accept(testSupport.v.functionAritySequenceBuilder())
+                ))
         );
     }
 
     @Test
     void recordsTraversalExpressionFunctionArity() {
-        assertEquals(of(7),testSupport.sampleTraversalExpression().accept(testSupport.v.functionAritySequenceBuilder()));
+        assertEquals(of(7),testSupport.v.functionAritySequenceBuilder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

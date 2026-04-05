@@ -35,13 +35,13 @@ abstract class IndentedTracePrinterTestBase<E> extends TestBase<E> {
                 + "  Literal(1)\n"
                 + "  Negation\n"
                 + "    Literal(2)\n",
-            captureOutput(() -> expression.accept(testSupport.v.indentedTracePrinter()))
+            captureOutput(() ->testSupport.v.indentedTracePrinter().accept(expression))
         );
     }
 
     @Test
     void visitsAllExpressionKinds() {
-        var output = captureOutput(() -> testSupport.sampleTraversalExpression().accept(testSupport.v.indentedTracePrinter()));
+        var output = captureOutput(() ->testSupport.v.indentedTracePrinter().accept(testSupport.sampleTraversalExpression()));
 
         assertTrue(output.contains("LessThanOrEqual\n"));
         assertTrue(output.contains("GreaterThanOrEqual\n"));

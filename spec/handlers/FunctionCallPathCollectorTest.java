@@ -28,17 +28,16 @@ abstract class FunctionCallPathCollectorTestBase<E> extends TestBase<E> {
         @Test
     void collectsPathsToNestedFunctionCalls() {
         assertEquals(
-            of("root.left", "root.right", "root.right.callee"),
-factory.addition(
+            of("root.left", "root.right", "root.right.callee"),testSupport.v.functionCallPathCollector().apply(factory.addition(
                     factory.functionCall(factory.variableReference("f"), of(factory.literal("1"))),
                     factory.functionCall(factory.functionCall(factory.variableReference("g"), of()), of(factory.literal("2")))
-                ).accept(testSupport.v.functionCallPathCollector())
+                ))
         );
     }
 
     @Test
     void collectsTraversalExpressionFunctionCallPath() {
-        assertEquals(of("root.whenFalse"),testSupport.sampleTraversalExpression().accept(testSupport.v.functionCallPathCollector()));
+        assertEquals(of("root.whenFalse"),testSupport.v.functionCallPathCollector().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

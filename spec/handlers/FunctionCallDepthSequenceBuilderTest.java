@@ -26,10 +26,9 @@ abstract class FunctionCallDepthSequenceBuilderTestBase<E> extends TestBase<E> {
 
         @Test
     void recordsFunctionCallDepthsInEncounterOrder() {
-        assertEquals(of(1),testSupport.sampleTraversalExpression().accept(testSupport.v.functionCallDepthSequenceBuilder()));
+        assertEquals(of(1),testSupport.v.functionCallDepthSequenceBuilder().apply(testSupport.sampleTraversalExpression()));
         assertEquals(
-            of(0, 1),
-factory.functionCall(factory.functionCall(factory.variableReference("f"), of()), of(factory.literal("1"))).accept(testSupport.v.functionCallDepthSequenceBuilder())
+            of(0, 1),testSupport.v.functionCallDepthSequenceBuilder().apply(factory.functionCall(factory.functionCall(factory.variableReference("f"), of()), of(factory.literal("1"))))
         );
     }
 }

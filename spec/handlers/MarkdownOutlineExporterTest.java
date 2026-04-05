@@ -39,14 +39,13 @@ abstract class MarkdownOutlineExporterTestBase<E> extends TestBase<E> {
                 + "    - Literal(1)\n"
                 + "    - Literal(2)\n"
                 + "  - Negation\n"
-                + "    - VariableReference(x)\n",
-expression.accept(testSupport.v.markdownOutlineExporter())
+                + "    - VariableReference(x)\n",testSupport.v.markdownOutlineExporter().apply(expression)
         );
     }
 
     @Test
     void visitsAllExpressionTypes() {
-        var markdown =testSupport.sampleTraversalExpression().accept(testSupport.v.markdownOutlineExporter());
+        var markdown =testSupport.v.markdownOutlineExporter().apply(testSupport.sampleTraversalExpression());
 
         assertTrue(markdown.contains("- LessThanOrEqual\n"));
         assertTrue(markdown.contains("- GreaterThanOrEqual\n"));

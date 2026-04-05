@@ -26,14 +26,13 @@ abstract class RootToLeafTracePrinterTestBase<E> extends TestBase<E> {
         @Test
     void printsOneTracePerLeaf() {
         assertEquals(
-            String.join("\n", "Addition -> VariableReference(x)", "Addition -> Negation -> Literal(2)"),
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.rootToLeafTracePrinter())
+            String.join("\n", "Addition -> VariableReference(x)", "Addition -> Negation -> Literal(2)"),testSupport.v.rootToLeafTracePrinter().apply(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
         );
     }
 
     @Test
     void printsTraversalExpressionRootToLeafTraces() {
-        var traces =testSupport.sampleTraversalExpression().accept(testSupport.v.rootToLeafTracePrinter()).lines().toList();
+        var traces =testSupport.v.rootToLeafTracePrinter().apply(testSupport.sampleTraversalExpression()).lines().toList();
 
         assertEquals(24, traces.size());
         assertEquals("Conditional -> Conjunction -> LessThan -> VariableReference(x)", traces.get(0));

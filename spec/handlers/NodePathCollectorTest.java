@@ -28,14 +28,13 @@ abstract class NodePathCollectorTestBase<E> extends TestBase<E> {
         @Test
     void collectsTypedPaths() {
         assertEquals(
-            of("0:Addition", "0.0:VariableReference", "0.1:Literal"),
-factory.addition(factory.variableReference("x"), factory.literal("2")).accept(testSupport.v.nodePathCollector())
+            of("0:Addition", "0.0:VariableReference", "0.1:Literal"),testSupport.v.nodePathCollector().apply(factory.addition(factory.variableReference("x"), factory.literal("2")))
         );
     }
 
     @Test
     void collectsPathsForTraversalExpressionKinds() {
-        var paths =testSupport.sampleTraversalExpression().accept(testSupport.v.nodePathCollector());
+        var paths =testSupport.v.nodePathCollector().apply(testSupport.sampleTraversalExpression());
 
         assertTrue(paths.contains("0:Conditional"));
         assertTrue(paths.contains("0.1.1:Multiplication"));

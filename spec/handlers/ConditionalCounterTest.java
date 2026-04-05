@@ -22,10 +22,9 @@ abstract class ConditionalCounterTestBase<E> extends TestBase<E> {
 
         @Test
     void countsConditionalsAcrossTraversal() {
-        assertEquals(1,testSupport.sampleTraversalExpression().accept(testSupport.v.conditionalCounter()));
+        assertEquals(1,testSupport.v.conditionalCounter().apply(testSupport.sampleTraversalExpression()));
         assertEquals(
-            2,
-factory.conditional(factory.literal("1"), factory.literal("2"), factory.conditional(factory.literal("0"), factory.literal("3"), factory.literal("4"))).accept(testSupport.v.conditionalCounter())
+            2,testSupport.v.conditionalCounter().apply(factory.conditional(factory.literal("1"), factory.literal("2"), factory.conditional(factory.literal("0"), factory.literal("3"), factory.literal("4"))))
         );
     }
 }

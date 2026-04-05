@@ -22,8 +22,7 @@ abstract class LiteralDepthSequenceBuilderTestBase<E> extends TestBase<E> {
     @Test
     void recordsLiteralDepthsInEncounterOrder() {
         assertEquals(
-            of(3, 4, 4, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3),
-testSupport.sampleTraversalExpression().accept(testSupport.v.literalDepthSequenceBuilder())
+            of(3, 4, 4, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3),testSupport.v.literalDepthSequenceBuilder().apply(testSupport.sampleTraversalExpression())
         );
     }
 }

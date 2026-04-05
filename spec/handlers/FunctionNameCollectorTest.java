@@ -32,17 +32,16 @@ abstract class FunctionNameCollectorTestBase<E> extends TestBase<E> {
         @Test
     void collectsFunctionNamesFromVariableCallees() {
         assertEquals(
-            new LinkedHashSet<>(of("sum", "max")),
-factory.addition(
+            new LinkedHashSet<>(of("sum", "max")),testSupport.v.functionNameCollector().apply(factory.addition(
                     factory.functionCall(factory.variableReference("sum"), of( factory.literal("1"))),
                     factory.functionCall(factory.variableReference("max"), of( factory.literal("2"), factory.literal("3")))
-                ).accept(testSupport.v.functionNameCollector())
+                ))
         );
     }
 
     @Test
     void collectsTraversalExpressionFunctionName() {
-        assertEquals(new LinkedHashSet<>(of("f")),testSupport.sampleTraversalExpression().accept(testSupport.v.functionNameCollector()));
+        assertEquals(new LinkedHashSet<>(of("f")),testSupport.v.functionNameCollector().apply(testSupport.sampleTraversalExpression()));
     }
 
     @TestFactory
@@ -56,8 +55,7 @@ factory.addition(
         return cases.stream()
             .map(callee -> DynamicTest.dynamicTest("callee-" + callee.getClass().getSimpleName(), () ->
                 assertEquals(
-                    new LinkedHashSet<>(of()),
-factory.functionCall(callee, of( factory.literal("9"))).accept(collector)
+                    new LinkedHashSet<>(of()),collector.apply(factory.functionCall(callee, of( factory.literal("9"))))
                 )))
             .toList();
     }
@@ -65,8 +63,7 @@ factory.functionCall(callee, of( factory.literal("9"))).accept(collector)
     @Test
     void collectsNestedFunctionNamesFromFunctionValuedCallee() {
         assertEquals(
-            new LinkedHashSet<>(of("sum")),
-factory.functionCall(factory.functionCall(factory.variableReference("sum"), of(factory.literal("1"))), of(factory.literal("9"))).accept(testSupport.v.functionNameCollector())
+            new LinkedHashSet<>(of("sum")),testSupport.v.functionNameCollector().apply(factory.functionCall(factory.functionCall(factory.variableReference("sum"), of(factory.literal("1"))), of(factory.literal("9"))))
         );
     }
 }

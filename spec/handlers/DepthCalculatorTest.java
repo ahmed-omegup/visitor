@@ -23,12 +23,12 @@ abstract class DepthCalculatorTestBase<E> extends TestBase<E> {
 
         @Test
     void computesDepthForTraversalExpression() {
-        assertEquals(5,testSupport.sampleTraversalExpression().accept(testSupport.v.depthCalculator()));
+        assertEquals(5,testSupport.v.depthCalculator().apply(testSupport.sampleTraversalExpression()));
     }
 
     @Test
     void countsZeroArgumentFunctionCallDepth() {
-        assertEquals(2,factory.functionCall(factory.variableReference("ping"), of()).accept(testSupport.v.depthCalculator()));
+        assertEquals(2,testSupport.v.depthCalculator().apply(factory.functionCall(factory.variableReference("ping"), of())));
     }
 }
 

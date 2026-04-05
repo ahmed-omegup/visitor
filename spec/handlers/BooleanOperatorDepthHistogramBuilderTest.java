@@ -24,7 +24,7 @@ abstract class BooleanOperatorDepthHistogramBuilderTestBase<E> extends TestBase<
         expected.put(1, 1);
         expected.put(2, 2);
 
-        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.booleanOperatorDepthHistogramBuilder()));
+        assertEquals(expected,testSupport.v.booleanOperatorDepthHistogramBuilder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

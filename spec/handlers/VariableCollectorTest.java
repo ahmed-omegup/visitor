@@ -23,8 +23,7 @@ abstract class VariableCollectorTestBase<E> extends TestBase<E> {
     @Test
     void collectsVariablesInEncounterOrder() {
         assertEquals(
-            new LinkedHashSet<>(of("x", "f")),
-testSupport.sampleTraversalExpression().accept(testSupport.v.variableCollector())
+            new LinkedHashSet<>(of("x", "f")),testSupport.v.variableCollector().apply(testSupport.sampleTraversalExpression())
         );
     }
 }

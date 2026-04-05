@@ -25,7 +25,7 @@ abstract class BinaryOperatorDepthHistogramBuilderTestBase<E> extends TestBase<E
         expected.put(2, 9);
         expected.put(3, 3);
 
-        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.binaryOperatorDepthHistogramBuilder()));
+        assertEquals(expected,testSupport.v.binaryOperatorDepthHistogramBuilder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

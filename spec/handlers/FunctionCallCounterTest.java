@@ -26,17 +26,16 @@ abstract class FunctionCallCounterTestBase<E> extends TestBase<E> {
         @Test
     void countsNestedFunctionCalls() {
         assertEquals(
-            2,
-factory.addition(
+            2,testSupport.v.functionCallCounter().apply(factory.addition(
                     factory.functionCall(factory.variableReference("left"), of( factory.literal("1"))),
                     factory.functionCall(factory.variableReference("right"), of( factory.literal("2"), factory.literal("3")))
-                ).accept(testSupport.v.functionCallCounter())
+                ))
         );
     }
 
     @Test
     void countsTraversalExpressionFunctionCall() {
-        assertEquals(1,testSupport.sampleTraversalExpression().accept(testSupport.v.functionCallCounter()));
+        assertEquals(1,testSupport.v.functionCallCounter().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

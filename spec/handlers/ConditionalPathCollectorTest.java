@@ -26,14 +26,13 @@ abstract class ConditionalPathCollectorTestBase<E> extends TestBase<E> {
         @Test
     void collectsPathsToNestedConditionals() {
         assertEquals(
-            of("root", "root.whenFalse"),
-factory.conditional(factory.literal("1"), factory.literal("2"), factory.conditional(factory.literal("0"), factory.literal("3"), factory.literal("4"))).accept(testSupport.v.conditionalPathCollector())
+            of("root", "root.whenFalse"),testSupport.v.conditionalPathCollector().apply(factory.conditional(factory.literal("1"), factory.literal("2"), factory.conditional(factory.literal("0"), factory.literal("3"), factory.literal("4"))))
         );
     }
 
     @Test
     void collectsTraversalExpressionConditionalRootPath() {
-        assertEquals(of("root"),testSupport.sampleTraversalExpression().accept(testSupport.v.conditionalPathCollector()));
+        assertEquals(of("root"),testSupport.v.conditionalPathCollector().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

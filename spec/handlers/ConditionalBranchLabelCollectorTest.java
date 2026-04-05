@@ -31,20 +31,18 @@ abstract class ConditionalBranchLabelCollectorTestBase<E> extends TestBase<E> {
         @Test
     void reportsDirectChildKindsForConditionalBranches() {
         assertEquals(
-            of("condition=LessThan", "whenTrue=Literal", "whenFalse=FunctionCall"),
-factory.conditional(
+            of("condition=LessThan", "whenTrue=Literal", "whenFalse=FunctionCall"),testSupport.v.conditionalBranchLabelCollector().apply(factory.conditional(
                     factory.lessThan(factory.variableReference("x"), factory.literal("1")),
                     factory.literal("2"),
                     factory.functionCall(factory.variableReference("fallback"), of( factory.literal("0")))
-                ).accept(testSupport.v.conditionalBranchLabelCollector())
+                ))
         );
     }
 
     @Test
     void reportsTraversalExpressionBranchKinds() {
         assertEquals(
-            of("condition=Conjunction", "whenTrue=Addition", "whenFalse=FunctionCall"),
-testSupport.sampleTraversalExpression().accept(testSupport.v.conditionalBranchLabelCollector())
+            of("condition=Conjunction", "whenTrue=Addition", "whenFalse=FunctionCall"),testSupport.v.conditionalBranchLabelCollector().apply(testSupport.sampleTraversalExpression())
         );
     }
 
@@ -58,8 +56,7 @@ testSupport.sampleTraversalExpression().accept(testSupport.v.conditionalBranchLa
         return cases.stream()
             .map(expression -> DynamicTest.dynamicTest("condition-" + expression.getClass().getSimpleName(), () ->
                 assertEquals(
-                    "condition=" + expression.getClass().getSimpleName(),
-factory.conditional(expression, factory.literal("2"), factory.literal("3")).accept(testSupport.v.conditionalBranchLabelCollector()).get(0)
+                    "condition=" + expression.getClass().getSimpleName(),testSupport.v.conditionalBranchLabelCollector().apply(factory.conditional(expression, factory.literal("2"), factory.literal("3"))).get(0)
                 )))
             .toList();
     }

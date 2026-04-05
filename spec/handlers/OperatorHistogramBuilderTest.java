@@ -31,17 +31,16 @@ abstract class OperatorHistogramBuilderTestBase<E> extends TestBase<E> {
         expected.put("Negation", 1);
 
         assertEquals(
-            expected,
-factory.addition(
+            expected,testSupport.v.operatorHistogramBuilder().apply(factory.addition(
                     factory.addition(factory.literal("1"), factory.literal("2")),
                     factory.negation(factory.literal("3"))
-                ).accept(testSupport.v.operatorHistogramBuilder())
+                ))
         );
     }
 
     @Test
     void countsAllOperatorKindsInTraversalExpression() {
-        var histogram =testSupport.sampleTraversalExpression().accept(testSupport.v.operatorHistogramBuilder());
+        var histogram =testSupport.v.operatorHistogramBuilder().apply(testSupport.sampleTraversalExpression());
 
         for (var operator : new String[] {
             "Conditional", "Conjunction", "LessThan", "LogicalNot", "Equality", "Addition", "Subtraction", "Multiplication",

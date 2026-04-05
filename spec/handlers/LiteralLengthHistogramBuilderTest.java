@@ -24,7 +24,7 @@ abstract class LiteralLengthHistogramBuilderTestBase<E> extends TestBase<E> {
         expected.put(2, 1);
         expected.put(1, 21);
 
-        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.literalLengthHistogramBuilder()));
+        assertEquals(expected,testSupport.v.literalLengthHistogramBuilder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

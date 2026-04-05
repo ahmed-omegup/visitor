@@ -25,14 +25,13 @@ abstract class DepthAnnotatedPreorderPrinterTestBase<E> extends TestBase<E> {
         @Test
     void printsPreorderNodesWithDepth() {
         assertEquals(
-            String.join("\n", "0: Addition", "1: VariableReference(x)", "1: Literal(2)"),
-factory.addition(factory.variableReference("x"), factory.literal("2")).accept(testSupport.v.depthAnnotatedPreorderPrinter())
+            String.join("\n", "0: Addition", "1: VariableReference(x)", "1: Literal(2)"),testSupport.v.depthAnnotatedPreorderPrinter().apply(factory.addition(factory.variableReference("x"), factory.literal("2")))
         );
     }
 
     @Test
     void printsTraversalExpressionAcrossAllVisitorBranches() {
-        var rendered =testSupport.sampleTraversalExpression().accept(testSupport.v.depthAnnotatedPreorderPrinter());
+        var rendered =testSupport.v.depthAnnotatedPreorderPrinter().apply(testSupport.sampleTraversalExpression());
         var lines = rendered.lines().toList();
 
         assertEquals(42, lines.size());

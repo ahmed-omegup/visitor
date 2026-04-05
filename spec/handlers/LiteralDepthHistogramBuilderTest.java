@@ -29,7 +29,7 @@ abstract class LiteralDepthHistogramBuilderTestBase<E> extends TestBase<E> {
         expected.put(1, 1);
         expected.put(2, 1);
 
-        assertEquals(expected,factory.addition(factory.literal("1"), factory.negation(factory.literal("2"))).accept(testSupport.v.literalDepthHistogramBuilder()));
+        assertEquals(expected,testSupport.v.literalDepthHistogramBuilder().apply(factory.addition(factory.literal("1"), factory.negation(factory.literal("2")))));
     }
 
     @Test
@@ -38,7 +38,7 @@ abstract class LiteralDepthHistogramBuilderTestBase<E> extends TestBase<E> {
         expected.put(3, 16);
         expected.put(4, 6);
 
-        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.literalDepthHistogramBuilder()));
+        assertEquals(expected,testSupport.v.literalDepthHistogramBuilder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

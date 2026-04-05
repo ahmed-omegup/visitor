@@ -25,22 +25,20 @@ abstract class HtmlExpressionExporterTestBase<E> extends TestBase<E> {
         @Test
     void exportsSimpleAdditionAsHtml() {
         assertEquals(
-            "<span class=\"expression addition\"><span class=\"expression literal\">1</span> <span class=\"operator\">+</span> <span class=\"expression variable-reference\">x</span></span>",
-factory.addition(factory.literal("1"), factory.variableReference("x")).accept(testSupport.v.htmlExpressionExporter())
+            "<span class=\"expression addition\"><span class=\"expression literal\">1</span> <span class=\"operator\">+</span> <span class=\"expression variable-reference\">x</span></span>",testSupport.v.htmlExpressionExporter().apply(factory.addition(factory.literal("1"), factory.variableReference("x")))
         );
     }
 
     @Test
     void escapesHtmlSensitiveLeafValues() {
         assertEquals(
-            "<span class=\"expression variable-reference\">a&amp;&lt;b&gt;&quot;</span>",
-factory.variableReference("a&<b>\"").accept(testSupport.v.htmlExpressionExporter())
+            "<span class=\"expression variable-reference\">a&amp;&lt;b&gt;&quot;</span>",testSupport.v.htmlExpressionExporter().apply(factory.variableReference("a&<b>\""))
         );
     }
 
     @Test
     void exportsTraversalExpressionThroughAllVisitorBranches() {
-        var html =testSupport.sampleTraversalExpression().accept(testSupport.v.htmlExpressionExporter());
+        var html =testSupport.v.htmlExpressionExporter().apply(testSupport.sampleTraversalExpression());
 
         assertTrue(html.contains("class=\"expression conditional\""));
         assertTrue(html.contains("class=\"expression function-call\""));

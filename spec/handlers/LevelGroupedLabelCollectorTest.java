@@ -34,14 +34,13 @@ abstract class LevelGroupedLabelCollectorTestBase<E> extends TestBase<E> {
         expected.put(2, of("Literal"));
 
         assertEquals(
-            expected,
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.levelGroupedLabelCollector())
+            expected,testSupport.v.levelGroupedLabelCollector().apply(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
         );
     }
 
     @Test
     void groupsTraversalExpressionLabelsByLevel() {
-        var grouped =testSupport.sampleTraversalExpression().accept(testSupport.v.levelGroupedLabelCollector());
+        var grouped =testSupport.v.levelGroupedLabelCollector().apply(testSupport.sampleTraversalExpression());
 
         assertEquals(of("Conditional"), grouped.get(0));
         assertEquals(of("Conjunction", "Addition", "FunctionCall"), grouped.get(1));

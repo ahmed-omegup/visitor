@@ -24,7 +24,7 @@ abstract class VariableDepthHistogramBuilderTestBase<E> extends TestBase<E> {
         expected.put(3, 1);
         expected.put(2, 1);
 
-        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.variableDepthHistogramBuilder()));
+        assertEquals(expected,testSupport.v.variableDepthHistogramBuilder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

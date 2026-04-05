@@ -36,14 +36,13 @@ abstract class YamlExpressionExporterTestBase<E> extends TestBase<E> {
                 + "    value: \"1\"\n"
                 + "  -\n"
                 + "    type: Literal\n"
-                + "    value: \"2\"\n",
-factory.functionCall(factory.variableReference("sum"), of( factory.literal("1"), factory.literal("2"))).accept(testSupport.v.yamlExpressionExporter())
+                + "    value: \"2\"\n",testSupport.v.yamlExpressionExporter().apply(factory.functionCall(factory.variableReference("sum"), of( factory.literal("1"), factory.literal("2"))))
         );
     }
 
     @Test
     void exportsTraversalExpressionIncludingCompositeBranches() {
-        var yaml =testSupport.sampleTraversalExpression().accept(testSupport.v.yamlExpressionExporter());
+        var yaml =testSupport.v.yamlExpressionExporter().apply(testSupport.sampleTraversalExpression());
 
         assertTrue(yaml.contains("type: Conditional\n"));
         assertTrue(yaml.contains("type: GreaterThanOrEqual\n"));

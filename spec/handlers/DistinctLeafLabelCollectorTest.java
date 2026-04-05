@@ -29,11 +29,10 @@ abstract class DistinctLeafLabelCollectorTestBase<E> extends TestBase<E> {
         @Test
     void keepsDistinctLeafLabelsInEncounterOrder() {
         assertEquals(
-            new LinkedHashSet<>(of("literal:1", "variable:f", "variable:x")),
-factory.addition(
+            new LinkedHashSet<>(of("literal:1", "variable:f", "variable:x")),testSupport.v.distinctLeafLabelCollector().apply(factory.addition(
                     factory.literal("1"),
                     factory.functionCall(factory.variableReference("f"), of( factory.literal("1"), factory.variableReference("x"), factory.variableReference("x")))
-                ).accept(testSupport.v.distinctLeafLabelCollector())
+                ))
         );
     }
 
@@ -54,8 +53,7 @@ factory.addition(
                 "literal:3",
                 "literal:5",
                 "literal:6"
-            )),
-testSupport.sampleTraversalExpression().accept(testSupport.v.distinctLeafLabelCollector())
+            )),testSupport.v.distinctLeafLabelCollector().apply(testSupport.sampleTraversalExpression())
         );
     }
 }

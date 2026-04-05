@@ -18,7 +18,7 @@ abstract class BinaryOperatorCounterTestBase<E> extends TestBase<E> {
 
     @Test
     void countsBinaryOperatorsInTraversalExpression() {
-        assertEquals(14,testSupport.sampleTraversalExpression().accept(testSupport.v.binaryOperatorCounter()));
+        assertEquals(14,testSupport.v.binaryOperatorCounter().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

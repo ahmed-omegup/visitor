@@ -23,7 +23,7 @@ abstract class VariableNameLengthHistogramBuilderTestBase<E> extends TestBase<E>
         var expected = new LinkedHashMap<Integer, Integer>();
         expected.put(1, 2);
 
-        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.variableNameLengthHistogramBuilder()));
+        assertEquals(expected,testSupport.v.variableNameLengthHistogramBuilder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

@@ -22,8 +22,7 @@ abstract class ArithmeticDepthHistogramBuilderTestBase<E> extends TestBase<E> {
         expected.put(2, 4);
         expected.put(3, 2);
 
-        assertEquals(expected, testSupport.sampleTraversalExpression()
-                .accept(testSupport.v.arithmeticDepthHistogramBuilder()));
+        assertEquals(expected,testSupport.v.arithmeticDepthHistogramBuilder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

@@ -21,7 +21,7 @@ abstract class UnaryNodeDepthSequenceBuilderTestBase<E> extends TestBase<E> {
 
     @Test
     void recordsUnaryNodeDepths() {
-        assertEquals(of(2, 2),testSupport.sampleTraversalExpression().accept(testSupport.v.unaryNodeDepthSequenceBuilder()));
+        assertEquals(of(2, 2),testSupport.v.unaryNodeDepthSequenceBuilder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

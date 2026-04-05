@@ -26,22 +26,20 @@ abstract class LongestLiteralFinderTestBase<E> extends TestBase<E> {
         @Test
     void findsLongestLiteralValue() {
         assertEquals(
-            "12345",
-factory.addition(factory.literal("12345"), factory.variableReference("x")).accept(testSupport.v.longestLiteralFinder())
+            "12345",testSupport.v.longestLiteralFinder().apply(factory.addition(factory.literal("12345"), factory.variableReference("x")))
         );
     }
 
     @Test
     void keepsLeftValueOnEqualLengthTie() {
         assertEquals(
-            "alpha",
-factory.functionCall(factory.variableReference("f"), of( factory.literal("alpha"), factory.literal("bravo"))).accept(testSupport.v.longestLiteralFinder())
+            "alpha",testSupport.v.longestLiteralFinder().apply(factory.functionCall(factory.variableReference("f"), of( factory.literal("alpha"), factory.literal("bravo"))))
         );
     }
 
     @Test
     void findsLongestLiteralAcrossTraversalExpression() {
-        assertEquals("10",testSupport.sampleTraversalExpression().accept(testSupport.v.longestLiteralFinder()));
+        assertEquals("10",testSupport.v.longestLiteralFinder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

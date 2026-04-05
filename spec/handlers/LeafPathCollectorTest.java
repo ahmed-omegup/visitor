@@ -28,8 +28,7 @@ abstract class LeafPathCollectorTestBase<E> extends TestBase<E> {
         @Test
     void collectsLeafPathsAcrossFunctionArguments() {
         assertEquals(
-            of("root.callee", "root.arguments[0].left", "root.arguments[0].right"),
-factory.functionCall(factory.variableReference("f"), of( factory.addition(factory.literal("1"), factory.variableReference("x")))).accept(testSupport.v.leafPathCollector())
+            of("root.callee", "root.arguments[0].left", "root.arguments[0].right"),testSupport.v.leafPathCollector().apply(factory.functionCall(factory.variableReference("f"), of( factory.addition(factory.literal("1"), factory.variableReference("x")))))
         );
     }
 
@@ -61,8 +60,7 @@ factory.functionCall(factory.variableReference("f"), of( factory.addition(factor
                 "root.whenFalse.arguments[5].left",
                 "root.whenFalse.arguments[5].right",
                 "root.whenFalse.arguments[6].operand"
-            ),
-testSupport.sampleTraversalExpression().accept(testSupport.v.leafPathCollector())
+            ),testSupport.v.leafPathCollector().apply(testSupport.sampleTraversalExpression())
         );
     }
 }

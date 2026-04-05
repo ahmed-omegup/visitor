@@ -21,12 +21,12 @@ abstract class NodeCounterTestBase<E> extends TestBase<E> {
 
         @Test
     void countsAllNodesInTraversalExpression() {
-        assertEquals(42,testSupport.sampleTraversalExpression().accept(testSupport.v.nodeCounter()));
+        assertEquals(42,testSupport.v.nodeCounter().apply(testSupport.sampleTraversalExpression()));
     }
 
     @Test
     void countsSingleLiteralAsOneNode() {
-        assertEquals(1,factory.literal("3").accept(testSupport.v.nodeCounter()));
+        assertEquals(1,testSupport.v.nodeCounter().apply(factory.literal("3")));
     }
 }
 

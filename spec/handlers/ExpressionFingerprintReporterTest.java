@@ -23,7 +23,7 @@ abstract class ExpressionFingerprintReporterTestBase<E> extends TestBase<E> {
 
         @Test
     void reportsNodesDepthHashAndShape() {
-        var report =factory.addition(factory.variableReference("x"), factory.literal("2")).accept(testSupport.v.expressionFingerprintReporter());
+        var report =testSupport.v.expressionFingerprintReporter().apply(factory.addition(factory.variableReference("x"), factory.literal("2")));
 
         assertTrue(report.contains("nodes=3;depth=2;hash="));
         assertTrue(report.contains("shape=Addition(VariableReference,Literal)"));

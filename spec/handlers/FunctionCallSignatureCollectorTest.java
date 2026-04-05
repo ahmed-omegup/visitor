@@ -30,17 +30,16 @@ abstract class FunctionCallSignatureCollectorTestBase<E> extends TestBase<E> {
         @Test
     void recordsSignaturesForDirectAndFunctionValuedCallees() {
         assertEquals(
-            of("sum/2", "FunctionCall/1", "g/0"),
-factory.addition(
+            of("sum/2", "FunctionCall/1", "g/0"),testSupport.v.functionCallSignatureCollector().apply(factory.addition(
                     factory.functionCall(factory.variableReference("sum"), of(factory.literal("1"), factory.literal("2"))),
                     factory.functionCall(factory.functionCall(factory.variableReference("g"), of()), of(factory.literal("3")))
-                ).accept(testSupport.v.functionCallSignatureCollector())
+                ))
         );
     }
 
     @Test
     void recordsTraversalExpressionFunctionSignature() {
-        assertEquals(of("f/7"),testSupport.sampleTraversalExpression().accept(testSupport.v.functionCallSignatureCollector()));
+        assertEquals(of("f/7"),testSupport.v.functionCallSignatureCollector().apply(testSupport.sampleTraversalExpression()));
     }
 
     @TestFactory
@@ -52,7 +51,7 @@ factory.addition(
 
         return cases.stream()
             .map(expression -> DynamicTest.dynamicTest("callee-" + expression.getClass().getSimpleName(), () -> {
-                var signatures =factory.functionCall(expression, of( factory.literal("9"))).accept(testSupport.v.functionCallSignatureCollector());
+                var signatures =testSupport.v.functionCallSignatureCollector().apply(factory.functionCall(expression, of( factory.literal("9"))));
                 var expectedLabel = expression instanceof VariableReference variableReference
                     ? variableReference.name
                     : expression.getClass().getSimpleName();

@@ -27,13 +27,9 @@ abstract class StructuralHashBuilderTestBase<E> extends TestBase<E> {
     void hashesEqualShapesEquallyAndDifferentShapesDifferently() {
         var builder = testSupport.v.structuralHashBuilder();
 
-        assertEquals(
-factory.addition(factory.variableReference("x"), factory.literal("1")).accept(builder),
-factory.addition(factory.variableReference("y"), factory.literal("9")).accept(builder)
+        assertEquals(builder.apply(factory.addition(factory.variableReference("x"), factory.literal("1"))),builder.apply(factory.addition(factory.variableReference("y"), factory.literal("9")))
         );
-        assertNotEquals(
-factory.addition(factory.variableReference("x"), factory.literal("1")).accept(builder),
-factory.multiplication(factory.variableReference("x"), factory.literal("1")).accept(builder)
+        assertNotEquals(builder.apply(factory.addition(factory.variableReference("x"), factory.literal("1"))),builder.apply(factory.multiplication(factory.variableReference("x"), factory.literal("1")))
         );
     }
 
@@ -42,7 +38,7 @@ factory.multiplication(factory.variableReference("x"), factory.literal("1")).acc
         var builder = testSupport.v.structuralHashBuilder();
         var expression = testSupport.sampleTraversalExpression();
 
-        assertEquals(expression.accept(builder),expression.accept(builder));
+        assertEquals(builder.apply(expression),builder.apply(expression));
     }
 }
 

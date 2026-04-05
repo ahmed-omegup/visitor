@@ -21,7 +21,7 @@ abstract class UnaryOperatorLabelCollectorTestBase<E> extends TestBase<E> {
 
     @Test
     void collectsUnaryOperatorLabelsInPreorder() {
-        assertEquals(of("LogicalNot", "Negation"),testSupport.sampleTraversalExpression().accept(testSupport.v.unaryOperatorLabelCollector()));
+        assertEquals(of("LogicalNot", "Negation"),testSupport.v.unaryOperatorLabelCollector().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

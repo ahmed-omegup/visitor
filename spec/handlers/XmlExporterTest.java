@@ -32,17 +32,16 @@ abstract class XmlExporterTestBase<E> extends TestBase<E> {
             "<Addition>\n"
                 + "  <VariableReference name=\"x\"/>\n"
                 + "  <Literal value=\"2\"/>\n"
-                + "</Addition>\n",
-expression.accept(testSupport.v.xmlExporter())
+                + "</Addition>\n",testSupport.v.xmlExporter().apply(expression)
         );
     }
 
     @Test
     void escapesSpecialCharacters() {
-        var xml =factory.addition(
+        var xml =testSupport.v.xmlExporter().apply(factory.addition(
             factory.variableReference("a&b<q>\""),
             factory.literal("<&\">")
-        ).accept(testSupport.v.xmlExporter());
+        ));
 
         assertTrue(xml.contains("<VariableReference name=\"a&amp;b&lt;q&gt;&quot;\"/>"));
         assertTrue(xml.contains("<Literal value=\"&lt;&amp;&quot;&gt;\"/>"));
@@ -50,7 +49,7 @@ expression.accept(testSupport.v.xmlExporter())
 
     @Test
     void exportsTraversalExpressionThroughAllCompositeVisitMethods() {
-        var xml =testSupport.sampleTraversalExpression().accept(testSupport.v.xmlExporter());
+        var xml =testSupport.v.xmlExporter().apply(testSupport.sampleTraversalExpression());
 
         for (var tag : new String[] {
             "Conditional", "Conjunction", "LessThan", "LogicalNot", "Equality", "Addition",
@@ -69,8 +68,7 @@ expression.accept(testSupport.v.xmlExporter())
         assertEquals(
             "<FunctionCall>\n"
                 + "  <VariableReference name=\"ping\"/>\n"
-                + "</FunctionCall>\n",
-factory.functionCall(factory.variableReference("ping"), of()).accept(testSupport.v.xmlExporter())
+                + "</FunctionCall>\n",testSupport.v.xmlExporter().apply(factory.functionCall(factory.variableReference("ping"), of()))
         );
     }
 }

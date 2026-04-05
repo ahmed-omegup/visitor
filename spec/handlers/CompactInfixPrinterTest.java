@@ -21,8 +21,7 @@ abstract class CompactInfixPrinterTestBase<E> extends TestBase<E> {
         var printer = testSupport.v.compactInfixPrinter();
 
         assertEquals(
-            "x < 10 && !1 == 0 ? 7 - 2 + 8 / 2 * 9 % 4 : f(2 ^ 3, 5 != 6, 7 > 1, 2 <= 2, 3 >= 3, 0 || 1, -4)",
-testSupport.sampleTraversalExpression().accept(printer)
+            "x < 10 && !1 == 0 ? 7 - 2 + 8 / 2 * 9 % 4 : f(2 ^ 3, 5 != 6, 7 > 1, 2 <= 2, 3 >= 3, 0 || 1, -4)",printer.apply(testSupport.sampleTraversalExpression())
         );
     }
 }

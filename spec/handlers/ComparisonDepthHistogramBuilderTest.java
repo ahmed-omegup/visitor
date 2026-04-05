@@ -24,7 +24,7 @@ abstract class ComparisonDepthHistogramBuilderTestBase<E> extends TestBase<E> {
         expected.put(2, 5);
         expected.put(3, 1);
 
-        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.comparisonDepthHistogramBuilder()));
+        assertEquals(expected,testSupport.v.comparisonDepthHistogramBuilder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

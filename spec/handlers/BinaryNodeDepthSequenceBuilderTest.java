@@ -22,8 +22,7 @@ abstract class BinaryNodeDepthSequenceBuilderTestBase<E> extends TestBase<E> {
     @Test
     void recordsBinaryNodeDepths() {
         assertEquals(
-            of(1, 2, 3, 1, 2, 2, 3, 3, 2, 2, 2, 2, 2, 2),
-testSupport.sampleTraversalExpression().accept(testSupport.v.binaryNodeDepthSequenceBuilder())
+            of(1, 2, 3, 1, 2, 2, 3, 3, 2, 2, 2, 2, 2, 2),testSupport.v.binaryNodeDepthSequenceBuilder().apply(testSupport.sampleTraversalExpression())
         );
     }
 }

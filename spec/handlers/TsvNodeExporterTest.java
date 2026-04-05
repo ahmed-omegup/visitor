@@ -28,14 +28,13 @@ abstract class TsvNodeExporterTestBase<E> extends TestBase<E> {
             "path\ttype\tdetail\n"
                 + "0\tAddition\t\n"
                 + "0.0\tVariableReference\tx\n"
-                + "0.1\tLiteral\t2\n",
-factory.addition(factory.variableReference("x"), factory.literal("2")).accept(testSupport.v.tsvNodeExporter())
+                + "0.1\tLiteral\t2\n",testSupport.v.tsvNodeExporter().apply(factory.addition(factory.variableReference("x"), factory.literal("2")))
         );
     }
 
     @Test
     void exportsTraversalExpressionIncludingFunctionCallRows() {
-        var tsv =testSupport.sampleTraversalExpression().accept(testSupport.v.tsvNodeExporter());
+        var tsv =testSupport.v.tsvNodeExporter().apply(testSupport.sampleTraversalExpression());
 
         assertTrue(tsv.contains("0\tConditional\t\n"));
         assertTrue(tsv.contains("0.2\tFunctionCall\t7\n"));

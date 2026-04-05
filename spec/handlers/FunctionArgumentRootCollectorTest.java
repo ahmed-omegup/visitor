@@ -29,8 +29,7 @@ abstract class FunctionArgumentRootCollectorTestBase<E> extends TestBase<E> {
         @Test
     void collectsTopLevelArgumentKindsForEachFunctionCall() {
         assertEquals(
-            of("Exponentiation", "Inequality", "GreaterThan", "LessThanOrEqual", "GreaterThanOrEqual", "Disjunction", "Negation"),
-testSupport.sampleTraversalExpression().accept(testSupport.v.functionArgumentRootCollector())
+            of("Exponentiation", "Inequality", "GreaterThan", "LessThanOrEqual", "GreaterThanOrEqual", "Disjunction", "Negation"),testSupport.v.functionArgumentRootCollector().apply(testSupport.sampleTraversalExpression())
         );
     }
 
@@ -44,8 +43,7 @@ testSupport.sampleTraversalExpression().accept(testSupport.v.functionArgumentRoo
         return cases.stream()
             .map(expression -> DynamicTest.dynamicTest("argument-" + expression.getClass().getSimpleName(), () ->
                 assertEquals(
-                    expression instanceof VariableReference ? "VariableReference" : expression.getClass().getSimpleName(),
-factory.functionCall(factory.variableReference("f"), of( expression)).accept(testSupport.v.functionArgumentRootCollector()).get(0)
+                    expression instanceof VariableReference ? "VariableReference" : expression.getClass().getSimpleName(),testSupport.v.functionArgumentRootCollector().apply(factory.functionCall(factory.variableReference("f"), of( expression))).get(0)
                 )))
             .toList();
     }

@@ -21,12 +21,12 @@ abstract class LeafCounterTestBase<E> extends TestBase<E> {
 
         @Test
     void countsLeavesInTraversalExpression() {
-        assertEquals(24,testSupport.sampleTraversalExpression().accept(testSupport.v.leafCounter()));
+        assertEquals(24,testSupport.v.leafCounter().apply(testSupport.sampleTraversalExpression()));
     }
 
     @Test
     void countsSingleLiteralAsOneLeaf() {
-        assertEquals(1,factory.literal("3").accept(testSupport.v.leafCounter()));
+        assertEquals(1,testSupport.v.leafCounter().apply(factory.literal("3")));
     }
 }
 

@@ -28,8 +28,7 @@ abstract class NodeTypeCollectorTestBase<E> extends TestBase<E> {
                 "LogicalNot", "Equality", "Addition", "Subtraction", "Multiplication",
                 "Division", "Modulo", "FunctionCall", "Exponentiation", "Inequality",
                 "GreaterThan", "LessThanOrEqual", "GreaterThanOrEqual", "Disjunction", "Negation"
-            )),
-testSupport.sampleTraversalExpression().accept(testSupport.v.nodeTypeCollector())
+            )),testSupport.v.nodeTypeCollector().apply(testSupport.sampleTraversalExpression())
         );
     }
 }

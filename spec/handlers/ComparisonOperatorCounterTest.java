@@ -18,7 +18,7 @@ abstract class ComparisonOperatorCounterTestBase<E> extends TestBase<E> {
 
     @Test
     void countsComparisonOperatorsInTraversalExpression() {
-        assertEquals(6,testSupport.sampleTraversalExpression().accept(testSupport.v.comparisonOperatorCounter()));
+        assertEquals(6,testSupport.v.comparisonOperatorCounter().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

@@ -30,14 +30,13 @@ abstract class MermaidFlowchartExporterTestBase<E> extends TestBase<E> {
                 + "  n1[\"VariableReference(x)\"]\n"
                 + "  n0 --> n1\n"
                 + "  n2[\"Literal(2)\"]\n"
-                + "  n0 --> n2\n",
-factory.addition(factory.variableReference("x"), factory.literal("2")).accept(testSupport.v.mermaidFlowchartExporter())
+                + "  n0 --> n2\n",testSupport.v.mermaidFlowchartExporter().apply(factory.addition(factory.variableReference("x"), factory.literal("2")))
         );
     }
 
     @Test
     void exportsTraversalExpressionKinds() {
-        var chart =testSupport.sampleTraversalExpression().accept(testSupport.v.mermaidFlowchartExporter());
+        var chart =testSupport.v.mermaidFlowchartExporter().apply(testSupport.sampleTraversalExpression());
 
         assertTrue(chart.contains("[\"Conditional\"]"));
         assertTrue(chart.contains("[\"FunctionCall\"]"));
@@ -47,7 +46,7 @@ factory.addition(factory.variableReference("x"), factory.literal("2")).accept(te
     @Test
     void reusesExistingNodeForSharedExpressionReference() {
         var shared = factory.literal("a\"b");
-        var chart =factory.addition(shared, shared).accept(testSupport.v.mermaidFlowchartExporter());
+        var chart =testSupport.v.mermaidFlowchartExporter().apply(factory.addition(shared, shared));
 
         assertEquals(1, occurrences(chart, "[\"Literal(a\\\"b)\"]"));
         assertEquals(2, occurrences(chart, "n0 --> n1"));

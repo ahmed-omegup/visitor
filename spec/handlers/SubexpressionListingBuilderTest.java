@@ -29,14 +29,13 @@ abstract class SubexpressionListingBuilderTestBase<E> extends TestBase<E> {
         @Test
     void listsLeavesBeforeContainingExpressions() {
         assertEquals(
-            of("x", "2", "(-2)", "(x + (-2))"),
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.subexpressionListingBuilder())
+            of("x", "2", "(-2)", "(x + (-2))"),testSupport.v.subexpressionListingBuilder().apply(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
         );
     }
 
     @Test
     void listsTraversalSubexpressionsIncludingFinalRoot() {
-        var values =testSupport.sampleTraversalExpression().accept(testSupport.v.subexpressionListingBuilder());
+        var values =testSupport.v.subexpressionListingBuilder().apply(testSupport.sampleTraversalExpression());
 
         assertTrue(values.contains("(7 - 2)"));
         assertTrue(values.stream().anyMatch(value -> value.startsWith("f(")));

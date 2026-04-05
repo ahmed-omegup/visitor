@@ -26,14 +26,13 @@ abstract class BreadthFirstLabelPrinterTestBase<E> extends TestBase<E> {
         @Test
     void printsLabelsBreadthFirst() {
         assertEquals(
-            "Addition | VariableReference(x) | Negation | Literal(2)",
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.breadthFirstLabelPrinter())
+            "Addition | VariableReference(x) | Negation | Literal(2)",testSupport.v.breadthFirstLabelPrinter().apply(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
         );
     }
 
     @Test
     void printsTraversalExpressionBreadthFirst() {
-        var labels =testSupport.sampleTraversalExpression().accept(testSupport.v.breadthFirstLabelPrinter());
+        var labels =testSupport.v.breadthFirstLabelPrinter().apply(testSupport.sampleTraversalExpression());
 
         assertTrue(labels.startsWith("Conditional | Conjunction | Addition | FunctionCall | LessThan"));
         assertTrue(labels.contains("GreaterThanOrEqual | Disjunction | Negation"));

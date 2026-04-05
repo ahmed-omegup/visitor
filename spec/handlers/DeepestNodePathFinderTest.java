@@ -18,7 +18,7 @@ abstract class DeepestNodePathFinderTestBase<E> extends TestBase<E> {
 
     @Test
     void findsDeepestPathInTraversalExpression() {
-        assertEquals("0.2.7.0",testSupport.sampleTraversalExpression().accept(testSupport.v.deepestNodePathFinder()));
+        assertEquals("0.2.7.0",testSupport.v.deepestNodePathFinder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

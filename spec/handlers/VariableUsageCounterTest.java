@@ -32,17 +32,16 @@ abstract class VariableUsageCounterTestBase<E> extends TestBase<E> {
         expected.put("sum", 1);
 
         assertEquals(
-            expected,
-factory.addition(
+            expected,testSupport.v.variableUsageCounter().apply(factory.addition(
                     factory.variableReference("x"),
                     factory.functionCall(factory.variableReference("sum"), of( factory.variableReference("x")))
-                ).accept(testSupport.v.variableUsageCounter())
+                ))
         );
     }
 
     @Test
     void countsTraversalExpressionVariablesIncludingFunctionCallee() {
-        assertEquals(Map.of("x", 1, "f", 1),testSupport.sampleTraversalExpression().accept(testSupport.v.variableUsageCounter()));
+        assertEquals(Map.of("x", 1, "f", 1),testSupport.v.variableUsageCounter().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

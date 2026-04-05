@@ -25,22 +25,21 @@ abstract class MaxFunctionArityFinderTestBase<E> extends TestBase<E> {
         @Test
     void returnsLargestFunctionArityInTree() {
         assertEquals(
-            3,
-factory.addition(
+            3,testSupport.v.maxFunctionArityFinder().apply(factory.addition(
                     factory.functionCall(factory.variableReference("ping"), of()),
                     factory.functionCall(factory.variableReference("sum"), of( factory.literal("1"), factory.literal("2"), factory.literal("3")))
-                ).accept(testSupport.v.maxFunctionArityFinder())
+                ))
         );
     }
 
     @Test
     void returnsZeroWhenNoFunctionCallExists() {
-        assertEquals(0,factory.addition(factory.literal("1"), factory.literal("2")).accept(testSupport.v.maxFunctionArityFinder()));
+        assertEquals(0,testSupport.v.maxFunctionArityFinder().apply(factory.addition(factory.literal("1"), factory.literal("2"))));
     }
 
     @Test
     void followsTraversalExpressionToLargestArity() {
-        assertEquals(7,testSupport.sampleTraversalExpression().accept(testSupport.v.maxFunctionArityFinder()));
+        assertEquals(7,testSupport.v.maxFunctionArityFinder().apply(testSupport.sampleTraversalExpression()));
     }
 
     @TestFactory
@@ -67,7 +66,7 @@ factory.addition(
             factory.logicalNot(factory.literal("1")),
             factory.conditional(factory.literal("1"), factory.literal("2"), factory.literal("3"))
         ).stream().map(expression -> DynamicTest.dynamicTest("arity-" + expression.getClass().getSimpleName(), () ->
-            assertEquals(0,expression.accept(finder)))).toList();
+            assertEquals(0,finder.apply(expression)))).toList();
     }
 }
 

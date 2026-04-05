@@ -18,7 +18,7 @@ abstract class BooleanOperatorCounterTestBase<E> extends TestBase<E> {
 
     @Test
     void countsBooleanOperatorsInTraversalExpression() {
-        assertEquals(3,testSupport.sampleTraversalExpression().accept(testSupport.v.booleanOperatorCounter()));
+        assertEquals(3,testSupport.v.booleanOperatorCounter().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

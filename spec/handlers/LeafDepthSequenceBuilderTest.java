@@ -28,16 +28,14 @@ abstract class LeafDepthSequenceBuilderTestBase<E> extends TestBase<E> {
         @Test
     void recordsLeafDepthsInEncounterOrder() {
         assertEquals(
-            of(1, 2),
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.leafDepthSequenceBuilder())
+            of(1, 2),testSupport.v.leafDepthSequenceBuilder().apply(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
         );
     }
 
     @Test
     void recordsTraversalExpressionLeafDepths() {
         assertEquals(
-            of(3, 3, 4, 4, 3, 3, 4, 4, 4, 4, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3),
-testSupport.sampleTraversalExpression().accept(testSupport.v.leafDepthSequenceBuilder())
+            of(3, 3, 4, 4, 3, 3, 4, 4, 4, 4, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3),testSupport.v.leafDepthSequenceBuilder().apply(testSupport.sampleTraversalExpression())
         );
     }
 }

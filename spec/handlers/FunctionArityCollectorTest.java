@@ -21,7 +21,7 @@ abstract class FunctionArityCollectorTestBase<E> extends TestBase<E> {
 
     @Test
     void collectsFunctionAritiesInTraversalOrder() {
-        assertEquals(of(7),testSupport.sampleTraversalExpression().accept(testSupport.v.functionArityCollector()));
+        assertEquals(of(7),testSupport.v.functionArityCollector().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

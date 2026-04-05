@@ -26,14 +26,13 @@ abstract class PostOrderLabelPrinterTestBase<E> extends TestBase<E> {
         @Test
     void printsLabelsInPostOrder() {
         assertEquals(
-            "VariableReference(x) -> Literal(2) -> Addition",
-factory.addition(factory.variableReference("x"), factory.literal("2")).accept(testSupport.v.postOrderLabelPrinter())
+            "VariableReference(x) -> Literal(2) -> Addition",testSupport.v.postOrderLabelPrinter().apply(factory.addition(factory.variableReference("x"), factory.literal("2")))
         );
     }
 
     @Test
     void printsTraversalExpressionInPostOrder() {
-        var labels =testSupport.sampleTraversalExpression().accept(testSupport.v.postOrderLabelPrinter());
+        var labels =testSupport.v.postOrderLabelPrinter().apply(testSupport.sampleTraversalExpression());
 
         assertTrue(labels.startsWith("VariableReference(x) -> Literal(10) -> LessThan"));
         assertTrue(labels.contains("Literal(4) -> Negation -> FunctionCall"));
@@ -42,7 +41,7 @@ factory.addition(factory.variableReference("x"), factory.literal("2")).accept(te
 
     @Test
     void printsTraversalExpressionPostOrder() {
-        var labels =testSupport.sampleTraversalExpression().accept(testSupport.v.postOrderLabelPrinter());
+        var labels =testSupport.v.postOrderLabelPrinter().apply(testSupport.sampleTraversalExpression());
 
         assertTrue(labels.startsWith("VariableReference(x) -> Literal(10)"));
         assertTrue(labels.contains("Literal(4) -> Negation"));

@@ -23,7 +23,7 @@ abstract class UnaryOperatorDepthHistogramBuilderTestBase<E> extends TestBase<E>
         var expected = new LinkedHashMap<Integer, Integer>();
         expected.put(2, 2);
 
-        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.unaryOperatorDepthHistogramBuilder()));
+        assertEquals(expected,testSupport.v.unaryOperatorDepthHistogramBuilder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

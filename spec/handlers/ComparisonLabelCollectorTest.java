@@ -22,8 +22,7 @@ abstract class ComparisonLabelCollectorTestBase<E> extends TestBase<E> {
     @Test
     void collectsComparisonLabelsInPreorder() {
         assertEquals(
-            of("LessThan", "Equality", "Inequality", "GreaterThan", "LessThanOrEqual", "GreaterThanOrEqual"),
-testSupport.sampleTraversalExpression().accept(testSupport.v.comparisonLabelCollector())
+            of("LessThan", "Equality", "Inequality", "GreaterThan", "LessThanOrEqual", "GreaterThanOrEqual"),testSupport.v.comparisonLabelCollector().apply(testSupport.sampleTraversalExpression())
         );
     }
 }

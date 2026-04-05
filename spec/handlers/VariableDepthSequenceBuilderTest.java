@@ -21,7 +21,7 @@ abstract class VariableDepthSequenceBuilderTestBase<E> extends TestBase<E> {
 
     @Test
     void recordsVariableDepthsInEncounterOrder() {
-        assertEquals(of(3, 2),testSupport.sampleTraversalExpression().accept(testSupport.v.variableDepthSequenceBuilder()));
+        assertEquals(of(3, 2),testSupport.v.variableDepthSequenceBuilder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

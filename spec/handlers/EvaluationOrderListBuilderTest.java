@@ -29,14 +29,13 @@ abstract class EvaluationOrderListBuilderTestBase<E> extends TestBase<E> {
         @Test
     void recordsPreorderEvaluationSteps() {
         assertEquals(
-            of("Addition", "VariableReference(x)", "Negation", "Literal(2)"),
-factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))).accept(testSupport.v.evaluationOrderListBuilder())
+            of("Addition", "VariableReference(x)", "Negation", "Literal(2)"),testSupport.v.evaluationOrderListBuilder().apply(factory.addition(factory.variableReference("x"), factory.negation(factory.literal("2"))))
         );
     }
 
     @Test
     void recordsTraversalExpressionEvaluationOrder() {
-        var steps =testSupport.sampleTraversalExpression().accept(testSupport.v.evaluationOrderListBuilder());
+        var steps =testSupport.v.evaluationOrderListBuilder().apply(testSupport.sampleTraversalExpression());
 
         assertEquals("Conditional", steps.get(0));
         assertTrue(steps.contains("FunctionCall"));

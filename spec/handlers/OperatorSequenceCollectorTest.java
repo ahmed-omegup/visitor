@@ -26,8 +26,7 @@ abstract class OperatorSequenceCollectorTestBase<E> extends TestBase<E> {
                 "Conditional", "Conjunction", "LessThan", "LogicalNot", "Equality", "Addition", "Subtraction", "Multiplication",
                 "Division", "Modulo", "FunctionCall", "Exponentiation", "Inequality", "GreaterThan", "LessThanOrEqual",
                 "GreaterThanOrEqual", "Disjunction", "Negation"
-            ),
-testSupport.sampleTraversalExpression().accept(testSupport.v.operatorSequenceCollector())
+            ),testSupport.v.operatorSequenceCollector().apply(testSupport.sampleTraversalExpression())
         );
     }
 }

@@ -35,14 +35,13 @@ abstract class LiteralFrequencyBuilderTestBase<E> extends TestBase<E> {
         expected.put("5", 1);
         expected.put("6", 1);
 
-        assertEquals(expected,testSupport.sampleTraversalExpression().accept(testSupport.v.literalFrequencyBuilder()));
+        assertEquals(expected,testSupport.v.literalFrequencyBuilder().apply(testSupport.sampleTraversalExpression()));
     }
 
     @Test
     void returnsEmptyMapWhenNoLiteralsExist() {
         assertEquals(
-            new LinkedHashMap<String, Integer>(),
-factory.variableReference("x").accept(testSupport.v.literalFrequencyBuilder())
+            new LinkedHashMap<String, Integer>(),testSupport.v.literalFrequencyBuilder().apply(factory.variableReference("x"))
         );
     }
 }

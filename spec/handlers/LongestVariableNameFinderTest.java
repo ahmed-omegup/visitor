@@ -25,22 +25,20 @@ abstract class LongestVariableNameFinderTestBase<E> extends TestBase<E> {
         @Test
     void findsLongestVariableName() {
         assertEquals(
-            "threshold",
-factory.addition(factory.variableReference("threshold"), factory.literal("1")).accept(testSupport.v.longestVariableNameFinder())
+            "threshold",testSupport.v.longestVariableNameFinder().apply(factory.addition(factory.variableReference("threshold"), factory.literal("1")))
         );
     }
 
     @Test
     void keepsLeftVariableOnEqualLengthTie() {
         assertEquals(
-            "alpha",
-factory.addition(factory.variableReference("alpha"), factory.variableReference("bravo")).accept(testSupport.v.longestVariableNameFinder())
+            "alpha",testSupport.v.longestVariableNameFinder().apply(factory.addition(factory.variableReference("alpha"), factory.variableReference("bravo")))
         );
     }
 
     @Test
     void findsLongestVariableAcrossTraversalExpression() {
-        assertEquals("x",testSupport.sampleTraversalExpression().accept(testSupport.v.longestVariableNameFinder()));
+        assertEquals("x",testSupport.v.longestVariableNameFinder().apply(testSupport.sampleTraversalExpression()));
     }
 }
 

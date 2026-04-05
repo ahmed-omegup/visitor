@@ -25,7 +25,7 @@ abstract class JsonExporterTestBase<E> extends TestBase<E> {
 
         @Test
     void exportsTraversalExpressionIncludingAllSemanticTypes() {
-        var json =testSupport.sampleTraversalExpression().accept(testSupport.v.jsonExporter());
+        var json =testSupport.v.jsonExporter().apply(testSupport.sampleTraversalExpression());
 
         for (var type : new String[] {
             "Conditional", "Conjunction", "LessThan", "VariableReference", "Literal",
@@ -45,8 +45,7 @@ abstract class JsonExporterTestBase<E> extends TestBase<E> {
         ));
 
         assertEquals(
-            "{\"type\":\"FunctionCall\",\"children\":[{\"type\":\"VariableReference\",\"name\":\"say\\\"hi\"},{\"type\":\"Literal\",\"value\":\"a\\\\b\\\"c\"}]}",
-expression.accept(testSupport.v.jsonExporter())
+            "{\"type\":\"FunctionCall\",\"children\":[{\"type\":\"VariableReference\",\"name\":\"say\\\"hi\"},{\"type\":\"Literal\",\"value\":\"a\\\\b\\\"c\"}]}",testSupport.v.jsonExporter().apply(expression)
         );
     }
 }

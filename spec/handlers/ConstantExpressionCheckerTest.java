@@ -27,14 +27,14 @@ abstract class ConstantExpressionCheckerTestBase<E> extends TestBase<E> {
     void detectsConstantAndNonConstantExpressions() {
         var checker = testSupport.v.constantExpressionChecker();
 
-        assertTrue(factory.addition(factory.literal("1"), factory.literal("2")).accept(checker));
-        assertFalse(factory.addition(factory.variableReference("x"), factory.literal("2")).accept(checker));
-        assertFalse(factory.functionCall(factory.variableReference("sum"), of( factory.literal("1"))).accept(checker));
+        assertTrue(checker.apply(factory.addition(factory.literal("1"), factory.literal("2"))));
+        assertFalse(checker.apply(factory.addition(factory.variableReference("x"), factory.literal("2"))));
+        assertFalse(checker.apply(factory.functionCall(factory.variableReference("sum"), of( factory.literal("1")))));
     }
 
     @Test
     void rejectsTraversalExpressionBecauseOfVariablesAndFunctionCalls() {
-        assertFalse(testSupport.sampleTraversalExpression().accept(testSupport.v.constantExpressionChecker()));
+        assertFalse(testSupport.v.constantExpressionChecker().apply(testSupport.sampleTraversalExpression()));
     }
 
     @TestFactory
@@ -42,7 +42,7 @@ abstract class ConstantExpressionCheckerTestBase<E> extends TestBase<E> {
         var checker = testSupport.v.constantExpressionChecker();
         return testSupport.sampleNonVariableExpressions().stream()
             .map(expression -> DynamicTest.dynamicTest(expression.getClass().getSimpleName(), () ->
-                org.junit.jupiter.api.Assertions.assertEquals(!(expression instanceof FunctionCall),expression.accept(checker))))
+                org.junit.jupiter.api.Assertions.assertEquals(!(expression instanceof FunctionCall),checker.apply(expression))))
             .toList();
     }
 
@@ -84,7 +84,7 @@ abstract class ConstantExpressionCheckerTestBase<E> extends TestBase<E> {
             factory.conditional(factory.literal("1"), factory.variableReference("x"), factory.literal("2")),
             factory.conditional(factory.literal("1"), factory.literal("2"), factory.variableReference("x"))
         ).stream().map(expression -> DynamicTest.dynamicTest("non-constant-" + expression.getClass().getSimpleName(), () ->
-            assertFalse(expression.accept(checker)))).toList();
+            assertFalse(checker.apply(expression)))).toList();
     }
 }
 
