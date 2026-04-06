@@ -1,9 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,7 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.Addition;
 import lib.expression.Literal;
-import lib.visitors.DotGraphExporter;
+import lib.handlers.DotGraphExporter;
+import lib.handlers.HandlerFactory;
 
 abstract class DotGraphExporterTestBase<E> extends TestBase<E> {
     DotGraphExporterTestBase(TestSupport<E> testSupport) {

@@ -3,7 +3,7 @@ package spec.handlers;
 import java.util.function.Function;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
+import lib.handlers.HandlerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static java.util.List.of;

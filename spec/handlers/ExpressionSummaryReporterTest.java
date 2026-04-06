@@ -1,14 +1,12 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
+import lib.handlers.ExpressionSummaryReporter;
+import lib.handlers.HandlerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-
-import lib.visitors.ExpressionSummaryReporter;
 
 abstract class ExpressionSummaryReporterTestBase<E> extends TestBase<E> {
     ExpressionSummaryReporterTestBase(TestSupport<E> testSupport) {

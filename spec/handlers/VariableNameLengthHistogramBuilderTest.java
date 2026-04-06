@@ -1,16 +1,14 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
+import lib.handlers.HandlerFactory;
+import lib.handlers.VariableNameLengthHistogramBuilder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashMap;
 
 import org.junit.jupiter.api.Test;
-
-import lib.visitors.VariableNameLengthHistogramBuilder;
 
 abstract class VariableNameLengthHistogramBuilderTestBase<E> extends TestBase<E> {
     VariableNameLengthHistogramBuilderTestBase(TestSupport<E> testSupport) {

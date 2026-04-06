@@ -1,9 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,7 +10,8 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.visitors.ExpressionFingerprintReporter;
+import lib.handlers.ExpressionFingerprintReporter;
+import lib.handlers.HandlerFactory;
 
 abstract class ExpressionFingerprintReporterTestBase<E> extends TestBase<E> {
     ExpressionFingerprintReporterTestBase(TestSupport<E> testSupport) {

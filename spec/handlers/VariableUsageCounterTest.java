@@ -1,9 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,7 +14,8 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Addition;
 import lib.expression.FunctionCall;
 import lib.expression.VariableReference;
-import lib.visitors.VariableUsageCounter;
+import lib.handlers.HandlerFactory;
+import lib.handlers.VariableUsageCounter;
 
 abstract class VariableUsageCounterTestBase<E> extends TestBase<E> {
     VariableUsageCounterTestBase(TestSupport<E> testSupport) {

@@ -1,9 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,7 +12,8 @@ import lib.expression.Conditional;
 import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
-import lib.visitors.ShallowestLeafPathFinder;
+import lib.handlers.HandlerFactory;
+import lib.handlers.ShallowestLeafPathFinder;
 
 abstract class ShallowestLeafPathFinderTestBase<E> extends TestBase<E> {
     ShallowestLeafPathFinderTestBase(TestSupport<E> testSupport) {

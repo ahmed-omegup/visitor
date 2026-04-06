@@ -1,9 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,7 +14,8 @@ import lib.expression.Addition;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.visitors.FunctionCallPathCollector;
+import lib.handlers.FunctionCallPathCollector;
+import lib.handlers.HandlerFactory;
 
 abstract class FunctionCallPathCollectorTestBase<E> extends TestBase<E> {
     FunctionCallPathCollectorTestBase(TestSupport<E> testSupport) {

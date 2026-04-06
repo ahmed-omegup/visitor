@@ -1,16 +1,14 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
+import lib.handlers.HandlerFactory;
+import lib.handlers.UnaryOperatorDepthHistogramBuilder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashMap;
 
 import org.junit.jupiter.api.Test;
-
-import lib.visitors.UnaryOperatorDepthHistogramBuilder;
 
 abstract class UnaryOperatorDepthHistogramBuilderTestBase<E> extends TestBase<E> {
     UnaryOperatorDepthHistogramBuilderTestBase(TestSupport<E> testSupport) {

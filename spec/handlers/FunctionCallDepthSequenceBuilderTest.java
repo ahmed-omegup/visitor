@@ -1,9 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,7 +13,8 @@ import org.junit.jupiter.api.Test;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.visitors.FunctionCallDepthSequenceBuilder;
+import lib.handlers.FunctionCallDepthSequenceBuilder;
+import lib.handlers.HandlerFactory;
 
 abstract class FunctionCallDepthSequenceBuilderTestBase<E> extends TestBase<E> {
     FunctionCallDepthSequenceBuilderTestBase(TestSupport<E> testSupport) {

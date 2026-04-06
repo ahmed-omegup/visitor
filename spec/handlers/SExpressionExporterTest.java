@@ -1,14 +1,12 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
+import lib.handlers.HandlerFactory;
+import lib.handlers.SExpressionExporter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-
-import lib.visitors.SExpressionExporter;
 
 abstract class SExpressionExporterTestBase<E> extends TestBase<E> {
     SExpressionExporterTestBase(TestSupport<E> testSupport) {

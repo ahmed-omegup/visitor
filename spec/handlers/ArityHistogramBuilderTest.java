@@ -1,8 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,7 +14,8 @@ import lib.expression.Addition;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.visitors.ArityHistogramBuilder;
+import lib.handlers.ArityHistogramBuilder;
+import lib.handlers.HandlerFactory;
 
 abstract class ArityHistogramBuilderTestBase<E> extends TestBase<E> {
     ArityHistogramBuilderTestBase(TestSupport<E> testSupport) {

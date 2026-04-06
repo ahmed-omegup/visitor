@@ -1,8 +1,8 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
+import lib.handlers.HandlerFactory;
+import lib.handlers.VariableCollector;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static java.util.List.of;
@@ -11,8 +11,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-
-import lib.visitors.VariableCollector;
 
 abstract class VariableCollectorTestBase<E> extends TestBase<E> {
     VariableCollectorTestBase(TestSupport<E> testSupport) {

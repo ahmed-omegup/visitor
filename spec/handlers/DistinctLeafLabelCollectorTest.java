@@ -1,9 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,7 +15,8 @@ import lib.expression.Addition;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.visitors.DistinctLeafLabelCollector;
+import lib.handlers.DistinctLeafLabelCollector;
+import lib.handlers.HandlerFactory;
 
 abstract class DistinctLeafLabelCollectorTestBase<E> extends TestBase<E> {
     DistinctLeafLabelCollectorTestBase(TestSupport<E> testSupport) {

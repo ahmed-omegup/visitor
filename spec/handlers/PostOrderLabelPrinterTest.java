@@ -1,9 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,7 +12,8 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.visitors.PostOrderLabelPrinter;
+import lib.handlers.HandlerFactory;
+import lib.handlers.PostOrderLabelPrinter;
 
 abstract class PostOrderLabelPrinterTestBase<E> extends TestBase<E> {
     PostOrderLabelPrinterTestBase(TestSupport<E> testSupport) {

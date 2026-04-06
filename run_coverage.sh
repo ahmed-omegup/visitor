@@ -25,7 +25,7 @@ rm -rf coverage/html
 javac -d coverage/classes \
     port/*.java \
     lib/expression/*.java \
-    lib/visitors/*.java
+    lib/handlers/*.java
 
 javac -cp "coverage/classes:$JUNIT_JAR" -d coverage/test-classes \
     spec/handlers/*.java

@@ -1,8 +1,8 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
+import lib.handlers.HandlerFactory;
+import lib.handlers.UnaryOperatorLabelCollector;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static java.util.List.of;
@@ -10,8 +10,6 @@ import static java.util.List.of;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-
-import lib.visitors.UnaryOperatorLabelCollector;
 
 abstract class UnaryOperatorLabelCollectorTestBase<E> extends TestBase<E> {
     UnaryOperatorLabelCollectorTestBase(TestSupport<E> testSupport) {

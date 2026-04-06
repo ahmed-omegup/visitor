@@ -1,9 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,7 +12,8 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.Multiplication;
 import lib.expression.VariableReference;
-import lib.visitors.StructuralHashBuilder;
+import lib.handlers.HandlerFactory;
+import lib.handlers.StructuralHashBuilder;
 
 abstract class StructuralHashBuilderTestBase<E> extends TestBase<E> {
     StructuralHashBuilderTestBase(TestSupport<E> testSupport) {

@@ -1,11 +1,9 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
-import lib.visitors.IntegerEvaluator;
+import lib.handlers.HandlerFactory;
+import lib.handlers.IntegerEvaluator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

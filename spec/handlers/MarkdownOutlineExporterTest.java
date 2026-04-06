@@ -1,9 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,7 +14,8 @@ import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
-import lib.visitors.MarkdownOutlineExporter;
+import lib.handlers.HandlerFactory;
+import lib.handlers.MarkdownOutlineExporter;
 
 abstract class MarkdownOutlineExporterTestBase<E> extends TestBase<E> {
     MarkdownOutlineExporterTestBase(TestSupport<E> testSupport) {

@@ -1,9 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,7 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import lib.expression.Literal;
-import lib.visitors.NodeCounter;
+import lib.handlers.HandlerFactory;
+import lib.handlers.NodeCounter;
 
 abstract class NodeCounterTestBase<E> extends TestBase<E> {
     NodeCounterTestBase(TestSupport<E> testSupport) {

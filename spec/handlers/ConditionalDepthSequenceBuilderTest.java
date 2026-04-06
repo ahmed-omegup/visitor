@@ -1,9 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,7 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.Conditional;
 import lib.expression.Literal;
-import lib.visitors.ConditionalDepthSequenceBuilder;
+import lib.handlers.ConditionalDepthSequenceBuilder;
+import lib.handlers.HandlerFactory;
 
 abstract class ConditionalDepthSequenceBuilderTestBase<E> extends TestBase<E> {
     ConditionalDepthSequenceBuilderTestBase(TestSupport<E> testSupport) {

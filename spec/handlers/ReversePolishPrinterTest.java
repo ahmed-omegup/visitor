@@ -1,14 +1,12 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
+import lib.handlers.HandlerFactory;
+import lib.handlers.ReversePolishPrinter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-
-import lib.visitors.ReversePolishPrinter;
 
 abstract class ReversePolishPrinterTestBase<E> extends TestBase<E> {
     ReversePolishPrinterTestBase(TestSupport<E> testSupport) {

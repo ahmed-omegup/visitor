@@ -1,9 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,7 +12,8 @@ import org.junit.jupiter.api.Test;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.visitors.CsvNodeExporter;
+import lib.handlers.CsvNodeExporter;
+import lib.handlers.HandlerFactory;
 
 abstract class CsvNodeExporterTestBase<E> extends TestBase<E> {
     CsvNodeExporterTestBase(TestSupport<E> testSupport) {

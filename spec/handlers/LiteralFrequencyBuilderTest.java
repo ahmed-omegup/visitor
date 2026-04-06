@@ -1,11 +1,9 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
-import lib.visitors.LiteralFrequencyBuilder;
+import lib.handlers.HandlerFactory;
+import lib.handlers.LiteralFrequencyBuilder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

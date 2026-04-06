@@ -1,16 +1,14 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
+import lib.handlers.BooleanOperatorDepthHistogramBuilder;
+import lib.handlers.HandlerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashMap;
 
 import org.junit.jupiter.api.Test;
-
-import lib.visitors.BooleanOperatorDepthHistogramBuilder;
 
 abstract class BooleanOperatorDepthHistogramBuilderTestBase<E> extends TestBase<E> {
     BooleanOperatorDepthHistogramBuilderTestBase(TestSupport<E> testSupport) {

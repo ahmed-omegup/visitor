@@ -1,14 +1,12 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
+import lib.handlers.BinaryOperatorCounter;
+import lib.handlers.HandlerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-
-import lib.visitors.BinaryOperatorCounter;
 
 abstract class BinaryOperatorCounterTestBase<E> extends TestBase<E> {
     BinaryOperatorCounterTestBase(TestSupport<E> testSupport) {

@@ -1,16 +1,14 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
+import lib.handlers.HandlerFactory;
+import lib.handlers.VariableDepthHistogramBuilder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashMap;
 
 import org.junit.jupiter.api.Test;
-
-import lib.visitors.VariableDepthHistogramBuilder;
 
 abstract class VariableDepthHistogramBuilderTestBase<E> extends TestBase<E> {
     VariableDepthHistogramBuilderTestBase(TestSupport<E> testSupport) {

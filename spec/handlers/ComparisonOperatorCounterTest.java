@@ -1,14 +1,12 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
+import lib.handlers.ComparisonOperatorCounter;
+import lib.handlers.HandlerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-
-import lib.visitors.ComparisonOperatorCounter;
 
 abstract class ComparisonOperatorCounterTestBase<E> extends TestBase<E> {
     ComparisonOperatorCounterTestBase(TestSupport<E> testSupport) {

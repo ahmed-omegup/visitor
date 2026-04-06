@@ -1,9 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,7 +11,8 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.LogicalNot;
 import lib.expression.Negation;
-import lib.visitors.UnaryOperatorCounter;
+import lib.handlers.HandlerFactory;
+import lib.handlers.UnaryOperatorCounter;
 
 abstract class UnaryOperatorCounterTestBase<E> extends TestBase<E> {
     UnaryOperatorCounterTestBase(TestSupport<E> testSupport) {

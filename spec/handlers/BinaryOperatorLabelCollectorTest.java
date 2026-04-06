@@ -1,8 +1,8 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
+import lib.handlers.BinaryOperatorLabelCollector;
+import lib.handlers.HandlerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static java.util.List.of;
@@ -10,8 +10,6 @@ import static java.util.List.of;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-
-import lib.visitors.BinaryOperatorLabelCollector;
 
 abstract class BinaryOperatorLabelCollectorTestBase<E> extends TestBase<E> {
     BinaryOperatorLabelCollectorTestBase(TestSupport<E> testSupport) {

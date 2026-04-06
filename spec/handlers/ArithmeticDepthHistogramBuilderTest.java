@@ -7,8 +7,8 @@ import java.util.LinkedHashMap;
 import org.junit.jupiter.api.Test;
 
 import lib.expression.Expression;
-import lib.visitors.ArithmeticDepthHistogramBuilder;
-import lib.visitors.HandlerFactory;
+import lib.handlers.ArithmeticDepthHistogramBuilder;
+import lib.handlers.HandlerFactory;
 
 abstract class ArithmeticDepthHistogramBuilderTestBase<E> extends TestBase<E> {
     ArithmeticDepthHistogramBuilderTestBase(TestSupport<E> testSupport) {

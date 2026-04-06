@@ -1,9 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,7 +11,8 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.visitors.DepthAnnotatedPreorderPrinter;
+import lib.handlers.DepthAnnotatedPreorderPrinter;
+import lib.handlers.HandlerFactory;
 
 abstract class DepthAnnotatedPreorderPrinterTestBase<E> extends TestBase<E> {
     DepthAnnotatedPreorderPrinterTestBase(TestSupport<E> testSupport) {

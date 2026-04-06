@@ -1,11 +1,9 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
-import lib.visitors.MaxFunctionArityFinder;
+import lib.handlers.HandlerFactory;
+import lib.handlers.MaxFunctionArityFinder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static java.util.List.of;

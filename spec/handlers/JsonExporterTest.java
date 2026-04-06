@@ -1,9 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,7 +12,8 @@ import org.junit.jupiter.api.Test;
 import lib.expression.FunctionCall;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.visitors.JsonExporter;
+import lib.handlers.HandlerFactory;
+import lib.handlers.JsonExporter;
 
 abstract class JsonExporterTestBase<E> extends TestBase<E> {
     JsonExporterTestBase(TestSupport<E> testSupport) {

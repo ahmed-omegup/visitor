@@ -15,12 +15,12 @@ import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.Conditional;
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
 import lib.expression.FunctionCall;
 import lib.expression.LessThan;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
-import lib.visitors.ConditionalBranchLabelCollector;
+import lib.handlers.ConditionalBranchLabelCollector;
+import lib.handlers.HandlerFactory;
 
 abstract class ConditionalBranchLabelCollectorTestBase<E> extends TestBase<E> {
     ConditionalBranchLabelCollectorTestBase(TestSupport<E> testSupport) {

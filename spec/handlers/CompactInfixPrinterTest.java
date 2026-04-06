@@ -1,14 +1,12 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
+import lib.handlers.CompactInfixPrinter;
+import lib.handlers.HandlerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-
-import lib.visitors.CompactInfixPrinter;
 
 abstract class CompactInfixPrinterTestBase<E> extends TestBase<E> {
     CompactInfixPrinterTestBase(TestSupport<E> testSupport) {

@@ -1,9 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,7 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.FunctionCall;
 import lib.expression.VariableReference;
-import lib.visitors.DepthCalculator;
+import lib.handlers.DepthCalculator;
+import lib.handlers.HandlerFactory;
 
 abstract class DepthCalculatorTestBase<E> extends TestBase<E> {
     DepthCalculatorTestBase(TestSupport<E> testSupport) {

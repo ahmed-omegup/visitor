@@ -1,14 +1,12 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
+import lib.handlers.DeepestNodePathFinder;
+import lib.handlers.HandlerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-
-import lib.visitors.DeepestNodePathFinder;
 
 abstract class DeepestNodePathFinderTestBase<E> extends TestBase<E> {
     DeepestNodePathFinderTestBase(TestSupport<E> testSupport) {

@@ -1,8 +1,8 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
+import lib.handlers.HandlerFactory;
+import lib.handlers.UnaryNodeDepthSequenceBuilder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static java.util.List.of;
@@ -10,8 +10,6 @@ import static java.util.List.of;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-
-import lib.visitors.UnaryNodeDepthSequenceBuilder;
 
 abstract class UnaryNodeDepthSequenceBuilderTestBase<E> extends TestBase<E> {
     UnaryNodeDepthSequenceBuilderTestBase(TestSupport<E> testSupport) {

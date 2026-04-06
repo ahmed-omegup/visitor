@@ -1,9 +1,6 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,7 +14,8 @@ import lib.expression.Addition;
 import lib.expression.Literal;
 import lib.expression.Negation;
 import lib.expression.VariableReference;
-import lib.visitors.NonLeafDepthSequenceBuilder;
+import lib.handlers.HandlerFactory;
+import lib.handlers.NonLeafDepthSequenceBuilder;
 
 abstract class NonLeafDepthSequenceBuilderTestBase<E> extends TestBase<E> {
     NonLeafDepthSequenceBuilderTestBase(TestSupport<E> testSupport) {

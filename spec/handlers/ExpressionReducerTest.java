@@ -6,8 +6,8 @@ import static java.util.List.of;
 import org.junit.jupiter.api.Test;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-import lib.visitors.ExpressionReducer;
+import lib.handlers.ExpressionReducer;
+import lib.handlers.HandlerFactory;
 
 class ExpressionReducerTest extends TestBase<Expression> {
     ExpressionReducerTest() {

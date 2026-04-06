@@ -1,14 +1,12 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
+import lib.handlers.HandlerFactory;
+import lib.handlers.PrefixNotationPrinter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-
-import lib.visitors.PrefixNotationPrinter;
 
 abstract class PrefixNotationPrinterTestBase<E> extends TestBase<E> {
     PrefixNotationPrinterTestBase(TestSupport<E> testSupport) {

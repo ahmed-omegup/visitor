@@ -2,6 +2,7 @@ package spec.handlers;
 
 
 import lib.expression.Factory;
+import lib.handlers.HandlerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static java.util.List.of;
@@ -14,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
 
 abstract class FunctionArgumentRootCollectorTestBase<E> extends TestBase<E> {
     FunctionArgumentRootCollectorTestBase(TestSupport<E> testSupport) {

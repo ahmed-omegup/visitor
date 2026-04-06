@@ -1,11 +1,9 @@
 package spec.handlers;
 
 import lib.expression.Expression;
-import lib.visitors.HandlerFactory;
-
-
 import lib.expression.Factory;
-import lib.visitors.ConstantExpressionChecker;
+import lib.handlers.ConstantExpressionChecker;
+import lib.handlers.HandlerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
