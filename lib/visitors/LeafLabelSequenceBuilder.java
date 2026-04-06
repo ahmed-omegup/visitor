@@ -2,6 +2,7 @@ package lib.visitors;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import lib.expression.Expression;
@@ -13,16 +14,21 @@ public class LeafLabelSequenceBuilder implements Function<Expression, List<Strin
 
     public List<String> apply(Expression expression) {
         var labels = new ArrayList<String>();
-        expression.accept(new RecursiveExpressionVisitor(new LeafLabelSequenceBuilderVisitor(labels)));
+        var handler = new RecursiveExpression(new LeafLabelSequenceBuilderVisitor(labels));
+        handler.accept(expression);
         return labels;
     }
 }
 
-final class LeafLabelSequenceBuilderVisitor extends EmptyVisitor {
+final class LeafLabelSequenceBuilderVisitor extends EmptyVisitor<Void> implements Consumer<Expression> {
     private final List<String> labels;
 
     LeafLabelSequenceBuilderVisitor(List<String> labels) {
         this.labels = labels;
+    }
+
+    public void accept(Expression expression) {
+        expression.accept(this);
     }
 
     public Void visit(Literal expression) {

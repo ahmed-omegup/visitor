@@ -50,7 +50,7 @@ class FunctionNameVisitor implements Visitor1<Void> {
     public Void visit(Conditional expression) { expression.condition.accept(this); expression.whenTrue.accept(this); expression.whenFalse.accept(this); return null; }
 
     public Void visit(FunctionCall expression) {
-        var calleeName = expression.callee.accept(variableName);
+        String calleeName = expression.callee.accept(variableName);
         if (calleeName != null) {
             names.add(calleeName);
         }

@@ -2,6 +2,7 @@ package lib.visitors;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import lib.expression.*;
@@ -11,16 +12,21 @@ public class BooleanOperatorLabelCollector implements Function<Expression, List<
 
     public List<String> apply(Expression expression) {
         var labels = new ArrayList<String>();
-        expression.accept(new RecursiveExpressionVisitor(new BooleanOperatorLabelCollectorVisitor(labels)));
+        var handler = new RecursiveExpression(new BooleanOperatorLabelCollectorVisitor(labels));
+        handler.accept(expression);
         return labels;
     }
 }
 
-final class BooleanOperatorLabelCollectorVisitor implements Visitor1<Void> {
+final class BooleanOperatorLabelCollectorVisitor implements Visitor1<Void>, Consumer<Expression> {
     private final List<String> labels;
 
     BooleanOperatorLabelCollectorVisitor(List<String> labels) {
         this.labels = labels;
+    }
+
+    public void accept(Expression expression) {
+        expression.accept(this);
     }
 
     public Void visit(Literal expression) { return null; }

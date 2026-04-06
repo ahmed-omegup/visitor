@@ -2,6 +2,7 @@ package lib.visitors;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import lib.expression.Expression;
@@ -12,16 +13,21 @@ public class VariableCollector implements Function<Expression, Set<String>> {
 
     public Set<String> apply(Expression expression) {
         var names = new LinkedHashSet<String>();
-        expression.accept(new RecursiveExpressionVisitor(new VariableCollectorVisitor(names)));
+        var handler = new RecursiveExpression(new VariableCollectorVisitor(names));
+        handler.accept(expression);
         return names;
     }
 }
 
-final class VariableCollectorVisitor extends EmptyVisitor {
+final class VariableCollectorVisitor extends EmptyVisitor<Void> implements Consumer<Expression> {
     private final Set<String> names;
 
     VariableCollectorVisitor(Set<String> names) {
         this.names = names;
+    }
+
+    public void accept(Expression expression) {
+        expression.accept(this);
     }
 
     public Void visit(VariableReference expression) {

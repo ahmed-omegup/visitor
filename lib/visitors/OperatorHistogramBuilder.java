@@ -2,6 +2,7 @@ package lib.visitors;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import lib.expression.*;
@@ -11,16 +12,21 @@ public class OperatorHistogramBuilder implements Function<Expression, Map<String
 
     public Map<String, Integer> apply(Expression expression) {
         var histogram = new LinkedHashMap<String, Integer>();
-        expression.accept(new RecursiveExpressionVisitor(new OperatorHistogramBuilderVisitor(histogram)));
+        var handler = new RecursiveExpression(new OperatorHistogramBuilderVisitor(histogram));
+        handler.accept(expression);
         return histogram;
     }
 }
 
-final class OperatorHistogramBuilderVisitor implements Visitor1<Void> {
+final class OperatorHistogramBuilderVisitor implements Visitor1<Void>, Consumer<Expression> {
     private final Map<String, Integer> histogram;
 
     OperatorHistogramBuilderVisitor(Map<String, Integer> histogram) {
         this.histogram = histogram;
+    }
+
+    public void accept(Expression expression) {
+        expression.accept(this);
     }
 
     private Void hit(String type) {

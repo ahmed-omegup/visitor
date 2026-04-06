@@ -2,6 +2,7 @@ package lib.visitors;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import lib.expression.Expression;
@@ -12,12 +13,13 @@ public class LiteralCollector implements Function<Expression, List<String>> {
 
     public List<String> apply(Expression expression) {
         var literals = new ArrayList<String>();
-        expression.accept(new RecursiveExpressionVisitor(new LiteralCollectorVisitor(literals)));
+        var handler = new RecursiveExpression(new LiteralCollectorVisitor(literals));
+        handler.accept(expression);
         return literals;
     }
 }
 
-final class LiteralCollectorVisitor extends EmptyVisitor {
+final class LiteralCollectorVisitor extends EmptyVisitor<Void> implements Consumer<Expression> {
     private final List<String> literals;
 
     LiteralCollectorVisitor(List<String> literals) {
@@ -27,5 +29,9 @@ final class LiteralCollectorVisitor extends EmptyVisitor {
     public Void visit(Literal expression) {
         literals.add(expression.value);
         return null;
+    }
+
+    public void accept(Expression expression) {
+        expression.accept(this);
     }
 }

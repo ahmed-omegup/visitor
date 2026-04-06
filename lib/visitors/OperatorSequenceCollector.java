@@ -2,6 +2,7 @@ package lib.visitors;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import lib.expression.*;
@@ -11,17 +12,22 @@ public class OperatorSequenceCollector implements Function<Expression, List<Stri
 
     public List<String> apply(Expression expression) {
         var sequence = new ArrayList<String>();
-        expression.accept(new RecursiveExpressionVisitor(new OperatorSequenceCollectorVisitor(sequence)));
+        var handler = new RecursiveExpression(new OperatorSequenceCollectorVisitor(sequence));
+        handler.accept(expression);
         return sequence;
     }
 
 }
 
-final class OperatorSequenceCollectorVisitor implements Visitor1<Void> {
+final class OperatorSequenceCollectorVisitor implements Visitor1<Void>, Consumer<Expression> {
     private final List<String> sequence;
 
     OperatorSequenceCollectorVisitor(List<String> sequence) {
         this.sequence = sequence;
+    }
+
+    public void accept(Expression expression) {
+        expression.accept(this);
     }
 
     public Void visit(Literal expression) { return null; }

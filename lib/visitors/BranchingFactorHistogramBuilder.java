@@ -2,54 +2,56 @@ package lib.visitors;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import lib.expression.*;
 
-public class BranchingFactorHistogramBuilder extends AbstractExpressionFunction<Map<Integer, Integer>> {
+public class BranchingFactorHistogramBuilder implements Function<Expression, Map<Integer, Integer>> {
     BranchingFactorHistogramBuilder() {}
-    private Map<Integer, Integer> histogram;
 
     public Map<Integer, Integer> apply(Expression expression) {
         var histogram = new LinkedHashMap<Integer, Integer>();
-        collect(expression, histogram);
+        var handler = new RecursiveExpression(new BranchingFactorHistogramBuilderVisitor(histogram));
+        handler.accept(expression);
         return histogram;
     }
-    private void collect(Expression expression, Map<Integer, Integer> histogram) {
-        Map<Integer, Integer> previousHistogram = this.histogram;
+}
+
+final class BranchingFactorHistogramBuilderVisitor implements Visitor1<Void>, Consumer<Expression> {
+    private final Map<Integer, Integer> histogram;
+
+    BranchingFactorHistogramBuilderVisitor(Map<Integer, Integer> histogram) {
         this.histogram = histogram;
-        visitExpression(expression);
-        this.histogram = previousHistogram;
     }
 
-    public Map<Integer, Integer> visit(Literal expression) { add(0, histogram); return null; }
-    public Map<Integer, Integer> visit(VariableReference expression) { add(0, histogram); return null; }
-    public Map<Integer, Integer> visit(Addition expression) { add(2, histogram); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<Integer, Integer> visit(Subtraction expression) { add(2, histogram); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<Integer, Integer> visit(Multiplication expression) { add(2, histogram); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<Integer, Integer> visit(Division expression) { add(2, histogram); collect(expression.dividend, histogram); collect(expression.divisor, histogram); return null; }
-    public Map<Integer, Integer> visit(Negation expression) { add(1, histogram); collect(expression.operand, histogram); return null; }
-    public Map<Integer, Integer> visit(Modulo expression) { add(2, histogram); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<Integer, Integer> visit(Exponentiation expression) { add(2, histogram); collect(expression.base, histogram); collect(expression.exponent, histogram); return null; }
-    public Map<Integer, Integer> visit(Equality expression) { add(2, histogram); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<Integer, Integer> visit(Inequality expression) { add(2, histogram); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<Integer, Integer> visit(LessThan expression) { add(2, histogram); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<Integer, Integer> visit(GreaterThan expression) { add(2, histogram); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<Integer, Integer> visit(LessThanOrEqual expression) { add(2, histogram); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<Integer, Integer> visit(GreaterThanOrEqual expression) { add(2, histogram); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<Integer, Integer> visit(Conjunction expression) { add(2, histogram); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<Integer, Integer> visit(Disjunction expression) { add(2, histogram); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<Integer, Integer> visit(LogicalNot expression) { add(1, histogram); collect(expression.operand, histogram); return null; }
-    public Map<Integer, Integer> visit(Conditional expression) { add(3, histogram); collect(expression.condition, histogram); collect(expression.whenTrue, histogram); collect(expression.whenFalse, histogram); return null; }
-    public Map<Integer, Integer> visit(FunctionCall expression) { add(expression.arguments.size() + 1, histogram);
-        collect(expression.callee, histogram);
-        for (var argument : expression.arguments) {
-            collect(argument, histogram);
-        }
-        return null;
+    public void accept(Expression expression) {
+        expression.accept(this);
     }
 
+    public Void visit(Literal expression) { return add(0); }
+    public Void visit(VariableReference expression) { return add(0); }
+    public Void visit(Addition expression) { return add(2); }
+    public Void visit(Subtraction expression) { return add(2); }
+    public Void visit(Multiplication expression) { return add(2); }
+    public Void visit(Division expression) { return add(2); }
+    public Void visit(Negation expression) { return add(1); }
+    public Void visit(Modulo expression) { return add(2); }
+    public Void visit(Exponentiation expression) { return add(2); }
+    public Void visit(Equality expression) { return add(2); }
+    public Void visit(Inequality expression) { return add(2); }
+    public Void visit(LessThan expression) { return add(2); }
+    public Void visit(GreaterThan expression) { return add(2); }
+    public Void visit(LessThanOrEqual expression) { return add(2); }
+    public Void visit(GreaterThanOrEqual expression) { return add(2); }
+    public Void visit(Conjunction expression) { return add(2); }
+    public Void visit(Disjunction expression) { return add(2); }
+    public Void visit(LogicalNot expression) { return add(1); }
+    public Void visit(Conditional expression) { return add(3); }
+    public Void visit(FunctionCall expression) { return add(expression.arguments.size() + 1); }
 
-    private void add(int branchingFactor, Map<Integer, Integer> histogram) {
+    private Void add(int branchingFactor) {
         histogram.put(branchingFactor, histogram.getOrDefault(branchingFactor, 0) + 1);
+        return null;
     }
 }

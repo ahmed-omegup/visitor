@@ -2,6 +2,7 @@ package lib.visitors;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import lib.expression.*;
@@ -11,12 +12,13 @@ public class UnaryOperatorLabelCollector implements Function<Expression, List<St
 
     public List<String> apply(Expression expression) {
         var labels = new ArrayList<String>();
-        expression.accept(new RecursiveExpressionVisitor(new UnaryOperatorLabelCollectorVisitor(labels)));
+        var handler = new RecursiveExpression(new UnaryOperatorLabelCollectorVisitor(labels));
+        handler.accept(expression);
         return labels;
     }
 }
 
-final class UnaryOperatorLabelCollectorVisitor implements Visitor1<Void> {
+final class UnaryOperatorLabelCollectorVisitor implements Visitor1<Void>, Consumer<Expression> {
     private final List<String> labels;
 
     UnaryOperatorLabelCollectorVisitor(List<String> labels) {
@@ -43,4 +45,8 @@ final class UnaryOperatorLabelCollectorVisitor implements Visitor1<Void> {
     public Void visit(LogicalNot expression) { labels.add("LogicalNot"); return null; }
     public Void visit(Conditional expression) { return null; }
     public Void visit(FunctionCall expression) { return null; }
+
+    public void accept(Expression expression) {
+        expression.accept(this);
+    }
 }

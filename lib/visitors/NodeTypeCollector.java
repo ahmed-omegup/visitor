@@ -2,6 +2,7 @@ package lib.visitors;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import lib.expression.*;
@@ -11,12 +12,13 @@ public class NodeTypeCollector implements Function<Expression, Set<String>> {
 
     public Set<String> apply(Expression expression) {
         var types = new LinkedHashSet<String>();
-        expression.accept(new RecursiveExpressionVisitor(new NodeTypeCollectorVisitor(types)));
+        var handler = new RecursiveExpression(new NodeTypeCollectorVisitor(types));
+        handler.accept(expression);
         return types;
     }
 }
 
-final class NodeTypeCollectorVisitor implements Visitor1<Void> {
+final class NodeTypeCollectorVisitor implements Visitor1<Void>, Consumer<Expression> {
     private final Set<String> types;
 
     NodeTypeCollectorVisitor(Set<String> types) {
@@ -43,4 +45,8 @@ final class NodeTypeCollectorVisitor implements Visitor1<Void> {
     public Void visit(LogicalNot expression) { types.add("LogicalNot"); return null; }
     public Void visit(Conditional expression) { types.add("Conditional"); return null; }
     public Void visit(FunctionCall expression) { types.add("FunctionCall"); return null; }
+
+    public void accept(Expression expression) {
+        expression.accept(this);
+    }
 }

@@ -2,6 +2,7 @@ package lib.visitors;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import lib.expression.*;
@@ -11,16 +12,21 @@ public class BinaryOperatorLabelCollector implements Function<Expression, List<S
 
     public List<String> apply(Expression expression) {
         var labels = new ArrayList<String>();
-        expression.accept(new RecursiveExpressionVisitor(new BinaryOperatorLabelCollectorVisitor(labels)));
+        var handler = new RecursiveExpression(new BinaryOperatorLabelCollectorVisitor(labels));
+        handler.accept(expression);
         return labels;
     }
 }
 
-final class BinaryOperatorLabelCollectorVisitor implements Visitor1<Void> {
+final class BinaryOperatorLabelCollectorVisitor implements Visitor1<Void>, Consumer<Expression> {
     private final List<String> labels;
 
     BinaryOperatorLabelCollectorVisitor(List<String> labels) {
         this.labels = labels;
+    }
+
+    public void accept(Expression expression) {
+        expression.accept(this);
     }
 
     public Void visit(Literal expression) { return null; }
