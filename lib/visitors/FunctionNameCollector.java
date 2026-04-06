@@ -6,27 +6,8 @@ import java.util.function.Function;
 
 import lib.expression.*;
 
-class VariableName implements Visitor1<String> {
-    public String visit(Literal expression) { return null; }
+class VariableName extends EmptyVisitor<String> {
     public String visit(VariableReference expression) { return expression.name; }
-    public String visit(Addition expression) { return null; }
-    public String visit(Subtraction expression) { return null; }
-    public String visit(Multiplication expression) { return null; }
-    public String visit(Division expression) { return null; }
-    public String visit(Negation expression) { return null; }
-    public String visit(Modulo expression) { return null; }
-    public String visit(Exponentiation expression) { return null; }
-    public String visit(Equality expression) { return null; }
-    public String visit(Inequality expression) { return null; }
-    public String visit(LessThan expression) { return null; }
-    public String visit(GreaterThan expression) { return null; }
-    public String visit(LessThanOrEqual expression) { return null; }
-    public String visit(GreaterThanOrEqual expression) { return null; }
-    public String visit(Conjunction expression) { return null; }
-    public String visit(Disjunction expression) { return null; }
-    public String visit(LogicalNot expression) { return null; }
-    public String visit(Conditional expression) { return null; }
-    public String visit(FunctionCall expression) { return null; }
 }
 
 public class FunctionNameCollector implements Function<Expression, Set<String>> {

@@ -2,54 +2,50 @@ package lib.visitors;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 import lib.expression.*;
 
-public class OperatorHistogramBuilder extends AbstractExpressionFunction<Map<String, Integer>> {
+public class OperatorHistogramBuilder implements Function<Expression, Map<String, Integer>> {
     OperatorHistogramBuilder() {}
-    private Map<String, Integer> histogram;
 
     public Map<String, Integer> apply(Expression expression) {
         var histogram = new LinkedHashMap<String, Integer>();
-        collect(expression, histogram);
+        expression.accept(new RecursiveExpressionVisitor(new OperatorHistogramBuilderVisitor(histogram)));
         return histogram;
     }
-    private void collect(Expression expression, Map<String, Integer> histogram) {
-        Map<String, Integer> previousHistogram = this.histogram;
+}
+
+final class OperatorHistogramBuilderVisitor implements Visitor1<Void> {
+    private final Map<String, Integer> histogram;
+
+    OperatorHistogramBuilderVisitor(Map<String, Integer> histogram) {
         this.histogram = histogram;
-        visitExpression(expression);
-        this.histogram = previousHistogram;
     }
 
-    private void hit(String type) {
+    private Void hit(String type) {
         histogram.merge(type, 1, Integer::sum);
-    }
-
-    public Map<String, Integer> visit(Literal expression) { return null; }
-    public Map<String, Integer> visit(VariableReference expression) { return null; }
-    public Map<String, Integer> visit(Addition expression) { hit("Addition"); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<String, Integer> visit(Subtraction expression) { hit("Subtraction"); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<String, Integer> visit(Multiplication expression) { hit("Multiplication"); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<String, Integer> visit(Division expression) { hit("Division"); collect(expression.dividend, histogram); collect(expression.divisor, histogram); return null; }
-    public Map<String, Integer> visit(Negation expression) { hit("Negation"); collect(expression.operand, histogram); return null; }
-    public Map<String, Integer> visit(Modulo expression) { hit("Modulo"); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<String, Integer> visit(Exponentiation expression) { hit("Exponentiation"); collect(expression.base, histogram); collect(expression.exponent, histogram); return null; }
-    public Map<String, Integer> visit(Equality expression) { hit("Equality"); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<String, Integer> visit(Inequality expression) { hit("Inequality"); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<String, Integer> visit(LessThan expression) { hit("LessThan"); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<String, Integer> visit(GreaterThan expression) { hit("GreaterThan"); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<String, Integer> visit(LessThanOrEqual expression) { hit("LessThanOrEqual"); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<String, Integer> visit(GreaterThanOrEqual expression) { hit("GreaterThanOrEqual"); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<String, Integer> visit(Conjunction expression) { hit("Conjunction"); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<String, Integer> visit(Disjunction expression) { hit("Disjunction"); collect(expression.left, histogram); collect(expression.right, histogram); return null; }
-    public Map<String, Integer> visit(LogicalNot expression) { hit("LogicalNot"); collect(expression.operand, histogram); return null; }
-    public Map<String, Integer> visit(Conditional expression) { hit("Conditional"); collect(expression.condition, histogram); collect(expression.whenTrue, histogram); collect(expression.whenFalse, histogram); return null; }
-    public Map<String, Integer> visit(FunctionCall expression) { hit("FunctionCall");
-        collect(expression.callee, histogram);
-        for (var argument : expression.arguments) {
-            collect(argument, histogram);
-        }
         return null;
     }
 
+    public Void visit(Literal expression) { return null; }
+    public Void visit(VariableReference expression) { return null; }
+    public Void visit(Addition expression) { return hit("Addition"); }
+    public Void visit(Subtraction expression) { return hit("Subtraction"); }
+    public Void visit(Multiplication expression) { return hit("Multiplication"); }
+    public Void visit(Division expression) { return hit("Division"); }
+    public Void visit(Negation expression) { return hit("Negation"); }
+    public Void visit(Modulo expression) { return hit("Modulo"); }
+    public Void visit(Exponentiation expression) { return hit("Exponentiation"); }
+    public Void visit(Equality expression) { return hit("Equality"); }
+    public Void visit(Inequality expression) { return hit("Inequality"); }
+    public Void visit(LessThan expression) { return hit("LessThan"); }
+    public Void visit(GreaterThan expression) { return hit("GreaterThan"); }
+    public Void visit(LessThanOrEqual expression) { return hit("LessThanOrEqual"); }
+    public Void visit(GreaterThanOrEqual expression) { return hit("GreaterThanOrEqual"); }
+    public Void visit(Conjunction expression) { return hit("Conjunction"); }
+    public Void visit(Disjunction expression) { return hit("Disjunction"); }
+    public Void visit(LogicalNot expression) { return hit("LogicalNot"); }
+    public Void visit(Conditional expression) { return hit("Conditional"); }
+    public Void visit(FunctionCall expression) { return hit("FunctionCall"); }
 }
