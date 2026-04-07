@@ -22,14 +22,15 @@ find coverage/test-classes -type f -name '*.class' -delete
 rm -f coverage/jacoco.exec coverage/jacoco.csv coverage/jacoco.xml
 rm -rf coverage/html
 
-javac -d coverage/classes \
+javac -Xlint:unchecked -d coverage/classes \
     port/*.java \
     lib/expression/*.java \
     lib/legacy/*.java \
     lib/visitors/*.java
 
+
 javac -cp "coverage/classes:$JUNIT_JAR" -d coverage/test-classes \
-    spec/l/*.java
+    spec/legacy/*.java
 
 java \
     -javaagent:.coverage-tools/jacocoagent.jar=destfile=coverage/jacoco.exec \

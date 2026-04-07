@@ -16,6 +16,7 @@ public final class ExpressionStringifier implements Visitor<String> {
 
     public ExpressionStringifier(Function<Expression, Integer> priorities, Renderer renderer) {
         this.priorities = priorities;
+        this.renderer = renderer;
     }
 
     public static String renderChild(

@@ -17,7 +17,7 @@ public final class LocalReduceVisitor<T> implements Consumer<Expression> {
     public LocalReduceVisitor(Expressions<T> values, BiFunction<T, Expression, T> reducer) {
         this.values = values;
         this.reducer = reducer;
-        getter = new IsomorphicGetter(values);
+        getter = new IsomorphicGetter<>(values);
     }
 
     private void handleThis(Expression expression) {
