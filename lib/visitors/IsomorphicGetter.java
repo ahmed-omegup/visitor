@@ -3,6 +3,7 @@ package lib.visitors;
 import java.util.function.Function;
 
 import lib.expression.*;
+import lib.expressions.Expressions;
 
 public final class IsomorphicGetter<T> implements Visitor<T> {
     private final Expressions<T> values;

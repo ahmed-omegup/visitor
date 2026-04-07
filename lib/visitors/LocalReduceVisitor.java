@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import lib.expression.*;
+import lib.expressions.Expressions;
 
 public final class LocalReduceVisitor<T> implements Consumer<Expression> {
     private final Expressions<T> values;

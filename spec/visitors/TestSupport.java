@@ -3,7 +3,7 @@ package spec.visitors;
 import static java.util.List.of;
 
 import lib.expression.*;
-import lib.visitors.Expressions;
+import lib.expressions.Expressions;
 import lib.visitors.IsomorphicGetter;
 
 final class TestSupport {

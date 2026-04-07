@@ -1,4 +1,4 @@
-package lib.visitors;
+package lib.expressions;
 
 public class Expressions<T> {
     public T literal;

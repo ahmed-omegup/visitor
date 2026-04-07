@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import lib.expression.*;
+import lib.expressions.Expressions;
 import lib.visitors.*;
 
 class CoreVisitorsTest {

@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import lib.expression.*;
+import lib.expressions.Expressions;
 
 public final class IsomorphicSetter<T> implements Consumer<Expression>, ExpressionVisitor<Void> {
     private final Expressions<T> values;
