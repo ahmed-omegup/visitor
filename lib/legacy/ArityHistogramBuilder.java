@@ -1,4 +1,4 @@
-package lib.handlers;
+package lib.legacy;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

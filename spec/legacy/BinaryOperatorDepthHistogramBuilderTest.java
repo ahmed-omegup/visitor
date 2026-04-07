@@ -1,0 +1,34 @@
+package spec.legacy;
+
+import lib.expression.Expression;
+import lib.legacy.BinaryOperatorDepthHistogramBuilder;
+import lib.legacy.HandlerFactory;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.LinkedHashMap;
+
+import org.junit.jupiter.api.Test;
+
+abstract class BinaryOperatorDepthHistogramBuilderTestBase<E> extends TestBase<E> {
+    BinaryOperatorDepthHistogramBuilderTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+    @Test
+    void countsBinaryOperatorDepths() {
+        var expected = new LinkedHashMap<Integer, Integer>();
+        expected.put(1, 2);
+        expected.put(2, 9);
+        expected.put(3, 3);
+
+        assertEquals(expected,testSupport.v.binaryOperatorDepthHistogramBuilder().apply(testSupport.sampleTraversalExpression()));
+    }
+}
+
+class BinaryOperatorDepthHistogramBuilderTest extends BinaryOperatorDepthHistogramBuilderTestBase<Expression> {
+    BinaryOperatorDepthHistogramBuilderTest() {
+        super(new TestSupport<>(new HandlerFactory()));
+    }
+}

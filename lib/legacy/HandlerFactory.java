@@ -1,4 +1,4 @@
-package lib.handlers;
+package lib.legacy;
 
 import java.util.List;
 import java.util.Map;

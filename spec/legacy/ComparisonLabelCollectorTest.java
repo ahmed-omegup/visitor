@@ -1,0 +1,32 @@
+package spec.legacy;
+
+import lib.expression.Expression;
+import lib.legacy.ComparisonLabelCollector;
+import lib.legacy.HandlerFactory;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.List.of;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
+abstract class ComparisonLabelCollectorTestBase<E> extends TestBase<E> {
+    ComparisonLabelCollectorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+    @Test
+    void collectsComparisonLabelsInPreorder() {
+        assertEquals(
+            of("LessThan", "Equality", "Inequality", "GreaterThan", "LessThanOrEqual", "GreaterThanOrEqual"),testSupport.v.comparisonLabelCollector().apply(testSupport.sampleTraversalExpression())
+        );
+    }
+}
+
+class ComparisonLabelCollectorTest extends ComparisonLabelCollectorTestBase<Expression> {
+    ComparisonLabelCollectorTest() {
+        super(new TestSupport<>(new HandlerFactory()));
+    }
+}

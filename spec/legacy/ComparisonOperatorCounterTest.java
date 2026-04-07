@@ -1,0 +1,27 @@
+package spec.legacy;
+
+import lib.expression.Expression;
+import lib.legacy.ComparisonOperatorCounter;
+import lib.legacy.HandlerFactory;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+abstract class ComparisonOperatorCounterTestBase<E> extends TestBase<E> {
+    ComparisonOperatorCounterTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
+    }
+
+
+    @Test
+    void countsComparisonOperatorsInTraversalExpression() {
+        assertEquals(6,testSupport.v.comparisonOperatorCounter().apply(testSupport.sampleTraversalExpression()));
+    }
+}
+
+class ComparisonOperatorCounterTest extends ComparisonOperatorCounterTestBase<Expression> {
+    ComparisonOperatorCounterTest() {
+        super(new TestSupport<>(new HandlerFactory()));
+    }
+}
