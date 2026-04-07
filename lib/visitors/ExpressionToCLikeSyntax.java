@@ -4,6 +4,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import lib.expression.*;
+import lib.expressions.BindingPower;
 import lib.expressions.CLikeBindingPowers;
 
 public final class ExpressionToCLikeSyntax implements Visitor<String> {
