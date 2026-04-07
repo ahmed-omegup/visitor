@@ -13,7 +13,7 @@ class ExpressionToCLikeSyntaxTest {
 
     @Test
     void cLikeSyntaxUsesPriorityToControlParentheses() {
-        var stringifier = new ExpressionToCLikeSyntax(testSupport.arithmeticPriorities);
+        var stringifier = new ExpressionToCLikeSyntax();
 
         assertEquals(
             "1 + 2 * 3",
@@ -31,7 +31,7 @@ class ExpressionToCLikeSyntaxTest {
 
     @Test
     void cLikeSyntaxPrintsOperatorsAndCalls() {
-        var stringifier = new ExpressionToCLikeSyntax(testSupport.arithmeticPriorities);
+        var stringifier = new ExpressionToCLikeSyntax();
 
         assertEquals(
             "x <= 10 ? f(1, y) : !ready || pow(2, 3)",
@@ -45,7 +45,7 @@ class ExpressionToCLikeSyntaxTest {
 
     @Test
     void cLikeSyntaxUsesRightAssociativeBindingWhenNeeded() {
-        var stringifier = new ExpressionToCLikeSyntax(testSupport.arithmeticPriorities);
+        var stringifier = new ExpressionToCLikeSyntax();
 
         assertEquals(
             "a ? b : c ? d : e",

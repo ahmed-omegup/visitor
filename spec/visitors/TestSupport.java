@@ -3,7 +3,6 @@ package spec.visitors;
 import static java.util.List.of;
 
 import lib.expression.*;
-import lib.visitors.ExpressionToCLikeSyntax.BindingPower;
 import lib.visitors.Expressions;
 import lib.visitors.IsomorphicGetter;
 
@@ -53,30 +52,6 @@ final class TestSupport {
         "Conditional",
         "FunctionCall"
     ));
-
-    final IsomorphicGetter<BindingPower> arithmeticPriorities = new IsomorphicGetter<>(new Expressions<>(
-        new BindingPower(100, false),
-        new BindingPower(100, false),
-        new BindingPower(10, false),
-        new BindingPower(10, false),
-        new BindingPower(20, false),
-        new BindingPower(20, false),
-        new BindingPower(30, true),
-        new BindingPower(20, false),
-        new BindingPower(40, true),
-        new BindingPower(5, false),
-        new BindingPower(5, false),
-        new BindingPower(5, false),
-        new BindingPower(5, false),
-        new BindingPower(5, false),
-        new BindingPower(5, false),
-        new BindingPower(3, false),
-        new BindingPower(2, false),
-        new BindingPower(30, true),
-        new BindingPower(1, true),
-        new BindingPower(50, false)
-    ));
-
     Expression sampleTraversalExpression() {
         return factory.addition(
             factory.literal("1"),

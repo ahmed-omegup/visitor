@@ -1,29 +1,24 @@
 package lib.visitors;
 
-import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import lib.expression.*;
 
 public final class ExpressionToCLikeSyntax implements Visitor<String> {
-    public record BindingPower(int priority, boolean isRightAssociative) {
-    }
-
     private final Function<Expression, BindingPower> bindingPowers;
+
+    public ExpressionToCLikeSyntax() {
+        this(new CLikeBindingPowers());
+    }
 
     public ExpressionToCLikeSyntax(Function<Expression, BindingPower> bindingPowers) {
         this.bindingPowers = bindingPowers;
     }
 
-    public static String renderChild(
-        Expression child,
-        BindingPower parentBinding,
-        boolean isRightChild,
-        Function<Expression, String> stringify,
-        Function<Expression, BindingPower> bindingPower
-    ) {
-        var rendered = stringify.apply(child);
-        var childBinding = bindingPower.apply(child);
+    private String renderChild(Expression child, BindingPower parentBinding, boolean isRightChild) {
+        var rendered = apply(child);
+        var childBinding = bindingPower(child);
         if (childBinding.priority() < parentBinding.priority()) {
             return "(" + rendered + ")";
         }
@@ -36,38 +31,19 @@ public final class ExpressionToCLikeSyntax implements Visitor<String> {
         return rendered;
     }
 
-    public static String infix(
-        Expression left,
-        String operator,
-        Expression right,
-        BindingPower parentBinding,
-        Function<Expression, String> stringify,
-        Function<Expression, BindingPower> bindingPower
-    ) {
-        return renderChild(left, parentBinding, false, stringify, bindingPower)
+    private String infix(Expression left, String operator, Expression right, BindingPower parentBinding) {
+        return renderChild(left, parentBinding, false)
             + " " + operator + " "
-            + renderChild(right, parentBinding, true, stringify, bindingPower);
+            + renderChild(right, parentBinding, true);
     }
 
-    public static String prefix(
-        String operator,
-        Expression operand,
-        BindingPower parentBinding,
-        Function<Expression, String> stringify,
-        Function<Expression, BindingPower> bindingPower
-    ) {
-        return operator + renderChild(operand, parentBinding, true, stringify, bindingPower);
+    private String prefix(String operator, Expression operand, BindingPower parentBinding) {
+        return operator + renderChild(operand, parentBinding, true);
     }
 
-    public static String call(
-        Expression callee,
-        List<Expression> arguments,
-        BindingPower parentBinding,
-        Function<Expression, String> stringify,
-        Function<Expression, BindingPower> bindingPower
-    ) {
-        return renderChild(callee, parentBinding, false, stringify, bindingPower)
-            + "(" + arguments.stream().map(stringify).collect(java.util.stream.Collectors.joining(", ")) + ")";
+    private String call(FunctionCall expression) {
+        return renderChild(expression.callee, bindingPower(expression), false)
+            + "(" + expression.arguments.stream().map(this).collect(Collectors.joining(", ")) + ")";
     }
 
     private BindingPower bindingPower(Expression expression) {
@@ -83,27 +59,27 @@ public final class ExpressionToCLikeSyntax implements Visitor<String> {
     }
 
     public String visit(Addition expression) {
-        return infix(expression.left, "+", expression.right, bindingPower(expression), this, bindingPowers);
+        return infix(expression.left, "+", expression.right, bindingPower(expression));
     }
 
     public String visit(Subtraction expression) {
-        return infix(expression.left, "-", expression.right, bindingPower(expression), this, bindingPowers);
+        return infix(expression.left, "-", expression.right, bindingPower(expression));
     }
 
     public String visit(Multiplication expression) {
-        return infix(expression.left, "*", expression.right, bindingPower(expression), this, bindingPowers);
+        return infix(expression.left, "*", expression.right, bindingPower(expression));
     }
 
     public String visit(Division expression) {
-        return infix(expression.dividend, "/", expression.divisor, bindingPower(expression), this, bindingPowers);
+        return infix(expression.dividend, "/", expression.divisor, bindingPower(expression));
     }
 
     public String visit(Negation expression) {
-        return prefix("-", expression.operand, bindingPower(expression), this, bindingPowers);
+        return prefix("-", expression.operand, bindingPower(expression));
     }
 
     public String visit(Modulo expression) {
-        return infix(expression.left, "%", expression.right, bindingPower(expression), this, bindingPowers);
+        return infix(expression.left, "%", expression.right, bindingPower(expression));
     }
 
     public String visit(Exponentiation expression) {
@@ -111,49 +87,49 @@ public final class ExpressionToCLikeSyntax implements Visitor<String> {
     }
 
     public String visit(Equality expression) {
-        return infix(expression.left, "==", expression.right, bindingPower(expression), this, bindingPowers);
+        return infix(expression.left, "==", expression.right, bindingPower(expression));
     }
 
     public String visit(Inequality expression) {
-        return infix(expression.left, "!=", expression.right, bindingPower(expression), this, bindingPowers);
+        return infix(expression.left, "!=", expression.right, bindingPower(expression));
     }
 
     public String visit(LessThan expression) {
-        return infix(expression.left, "<", expression.right, bindingPower(expression), this, bindingPowers);
+        return infix(expression.left, "<", expression.right, bindingPower(expression));
     }
 
     public String visit(GreaterThan expression) {
-        return infix(expression.left, ">", expression.right, bindingPower(expression), this, bindingPowers);
+        return infix(expression.left, ">", expression.right, bindingPower(expression));
     }
 
     public String visit(LessThanOrEqual expression) {
-        return infix(expression.left, "<=", expression.right, bindingPower(expression), this, bindingPowers);
+        return infix(expression.left, "<=", expression.right, bindingPower(expression));
     }
 
     public String visit(GreaterThanOrEqual expression) {
-        return infix(expression.left, ">=", expression.right, bindingPower(expression), this, bindingPowers);
+        return infix(expression.left, ">=", expression.right, bindingPower(expression));
     }
 
     public String visit(Conjunction expression) {
-        return infix(expression.left, "&&", expression.right, bindingPower(expression), this, bindingPowers);
+        return infix(expression.left, "&&", expression.right, bindingPower(expression));
     }
 
     public String visit(Disjunction expression) {
-        return infix(expression.left, "||", expression.right, bindingPower(expression), this, bindingPowers);
+        return infix(expression.left, "||", expression.right, bindingPower(expression));
     }
 
     public String visit(LogicalNot expression) {
-        return prefix("!", expression.operand, bindingPower(expression), this, bindingPowers);
+        return prefix("!", expression.operand, bindingPower(expression));
     }
 
     public String visit(Conditional expression) {
         var binding = bindingPower(expression);
-        return renderChild(expression.condition, binding, false, this, bindingPowers)
+        return renderChild(expression.condition, binding, false)
             + " ? " + apply(expression.whenTrue)
-            + " : " + renderChild(expression.whenFalse, binding, true, this, bindingPowers);
+            + " : " + renderChild(expression.whenFalse, binding, true);
     }
 
     public String visit(FunctionCall expression) {
-        return call(expression.callee, expression.arguments, bindingPower(expression), this, bindingPowers);
+        return call(expression);
     }
 }
