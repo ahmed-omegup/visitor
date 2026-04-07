@@ -10,6 +10,8 @@ import java.util.function.Supplier;
 public interface ICleanHandlerFactory<E> {
     IExpressionFactory<E> expressionFactory();
 
+    Function<E, Map<Integer, Integer>> arithmeticDepthHistogramBuilder();
+
     Function<E, List<E>> expressionChildren();
 
     Function<E, String> expressionClassNameExtractor();

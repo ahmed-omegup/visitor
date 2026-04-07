@@ -50,9 +50,9 @@ public class CategoryVisitor implements ExpressionVisitor<CategoryExpression> {
         return new CategoryExpression() {
             @Override
             public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new OddExpression() {
+                return visitor.visit(new ArithmeticExpression() {
                     @Override
-                    public <R> R accept(OddExpressionVisitor<R> visitor) {
+                    public <R> R accept(ArithmeticExpressionVisitor<R> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -65,9 +65,9 @@ public class CategoryVisitor implements ExpressionVisitor<CategoryExpression> {
         return new CategoryExpression() {
             @Override
             public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new OddExpression() {
+                return visitor.visit(new LogicalExpression() {
                     @Override
-                    public <R> R accept(OddExpressionVisitor<R> visitor) {
+                    public <R> R accept(LogicalExpressionVisitor<R> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -80,9 +80,9 @@ public class CategoryVisitor implements ExpressionVisitor<CategoryExpression> {
         return new CategoryExpression() {
             @Override
             public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new OddExpression() {
+                return visitor.visit(new LogicalExpression() {
                     @Override
-                    public <R> R accept(OddExpressionVisitor<R> visitor) {
+                    public <R> R accept(LogicalExpressionVisitor<R> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -95,15 +95,10 @@ public class CategoryVisitor implements ExpressionVisitor<CategoryExpression> {
         return new CategoryExpression() {
             @Override
             public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new BinaryExpression() {
+                return visitor.visit(new ArithmeticExpression() { 
                     @Override
-                    public <R> R accept(BinaryExpressionVisitor<R> visitor) {
-                        return visitor.visit(new BinaryArithmeticExpression() { 
-                            @Override
-                            public <R> R accept(BinaryArithmeticExpressionVisitor<R> visitor) {
-                                return visitor.visit(e);
-                            }
-                        });
+                    public <R> R accept(ArithmeticExpressionVisitor<R> visitor) {
+                        return visitor.visit(e);
                     }
                 });
             }
@@ -115,15 +110,10 @@ public class CategoryVisitor implements ExpressionVisitor<CategoryExpression> {
         return new CategoryExpression() {
             @Override
             public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new BinaryExpression() {
+                return visitor.visit(new ArithmeticExpression() {
                     @Override
-                    public <R> R accept(BinaryExpressionVisitor<R> visitor) {
-                        return visitor.visit(new BinaryArithmeticExpression() {
-                            @Override
-                            public <R> R accept(BinaryArithmeticExpressionVisitor<R> visitor) {
-                                return visitor.visit(e);
-                            }
-                        });
+                    public <R> R accept(ArithmeticExpressionVisitor<R> visitor) {
+                        return visitor.visit(e);
                     }
                 });
             }
@@ -135,15 +125,10 @@ public class CategoryVisitor implements ExpressionVisitor<CategoryExpression> {
         return new CategoryExpression() {
             @Override
             public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new BinaryExpression() {
+                return visitor.visit(new ArithmeticExpression() {
                     @Override
-                    public <R> R accept(BinaryExpressionVisitor<R> visitor) {
-                        return visitor.visit(new BinaryArithmeticExpression() {
-                            @Override
-                            public <R> R accept(BinaryArithmeticExpressionVisitor<R> visitor) {
-                                return visitor.visit(e);
-                            }
-                        });
+                    public <R> R accept(ArithmeticExpressionVisitor<R> visitor) {
+                        return visitor.visit(e);
                     }
                 });
             }
@@ -155,15 +140,10 @@ public class CategoryVisitor implements ExpressionVisitor<CategoryExpression> {
         return new CategoryExpression() {
             @Override
             public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new BinaryExpression() {
+                return visitor.visit(new ArithmeticExpression() {
                     @Override
-                    public <R> R accept(BinaryExpressionVisitor<R> visitor) {
-                        return visitor.visit(new BinaryArithmeticExpression() {
-                            @Override
-                            public <R> R accept(BinaryArithmeticExpressionVisitor<R> visitor) {
-                                return visitor.visit(e);
-                            }
-                        });
+                    public <R> R accept(ArithmeticExpressionVisitor<R> visitor) {
+                        return visitor.visit(e);
                     }
                 });
             }
@@ -175,15 +155,10 @@ public class CategoryVisitor implements ExpressionVisitor<CategoryExpression> {
         return new CategoryExpression() {
             @Override
             public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new BinaryExpression() {
+                return visitor.visit(new ArithmeticExpression() {
                     @Override
-                    public <R> R accept(BinaryExpressionVisitor<R> visitor) {
-                        return visitor.visit(new BinaryArithmeticExpression() {
-                            @Override
-                            public <R> R accept(BinaryArithmeticExpressionVisitor<R> visitor) {
-                                return visitor.visit(e);
-                            }
-                        });
+                    public <R> R accept(ArithmeticExpressionVisitor<R> visitor) {
+                        return visitor.visit(e);
                     }
                 });
             }
@@ -195,15 +170,10 @@ public class CategoryVisitor implements ExpressionVisitor<CategoryExpression> {
         return new CategoryExpression() {
             @Override
             public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new BinaryExpression() {
+                return visitor.visit(new ArithmeticExpression() {
                     @Override
-                    public <R> R accept(BinaryExpressionVisitor<R> visitor) {
-                        return visitor.visit(new BinaryArithmeticExpression() {
-                            @Override
-                            public <R> R accept(BinaryArithmeticExpressionVisitor<R> visitor) {
-                                return visitor.visit(e);
-                            }
-                        });
+                    public <R> R accept(ArithmeticExpressionVisitor<R> visitor) {
+                        return visitor.visit(e);
                     }
                 });
             }
@@ -215,15 +185,10 @@ public class CategoryVisitor implements ExpressionVisitor<CategoryExpression> {
         return new CategoryExpression() {
             @Override
             public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new BinaryExpression() {
+                return visitor.visit(new ComparisonExpression() {
                     @Override
-                    public <R> R accept(BinaryExpressionVisitor<R> visitor) {
-                        return visitor.visit(new ComparisonExpression() {
-                            @Override
-                            public <R> R accept(ComparisonExpressionVisitor<R> visitor) {
-                                return visitor.visit(e);
-                            }
-                        });
+                    public <R> R accept(ComparisonExpressionVisitor<R> visitor) {
+                        return visitor.visit(e);
                     }
                 });
             }
@@ -235,15 +200,10 @@ public class CategoryVisitor implements ExpressionVisitor<CategoryExpression> {
         return new CategoryExpression() {
             @Override
             public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new BinaryExpression() {
+                return visitor.visit(new ComparisonExpression() {
                     @Override
-                    public <R> R accept(BinaryExpressionVisitor<R> visitor) {
-                        return visitor.visit(new ComparisonExpression() {
-                            @Override
-                            public <R> R accept(ComparisonExpressionVisitor<R> visitor) {
-                                return visitor.visit(e);
-                            }
-                        });
+                    public <R> R accept(ComparisonExpressionVisitor<R> visitor) {
+                        return visitor.visit(e);
                     }
                 });
             }
@@ -255,15 +215,10 @@ public class CategoryVisitor implements ExpressionVisitor<CategoryExpression> {
         return new CategoryExpression() {
             @Override
             public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new BinaryExpression() {
+                return visitor.visit(new ComparisonExpression() {
                     @Override
-                    public <R> R accept(BinaryExpressionVisitor<R> visitor) {
-                        return visitor.visit(new ComparisonExpression() {
-                            @Override
-                            public <R> R accept(ComparisonExpressionVisitor<R> visitor) {
-                                return visitor.visit(e);
-                            }
-                        });
+                    public <R> R accept(ComparisonExpressionVisitor<R> visitor) {
+                        return visitor.visit(e);
                     }
                 });
             }
@@ -275,15 +230,10 @@ public class CategoryVisitor implements ExpressionVisitor<CategoryExpression> {
         return new CategoryExpression() {
             @Override
             public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new BinaryExpression() {
+                return visitor.visit(new ComparisonExpression() {
                     @Override
-                    public <R> R accept(BinaryExpressionVisitor<R> visitor) {
-                        return visitor.visit(new ComparisonExpression() {
-                            @Override
-                            public <R> R accept(ComparisonExpressionVisitor<R> visitor) {
-                                return visitor.visit(e);
-                            }
-                        });
+                    public <R> R accept(ComparisonExpressionVisitor<R> visitor) {
+                        return visitor.visit(e);
                     }
                 });
             }
@@ -295,15 +245,10 @@ public class CategoryVisitor implements ExpressionVisitor<CategoryExpression> {
         return new CategoryExpression() {
             @Override
             public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new BinaryExpression() {
+                return visitor.visit(new ComparisonExpression() {
                     @Override
-                    public <R> R accept(BinaryExpressionVisitor<R> visitor) {
-                        return visitor.visit(new ComparisonExpression() {
-                            @Override
-                            public <R> R accept(ComparisonExpressionVisitor<R> visitor) {
-                                return visitor.visit(e);
-                            }
-                        });
+                    public <R> R accept(ComparisonExpressionVisitor<R> visitor) {
+                        return visitor.visit(e);
                     }
                 });
             }
@@ -315,15 +260,10 @@ public class CategoryVisitor implements ExpressionVisitor<CategoryExpression> {
         return new CategoryExpression() {
             @Override
             public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new BinaryExpression() {
+                return visitor.visit(new ComparisonExpression() {
                     @Override
-                    public <R> R accept(BinaryExpressionVisitor<R> visitor) {
-                        return visitor.visit(new ComparisonExpression() {  
-                            @Override
-                            public <R> R accept(ComparisonExpressionVisitor<R> visitor) {
-                                return visitor.visit(e);
-                            }
-                        });
+                    public <R> R accept(ComparisonExpressionVisitor<R> visitor) {
+                        return visitor.visit(e);
                     }
                 });
             }
@@ -335,15 +275,10 @@ public class CategoryVisitor implements ExpressionVisitor<CategoryExpression> {
         return new CategoryExpression() {
             @Override
             public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new BinaryExpression() {
+                return visitor.visit(new LogicalExpression() {
                     @Override
-                    public <R> R accept(BinaryExpressionVisitor<R> visitor) {
-                        return visitor.visit(new LogicalExpression() {
-                            @Override
-                            public <R> R accept(LogicalExpressionVisitor<R> visitor) {
-                                return visitor.visit(e);
-                            }
-                        });
+                    public <R> R accept(LogicalExpressionVisitor<R> visitor) {
+                        return visitor.visit(e);
                     }
                 });
             }
@@ -355,15 +290,10 @@ public class CategoryVisitor implements ExpressionVisitor<CategoryExpression> {
         return new CategoryExpression() {
             @Override
             public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new BinaryExpression() {
+                return visitor.visit(new LogicalExpression() {
                     @Override
-                    public <R> R accept(BinaryExpressionVisitor<R> visitor) {
-                        return visitor.visit(new LogicalExpression() {
-                            @Override
-                            public <R> R accept(LogicalExpressionVisitor<R> visitor) {
-                                return visitor.visit(e);
-                            }
-                        });
+                    public <R> R accept(LogicalExpressionVisitor<R> visitor) {
+                        return visitor.visit(e);
                     }
                 });
             }

@@ -3,12 +3,13 @@ package spec.visitors;
 import static java.util.List.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Map;
+
 import org.junit.jupiter.api.Test;
 
 import lib.expression.*;
 import lib.expressions.Expressions;
 import lib.handlers.HandlerFactory;
-import lib.expressions.Expressions;
 import lib.visitors.*;
 
 class CoreVisitorsTest extends TestBase<Expression> {
@@ -30,8 +31,20 @@ class CoreVisitorsTest extends TestBase<Expression> {
     }
 
     @Test
+    void arithmeticDepthHistogramComesFromHandlers() {
+        var histogram = testSupport.v.arithmeticDepthHistogramBuilder().apply(
+            factory.addition(
+                factory.multiplication(factory.literal("2"), factory.literal("3")),
+                factory.negation(factory.literal("4"))
+            )
+        );
+
+        assertEquals(Map.of(0, 1, 1, 2), histogram);
+    }
+
+    @Test
     void localReduceVisitorWalksPreorder() {
-        var reducer = testSupport.v.localReduceVisitor(testSupport.values, (left, right) -> left + "," + right);
+        var reducer = new lib.handlers.LocalReduceVisitor<>(testSupport.values, (left, right) -> left + "," + right);
 
         assertEquals(
             "Addition,Literal,FunctionCall,VariableReference,Negation,Literal,VariableReference",
@@ -62,7 +75,7 @@ class CoreVisitorsTest extends TestBase<Expression> {
         values.logicalNot = "boolean";
         values.conditional = "conditional";
         values.functionCall = "call";
-        var visitor = testSupport.v.isomorphicGetter(values);
+        var visitor = new IsomorphicGetter<>(values);
 
         assertEquals("comparison", visitor.apply(factory.lessThan(factory.literal("1"), factory.literal("2"))));
     }

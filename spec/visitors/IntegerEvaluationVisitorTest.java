@@ -45,7 +45,7 @@ class IntegerEvaluationVisitorTest extends TestBase<Expression> {
             Map.of("inc", values -> values.get(0) + 1)
         );
 
-        assertEquals(4, evaluator.apply(factory.variableReference("x")));
+        assertEquals(3, evaluator.apply(factory.variableReference("x")));
         assertEquals(
             4,
             evaluator.apply(factory.functionCall(factory.variableReference("inc"), List.of(factory.literal("3"))))

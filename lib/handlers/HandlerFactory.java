@@ -26,13 +26,17 @@ public final class HandlerFactory implements ICleanHandlerFactory<Expression> {
         return new Factory();
     }
 
+    public Function<Expression, Map<Integer, Integer>> arithmeticDepthHistogramBuilder() {
+        return new ArithmeticDepthHistogramBuilder();
+    }
+
     public Function<Expression, List<Expression>> expressionChildren() {
         var children = new ExpressionChildren();
         return expression -> expression.accept(children);
     }
 
     public Function<Expression, String> expressionClassNameExtractor() {
-        return new IsomorphicGetter<>(new ExpressionClassNames());
+        return new ExpressionClassNameExtractor();
     }
 
     public Function<Expression, Expression> constantFolder() {
