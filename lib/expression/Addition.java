@@ -1,11 +1,11 @@
 package lib.expression;
 
-public class Addition implements Expression { 
-    Addition(Expression left, Expression right) {
+public class Addition<E> implements Expression<E> { 
+    Addition(E left, E right) {
         this.left = left;
         this.right = right;
     }
-    public <R>R accept(ExpressionVisitor<R> visitor) {return visitor.visit(this); } 
-    public final Expression left;
-    public final Expression right;
+    public <R>R accept(EExpressionVisitor<R, E> visitor) {return visitor.visit(this); } 
+    public final E left;
+    public final E right;
 }

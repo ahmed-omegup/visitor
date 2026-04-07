@@ -1,39 +1,38 @@
 package lib.visitors;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
 import lib.expression.*;
 
-public final class ExpressionChildren implements ExpressionVisitor<List<Expression>> {
+public class ExpressionChildren<E> implements EExpressionVisitor<List<E>, E> {
 
-    public List<Expression> visit(Literal expression) { return List.of(); }
-    public List<Expression> visit(VariableReference expression) { return List.of(); }
-    public List<Expression> visit(Addition expression) { return List.of(expression.left, expression.right); }
-    public List<Expression> visit(Subtraction expression) { return List.of(expression.left, expression.right); }
-    public List<Expression> visit(Multiplication expression) { return List.of(expression.left, expression.right); }
-    public List<Expression> visit(Division expression) { return List.of(expression.dividend, expression.divisor); }
-    public List<Expression> visit(Negation expression) { return List.of(expression.operand); }
-    public List<Expression> visit(Modulo expression) { return List.of(expression.left, expression.right); }
-    public List<Expression> visit(Exponentiation expression) { return List.of(expression.base, expression.exponent); }
-    public List<Expression> visit(Equality expression) { return List.of(expression.left, expression.right); }
-    public List<Expression> visit(Inequality expression) { return List.of(expression.left, expression.right); }
-    public List<Expression> visit(LessThan expression) { return List.of(expression.left, expression.right); }
-    public List<Expression> visit(GreaterThan expression) { return List.of(expression.left, expression.right); }
-    public List<Expression> visit(LessThanOrEqual expression) { return List.of(expression.left, expression.right); }
-    public List<Expression> visit(GreaterThanOrEqual expression) { return List.of(expression.left, expression.right); }
-    public List<Expression> visit(Conjunction expression) { return List.of(expression.left, expression.right); }
-    public List<Expression> visit(Disjunction expression) { return List.of(expression.left, expression.right); }
-    public List<Expression> visit(LogicalNot expression) { return List.of(expression.operand); }
-    public List<Expression> visit(Conditional expression) { return List.of(expression.condition, expression.whenTrue, expression.whenFalse); }
+    public List<E> visit(ELiteral<E> expression) { return List.of(); }
+    public List<E> visit(EVariableReference<E> expression) { return List.of(); }
+    public List<E> visit(EAddition<E> expression) { return List.of(expression.left, expression.right); }
+    public List<E> visit(ESubtraction<E> expression) { return List.of(expression.left, expression.right); }
+    public List<E> visit(EMultiplication<E> expression) { return List.of(expression.left, expression.right); }
+    public List<E> visit(EDivision<E> expression) { return List.of(expression.dividend, expression.divisor); }
+    public List<E> visit(ENegation<E> expression) { return List.of(expression.operand); }
+    public List<E> visit(EModulo<E> expression) { return List.of(expression.left, expression.right); }
+    public List<E> visit(EExponentiation<E> expression) { return List.of(expression.base, expression.exponent); }
+    public List<E> visit(EEquality<E> expression) { return List.of(expression.left, expression.right); }
+    public List<E> visit(EInequality<E> expression) { return List.of(expression.left, expression.right); }
+    public List<E> visit(ELessThan<E> expression) { return List.of(expression.left, expression.right); }
+    public List<E> visit(EGreaterThan<E> expression) { return List.of(expression.left, expression.right); }
+    public List<E> visit(ELessThanOrEqual<E> expression) { return List.of(expression.left, expression.right); }
+    public List<E> visit(EGreaterThanOrEqual<E> expression) { return List.of(expression.left, expression.right); }
+    public List<E> visit(EConjunction<E> expression) { return List.of(expression.left, expression.right); }
+    public List<E> visit(EDisjunction<E> expression) { return List.of(expression.left, expression.right); }
+    public List<E> visit(ELogicalNot<E> expression) { return List.of(expression.operand); }
+    public List<E> visit(EConditional<E> expression) { return List.of(expression.condition, expression.whenTrue, expression.whenFalse); }
 
-    public List<Expression> visit(FunctionCall expression) {
-        var children = new Expression[expression.arguments.size() + 1];
-        children[0] = expression.callee;
-        for (int index = 0; index < expression.arguments.size(); index++) {
-            children[index + 1] = expression.arguments.get(index);
-        }
-        return Arrays.asList(children);
+    public List<E> visit(EFunctionCall<E> expression) {
+        var children = new ArrayList<E>(expression.arguments.size() + 1);
+        children.add(expression.callee);
+        children.addAll(expression.arguments);
+        return children;
     }
 }

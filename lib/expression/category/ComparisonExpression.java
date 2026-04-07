@@ -1,5 +1,5 @@
 package lib.expression.category;
 
-public interface ComparisonExpression {
-    <R>R accept(ComparisonExpressionVisitor<R> visitor);
+public interface ComparisonExpression<E> {
+    <R>R accept(ComparisonExpressionVisitor<R, E> visitor);
 }

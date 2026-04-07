@@ -1,5 +1,5 @@
 package lib.expression.category;
 
-public interface CategoryExpression {
-    <R>R accept(CategoryExpressionVisitor<R> visitor);
+public interface CategoryExpression<E> {
+    <R>R accept(CategoryExpressionVisitor<R, E> visitor);
 }

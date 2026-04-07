@@ -5,9 +5,9 @@ import lib.expression.Conjunction;
 import lib.expression.Disjunction;
 import lib.expression.LogicalNot;
 
-public interface LogicalExpressionVisitor<R> {
-    R visit(Conjunction e);
-    R visit(Disjunction e);
-    R visit(LogicalNot e);
-    R visit(Conditional e);
+public interface LogicalExpressionVisitor<R, E> {
+    R visit(Conjunction<E> e);
+    R visit(Disjunction<E> e);
+    R visit(LogicalNot<E> e);
+    R visit(Conditional<E> e);
 }

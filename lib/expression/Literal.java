@@ -1,9 +1,9 @@
 package lib.expression;
 
-public class Literal implements Expression { 
-    Literal(String value) { this.value = value; } 
-    public <R>R accept(ExpressionVisitor<R> visitor) {return visitor.visit(this); } 
-    public final String value;
+import java.util.function.Function;
 
-    public Integer asInt() { return Integer.parseInt(value); }
+public class Literal<E> implements EExpression<E> {
+    Literal(String value) { this.value = value; }
+    public <R>R accept(EExpressionVisitor<R, E> visitor) {return visitor.visit(this); }
+    public final String value;
 }

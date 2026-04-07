@@ -13,7 +13,7 @@ import lib.visitors.IsomorphicGetter;
 import lib.visitors.IsomorphicSetter;
 
 public final class LocalReduceVisitor<T> implements Consumer<Expression> {
-    private final ExpressionVisitor<List<Expression>> children = new ExpressionChildren();
+    private final ExpressionVisitor<List<Expression>> children = new ExpressionChildren<Expression>();
     private final Consumer<Expression> setter;
 
     public LocalReduceVisitor(Expressions<T> values, BiFunction<T, Expression, T> reducer) {

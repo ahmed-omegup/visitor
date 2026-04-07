@@ -1,5 +1,5 @@
 package lib.expression.category;
 
-public interface ArithmeticExpression {
-    <R>R accept(ArithmeticExpressionVisitor<R> visitor);
+public interface ArithmeticExpression<E> {
+    <R>R accept(ArithmeticExpressionVisitor<R, E> visitor);
 }

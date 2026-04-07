@@ -1,7 +1,7 @@
 package lib.expression;
 
-public class Negation implements Expression { 
-    Negation(Expression operand) { this.operand = operand; } 
-    public <R>R accept(ExpressionVisitor<R> visitor) {return visitor.visit(this); } 
-    public final Expression operand;
+public class Negation<E> implements Expression<E> {
+    Negation(E operand) { this.operand = operand; }
+    public <R>R accept(EExpressionVisitor<R, E> visitor) {return visitor.visit(this); }
+    public final E operand;
 }

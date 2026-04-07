@@ -3,26 +3,26 @@ package lib.expression;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public interface ExpressionVisitor<R> {
+public interface ExpressionVisitor<R, E> {
 
-    R visit(Literal e);
-    R visit(VariableReference e);
-    R visit(Addition e);
-    R visit(Subtraction e);
-    R visit(Multiplication e);
-    R visit(Division e);
-    R visit(Negation e);
-    R visit(Modulo e);
-    R visit(Exponentiation e);
-    R visit(Equality e);
-    R visit(Inequality e);
-    R visit(LessThan e);
-    R visit(GreaterThan e);
-    R visit(LessThanOrEqual e);
-    R visit(GreaterThanOrEqual e);
-    R visit(Conjunction e);
-    R visit(Disjunction e);
-    R visit(LogicalNot e);
-    R visit(Conditional e);
-    R visit(FunctionCall e);
+    R visit(Literal<E> e);
+    R visit(VariableReference<E> e);
+    R visit(Addition<E> e);
+    R visit(Subtraction<E> e);
+    R visit(Multiplication<E> e);
+    R visit(Division<E> e);
+    R visit(Negation<E> e);
+    R visit(Modulo<E> e);
+    R visit(Exponentiation<E> e);
+    R visit(Equality<E> e);
+    R visit(Inequality<E> e);
+    R visit(LessThan<E> e);
+    R visit(GreaterThan<E> e);
+    R visit(LessThanOrEqual<E> e);
+    R visit(GreaterThanOrEqual<E> e);
+    R visit(Conjunction<E> e);
+    R visit(Disjunction<E> e);
+    R visit(LogicalNot<E> e);
+    R visit(Conditional<E> e);
+    R visit(FunctionCall<E> e);
 }

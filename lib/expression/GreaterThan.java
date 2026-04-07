@@ -1,11 +1,11 @@
 package lib.expression;
 
-public class GreaterThan implements Expression { 
-    GreaterThan(Expression left, Expression right) {
+public class GreaterThan<E> implements Expression<E> {
+    GreaterThan(E left, E right) {
         this.left = left;
         this.right = right;
     }
-    public <R>R accept(ExpressionVisitor<R> visitor) {return visitor.visit(this); } 
-    public final Expression left;
-    public final Expression right;
+    public <R>R accept(EExpressionVisitor<R, E> visitor) {return visitor.visit(this); }
+    public final E left;
+    public final E right;
 }
