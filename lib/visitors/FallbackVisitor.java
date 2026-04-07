@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.function.Function;
 
 import lib.expression.*;
-import lib.utils.Either;
-import lib.utils.Right;
 
 public abstract class FallbackVisitor<R> implements ExpressionVisitor<R> {
     private final Function<Expression, R> fallback;

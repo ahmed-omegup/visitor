@@ -165,13 +165,13 @@ class ExpressionFolderOnce implements Function<Expression, Expression> {
                     public Expression visit(LogicalExpression b) {
                         return b.accept(new LogicalExpressionVisitor<Expression>() {
                             public Expression visit(Conjunction e) {
-                                return whenBoth(e.left, e.right, e,
-                                        (left, right) -> left.asInt() != 0 && right.asInt() != 0 ? "1" : "0");
+                                return whenLiteral(e.left, e,
+                left -> left.asInt() == 0 ? factory.literal("0") : e.right);
                             };
 
                             public Expression visit(Disjunction e) {
-                                return whenBoth(e.left, e.right, e,
-                                        (left, right) -> left.asInt() != 0 || right.asInt() != 0 ? "1" : "0");
+                                return whenLiteral(e.left, e,
+                left -> left.asInt() != 0 ? factory.literal("1") : e.right);
                             };
                         });
                     };
