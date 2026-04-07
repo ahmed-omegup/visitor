@@ -18,7 +18,7 @@ public class BranchingFactorHistogramBuilder implements Function<Expression, Map
     }
 }
 
-final class BranchingFactorHistogramBuilderVisitor implements Visitor1<Void>, Consumer<Expression> {
+final class BranchingFactorHistogramBuilderVisitor implements ExpressionVisitor<Void>, Consumer<Expression> {
     private final Map<Integer, Integer> histogram;
 
     BranchingFactorHistogramBuilderVisitor(Map<Integer, Integer> histogram) {

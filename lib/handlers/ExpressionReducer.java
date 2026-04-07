@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 import lib.expression.*;
 
-class ExpressionChildren implements Function<Expression, Iterable<Expression>>, Visitor1<Iterable<Expression>> {
+class ExpressionChildren implements Function<Expression, Iterable<Expression>>, ExpressionVisitor<Iterable<Expression>> {
     public Iterable<Expression> apply(Expression expression) {
         return expression.accept(this);
     }

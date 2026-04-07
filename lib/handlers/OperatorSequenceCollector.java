@@ -19,7 +19,7 @@ public class OperatorSequenceCollector implements Function<Expression, List<Stri
 
 }
 
-final class OperatorSequenceCollectorVisitor implements Visitor1<Void>, Consumer<Expression> {
+final class OperatorSequenceCollectorVisitor implements ExpressionVisitor<Void>, Consumer<Expression> {
     private final List<String> sequence;
 
     OperatorSequenceCollectorVisitor(List<String> sequence) {

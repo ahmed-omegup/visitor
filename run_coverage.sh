@@ -25,10 +25,10 @@ rm -rf coverage/html
 javac -d coverage/classes \
     port/*.java \
     lib/expression/*.java \
-    lib/handlers/*.java
+    lib/visitors/*.java
 
 javac -cp "coverage/classes:$JUNIT_JAR" -d coverage/test-classes \
-    spec/handlers/*.java
+    spec/visitors/*.java
 
 java \
     -javaagent:.coverage-tools/jacocoagent.jar=destfile=coverage/jacoco.exec \

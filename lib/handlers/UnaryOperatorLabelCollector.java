@@ -18,7 +18,7 @@ public class UnaryOperatorLabelCollector implements Function<Expression, List<St
     }
 }
 
-final class UnaryOperatorLabelCollectorVisitor implements Visitor1<Void>, Consumer<Expression> {
+final class UnaryOperatorLabelCollectorVisitor implements ExpressionVisitor<Void>, Consumer<Expression> {
     private final List<String> labels;
 
     UnaryOperatorLabelCollectorVisitor(List<String> labels) {

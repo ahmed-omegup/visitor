@@ -23,9 +23,9 @@ import lib.expression.Multiplication;
 import lib.expression.Negation;
 import lib.expression.Subtraction;
 import lib.expression.VariableReference;
-import lib.expression.Visitor1;
+import lib.expression.ExpressionVisitor;
 
-abstract class AbstractExpressionFunction<R> implements Function<Expression, R>, Visitor1<R> {
+abstract class AbstractExpressionFunction<R> implements Function<Expression, R>, ExpressionVisitor<R> {
 
     @Override
     public R apply(Expression expression) {

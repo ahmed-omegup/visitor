@@ -18,7 +18,7 @@ public class ArithmeticOperatorLabelCollector implements Function<Expression, Li
     }
 }
 
-final class ArithmeticOperatorLabelCollectorVisitor implements Visitor1<Void>, Consumer<Expression> {
+final class ArithmeticOperatorLabelCollectorVisitor implements ExpressionVisitor<Void>, Consumer<Expression> {
     private final List<String> labels;
 
     ArithmeticOperatorLabelCollectorVisitor(List<String> labels) {

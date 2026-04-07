@@ -6,7 +6,7 @@ public class Conditional implements Expression {
         this.whenTrue = whenTrue;
         this.whenFalse = whenFalse;
     }
-    public <R>R accept(Visitor1<R> visitor) {return visitor.visit(this); } 
+    public <R>R accept(ExpressionVisitor<R> visitor) {return visitor.visit(this); } 
     public final Expression condition;
     public final Expression whenTrue;
     public final Expression whenFalse;

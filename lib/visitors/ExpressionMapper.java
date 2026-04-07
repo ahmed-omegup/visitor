@@ -9,18 +9,18 @@ import lib.expression.*;
 import port.IExpressionFactory;
 
 public final class ExpressionMapper implements Visitor<Expression> {
-    private final BiFunction<Expression, Supplier<Expression>, Expression> handler;
+    private final BiFunction<Expression, Supplier<Expression>, Expression> recurse;
     private final IExpressionFactory<Expression> factory;
 
     public ExpressionMapper(
             IExpressionFactory<Expression> factory,
-            BiFunction<Expression, Supplier<Expression>, Expression> handler) {
+            BiFunction<Expression, Supplier<Expression>, Expression> recurse) {
         this.factory = factory;
-        this.handler = handler;
+        this.recurse = recurse;
     }
 
     public Expression apply(Expression expression) {
-        return handler.apply(expression, () -> expression.accept(this));
+        return recurse.apply(expression, () -> expression.accept(this));
     }
 
     private List<Expression> produceAll(List<Expression> expressions) {

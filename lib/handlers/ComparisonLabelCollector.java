@@ -18,7 +18,7 @@ public class ComparisonLabelCollector implements Function<Expression, List<Strin
     }
 }
 
-final class ComparisonLabelCollectorVisitor implements Visitor1<Void>, Consumer<Expression> {
+final class ComparisonLabelCollectorVisitor implements ExpressionVisitor<Void>, Consumer<Expression> {
     private final List<String> labels;
 
     ComparisonLabelCollectorVisitor(List<String> labels) {

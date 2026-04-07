@@ -18,7 +18,7 @@ public class OperatorHistogramBuilder implements Function<Expression, Map<String
     }
 }
 
-final class OperatorHistogramBuilderVisitor implements Visitor1<Void>, Consumer<Expression> {
+final class OperatorHistogramBuilderVisitor implements ExpressionVisitor<Void>, Consumer<Expression> {
     private final Map<String, Integer> histogram;
 
     OperatorHistogramBuilderVisitor(Map<String, Integer> histogram) {

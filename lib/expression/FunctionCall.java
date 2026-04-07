@@ -7,7 +7,7 @@ public class FunctionCall implements Expression {
         this.callee = callee;
         this.arguments = arguments;
     }
-    public <R>R accept(Visitor1<R> visitor) {return visitor.visit(this); } 
+    public <R>R accept(ExpressionVisitor<R> visitor) {return visitor.visit(this); } 
     public final Expression callee;
     public final List<Expression> arguments;
 }

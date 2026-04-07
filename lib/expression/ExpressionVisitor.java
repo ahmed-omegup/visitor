@@ -3,7 +3,7 @@ package lib.expression;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public interface Visitor1<R> {
+public interface ExpressionVisitor<R> {
 
     R visit(Literal e);
     R visit(VariableReference e);

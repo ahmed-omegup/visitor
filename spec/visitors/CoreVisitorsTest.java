@@ -3,8 +3,6 @@ package spec.visitors;
 import static java.util.List.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
-
 import org.junit.jupiter.api.Test;
 
 import lib.expression.*;
@@ -28,21 +26,18 @@ class CoreVisitorsTest {
     }
 
     @Test
-    void recursiveVisitorWalksPreorder() {
-        var order = new ArrayList<String>();
-
-        new RecursiveVisitor(expression -> order.add(testSupport.typeNames.apply(expression)))
-            .accept(testSupport.sampleTraversalExpression());
+    void localReduceVisitorWalksPreorder() {
+        var reducer = new LocalReduceVisitor<>(testSupport.values, (left, right) -> left + "," + right);
 
         assertEquals(
-            of("Addition", "Literal", "FunctionCall", "VariableReference", "Negation", "Literal", "VariableReference"),
-            order
+            "Addition,Literal,FunctionCall,VariableReference,Negation,Literal,VariableReference",
+            reducer.apply(testSupport.sampleTraversalExpression())
         );
     }
 
     @Test
     void isomorphicVisitorReturnsPerTypeValue() {
-        var visitor = new IsomorphicVisitor<>(new Expressions<>(
+        var visitor = new IsomorphicGetter<>(new Expressions<>(
             "leaf",
             "leaf",
             "arithmetic",
@@ -69,32 +64,33 @@ class CoreVisitorsTest {
     }
 
     @Test
-    void evaluatorTurnsVisitorIntoFunction() {
-        var evaluator = new ExpressionEvaluator<>(testSupport.typeNames);
-        assertEquals("Conditional", evaluator.apply(factory.conditional(factory.literal("1"), factory.literal("2"), factory.literal("3"))));
-    }
-
-    @Test
-    void reducerCombinesNodeThenChildren() {
-        var reducer = new ExpressionReducer<>(testSupport.typeNames, (left, right) -> left + "," + right);
+    void constantFolderUsesExpressionMapper() {
+        var folder = new ConstantFolder(factory);
 
         assertEquals(
-            "Addition,Literal,FunctionCall,VariableReference,Negation,Literal,VariableReference",
-            reducer.apply(testSupport.sampleTraversalExpression())
+            "5",
+            ((Literal) folder.apply(factory.addition(factory.literal("2"), factory.literal("3")))).value
         );
+
+        var conditional = folder.apply(factory.conditional(
+            factory.literal("0"),
+            factory.literal("10"),
+            factory.addition(factory.literal("1"), factory.literal("2"))
+        ));
+
+        assertEquals("3", ((Literal) conditional).value);
     }
 
     @Test
-    void folderRebuildsAndAllowsOverrides() {
-        class UppercaseVariablesFolder extends ExpressionFolder {
-            UppercaseVariablesFolder() { super(factory); }
-
-            public Expression visit(VariableReference expression) {
-                return factory.variableReference(expression.name.toUpperCase());
+    void mapperSupportsCloneAndOverrides() {
+        var mapper = new ExpressionMapper(factory, (expression, produce) -> {
+            if (expression instanceof VariableReference variableReference) {
+                return factory.variableReference(variableReference.name.toUpperCase());
             }
-        }
+            return produce.apply(expression);
+        });
 
-        var result = (Addition) new UppercaseVariablesFolder().apply(testSupport.sampleTraversalExpression());
+        var result = (Addition) mapper.apply(testSupport.sampleTraversalExpression());
         var call = (FunctionCall) result.right;
 
         assertEquals("SUM", ((VariableReference) call.callee).name);

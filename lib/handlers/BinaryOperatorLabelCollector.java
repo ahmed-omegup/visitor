@@ -18,7 +18,7 @@ public class BinaryOperatorLabelCollector implements Function<Expression, List<S
     }
 }
 
-final class BinaryOperatorLabelCollectorVisitor implements Visitor1<Void>, Consumer<Expression> {
+final class BinaryOperatorLabelCollectorVisitor implements ExpressionVisitor<Void>, Consumer<Expression> {
     private final List<String> labels;
 
     BinaryOperatorLabelCollectorVisitor(List<String> labels) {

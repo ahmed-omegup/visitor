@@ -18,7 +18,7 @@ public class BooleanOperatorLabelCollector implements Function<Expression, List<
     }
 }
 
-final class BooleanOperatorLabelCollectorVisitor implements Visitor1<Void>, Consumer<Expression> {
+final class BooleanOperatorLabelCollectorVisitor implements ExpressionVisitor<Void>, Consumer<Expression> {
     private final List<String> labels;
 
     BooleanOperatorLabelCollectorVisitor(List<String> labels) {

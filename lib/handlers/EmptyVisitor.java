@@ -2,7 +2,7 @@ package lib.handlers;
 
 import lib.expression.*;
 
-abstract class EmptyVisitor<T> implements Visitor1<T> {
+abstract class EmptyVisitor<T> implements ExpressionVisitor<T> {
     public T visit(Literal expression) { return null; }
     public T visit(VariableReference expression) { return null; }
     public T visit(Addition expression) { return null; }

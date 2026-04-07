@@ -4,11 +4,33 @@ import static java.util.List.of;
 
 import lib.expression.*;
 import lib.visitors.Expressions;
-import lib.visitors.IsomorphicVisitor;
+import lib.visitors.IsomorphicGetter;
 
 final class TestSupport {
     final Factory factory = new Factory();
-    final IsomorphicVisitor<String> typeNames = new IsomorphicVisitor<>(new Expressions<>(
+    final Expressions<String> values = new Expressions<>(
+        "Literal",
+        "VariableReference",
+        "Addition",
+        "Subtraction",
+        "Multiplication",
+        "Division",
+        "Negation",
+        "Modulo",
+        "Exponentiation",
+        "Equality",
+        "Inequality",
+        "LessThan",
+        "GreaterThan",
+        "LessThanOrEqual",
+        "GreaterThanOrEqual",
+        "Conjunction",
+        "Disjunction",
+        "LogicalNot",
+        "Conditional",
+        "FunctionCall"
+    );
+    final IsomorphicGetter<String> typeNames = new IsomorphicGetter<>(new Expressions<>(
         "Literal",
         "VariableReference",
         "Addition",
@@ -31,7 +53,7 @@ final class TestSupport {
         "FunctionCall"
     ));
 
-    final IsomorphicVisitor<Integer> arithmeticPriorities = new IsomorphicVisitor<>(new Expressions<>(
+    final IsomorphicGetter<Integer> arithmeticPriorities = new IsomorphicGetter<>(new Expressions<>(
         100,
         100,
         10,

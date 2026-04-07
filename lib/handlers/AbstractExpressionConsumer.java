@@ -23,9 +23,9 @@ import lib.expression.Multiplication;
 import lib.expression.Negation;
 import lib.expression.Subtraction;
 import lib.expression.VariableReference;
-import lib.expression.Visitor1;
+import lib.expression.ExpressionVisitor;
 
-abstract class AbstractExpressionConsumer implements Consumer<Expression>, Visitor1<Void> {
+abstract class AbstractExpressionConsumer implements Consumer<Expression>, ExpressionVisitor<Void> {
     @Override
     public void accept(Expression expression) {
         visitExpression(expression);

@@ -13,21 +13,30 @@ class ExpressionStringifierTest {
 
     @Test
     void stringifierUsesPriorityToControlParentheses() {
-        class ArithmeticStringifier extends ExpressionStringifier {
-            ArithmeticStringifier() {
-                super(testSupport.arithmeticPriorities);
+        var stringifier = new ExpressionStringifier(testSupport.arithmeticPriorities, (expression, stringify, priority) -> {
+            if (expression instanceof Literal literal) {
+                return literal.value;
             }
-
-            public String visit(Literal expression) { return expression.value; }
-            public String visit(VariableReference expression) { return expression.name; }
-            public String visit(Addition expression) { return infix(expression.left, "+", expression.right, priority(expression)); }
-            public String visit(Subtraction expression) { return infix(expression.left, "-", expression.right, priority(expression)); }
-            public String visit(Multiplication expression) { return infix(expression.left, "*", expression.right, priority(expression)); }
-            public String visit(Division expression) { return infix(expression.dividend, "/", expression.divisor, priority(expression)); }
-            public String visit(Negation expression) { return prefix("-", expression.operand, priority(expression)); }
-        }
-
-        var stringifier = new ArithmeticStringifier();
+            if (expression instanceof VariableReference variableReference) {
+                return variableReference.name;
+            }
+            if (expression instanceof Addition addition) {
+                return ExpressionStringifier.infix(addition.left, "+", addition.right, priority.apply(expression), stringify, priority);
+            }
+            if (expression instanceof Subtraction subtraction) {
+                return ExpressionStringifier.infix(subtraction.left, "-", subtraction.right, priority.apply(expression), stringify, priority);
+            }
+            if (expression instanceof Multiplication multiplication) {
+                return ExpressionStringifier.infix(multiplication.left, "*", multiplication.right, priority.apply(expression), stringify, priority);
+            }
+            if (expression instanceof Division division) {
+                return ExpressionStringifier.infix(division.dividend, "/", division.divisor, priority.apply(expression), stringify, priority);
+            }
+            if (expression instanceof Negation negation) {
+                return ExpressionStringifier.prefix("-", negation.operand, priority.apply(expression), stringify, priority);
+            }
+            throw new UnsupportedOperationException(expression.getClass().getSimpleName());
+        });
 
         assertEquals(
             "1 + 2 * 3",

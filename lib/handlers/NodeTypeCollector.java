@@ -18,7 +18,7 @@ public class NodeTypeCollector implements Function<Expression, Set<String>> {
     }
 }
 
-final class NodeTypeCollectorVisitor implements Visitor1<Void>, Consumer<Expression> {
+final class NodeTypeCollectorVisitor implements ExpressionVisitor<Void>, Consumer<Expression> {
     private final Set<String> types;
 
     NodeTypeCollectorVisitor(Set<String> types) {

@@ -21,7 +21,7 @@ public class FunctionNameCollector implements Function<Expression, Set<String>> 
     }
 }
 
-class FunctionNameVisitor implements Visitor1<Void> {
+class FunctionNameVisitor implements ExpressionVisitor<Void> {
     private final VariableName variableName = new VariableName();
     private Set<String> names;
 

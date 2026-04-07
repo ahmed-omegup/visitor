@@ -5,7 +5,7 @@ import java.util.function.Function;
 
 import lib.expression.*;
 
-public final class IsomorphicSetter<T> implements Consumer<Expression>, Visitor1<Void> {
+public final class IsomorphicSetter<T> implements Consumer<Expression>, ExpressionVisitor<Void> {
     private final Expressions<T> values;
     private final Function<Expression, T> handler;
 
