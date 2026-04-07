@@ -7,18 +7,12 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import lib.expressions.Expressions;
-
 public interface ICleanHandlerFactory<E> {
     IExpressionFactory<E> expressionFactory();
 
     Function<E, List<E>> expressionChildren();
 
     Function<E, String> expressionClassNameExtractor();
-
-    <T> Function<E, T> isomorphicGetter(Expressions<T> values);
-
-    <T> Function<E, T> localReduceVisitor(Expressions<T> values, BinaryOperator<T> reducer);
 
     Function<E, E> constantFolder();
 

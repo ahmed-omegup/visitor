@@ -30,7 +30,7 @@ javac -Xlint:unchecked -d coverage/classes \
 
 
 javac -cp "coverage/classes:$JUNIT_JAR" -d coverage/test-classes \
-    spec/legacy/*.java
+    spec/visitors/*.java
 
 java \
     -javaagent:.coverage-tools/jacocoagent.jar=destfile=coverage/jacoco.exec \

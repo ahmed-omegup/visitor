@@ -35,14 +35,6 @@ public final class HandlerFactory implements ICleanHandlerFactory<Expression> {
         return new IsomorphicGetter<>(new ExpressionClassNames());
     }
 
-    public <T> Function<Expression, T> isomorphicGetter(Expressions<T> values) {
-        return new IsomorphicGetter<>(values);
-    }
-
-    public <T> Function<Expression, T> localReduceVisitor(Expressions<T> values, BinaryOperator<T> reducer) {
-        return new LocalReduceVisitor<>(values, reducer);
-    }
-
     public Function<Expression, Expression> constantFolder() {
         return new ConstantFolder(expressionFactory());
     }
