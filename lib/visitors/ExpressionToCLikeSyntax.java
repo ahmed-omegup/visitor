@@ -9,7 +9,7 @@ public final class ExpressionToCLikeSyntax implements Visitor<String> {
     private final Function<Expression, BindingPower> bindingPowers;
 
     public ExpressionToCLikeSyntax() {
-        this(new CLikeBindingPowers());
+        this(new IsomorphicGetter<>(new CLikeBindingPowers())::apply);
     }
 
     public ExpressionToCLikeSyntax(Function<Expression, BindingPower> bindingPowers) {
