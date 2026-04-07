@@ -3,6 +3,7 @@ package spec.visitors;
 import static java.util.List.of;
 
 import lib.expression.*;
+import lib.visitors.ExpressionToCLikeSyntax.BindingPower;
 import lib.visitors.Expressions;
 import lib.visitors.IsomorphicGetter;
 
@@ -53,27 +54,27 @@ final class TestSupport {
         "FunctionCall"
     ));
 
-    final IsomorphicGetter<Integer> arithmeticPriorities = new IsomorphicGetter<>(new Expressions<>(
-        100,
-        100,
-        10,
-        10,
-        20,
-        20,
-        30,
-        20,
-        40,
-        5,
-        5,
-        5,
-        5,
-        5,
-        5,
-        3,
-        2,
-        30,
-        1,
-        50
+    final IsomorphicGetter<BindingPower> arithmeticPriorities = new IsomorphicGetter<>(new Expressions<>(
+        new BindingPower(100, false),
+        new BindingPower(100, false),
+        new BindingPower(10, false),
+        new BindingPower(10, false),
+        new BindingPower(20, false),
+        new BindingPower(20, false),
+        new BindingPower(30, true),
+        new BindingPower(20, false),
+        new BindingPower(40, true),
+        new BindingPower(5, false),
+        new BindingPower(5, false),
+        new BindingPower(5, false),
+        new BindingPower(5, false),
+        new BindingPower(5, false),
+        new BindingPower(5, false),
+        new BindingPower(3, false),
+        new BindingPower(2, false),
+        new BindingPower(30, true),
+        new BindingPower(1, true),
+        new BindingPower(50, false)
     ));
 
     Expression sampleTraversalExpression() {

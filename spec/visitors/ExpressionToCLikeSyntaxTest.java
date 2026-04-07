@@ -23,6 +23,10 @@ class ExpressionToCLikeSyntaxTest {
             "(1 + 2) * 3",
             stringifier.apply(factory.multiplication(factory.addition(factory.literal("1"), factory.literal("2")), factory.literal("3")))
         );
+        assertEquals(
+            "10 - (3 - 1)",
+            stringifier.apply(factory.subtraction(factory.literal("10"), factory.subtraction(factory.literal("3"), factory.literal("1"))))
+        );
     }
 
     @Test
@@ -35,6 +39,24 @@ class ExpressionToCLikeSyntaxTest {
                 factory.lessThanOrEqual(factory.variableReference("x"), factory.literal("10")),
                 factory.functionCall(factory.variableReference("f"), java.util.List.of(factory.literal("1"), factory.variableReference("y"))),
                 factory.disjunction(factory.logicalNot(factory.variableReference("ready")), factory.exponentiation(factory.literal("2"), factory.literal("3")))
+            ))
+        );
+    }
+
+    @Test
+    void cLikeSyntaxUsesRightAssociativeBindingWhenNeeded() {
+        var stringifier = new ExpressionToCLikeSyntax(testSupport.arithmeticPriorities);
+
+        assertEquals(
+            "a ? b : c ? d : e",
+            stringifier.apply(factory.conditional(
+                factory.variableReference("a"),
+                factory.variableReference("b"),
+                factory.conditional(
+                    factory.variableReference("c"),
+                    factory.variableReference("d"),
+                    factory.variableReference("e")
+                )
             ))
         );
     }
