@@ -3,9 +3,12 @@ package port;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+import lib.expressions.Expressions;
 
 public interface ICleanHandlerFactory<E> {
     IExpressionFactory<E> expressionFactory();
@@ -21,6 +24,14 @@ public interface ICleanHandlerFactory<E> {
     Function<E, E> expressionMapper(BiFunction<E, Supplier<E>, E> recurse);
 
     Function<E, String> cLikeSyntaxPrinter();
+    
+    <T> Function<E, T> isomorphicGetter(Expressions<T> values);
+    
+    <T> Consumer<E> isomorphicSetter(Expressions<T> values, Function<E,T> reducer);
+
+    <T> Function<E, T> globalReduceVisitor(Expressions<T> values, BinaryOperator<T> reducer);
+
+    <T> Consumer<E> localReduceVisitor(Expressions<T> values, BiFunction<T, E, T> reducer);
 
     Function<E, String> lispLikeSyntaxPrinter();
 

@@ -2,22 +2,11 @@ package lib.handlers;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.BinaryOperator;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 
-import lib.expression.Expression;
-import lib.expression.Factory;
-import lib.expressions.ExpressionClassNames;
+import lib.expression.*;
 import lib.expressions.Expressions;
-import lib.visitors.ConstantFolder;
-import lib.visitors.ExpressionChildren;
-import lib.visitors.ExpressionMapper;
-import lib.visitors.ExpressionToCLikeSyntax;
-import lib.visitors.ExpressionToLispLikeSyntax;
-import lib.visitors.IntegerEvaluationVisitor;
-import lib.visitors.IsomorphicGetter;
+import lib.visitors.*;
 import port.ICleanHandlerFactory;
 import port.IExpressionFactory;
 
@@ -63,5 +52,22 @@ public final class HandlerFactory implements ICleanHandlerFactory<Expression> {
     public Function<Expression, Integer> integerEvaluator(Map<String, Integer> variables,
             Map<String, Function<List<Integer>, Integer>> functions) {
         return new IntegerEvaluationVisitor(variables, functions);
+    }
+
+    public <T> Function<Expression,T> globalReduceVisitor(Expressions<T> values, BinaryOperator<T> reducer) {
+        return new GlobalReduceVisitor<>(values, reducer);
+    }
+
+
+    public <T> Consumer<Expression> localReduceVisitor(Expressions<T> values, BiFunction<T,Expression,T> reducer) {
+        return new LocalReduceVisitor<>(values, reducer);
+    }
+
+    public <T> Function<Expression,T> isomorphicGetter(Expressions<T> values) {
+        return new IsomorphicGetter<T>(values);
+    };
+
+    public <T> java.util.function.Consumer<Expression> isomorphicSetter(Expressions<T> values, Function<Expression,T> reducer) {
+        return new IsomorphicSetter<T>(values, reducer);
     }
 }
