@@ -15,8 +15,12 @@ abstract class TestBase<E> {
         return testSupport.v.expressionClassNameExtractor().apply(expression);
     }
 
-    protected final String renderCLike(E expression) {
+    protected final String render(E expression) {
         return testSupport.v.cLikeSyntaxPrinter().apply(expression);
+    }
+
+    protected final String renderCLike(E expression) {
+        return render(expression);
     }
 
     protected final String renderLispLike(E expression) {

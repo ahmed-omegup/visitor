@@ -27,7 +27,6 @@ javac -Xlint:unchecked -d coverage/classes \
     lib/expression/*.java \
     lib/expression/category/*.java \
     lib/expressions/*.java \
-    lib/legacy/*.java \
     lib/visitors/*.java \
     lib/handlers/*.java
 

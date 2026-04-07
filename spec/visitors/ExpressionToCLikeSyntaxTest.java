@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import lib.expression.*;
 import lib.handlers.HandlerFactory;
 
-class ExpressionToCLikeSyntaxTest extends TestBase<Expression> {
-    ExpressionToCLikeSyntaxTest() {
-        super(new TestSupport<>(new HandlerFactory()));
+abstract class ExpressionToCLikeSyntaxTestBase<E> extends TestBase<E> {
+    ExpressionToCLikeSyntaxTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
     }
 
     @Test
@@ -54,5 +54,11 @@ class ExpressionToCLikeSyntaxTest extends TestBase<Expression> {
                 )
             ))
         );
+    }
+}
+
+class ExpressionToCLikeSyntaxTest extends ExpressionToCLikeSyntaxTestBase<Expression> {
+    ExpressionToCLikeSyntaxTest() {
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

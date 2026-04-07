@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import lib.expression.*;
 import lib.handlers.HandlerFactory;
 
-class ExpressionToLispLikeSyntaxTest extends TestBase<Expression> {
-    ExpressionToLispLikeSyntaxTest() {
-        super(new TestSupport<>(new HandlerFactory()));
+abstract class ExpressionToLispLikeSyntaxTestBase<E> extends TestBase<E> {
+    ExpressionToLispLikeSyntaxTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
     }
 
     @Test
@@ -26,5 +26,11 @@ class ExpressionToLispLikeSyntaxTest extends TestBase<Expression> {
                 factory.disjunction(factory.logicalNot(factory.variableReference("ready")), factory.exponentiation(factory.literal("2"), factory.literal("3")))
             ))
         );
+    }
+}
+
+class ExpressionToLispLikeSyntaxTest extends ExpressionToLispLikeSyntaxTestBase<Expression> {
+    ExpressionToLispLikeSyntaxTest() {
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

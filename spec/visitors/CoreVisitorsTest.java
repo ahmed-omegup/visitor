@@ -4,17 +4,17 @@ import static java.util.List.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.junit.jupiter.api.Test;
 
-import lib.expression.*;
+import lib.expression.Expression;
 import lib.expressions.Expressions;
 import lib.handlers.HandlerFactory;
-import lib.visitors.*;
 
-class CoreVisitorsTest extends TestBase<Expression> {
-    CoreVisitorsTest() {
-        super(new TestSupport<>(new HandlerFactory()));
+abstract class CoreVisitorsTestBase<E> extends TestBase<E> {
+    CoreVisitorsTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
     }
 
     @Test
@@ -44,11 +44,19 @@ class CoreVisitorsTest extends TestBase<Expression> {
 
     @Test
     void localReduceVisitorWalksPreorder() {
-        var reducer = new lib.handlers.LocalReduceVisitor<>(testSupport.values, (left, right) -> left + "," + right);
+        var reduced = new AtomicReference<String>("");
+        var reducer = testSupport.v.localReduceVisitor(testSupport.values, (left, right) -> {
+            var value = reduced.get();
+            var next = value.isEmpty() ? left : value + "," + left;
+            reduced.set(next);
+            return left;
+        });
+
+        reducer.accept(testSupport.sampleTraversalExpression());
 
         assertEquals(
-            "Addition,Literal,FunctionCall,VariableReference,Negation,Literal,VariableReference",
-            reducer.apply(testSupport.sampleTraversalExpression())
+            "Conditional,Conjunction,LessThan,VariableReference,Literal,LogicalNot,Equality,Literal,Literal,Addition,Subtraction,Literal,Literal,Multiplication,Division,Literal,Literal,Modulo,Literal,Literal,FunctionCall,VariableReference,Exponentiation,Literal,Literal,Inequality,Literal,Literal,GreaterThan,Literal,Literal,LessThanOrEqual,Literal,Literal,GreaterThanOrEqual,Literal,Literal,Disjunction,Literal,Literal,Negation,Literal",
+            reduced.get()
         );
     }
 
@@ -75,7 +83,7 @@ class CoreVisitorsTest extends TestBase<Expression> {
         values.logicalNot = "boolean";
         values.conditional = "conditional";
         values.functionCall = "call";
-        var visitor = new IsomorphicGetter<>(values);
+        var visitor = testSupport.v.isomorphicGetter(values);
 
         assertEquals("comparison", visitor.apply(factory.lessThan(factory.literal("1"), factory.literal("2"))));
     }
@@ -83,34 +91,39 @@ class CoreVisitorsTest extends TestBase<Expression> {
     @Test
     void constantFolderUsesExpressionMapper() {
         var folder = testSupport.v.constantFolder();
+        var foldedArithmetic = folder.apply(factory.addition(factory.literal("2"), factory.literal("3")));
 
-        assertEquals(
-            "5",
-            ((Literal) folder.apply(factory.addition(factory.literal("2"), factory.literal("3")))).value
-        );
+        assertEquals("Literal", typeName(foldedArithmetic));
+        assertEquals("5", render(foldedArithmetic));
 
-        var conditional = folder.apply(factory.conditional(
+        var foldedConditional = folder.apply(factory.conditional(
             factory.literal("0"),
             factory.literal("10"),
             factory.addition(factory.literal("1"), factory.literal("2"))
         ));
 
-        assertEquals("3", ((Literal) conditional).value);
+        assertEquals("Literal", typeName(foldedConditional));
+        assertEquals("3", render(foldedConditional));
     }
 
     @Test
     void mapperSupportsCloneAndOverrides() {
         var mapper = testSupport.v.expressionMapper((expression, produce) -> {
-            if (expression instanceof VariableReference variableReference) {
-                return factory.variableReference(variableReference.name.toUpperCase());
+            if ("VariableReference".equals(typeName(expression))) {
+                return factory.variableReference(render(expression).toUpperCase());
             }
             return produce.get();
         });
 
-        var result = (Addition) mapper.apply(testSupport.sampleTraversalExpression());
-        var call = (FunctionCall) result.right;
+        assertEquals(
+            "X < 10 && !(1 == 0) ? 7 - 2 + 8 / 2 * (9 % 4) : F(pow(2, 3), 5 != 6, 7 > 1, 2 <= 2, 3 >= 3, 0 || 1, -4)",
+            render(mapper.apply(testSupport.sampleTraversalExpression()))
+        );
+    }
+}
 
-        assertEquals("SUM", ((VariableReference) call.callee).name);
-        assertEquals("X", ((VariableReference) call.arguments.get(1)).name);
+class CoreVisitorsTest extends CoreVisitorsTestBase<Expression> {
+    CoreVisitorsTest() {
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }

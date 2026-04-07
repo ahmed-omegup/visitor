@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Expression;
 import lib.handlers.HandlerFactory;
 
-class IntegerEvaluationVisitorTest extends TestBase<Expression> {
-    IntegerEvaluationVisitorTest() {
-        super(new TestSupport<>(new HandlerFactory()));
+abstract class IntegerEvaluationVisitorTestBase<E> extends TestBase<E> {
+    IntegerEvaluationVisitorTestBase(TestSupport<E> testSupport) {
+        super(testSupport);
     }
 
     @Test
@@ -50,5 +50,11 @@ class IntegerEvaluationVisitorTest extends TestBase<Expression> {
             4,
             evaluator.apply(factory.functionCall(factory.variableReference("inc"), List.of(factory.literal("3"))))
         );
+    }
+}
+
+class IntegerEvaluationVisitorTest extends IntegerEvaluationVisitorTestBase<Expression> {
+    IntegerEvaluationVisitorTest() {
+        super(new TestSupport<>(new HandlerFactory()));
     }
 }
