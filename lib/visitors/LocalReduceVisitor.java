@@ -11,7 +11,7 @@ import lib.expression.*;
 public final class LocalReduceVisitor<T> implements Consumer<Expression> {
     private final Expressions<T> values;
     private final BiFunction<T, Expression, T> reducer;
-    private final Visitor<List<Expression>> children = new ExpressionChildren();
+    private final ExpressionVisitor<List<Expression>> children = new ExpressionChildren();
     private final Function<Expression, T> getter;
 
     public LocalReduceVisitor(Expressions<T> values, BiFunction<T, Expression, T> reducer) {
@@ -26,7 +26,7 @@ public final class LocalReduceVisitor<T> implements Consumer<Expression> {
 
     public void accept(Expression expression) {
         handleThis(expression);
-        for (var child : children.apply(expression)) {
+        for (var child : expression.accept(children)) {
             this.accept(child);
         }
     }

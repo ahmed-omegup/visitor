@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 import lib.expression.*;
 
-public final class ExpressionChildren implements Visitor<List<Expression>> {
+public final class ExpressionChildren implements ExpressionVisitor<List<Expression>> {
 
     public List<Expression> visit(Literal expression) { return List.of(); }
     public List<Expression> visit(VariableReference expression) { return List.of(); }
