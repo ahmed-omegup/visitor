@@ -4,7 +4,7 @@ import lib.expression.*;
 import lib.expression.category.*;
 
 
-public class CategoryVisitor implements ExpressionVisitor<CategoryExpression> {
+public class CategoryVisitor implements Visitor<CategoryExpression> {
     @Override
     public CategoryExpression visit(Literal e) {
         return new CategoryExpression() {
