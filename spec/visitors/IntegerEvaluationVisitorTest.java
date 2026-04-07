@@ -8,15 +8,17 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-import lib.expression.Factory;
-import lib.visitors.IntegerEvaluationVisitor;
+import lib.expression.Expression;
+import lib.handlers.HandlerFactory;
 
-class IntegerEvaluationVisitorTest {
-    private final Factory factory = new Factory();
+class IntegerEvaluationVisitorTest extends TestBase<Expression> {
+    IntegerEvaluationVisitorTest() {
+        super(new TestSupport<>(new HandlerFactory()));
+    }
 
     @Test
     void evaluatesConstantArithmetic() {
-        var evaluator = new IntegerEvaluationVisitor();
+        var evaluator = testSupport.v.integerEvaluator();
 
         assertEquals(
             4,
@@ -26,7 +28,7 @@ class IntegerEvaluationVisitorTest {
 
     @Test
     void failsQuickOnUnknownVariable() {
-        var evaluator = new IntegerEvaluationVisitor();
+        var evaluator = testSupport.v.integerEvaluator();
 
         var exception = assertThrows(
             IllegalArgumentException.class,
@@ -38,7 +40,7 @@ class IntegerEvaluationVisitorTest {
 
     @Test
     void canUseProvidedVariablesAndFunctions() {
-        var evaluator = new IntegerEvaluationVisitor(
+        var evaluator = testSupport.v.integerEvaluator(
             Map.of("x", 3),
             Map.of("inc", values -> values.get(0) + 1)
         );

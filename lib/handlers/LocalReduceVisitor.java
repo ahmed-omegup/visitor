@@ -1,37 +1,29 @@
 package lib.handlers;
 
 import java.util.List;
-import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 import lib.expression.*;
 import lib.expressions.Expressions;
 import lib.visitors.ExpressionChildren;
 import lib.visitors.IsomorphicGetter;
-import lib.visitors.IsomorphicSetter;
 
-public final class LocalReduceVisitor<T> implements Consumer<Expression> {
-    private final Expressions<T> values;
-    private final BiFunction<T, Expression, T> reducer;
+public final class LocalReduceVisitor<T> implements Function<Expression, T> {
+    private final BinaryOperator<T> reducer;
     private final ExpressionVisitor<List<Expression>> children = new ExpressionChildren();
     private final Function<Expression, T> getter;
 
-    public LocalReduceVisitor(Expressions<T> values, BiFunction<T, Expression, T> reducer) {
-        this.values = values;
+    public LocalReduceVisitor(Expressions<T> values, BinaryOperator<T> reducer) {
         this.reducer = reducer;
-        getter = new IsomorphicGetter<>(values);
+        this.getter = new IsomorphicGetter<>(values);
     }
 
-    private void handleThis(Expression expression) {
-        new IsomorphicSetter<>(values, e -> reducer.apply(getter.apply(e), e)).accept(expression);
-    }
-
-    public void accept(Expression expression) {
-        handleThis(expression);
+    public T apply(Expression expression) {
+        var result = getter.apply(expression);
         for (var child : expression.accept(children)) {
-            this.accept(child);
+            result = reducer.apply(result, apply(child));
         }
+        return result;
     }
 }

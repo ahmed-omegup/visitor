@@ -7,29 +7,31 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.*;
 import lib.expressions.Expressions;
-import lib.handlers.LocalReduceVisitor;
+import lib.handlers.HandlerFactory;
+import lib.expressions.Expressions;
 import lib.visitors.*;
 
-class CoreVisitorsTest {
-    private final TestSupport testSupport = new TestSupport();
-    private final Factory factory = testSupport.factory;
+class CoreVisitorsTest extends TestBase<Expression> {
+    CoreVisitorsTest() {
+        super(new TestSupport<>(new HandlerFactory()));
+    }
 
     @Test
     void childrenUseStructuralOrder() {
-        var children = new ExpressionChildren().apply(factory.functionCall(
+        var children = testSupport.v.expressionChildren().apply(factory.functionCall(
             factory.variableReference("f"),
             of(factory.literal("1"), factory.variableReference("x"))
         ));
 
         assertEquals(
             of("VariableReference", "Literal", "VariableReference"),
-            children.stream().map(testSupport.typeNames).toList()
+            children.stream().map(testSupport.v.expressionClassNameExtractor()).toList()
         );
     }
 
     @Test
     void localReduceVisitorWalksPreorder() {
-        var reducer = new LocalReduceVisitor<>(testSupport.values, (left, right) -> left + "," + right);
+        var reducer = testSupport.v.localReduceVisitor(testSupport.values, (left, right) -> left + "," + right);
 
         assertEquals(
             "Addition,Literal,FunctionCall,VariableReference,Negation,Literal,VariableReference",
@@ -39,35 +41,35 @@ class CoreVisitorsTest {
 
     @Test
     void isomorphicVisitorReturnsPerTypeValue() {
-        var visitor = new IsomorphicGetter<>(new Expressions<>(
-            "leaf",
-            "leaf",
-            "arithmetic",
-            "arithmetic",
-            "arithmetic",
-            "arithmetic",
-            "arithmetic",
-            "arithmetic",
-            "arithmetic",
-            "comparison",
-            "comparison",
-            "comparison",
-            "comparison",
-            "comparison",
-            "comparison",
-            "boolean",
-            "boolean",
-            "boolean",
-            "conditional",
-            "call"
-        ));
+        var values = new Expressions<String>();
+        values.literal = "leaf";
+        values.variableReference = "leaf";
+        values.addition = "arithmetic";
+        values.subtraction = "arithmetic";
+        values.multiplication = "arithmetic";
+        values.division = "arithmetic";
+        values.negation = "arithmetic";
+        values.modulo = "arithmetic";
+        values.exponentiation = "arithmetic";
+        values.equality = "comparison";
+        values.inequality = "comparison";
+        values.lessThan = "comparison";
+        values.greaterThan = "comparison";
+        values.lessThanOrEqual = "comparison";
+        values.greaterThanOrEqual = "comparison";
+        values.conjunction = "boolean";
+        values.disjunction = "boolean";
+        values.logicalNot = "boolean";
+        values.conditional = "conditional";
+        values.functionCall = "call";
+        var visitor = testSupport.v.isomorphicGetter(values);
 
         assertEquals("comparison", visitor.apply(factory.lessThan(factory.literal("1"), factory.literal("2"))));
     }
 
     @Test
     void constantFolderUsesExpressionMapper() {
-        var folder = new ConstantFolder(factory);
+        var folder = testSupport.v.constantFolder();
 
         assertEquals(
             "5",
@@ -85,11 +87,11 @@ class CoreVisitorsTest {
 
     @Test
     void mapperSupportsCloneAndOverrides() {
-        var mapper = new ExpressionMapper(factory, (expression, produce) -> {
+        var mapper = testSupport.v.expressionMapper((expression, produce) -> {
             if (expression instanceof VariableReference variableReference) {
                 return factory.variableReference(variableReference.name.toUpperCase());
             }
-            return produce.apply(expression);
+            return produce.get();
         });
 
         var result = (Addition) mapper.apply(testSupport.sampleTraversalExpression());

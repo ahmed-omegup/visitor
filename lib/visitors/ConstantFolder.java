@@ -12,7 +12,7 @@ public class ConstantFolder implements Function<Expression, Expression> {
     private final IExpressionFactory<Expression> factory;
     private final CategoryVisitor cat = new CategoryVisitor();
 
-    ConstantFolder(IExpressionFactory<Expression> factory) {
+    public ConstantFolder(IExpressionFactory<Expression> factory) {
         this.factory = factory;
     }
 

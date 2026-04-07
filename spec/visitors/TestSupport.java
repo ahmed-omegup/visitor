@@ -5,14 +5,20 @@ import static java.util.List.of;
 import lib.expression.*;
 import lib.expressions.ExpressionClassNames;
 import lib.expressions.Expressions;
-import lib.visitors.IsomorphicGetter;
+import port.ICleanHandlerFactory;
+import port.IExpressionFactory;
 
-final class TestSupport {
-    final Factory factory = new Factory();
+final class TestSupport<E> {
+    final ICleanHandlerFactory<E> v;
+    final IExpressionFactory<E> factory;
     final Expressions<String> values = new ExpressionClassNames();
-    final IsomorphicGetter<String> typeNames = new IsomorphicGetter<>(new ExpressionClassNames());
 
-    Expression sampleTraversalExpression() {
+    TestSupport(ICleanHandlerFactory<E> v) {
+        this.v = v;
+        this.factory = v.expressionFactory();
+    }
+
+    E sampleTraversalExpression() {
         return factory.addition(
             factory.literal("1"),
             factory.functionCall(
