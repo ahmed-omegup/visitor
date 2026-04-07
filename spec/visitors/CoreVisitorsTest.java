@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.*;
 import lib.expressions.Expressions;
+import lib.handlers.LocalReduceVisitor;
 import lib.visitors.*;
 
 class CoreVisitorsTest {

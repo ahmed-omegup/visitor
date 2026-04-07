@@ -1,4 +1,4 @@
-package lib.visitors;
+package lib.handlers;
 
 import java.util.List;
 import java.util.function.BiFunction;
@@ -8,6 +8,9 @@ import java.util.function.Function;
 
 import lib.expression.*;
 import lib.expressions.Expressions;
+import lib.visitors.ExpressionChildren;
+import lib.visitors.IsomorphicGetter;
+import lib.visitors.IsomorphicSetter;
 
 public final class LocalReduceVisitor<T> implements Consumer<Expression> {
     private final Expressions<T> values;
