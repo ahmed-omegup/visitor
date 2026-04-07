@@ -25,8 +25,11 @@ rm -rf coverage/html
 javac -Xlint:unchecked -d coverage/classes \
     port/*.java \
     lib/expression/*.java \
+    lib/expression/category/*.java \
+    lib/expressions/*.java \
     lib/legacy/*.java \
-    lib/visitors/*.java
+    lib/visitors/*.java \
+    lib/handlers/*.java
 
 
 javac -cp "coverage/classes:$JUNIT_JAR" -d coverage/test-classes \
@@ -41,8 +44,8 @@ java \
     --disable-banner
 
 java -jar .coverage-tools/jacococli.jar report coverage/jacoco.exec \
-    --classfiles coverage/classes/lib/visitors \
-    --sourcefiles lib/visitors \
+    --classfiles coverage/classes/lib \
+    --sourcefiles lib \
     --html coverage/html \
     --xml coverage/jacoco.xml \
     --csv coverage/jacoco.csv
