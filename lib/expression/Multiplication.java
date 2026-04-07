@@ -5,7 +5,7 @@ public class Multiplication<E> implements Expression<E> {
         this.left = left;
         this.right = right;
     }
-    public <R>R accept(EExpressionVisitor<R, E> visitor) {return visitor.visit(this); }
+    public <R>R accept(ExpressionVisitor<R, E> visitor) {return visitor.visit(this); }
     public final E left;
     public final E right;
 }

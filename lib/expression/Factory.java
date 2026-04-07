@@ -3,86 +3,89 @@ package lib.expression;
 import java.util.List;
 import port.IExpressionFactory;
 
-public final class Factory implements IExpressionFactory<Expression> {
+public final class Factory implements IExpressionFactory<ExpressionV1> {
     public Factory() {}
 
-    public Literal literal(String value) {
-        return new Literal(value);
+    private ExpressionV1 wrap(Expression<ExpressionV1> expression) {
+        return new ExpressionV1(expression);
+    }
+    public ExpressionV1 literal(String value) {
+        return wrap(new Literal<>(value));
     }
 
-    public VariableReference variableReference(String name) {
-        return new VariableReference(name);
+    public ExpressionV1 variableReference(String name) {
+        return wrap(new VariableReference<>(name));
     }
 
-    public Addition addition(Expression left, Expression right) {
-        return new Addition(left, right);
+    public ExpressionV1 addition(ExpressionV1 left, ExpressionV1 right) {
+        return wrap(new Addition<>(left, right));
     }
 
-    public Subtraction subtraction(Expression left, Expression right) {
-        return new Subtraction(left, right);
+    public ExpressionV1 subtraction(ExpressionV1 left, ExpressionV1 right) {
+        return wrap(new Subtraction<>(left, right));
     }
 
-    public Multiplication multiplication(Expression left, Expression right) {
-        return new Multiplication(left, right);
+    public ExpressionV1 multiplication(ExpressionV1 left, ExpressionV1 right) {
+        return wrap(new Multiplication<>(left, right));
     }
 
-    public Division division(Expression dividend, Expression divisor) {
-        return new Division(dividend, divisor);
+    public ExpressionV1 division(ExpressionV1 dividend, ExpressionV1 divisor) {
+        return wrap(new Division<>(dividend, divisor));
     }
 
-    public Negation negation(Expression operand) {
-        return new Negation(operand);
+    public ExpressionV1 negation(ExpressionV1 operand) {
+        return wrap(new Negation<>(operand));
     }
 
-    public Modulo modulo(Expression left, Expression right) {
-        return new Modulo(left, right);
+    public ExpressionV1 modulo(ExpressionV1 left, ExpressionV1 right) {
+        return wrap(new Modulo<>(left, right));
     }
 
-    public Exponentiation exponentiation(Expression base, Expression exponent) {
-        return new Exponentiation(base, exponent);
+    public ExpressionV1 exponentiation(ExpressionV1 base, ExpressionV1 exponent) {
+        return wrap(new Exponentiation<>(base, exponent));
     }
 
-    public Equality equality(Expression left, Expression right) {
-        return new Equality(left, right);
+    public ExpressionV1 equality(ExpressionV1 left, ExpressionV1 right) {
+        return wrap(new Equality<>(left, right));
     }
 
-    public Inequality inequality(Expression left, Expression right) {
-        return new Inequality(left, right);
+    public ExpressionV1 inequality(ExpressionV1 left, ExpressionV1 right) {
+        return wrap(new Inequality<>(left, right));
     }
 
-    public LessThan lessThan(Expression left, Expression right) {
-        return new LessThan(left, right);
+    public ExpressionV1 lessThan(ExpressionV1 left, ExpressionV1 right) {
+        return wrap(new LessThan<>(left, right));
     }
 
-    public GreaterThan greaterThan(Expression left, Expression right) {
-        return new GreaterThan(left, right);
+    public ExpressionV1 greaterThan(ExpressionV1 left, ExpressionV1 right) {
+        return wrap(new GreaterThan<>(left, right));
     }
 
-    public LessThanOrEqual lessThanOrEqual(Expression left, Expression right) {
-        return new LessThanOrEqual(left, right);
+    public ExpressionV1 lessThanOrEqual(ExpressionV1 left, ExpressionV1 right) {
+        return wrap(new LessThanOrEqual<>(left, right));
     }
 
-    public GreaterThanOrEqual greaterThanOrEqual(Expression left, Expression right) {
-        return new GreaterThanOrEqual(left, right);
+    public ExpressionV1 greaterThanOrEqual(ExpressionV1 left, ExpressionV1 right) {
+        return wrap(new GreaterThanOrEqual<>(left, right));
     }
 
-    public Conjunction conjunction(Expression left, Expression right) {
-        return new Conjunction(left, right);
+    public ExpressionV1 conjunction(ExpressionV1 left, ExpressionV1 right) {
+        return wrap(new Conjunction<>(left, right));
     }
 
-    public Disjunction disjunction(Expression left, Expression right) {
-        return new Disjunction(left, right);
+    public ExpressionV1 disjunction(ExpressionV1 left, ExpressionV1 right) {
+        return wrap(new Disjunction<>(left, right));
     }
 
-    public LogicalNot logicalNot(Expression operand) {
-        return new LogicalNot(operand);
+    public ExpressionV1 logicalNot(ExpressionV1 operand) {
+        return wrap(new LogicalNot<>(operand));
     }
 
-    public Conditional conditional(Expression condition, Expression whenTrue, Expression whenFalse) {
-        return new Conditional(condition, whenTrue, whenFalse);
+    public ExpressionV1 conditional(ExpressionV1 condition, ExpressionV1 whenTrue, ExpressionV1 whenFalse) {
+        return wrap(new Conditional<>(condition, whenTrue, whenFalse));
     }
 
-    public FunctionCall functionCall(Expression callee, List<Expression> arguments) {
-        return new FunctionCall(callee, arguments);
+    public ExpressionV1 functionCall(ExpressionV1 callee, List<ExpressionV1> arguments) {
+        return wrap(new FunctionCall<>(callee, arguments));
     }
 }

@@ -4,15 +4,15 @@ import lib.expression.*;
 import lib.expression.category.*;
 
 
-public class CategoryVisitor implements Visitor<CategoryExpression> {
+public class CategoryVisitor<E> implements ExpressionVisitor<CategoryExpression<E>, E> {
     @Override
-    public CategoryExpression visit(Literal e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(Literal<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new LeafExpression() {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new LeafExpression<E>() {
                     @Override
-                    public <R> R accept(LeafExpressionVisitor<R> visitor) {
+                    public <R> R accept(LeafExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -21,13 +21,13 @@ public class CategoryVisitor implements Visitor<CategoryExpression> {
     }
     
     @Override
-    public CategoryExpression visit(VariableReference e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(VariableReference<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new LeafExpression() {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new LeafExpression<E>() {
                     @Override
-                    public <R> R accept(LeafExpressionVisitor<R> visitor) {
+                    public <R> R accept(LeafExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -36,23 +36,23 @@ public class CategoryVisitor implements Visitor<CategoryExpression> {
     }
 
     @Override
-    public CategoryExpression visit(FunctionCall e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(FunctionCall<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
                 return visitor.visit(e);
             }
         };
     }
 
     @Override
-    public CategoryExpression visit(Negation e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(Negation<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new ArithmeticExpression() {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new ArithmeticExpression<E>() {
                     @Override
-                    public <R> R accept(ArithmeticExpressionVisitor<R> visitor) {
+                    public <R> R accept(ArithmeticExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -61,13 +61,13 @@ public class CategoryVisitor implements Visitor<CategoryExpression> {
     }
 
     @Override
-    public CategoryExpression visit(Conditional e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(Conditional<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new LogicalExpression() {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new LogicalExpression<E>() {
                     @Override
-                    public <R> R accept(LogicalExpressionVisitor<R> visitor) {
+                    public <R> R accept(LogicalExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -76,13 +76,13 @@ public class CategoryVisitor implements Visitor<CategoryExpression> {
     }
 
     @Override
-    public CategoryExpression visit(LogicalNot e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(LogicalNot<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new LogicalExpression() {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new LogicalExpression<E>() {
                     @Override
-                    public <R> R accept(LogicalExpressionVisitor<R> visitor) {
+                    public <R> R accept(LogicalExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -91,13 +91,13 @@ public class CategoryVisitor implements Visitor<CategoryExpression> {
     }
 
     @Override
-    public CategoryExpression visit(Addition e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(Addition<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new ArithmeticExpression() { 
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new ArithmeticExpression<E>() { 
                     @Override
-                    public <R> R accept(ArithmeticExpressionVisitor<R> visitor) {
+                    public <R> R accept(ArithmeticExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -106,13 +106,13 @@ public class CategoryVisitor implements Visitor<CategoryExpression> {
     }
 
     @Override
-    public CategoryExpression visit(Subtraction e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(Subtraction<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new ArithmeticExpression() {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new ArithmeticExpression<E>() {
                     @Override
-                    public <R> R accept(ArithmeticExpressionVisitor<R> visitor) {
+                    public <R> R accept(ArithmeticExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -121,13 +121,13 @@ public class CategoryVisitor implements Visitor<CategoryExpression> {
     }
 
     @Override
-    public CategoryExpression visit(Multiplication e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(Multiplication<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new ArithmeticExpression() {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new ArithmeticExpression<E>() {
                     @Override
-                    public <R> R accept(ArithmeticExpressionVisitor<R> visitor) {
+                    public <R> R accept(ArithmeticExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -136,13 +136,13 @@ public class CategoryVisitor implements Visitor<CategoryExpression> {
     }
 
     @Override
-    public CategoryExpression visit(Division e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(Division<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new ArithmeticExpression() {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new ArithmeticExpression<E>() {
                     @Override
-                    public <R> R accept(ArithmeticExpressionVisitor<R> visitor) {
+                    public <R> R accept(ArithmeticExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -151,13 +151,13 @@ public class CategoryVisitor implements Visitor<CategoryExpression> {
     }
 
     @Override
-    public CategoryExpression visit(Modulo e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(Modulo<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new ArithmeticExpression() {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new ArithmeticExpression<E>() {
                     @Override
-                    public <R> R accept(ArithmeticExpressionVisitor<R> visitor) {
+                    public <R> R accept(ArithmeticExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -166,13 +166,13 @@ public class CategoryVisitor implements Visitor<CategoryExpression> {
     }
 
     @Override
-    public CategoryExpression visit(Exponentiation e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(Exponentiation<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new ArithmeticExpression() {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new ArithmeticExpression<E>() {
                     @Override
-                    public <R> R accept(ArithmeticExpressionVisitor<R> visitor) {
+                    public <R> R accept(ArithmeticExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -181,13 +181,13 @@ public class CategoryVisitor implements Visitor<CategoryExpression> {
     }
 
     @Override
-    public CategoryExpression visit(Equality e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(Equality<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new ComparisonExpression() {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new ComparisonExpression<E>() {
                     @Override
-                    public <R> R accept(ComparisonExpressionVisitor<R> visitor) {
+                    public <R> R accept(ComparisonExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -196,13 +196,13 @@ public class CategoryVisitor implements Visitor<CategoryExpression> {
     }
 
     @Override
-    public CategoryExpression visit(Inequality e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(Inequality<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new ComparisonExpression() {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new ComparisonExpression<E>() {
                     @Override
-                    public <R> R accept(ComparisonExpressionVisitor<R> visitor) {
+                    public <R> R accept(ComparisonExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -211,13 +211,13 @@ public class CategoryVisitor implements Visitor<CategoryExpression> {
     }
 
     @Override
-    public CategoryExpression visit(LessThan e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(LessThan<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new ComparisonExpression() {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new ComparisonExpression<E>() {
                     @Override
-                    public <R> R accept(ComparisonExpressionVisitor<R> visitor) {
+                    public <R> R accept(ComparisonExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -226,13 +226,13 @@ public class CategoryVisitor implements Visitor<CategoryExpression> {
     }
 
     @Override
-    public CategoryExpression visit(GreaterThan e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(GreaterThan<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new ComparisonExpression() {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new ComparisonExpression<E>() {
                     @Override
-                    public <R> R accept(ComparisonExpressionVisitor<R> visitor) {
+                    public <R> R accept(ComparisonExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -241,13 +241,13 @@ public class CategoryVisitor implements Visitor<CategoryExpression> {
     }
 
     @Override
-    public CategoryExpression visit(LessThanOrEqual e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(LessThanOrEqual<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new ComparisonExpression() {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new ComparisonExpression<E>() {
                     @Override
-                    public <R> R accept(ComparisonExpressionVisitor<R> visitor) {
+                    public <R> R accept(ComparisonExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -256,13 +256,13 @@ public class CategoryVisitor implements Visitor<CategoryExpression> {
     }
 
     @Override
-    public CategoryExpression visit(GreaterThanOrEqual e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(GreaterThanOrEqual<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new ComparisonExpression() {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new ComparisonExpression<E>() {
                     @Override
-                    public <R> R accept(ComparisonExpressionVisitor<R> visitor) {
+                    public <R> R accept(ComparisonExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -271,13 +271,13 @@ public class CategoryVisitor implements Visitor<CategoryExpression> {
     }
 
     @Override
-    public CategoryExpression visit(Conjunction e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(Conjunction<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new LogicalExpression() {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new LogicalExpression<E>() {
                     @Override
-                    public <R> R accept(LogicalExpressionVisitor<R> visitor) {
+                    public <R> R accept(LogicalExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });
@@ -286,13 +286,13 @@ public class CategoryVisitor implements Visitor<CategoryExpression> {
     }
 
     @Override
-    public CategoryExpression visit(Disjunction e) {
-        return new CategoryExpression() {
+    public CategoryExpression<E> visit(Disjunction<E> e) {
+        return new CategoryExpression<E>() {
             @Override
-            public <R> R accept(CategoryExpressionVisitor<R> visitor) {
-                return visitor.visit(new LogicalExpression() {
+            public <R> R accept(CategoryExpressionVisitor<R, E> visitor) {
+                return visitor.visit(new LogicalExpression<E>() {
                     @Override
-                    public <R> R accept(LogicalExpressionVisitor<R> visitor) {
+                    public <R> R accept(LogicalExpressionVisitor<R, E> visitor) {
                         return visitor.visit(e);
                     }
                 });

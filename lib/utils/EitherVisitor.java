@@ -1,6 +1,6 @@
 package lib.utils;
 
-interface EitherVisitor<T, V, R> {
+public interface EitherVisitor<T, V, R> {
     R left(T left);
 
     R right(V right);

@@ -6,75 +6,75 @@ import java.util.function.Function;
 
 import lib.expression.*;
 
-public abstract class FallbackVisitor<R> implements ExpressionVisitor<R> {
-    private final Function<Expression, R> fallback;
+public abstract class FallbackVisitor<R, E> implements ExpressionVisitor<R, E> {
+    private final Function<Expression<E>, R> fallback;
 
-    public FallbackVisitor(Function<Expression, R> fallback) {
+    public FallbackVisitor(Function<Expression<E>, R> fallback) {
         this.fallback = fallback;
     }
 
-    private R empty(Expression e) {
+    private R empty(Expression<E> e) {
         return fallback.apply(e);
     }
 
-    public R visit(Literal e) {
+    public R visit(Literal<E> e) {
         return empty(e);
     }
-    public R visit(VariableReference e) {
+    public R visit(VariableReference<E> e) {
         return empty(e);
     }
-    public R visit(Addition e) {
+    public R visit(Addition<E> e) {
         return empty(e);
     }
-    public R visit(Subtraction e) {
+    public R visit(Subtraction<E> e) {
         return empty(e);
     }
-    public R visit(Multiplication e) {
+    public R visit(Multiplication<E> e) {
         return empty(e);
     }
-    public R visit(Division e) {
+    public R visit(Division<E> e) {
         return empty(e);
     }
-    public R visit(Negation e) {
+    public R visit(Negation<E> e) {
         return empty(e);
     }
-    public R visit(Modulo e) {
+    public R visit(Modulo<E> e) {
         return empty(e);
     }
-    public R visit(Exponentiation e) {
+    public R visit(Exponentiation<E> e) {
         return empty(e);
     }
-    public R visit(Equality e) {
+    public R visit(Equality<E> e) {
         return empty(e);
     }
-    public R visit(Inequality e) {
+    public R visit(Inequality<E> e) {
         return empty(e);
     }
-    public R visit(LessThan e) {
+    public R visit(LessThan<E> e) {
         return empty(e);
     }
-    public R visit(GreaterThan e) {
+    public R visit(GreaterThan<E> e) {
         return empty(e);
     }
-    public R visit(LessThanOrEqual e) {
+    public R visit(LessThanOrEqual<E> e) {
         return empty(e);
     }
-    public R visit(GreaterThanOrEqual e) {
+    public R visit(GreaterThanOrEqual<E> e) {
         return empty(e);
     }
-    public R visit(Conjunction e) {
+    public R visit(Conjunction<E> e) {
         return empty(e);
     }
-    public R visit(Disjunction e) {
+    public R visit(Disjunction<E> e) {
         return empty(e);
     }
-    public R visit(LogicalNot e) {
+    public R visit(LogicalNot<E> e) {
         return empty(e);
     }
-    public R visit(Conditional e) {
+    public R visit(Conditional<E> e) {
         return empty(e);
     }
-    public R visit(FunctionCall e) {
+    public R visit(FunctionCall<E> e) {
         return empty(e);
     }
     
