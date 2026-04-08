@@ -36,7 +36,7 @@ public interface IHandlerFactory<E> {
 
     Function<E, BindingPower> createBindingPowerHandler();
 
-    Function<E, String> cLikeSyntaxPrinter();
+    Function<E, String> jsLikeSyntaxPrinter();
 
     Function<E, String> lispLikeSyntaxPrinter();
 

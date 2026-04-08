@@ -7,32 +7,32 @@ import org.junit.jupiter.api.Test;
 import lib.expression.*;
 import lib.handlers.HandlerFactory;
 
-abstract class ExpressionToCLikeSyntaxTestBase<E> extends TestBase<E> {
-    ExpressionToCLikeSyntaxTestBase(TestSupport<E> testSupport) {
+abstract class ExpressionToJsLikeSyntaxTestBase<E> extends TestBase<E> {
+    ExpressionToJsLikeSyntaxTestBase(TestSupport<E> testSupport) {
         super(testSupport);
     }
 
     @Test
-    void cLikeSyntaxUsesPriorityToControlParentheses() {
+    void jsLikeSyntaxUsesPriorityToControlParentheses() {
         assertEquals(
             "1 + 2 * 3",
-            renderCLike(factory.addition(factory.literal("1"), factory.multiplication(factory.literal("2"), factory.literal("3"))))
+            renderJsLike(factory.addition(factory.literal("1"), factory.multiplication(factory.literal("2"), factory.literal("3"))))
         );
         assertEquals(
             "(1 + 2) * 3",
-            renderCLike(factory.multiplication(factory.addition(factory.literal("1"), factory.literal("2")), factory.literal("3")))
+            renderJsLike(factory.multiplication(factory.addition(factory.literal("1"), factory.literal("2")), factory.literal("3")))
         );
         assertEquals(
             "10 - (3 - 1)",
-            renderCLike(factory.subtraction(factory.literal("10"), factory.subtraction(factory.literal("3"), factory.literal("1"))))
+            renderJsLike(factory.subtraction(factory.literal("10"), factory.subtraction(factory.literal("3"), factory.literal("1"))))
         );
     }
 
     @Test
-    void cLikeSyntaxPrintsOperatorsAndCalls() {
+    void jsLikeSyntaxPrintsOperatorsAndCalls() {
         assertEquals(
             "x <= 10 ? f(1, y) : !ready || pow(2, 3)",
-            renderCLike(factory.conditional(
+            renderJsLike(factory.conditional(
                 factory.lessThanOrEqual(factory.variableReference("x"), factory.literal("10")),
                 factory.functionCall(factory.variableReference("f"), java.util.List.of(factory.literal("1"), factory.variableReference("y"))),
                 factory.disjunction(factory.logicalNot(factory.variableReference("ready")), factory.exponentiation(factory.literal("2"), factory.literal("3")))
@@ -41,10 +41,10 @@ abstract class ExpressionToCLikeSyntaxTestBase<E> extends TestBase<E> {
     }
 
     @Test
-    void cLikeSyntaxUsesRightAssociativeBindingWhenNeeded() {
+    void jsLikeSyntaxUsesRightAssociativeBindingWhenNeeded() {
         assertEquals(
             "a ? b : c ? d : e",
-            renderCLike(factory.conditional(
+            renderJsLike(factory.conditional(
                 factory.variableReference("a"),
                 factory.variableReference("b"),
                 factory.conditional(
@@ -57,8 +57,8 @@ abstract class ExpressionToCLikeSyntaxTestBase<E> extends TestBase<E> {
     }
 }
 
-class ExpressionToCLikeSyntaxTest extends ExpressionToCLikeSyntaxTestBase<ExpressionV1> {
-    ExpressionToCLikeSyntaxTest() {
-        super(new TestSupport<>(new HandlerFactory()));
+class ExpressionToJsLikeSyntaxTest extends ExpressionToJsLikeSyntaxTestBase<ExpressionV1> {
+    ExpressionToJsLikeSyntaxTest() {
+        super(new TestSupport<ExpressionV1>(new HandlerFactory()));
     }
 }

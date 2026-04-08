@@ -3,24 +3,23 @@ package lib.visitors;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import lib.dict.BindingPowersDict;
 import lib.expression.*;
 import port.BindingPower;
 import port.IHandlerFactory;
 
-public final class ExpressionToCLikeSyntax<E> implements ExpressionVisitor<String, E> {
+public final class ExpressionToJsLikeSyntax<E> implements ExpressionVisitor<String, E> {
     private final Function<E, BindingPower> bindingPowers;
-    private final Function<E, String> cLikeSyntaxPrinter;
+    private final Function<E, String> jsLikeSyntaxPrinter;
     private final E e;
 
-    public ExpressionToCLikeSyntax(IHandlerFactory<E> handlers, Function<E, String> cLikeSyntaxPrinter, E e) {
+    public ExpressionToJsLikeSyntax(IHandlerFactory<E> handlers, Function<E, String> jsLikeSyntaxPrinter, E e) {
         this.bindingPowers = handlers.createBindingPowerHandler();
-        this.cLikeSyntaxPrinter = cLikeSyntaxPrinter;
+        this.jsLikeSyntaxPrinter = jsLikeSyntaxPrinter;
         this.e = e;
     }
 
     private String apply(E expression) {
-        return cLikeSyntaxPrinter.apply(expression);
+        return jsLikeSyntaxPrinter.apply(expression);
     }
 
     private String renderChild(E child, BindingPower parentBinding, boolean isRightChild) {

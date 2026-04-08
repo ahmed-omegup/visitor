@@ -16,10 +16,10 @@ abstract class TestBase<E> {
     }
 
     protected final String render(E expression) {
-        return testSupport.v.cLikeSyntaxPrinter().apply(expression);
+        return testSupport.v.jsLikeSyntaxPrinter().apply(expression);
     }
 
-    protected final String renderCLike(E expression) {
+    protected final String renderJsLike(E expression) {
         return render(expression);
     }
 

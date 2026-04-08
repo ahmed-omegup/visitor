@@ -108,9 +108,9 @@ public final class HandlerFactory implements IHandlerFactory<ExpressionV1> {
     }
 
     @Override
-    public Function<ExpressionV1, String> cLikeSyntaxPrinter() {
+    public Function<ExpressionV1, String> jsLikeSyntaxPrinter() {
         return expression -> expression
-                .accept(new ExpressionToCLikeSyntax<>(this, this.cLikeSyntaxPrinter(), expression));
+                .accept(new ExpressionToJsLikeSyntax<>(this, this.jsLikeSyntaxPrinter(), expression));
     }
 
     @Override
