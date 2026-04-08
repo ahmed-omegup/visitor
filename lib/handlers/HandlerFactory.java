@@ -10,10 +10,12 @@ import lib.dict.ConstDict;
 import lib.dict.Dict;
 import lib.expression.*;
 import lib.utils.Either;
+import lib.utils.EitherVisitor;
 import lib.utils.Left;
 import lib.utils.Right;
 import lib.visitors.*;
 import port.BindingPower;
+import port.IExpressionDict;
 import port.IHandlerFactory;
 import port.IExpressionFactory;
 import port.State;
@@ -131,4 +133,30 @@ public final class HandlerFactory implements IHandlerFactory<ExpressionV1> {
 
         return new LocalReduceVisitor<ExpressionV1, Dict<T>, T>(state(), initial, reducer, this.expressionChildren());
     }
+
+    @Override
+    public Function<ExpressionV1, IExpressionDict<Integer>> histogram() {
+
+        var visitor = localReduceVisitor(0, (n, _e) -> n + 1);
+
+        return expression -> visitor.apply(expression);
+    }
+
+    @Override
+    public Function<ExpressionV1, ExpressionV1> renameVariable(String oldName, String newName) {
+        return new ExpressionMapper<ExpressionV1>(this, (e, next) -> isVariable().apply(e).accept(new EitherVisitor<>() {
+            public ExpressionV1 left(VariableReference<ExpressionV1> left) {
+                if (left.name.equals(oldName)) {
+                    return expressionFactory().variableReference(newName);
+                }
+                return e;
+            }
+
+            public ExpressionV1 right(ExpressionV1 right) {
+                return next.get();
+            }
+        }), (e, visitor) -> e.accept(visitor));
+    }
+
+
 }
