@@ -29,7 +29,7 @@ abstract class ExpressionToLispLikeSyntaxTestBase<E> extends TestBase<E> {
     }
 }
 
-class ExpressionToLispLikeSyntaxTest extends ExpressionToLispLikeSyntaxTestBase<Expression> {
+class ExpressionToLispLikeSyntaxTest extends ExpressionToLispLikeSyntaxTestBase<ExpressionV1> {
     ExpressionToLispLikeSyntaxTest() {
         super(new TestSupport<>(new HandlerFactory()));
     }

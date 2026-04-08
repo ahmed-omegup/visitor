@@ -28,3 +28,25 @@ javac -Xlint:unchecked -d coverage/classes \
     lib/dict/*.java \
     lib/visitors/*.java \
     lib/handlers/*.java
+
+
+javac -cp "coverage/classes:$JUNIT_JAR" -d coverage/test-classes \
+    spec/visitors/*.java
+
+java \
+    -javaagent:.coverage-tools/jacocoagent.jar=destfile=coverage/jacoco.exec \
+    -jar "$JUNIT_JAR" execute \
+    --class-path "coverage/classes:coverage/test-classes" \
+    --scan-class-path \
+    --details tree \
+    --disable-banner
+
+java -jar .coverage-tools/jacococli.jar report coverage/jacoco.exec \
+    --classfiles coverage/classes/lib \
+    --sourcefiles lib \
+    --html coverage/html \
+    --xml coverage/jacoco.xml \
+    --csv coverage/jacoco.csv
+
+echo "Coverage report written to coverage/html/index.html"
+echo "Coverage CSV written to coverage/jacoco.csv"

@@ -57,7 +57,7 @@ abstract class ExpressionToCLikeSyntaxTestBase<E> extends TestBase<E> {
     }
 }
 
-class ExpressionToCLikeSyntaxTest extends ExpressionToCLikeSyntaxTestBase<Expression> {
+class ExpressionToCLikeSyntaxTest extends ExpressionToCLikeSyntaxTestBase<ExpressionV1> {
     ExpressionToCLikeSyntaxTest() {
         super(new TestSupport<>(new HandlerFactory()));
     }

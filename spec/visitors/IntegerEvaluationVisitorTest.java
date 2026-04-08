@@ -3,12 +3,14 @@ package spec.visitors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
 import lib.expression.Expression;
+import lib.expression.ExpressionV1;
 import lib.handlers.HandlerFactory;
 
 abstract class IntegerEvaluationVisitorTestBase<E> extends TestBase<E> {
@@ -18,7 +20,7 @@ abstract class IntegerEvaluationVisitorTestBase<E> extends TestBase<E> {
 
     @Test
     void evaluatesConstantArithmetic() {
-        var evaluator = testSupport.v.integerEvaluator();
+        var evaluator = testSupport.v.integerEvaluator(new HashMap<>(), new HashMap<>());
 
         assertEquals(
             4,
@@ -28,7 +30,7 @@ abstract class IntegerEvaluationVisitorTestBase<E> extends TestBase<E> {
 
     @Test
     void failsQuickOnUnknownVariable() {
-        var evaluator = testSupport.v.integerEvaluator();
+        var evaluator = testSupport.v.integerEvaluator(new HashMap<>(), new HashMap<>());
 
         var exception = assertThrows(
             IllegalArgumentException.class,
@@ -53,7 +55,7 @@ abstract class IntegerEvaluationVisitorTestBase<E> extends TestBase<E> {
     }
 }
 
-class IntegerEvaluationVisitorTest extends IntegerEvaluationVisitorTestBase<Expression> {
+class IntegerEvaluationVisitorTest extends IntegerEvaluationVisitorTestBase<ExpressionV1> {
     IntegerEvaluationVisitorTest() {
         super(new TestSupport<>(new HandlerFactory()));
     }
