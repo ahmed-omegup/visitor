@@ -32,7 +32,8 @@ javac -Xlint:unchecked -d coverage/classes \
     lib/visitors/ExpressionMapper.java \
     lib/visitors/CategoryVisitor.java \
     lib/visitors/ConstantFolder.java \
-    lib/visitors/ExpressionToCLikeSyntax.java
+    lib/visitors/ExpressionToCLikeSyntax.java \
+    lib/visitors/ExpressionToLispLikeSyntax.java
     
 
 

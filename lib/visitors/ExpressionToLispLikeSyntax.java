@@ -3,8 +3,19 @@ package lib.visitors;
 import java.util.stream.Collectors;
 
 import lib.expression.*;
+import port.ICleanHandlerFactory;
 
 public final class ExpressionToLispLikeSyntax<E> implements ExpressionVisitor<String, E> {
+    private final ICleanHandlerFactory<E> handlers;
+
+    public ExpressionToLispLikeSyntax(ICleanHandlerFactory<E> handlers) {
+        this.handlers = handlers;
+    }
+
+    private String apply(E expression) {
+        return handlers.lispLikeSyntaxPrinter().apply(expression);
+    }
+
     private String unary(String operator, E operand) {
         return "(" + operator + " " + apply(operand) + ")";
     }
@@ -95,7 +106,7 @@ public final class ExpressionToLispLikeSyntax<E> implements ExpressionVisitor<St
 
     public String visit(FunctionCall<E> expression) {
         return "(" + apply(expression.callee)
-            + (expression.arguments.isEmpty() ? "" : " " + expression.arguments.stream().map(this).collect(Collectors.joining(" ")))
+            + (expression.arguments.isEmpty() ? "" : " " + expression.arguments.stream().map(this::apply).collect(Collectors.joining(" ")))
             + ")";
     }
 }

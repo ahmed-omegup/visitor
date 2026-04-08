@@ -38,11 +38,11 @@ public final class HandlerFactory implements ICleanHandlerFactory<Expression> {
     }
 
     public Function<Expression, String> cLikeSyntaxPrinter() {
-        return new ExpressionToCLikeSyntax();
+        return expression -> expression.accept(new ExpressionToCLikeSyntax(this, this.cLikeSyntaxPrinter(), expression));
     }
 
     public Function<Expression, String> lispLikeSyntaxPrinter() {
-        return new ExpressionToLispLikeSyntax();
+        return new ExpressionToLispLikeSyntax(this);
     }
 
     public Function<Expression, Integer> integerEvaluator() {

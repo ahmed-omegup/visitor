@@ -13,9 +13,9 @@ public final class ExpressionToCLikeSyntax<E> implements ExpressionVisitor<Strin
     private final Function<E, String> cLikeSyntaxPrinter;
     private final E e;
 
-    public ExpressionToCLikeSyntax(ICleanHandlerFactory<E> handlers, E e) {
+    public ExpressionToCLikeSyntax(ICleanHandlerFactory<E> handlers, Function<E, String> cLikeSyntaxPrinter, E e) {
         this.bindingPowers = handlers.createBindingPowerHandler();
-        this.cLikeSyntaxPrinter = handlers.cLikeSyntaxPrinter();
+        this.cLikeSyntaxPrinter = cLikeSyntaxPrinter;
         this.e = e;
     }
 
