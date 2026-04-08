@@ -64,28 +64,30 @@ public final class HandlerFactory implements IHandlerFactory<ExpressionV1> {
 
     @Override
     public Function<ExpressionV1, Boolean> literalChecker() {
-        return expression -> isLiteral().apply(expression).accept(new EitherVisitor<Literal<ExpressionV1>, ExpressionV1, Boolean>() {
-            public Boolean left(Literal<ExpressionV1> left) {
-                return true;
-            }
+        return expression -> isLiteral().apply(expression)
+                .accept(new EitherVisitor<Literal<ExpressionV1>, ExpressionV1, Boolean>() {
+                    public Boolean left(Literal<ExpressionV1> left) {
+                        return true;
+                    }
 
-            public Boolean right(ExpressionV1 right) {
-                return false;
-            }
-        });
+                    public Boolean right(ExpressionV1 right) {
+                        return false;
+                    }
+                });
     }
 
     @Override
     public Function<ExpressionV1, Boolean> variableChecker() {
-        return expression -> isVariable().apply(expression).accept(new EitherVisitor<VariableReference<ExpressionV1>, ExpressionV1, Boolean>() {
-            public Boolean left(VariableReference<ExpressionV1> left) {
-                return true;
-            }
+        return expression -> isVariable().apply(expression)
+                .accept(new EitherVisitor<VariableReference<ExpressionV1>, ExpressionV1, Boolean>() {
+                    public Boolean left(VariableReference<ExpressionV1> left) {
+                        return true;
+                    }
 
-            public Boolean right(ExpressionV1 right) {
-                return false;
-            }
-        });
+                    public Boolean right(ExpressionV1 right) {
+                        return false;
+                    }
+                });
     }
 
     @Override
@@ -140,10 +142,12 @@ public final class HandlerFactory implements IHandlerFactory<ExpressionV1> {
             public Dict<T> intial(T value) {
                 return new ConstDict<T>(value);
             };
-            public Function<ExpressionV1,T> getter(Dict<T> state) {
+
+            public Function<ExpressionV1, T> getter(Dict<T> state) {
                 var visitor = new IsomorphicGetter<T, ExpressionV1>(state);
                 return expression -> expression.accept(visitor);
             };
+
             public Consumer<ExpressionV1> setter(Dict<T> state, T value) {
                 var visitor = new IsomorphicSetter<T, ExpressionV1>(state, value);
                 return expression -> expression.accept(visitor);
@@ -162,79 +166,25 @@ public final class HandlerFactory implements IHandlerFactory<ExpressionV1> {
 
     @Override
     public Function<ExpressionV1, IExpressionDict<Integer>> histogram() {
-        return expression -> {
-            var histogram = new Dict<Integer>();
-            histogram.literal = 0;
-            histogram.variableReference = 0;
-            histogram.addition = 0;
-            histogram.subtraction = 0;
-            histogram.multiplication = 0;
-            histogram.division = 0;
-            histogram.negation = 0;
-            histogram.modulo = 0;
-            histogram.exponentiation = 0;
-            histogram.equality = 0;
-            histogram.inequality = 0;
-            histogram.lessThan = 0;
-            histogram.greaterThan = 0;
-            histogram.lessThanOrEqual = 0;
-            histogram.greaterThanOrEqual = 0;
-            histogram.conjunction = 0;
-            histogram.disjunction = 0;
-            histogram.logicalNot = 0;
-            histogram.conditional = 0;
-            histogram.functionCall = 0;
-            countIntoHistogram(expression, histogram);
-            return histogram;
-        };
+        var visitor = localReduceVisitor(0, (n, _e) -> n + 1);
+        return expression -> visitor.apply(expression);
     }
 
     @Override
     public Function<ExpressionV1, ExpressionV1> renameVariable(String oldName, String newName) {
-        return new ExpressionMapper<ExpressionV1>(this, (e, next) -> isVariable().apply(e).accept(new EitherVisitor<>() {
-            public ExpressionV1 left(VariableReference<ExpressionV1> left) {
-                if (left.name.equals(oldName)) {
-                    return expressionFactory().variableReference(newName);
-                }
-                return e;
-            }
+        return new ExpressionMapper<ExpressionV1>(this,
+                (e, next) -> isVariable().apply(e).accept(new EitherVisitor<>() {
+                    public ExpressionV1 left(VariableReference<ExpressionV1> left) {
+                        if (left.name.equals(oldName)) {
+                            return expressionFactory().variableReference(newName);
+                        }
+                        return e;
+                    }
 
-            public ExpressionV1 right(ExpressionV1 right) {
-                return next.get();
-            }
-        }), (e, visitor) -> e.accept(visitor));
+                    public ExpressionV1 right(ExpressionV1 right) {
+                        return next.get();
+                    }
+                }), (e, visitor) -> e.accept(visitor));
     }
-
-    private void countIntoHistogram(ExpressionV1 expression, Dict<Integer> histogram) {
-        switch (expressionClassNameExtractor().apply(expression)) {
-            case "Literal" -> histogram.literal += 1;
-            case "VariableReference" -> histogram.variableReference += 1;
-            case "Addition" -> histogram.addition += 1;
-            case "Subtraction" -> histogram.subtraction += 1;
-            case "Multiplication" -> histogram.multiplication += 1;
-            case "Division" -> histogram.division += 1;
-            case "Negation" -> histogram.negation += 1;
-            case "Modulo" -> histogram.modulo += 1;
-            case "Exponentiation" -> histogram.exponentiation += 1;
-            case "Equality" -> histogram.equality += 1;
-            case "Inequality" -> histogram.inequality += 1;
-            case "LessThan" -> histogram.lessThan += 1;
-            case "GreaterThan" -> histogram.greaterThan += 1;
-            case "LessThanOrEqual" -> histogram.lessThanOrEqual += 1;
-            case "GreaterThanOrEqual" -> histogram.greaterThanOrEqual += 1;
-            case "Conjunction" -> histogram.conjunction += 1;
-            case "Disjunction" -> histogram.disjunction += 1;
-            case "LogicalNot" -> histogram.logicalNot += 1;
-            case "Conditional" -> histogram.conditional += 1;
-            case "FunctionCall" -> histogram.functionCall += 1;
-            default -> {
-            }
-        }
-
-        for (var child : expressionChildren().apply(expression)) {
-            countIntoHistogram(child, histogram);
-        }
-    }
-
 
 }
