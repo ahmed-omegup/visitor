@@ -6,6 +6,8 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import lib.expression.ExpressionV1;
+
 public interface IHandlerFactory<E> {
 
     <T, R> R handleState(StateConsumer<E, T, R> handler);
@@ -19,6 +21,8 @@ public interface IHandlerFactory<E> {
     Function<E, Boolean> variableChecker();
 
     Function<E, IExpressionDict<Integer>> histogram();
+
+    Function<E, List<String>> collectClassNamesVisitor();
 
     Function<E, E> renameVariable(String oldName, String newName);
 
