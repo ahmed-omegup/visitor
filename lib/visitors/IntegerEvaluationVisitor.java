@@ -6,33 +6,25 @@ import java.util.Map;
 import java.util.function.Function;
 
 import lib.expression.*;
+import lib.utils.Either;
+import lib.utils.EitherVisitor;
 
 public final class IntegerEvaluationVisitor<E> implements ExpressionVisitor<Integer, E> {
     private final Map<String, Integer> variables;
     private final Map<String, Function<List<Integer>, Integer>> functions;
-    private final ExpressionVisitor<String, E> calleeNameExtractor = new FallbackVisitor<>(
-            e -> {
-                throw new IllegalArgumentException("Function call requires a variable reference callee");
-            }) {
-        @Override
-        public String visit(VariableReference<E> expression) {
-            return expression.name;
-        }
-    };
+    private final Function<E, Either<VariableReference<E>, E>> isVariable;
+    private final Function<E, Integer> integerEvaluator;
 
-    public IntegerEvaluationVisitor() {
-        this(Map.of(), Map.of());
-    }
-
-    public IntegerEvaluationVisitor(
-            Map<String, Integer> variables,
-            Map<String, Function<List<Integer>, Integer>> functions) {
+    IntegerEvaluationVisitor(Map<String, Integer> variables, Map<String, Function<List<Integer>, Integer>> functions,
+            Function<E, Either<VariableReference<E>, E>> isVariable, Function<E, Integer> integerEvaluator) {
         this.variables = variables;
         this.functions = functions;
+        this.isVariable = isVariable;
+        this.integerEvaluator = integerEvaluator;
     }
 
-    private int evaluate(Expression expression) {
-        return apply(expression);
+    private Integer evaluate(E expression) {
+        return integerEvaluator.apply(expression);
     }
 
     private boolean truthy(int value) {
@@ -119,7 +111,15 @@ public final class IntegerEvaluationVisitor<E> implements ExpressionVisitor<Inte
     }
 
     public Integer visit(FunctionCall<E> expression) {
-        var calleeName = expression.callee.accept(calleeNameExtractor);
+        var calleeName = isVariable.apply(expression.callee).accept(new EitherVisitor<VariableReference<E>, E, String>() {
+            public String left(VariableReference<E> left) {
+                return left.name;
+            }
+
+            public String right(E e) {
+                throw new IllegalArgumentException("Expected a variable reference");
+            }
+        });
         if (!functions.containsKey(calleeName)) {
             throw new IllegalArgumentException("Unknown function: " + calleeName);
         }

@@ -27,13 +27,6 @@ javac -Xlint:unchecked -d coverage/classes \
     lib/expression/*.java \
     lib/expression/category/*.java \
     lib/expressions/*.java \
-    lib/visitors/ExpressionChildren.java \
-    lib/visitors/ConstantFolderOnce.java \
-    lib/visitors/ExpressionMapper.java \
-    lib/visitors/CategoryVisitor.java \
-    lib/visitors/ConstantFolder.java \
-    lib/visitors/ExpressionToCLikeSyntax.java \
-    lib/visitors/ExpressionToLispLikeSyntax.java
-    
+    lib/visitors/IntegerEvaluationVisitor.java
 
 
