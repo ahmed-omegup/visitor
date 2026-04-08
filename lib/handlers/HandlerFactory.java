@@ -14,11 +14,11 @@ import lib.utils.Left;
 import lib.utils.Right;
 import lib.visitors.*;
 import port.BindingPower;
-import port.ICleanHandlerFactory;
+import port.IHandlerFactory;
 import port.IExpressionFactory;
 import port.State;
 
-public final class HandlerFactory implements ICleanHandlerFactory<ExpressionV1> {
+public final class HandlerFactory implements IHandlerFactory<ExpressionV1> {
     @Override
     public IExpressionFactory<ExpressionV1> expressionFactory() {
         return new Factory();

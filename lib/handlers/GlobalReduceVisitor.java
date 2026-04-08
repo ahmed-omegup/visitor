@@ -8,7 +8,7 @@ import lib.dict.Dict;
 import lib.expression.*;
 import lib.visitors.ExpressionChildren;
 import lib.visitors.IsomorphicGetter;
-import port.ICleanHandlerFactory;
+import port.IHandlerFactory;
 
 public final class GlobalReduceVisitor<T, E> implements Function<E, T> {
 
@@ -16,7 +16,7 @@ public final class GlobalReduceVisitor<T, E> implements Function<E, T> {
     private final BinaryOperator<T> reducer;
     private final Function<E, List<E>> children;
 
-    <State>GlobalReduceVisitor(ICleanHandlerFactory<E> handlers, Function<State, Function<E, T>> getter, State values, BinaryOperator<T> reducer, Function<E, List<E>> children) {
+    <State>GlobalReduceVisitor(IHandlerFactory<E> handlers, Function<State, Function<E, T>> getter, State values, BinaryOperator<T> reducer, Function<E, List<E>> children) {
         this.getter = getter.apply(values);
         this.reducer = reducer;
         this.children = children;

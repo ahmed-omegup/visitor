@@ -3,12 +3,12 @@ package lib.visitors;
 import java.util.stream.Collectors;
 
 import lib.expression.*;
-import port.ICleanHandlerFactory;
+import port.IHandlerFactory;
 
 public final class ExpressionToLispLikeSyntax<E> implements ExpressionVisitor<String, E> {
-    private final ICleanHandlerFactory<E> handlers;
+    private final IHandlerFactory<E> handlers;
 
-    public ExpressionToLispLikeSyntax(ICleanHandlerFactory<E> handlers) {
+    public ExpressionToLispLikeSyntax(IHandlerFactory<E> handlers) {
         this.handlers = handlers;
     }
 

@@ -6,14 +6,14 @@ import java.util.stream.Collectors;
 import lib.dict.BindingPowersDict;
 import lib.expression.*;
 import port.BindingPower;
-import port.ICleanHandlerFactory;
+import port.IHandlerFactory;
 
 public final class ExpressionToCLikeSyntax<E> implements ExpressionVisitor<String, E> {
     private final Function<E, BindingPower> bindingPowers;
     private final Function<E, String> cLikeSyntaxPrinter;
     private final E e;
 
-    public ExpressionToCLikeSyntax(ICleanHandlerFactory<E> handlers, Function<E, String> cLikeSyntaxPrinter, E e) {
+    public ExpressionToCLikeSyntax(IHandlerFactory<E> handlers, Function<E, String> cLikeSyntaxPrinter, E e) {
         this.bindingPowers = handlers.createBindingPowerHandler();
         this.cLikeSyntaxPrinter = cLikeSyntaxPrinter;
         this.e = e;

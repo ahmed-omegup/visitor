@@ -6,7 +6,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public interface ICleanHandlerFactory<E> {
+public interface IHandlerFactory<E> {
 
     <T, R> R handleState(StateConsumer<E, T, R> handler);
 

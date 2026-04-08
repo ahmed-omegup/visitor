@@ -6,17 +6,17 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import lib.expression.*;
-import port.ICleanHandlerFactory;
+import port.IHandlerFactory;
 import port.IExpressionFactory;
 
 public final class ExpressionMapper<E> implements ExpressionVisitor<E, E> {
     private final BiFunction<E, Supplier<E>, E> recurse;
     private final BiFunction<E, ExpressionMapper<E>, E> acceptVisitor;
     private final IExpressionFactory<E> factory;
-    private final ICleanHandlerFactory<E> handlers;
+    private final IHandlerFactory<E> handlers;
 
     public ExpressionMapper(
-            ICleanHandlerFactory<E> handlers,
+            IHandlerFactory<E> handlers,
             BiFunction<E, Supplier<E>, E> recurse,
             BiFunction<E, ExpressionMapper<E>, E> acceptVisitor) {
         this.factory = handlers.expressionFactory();

@@ -8,15 +8,15 @@ import java.util.List;
 import lib.dict.ClassNamesDict;
 import lib.dict.Dict;
 import lib.expression.*;
-import port.ICleanHandlerFactory;
+import port.IHandlerFactory;
 import port.IExpressionFactory;
 
 final class TestSupport<E> {
-    final ICleanHandlerFactory<E> v;
+    final IHandlerFactory<E> v;
     final IExpressionFactory<E> factory;
     final Dict<String> values = new ClassNamesDict();
 
-    TestSupport(ICleanHandlerFactory<E> v) {
+    TestSupport(IHandlerFactory<E> v) {
         this.v = v;
         this.factory = v.expressionFactory();
     }

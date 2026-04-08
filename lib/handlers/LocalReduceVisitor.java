@@ -11,7 +11,7 @@ import lib.expression.*;
 import lib.visitors.ExpressionChildren;
 import lib.visitors.IsomorphicGetter;
 import lib.visitors.IsomorphicSetter;
-import port.ICleanHandlerFactory;
+import port.IHandlerFactory;
 import port.State;
 import port.StateConsumer;
 
