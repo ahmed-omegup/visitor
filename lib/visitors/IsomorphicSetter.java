@@ -2,120 +2,117 @@ package lib.visitors;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import lib.expression.*;
 import lib.expressions.Expressions;
 
-public final class IsomorphicSetter<T, E> implements Consumer<Expression<E>>, ExpressionVisitor<Void, E> {
+public final class IsomorphicSetter<T, E> implements ExpressionVisitor<Void, E> {
     private final Expressions<T> values;
-    private final Function<Expression<E>, T> handler;
+    private final T value;
 
-    public IsomorphicSetter(Expressions<T> values, Function<Expression<E>, T> handler) {
+    public IsomorphicSetter(Expressions<T> values, T value) {
         this.values = values;
-        this.handler = handler;
-    }
-
-    public void accept(Expression<E> expression) {
-        expression.accept(this);
+        this.value = value;
     }
 
     public Void visit(Literal<E> expression) {
-        values.literal = handler.apply(expression);
+        values.literal = value;
         return null;
     }
 
     public Void visit(VariableReference<E> expression) {
-        values.variableReference = handler.apply(expression);
+        values.variableReference = value;
         return null;
     }
 
     public Void visit(Addition<E> expression) {
-        values.addition = handler.apply(expression);
+        values.addition = value;
         return null;
     }
 
     public Void visit(Subtraction<E> expression) {
-        values.subtraction = handler.apply(expression);
+        values.subtraction = value;
         return null;
     }
 
     public Void visit(Multiplication<E> expression) {
-        values.multiplication = handler.apply(expression);
+        values.multiplication = value;
         return null;
     }
 
     public Void visit(Division<E> expression) {
-        values.division = handler.apply(expression);
+        values.division = value;
         return null;
     }
 
     public Void visit(Negation<E> expression) {
-        values.negation = handler.apply(expression);
+        values.negation = value;
         return null;
     }
 
     public Void visit(Modulo<E> expression) {
-        values.modulo = handler.apply(expression);
+        values.modulo = value;
         return null;
     }
 
     public Void visit(Exponentiation<E> expression) {
-        values.exponentiation = handler.apply(expression);
+        values.exponentiation = value;
         return null;
     }
 
     public Void visit(Equality<E> expression) {
-        values.equality = handler.apply(expression);
+        values.equality = value;
         return null;
     }
 
     public Void visit(Inequality<E> expression) {
-        values.inequality = handler.apply(expression);
+        values.inequality = value;
         return null;
     }
 
     public Void visit(LessThan<E> expression) {
-        values.lessThan = handler.apply(expression);
+        values.lessThan = value;
         return null;
     }
 
     public Void visit(GreaterThan<E> expression) {
-        values.greaterThan = handler.apply(expression);
+        values.greaterThan = value;
         return null;
     }
 
     public Void visit(LessThanOrEqual<E> expression) {
-        values.lessThanOrEqual = handler.apply(expression);
+        values.lessThanOrEqual = value;
         return null;
     }
 
     public Void visit(GreaterThanOrEqual<E> expression) {
-        values.greaterThanOrEqual = handler.apply(expression);
+        values.greaterThanOrEqual = value;
         return null;
     }
 
     public Void visit(Conjunction<E> expression) {
-        values.conjunction = handler.apply(expression);
+        values.conjunction = value;
         return null;
     }
 
     public Void visit(Disjunction<E> expression) {
-        values.disjunction = handler.apply(expression);
+        values.disjunction = value;
         return null;
     }
 
     public Void visit(LogicalNot<E> expression) {
-        values.logicalNot = handler.apply(expression);
+        values.logicalNot = value;
         return null;
     }
 
     public Void visit(Conditional<E> expression) {
-        values.conditional = handler.apply(expression);
+        values.conditional = value;
         return null;
     }
 
     public Void visit(FunctionCall<E> expression) {
-        values.functionCall = handler.apply(expression);
+        values.functionCall = value;
         return null;
     }
 }

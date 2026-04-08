@@ -9,6 +9,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import lib.expression.Literal;
+import lib.expression.VariableReference;
 import lib.expressions.Expressions;
 import lib.utils.Either;
 
@@ -19,8 +20,7 @@ public interface ICleanHandlerFactory<E> {
     IExpressionFactory<E> expressionFactory();
 
     Function<E, Either<Literal<E>, E>> isLiteral();
-
-    Function<E, Map<Integer, Integer>> arithmeticDepthHistogramBuilder();
+    Function<E, Either<VariableReference<E>, E>> isVariable();
 
     Function<E, List<E>> expressionChildren();
 
@@ -36,17 +36,7 @@ public interface ICleanHandlerFactory<E> {
 
     Function<E, String> cLikeSyntaxPrinter();
 
-    <T> Function<E, T> isomorphicGetter(Expressions<T> values);
-
-    <T> Consumer<E> isomorphicSetter(Expressions<T> values, Function<E, T> reducer);
-
-    <T> Function<E, T> globalReduceVisitor(Expressions<T> values, BinaryOperator<T> reducer);
-
-    <T> Consumer<E> localReduceVisitor(Expressions<T> values, T initial, BiFunction<T, E, T> reducer);
-
     Function<E, String> lispLikeSyntaxPrinter();
-
-    Function<E, Integer> integerEvaluator();
 
     Function<E, Integer> integerEvaluator(Map<String, Integer> variables,
             Map<String, Function<List<Integer>, Integer>> functions);

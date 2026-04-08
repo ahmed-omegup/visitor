@@ -23,7 +23,7 @@ public final class LocalReduceVisitor<E, S, T> implements Function<E, S> {
     public LocalReduceVisitor(State<E, S, T> state, T initial, BiFunction<T, E, T> reducer, Function<E, List<E>> children) {
         values = state.intial(initial);
         var getterFunction = state.getter(values);
-        this.setter = state.setter(values, e -> reducer.apply(getterFunction.apply(e), e));
+        this.setter = e -> state.setter(values, reducer.apply(getterFunction.apply(e), e));
         this.children = children;
     }
 

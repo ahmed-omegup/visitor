@@ -7,5 +7,5 @@ import java.util.function.Function;
 public interface State<E, S, T> {
     S intial(T value);
     Function<E, T> getter(S state);
-    Consumer<E> setter(S state, Function<E, T> updater);    
+    Consumer<E> setter(S state, T value);    
 }

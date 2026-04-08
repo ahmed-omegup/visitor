@@ -12,10 +12,6 @@ public final class IsomorphicGetter<T, E> implements ExpressionVisitor<T, E> {
         this.values = values;
     }
 
-    public T apply(Expression<E> expression) {
-        return expression.accept(this);
-    }
-
     public T visit(Literal<E> expression) { return values.literal; }
     public T visit(VariableReference<E> expression) { return values.variableReference; }
     public T visit(Addition<E> expression) { return values.addition; }

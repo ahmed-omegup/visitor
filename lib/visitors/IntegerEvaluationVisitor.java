@@ -3,6 +3,7 @@ package lib.visitors;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import lib.expression.*;
@@ -13,18 +14,18 @@ public final class IntegerEvaluationVisitor<E> implements ExpressionVisitor<Inte
     private final Map<String, Integer> variables;
     private final Map<String, Function<List<Integer>, Integer>> functions;
     private final Function<E, Either<VariableReference<E>, E>> isVariable;
-    private final Function<E, Integer> integerEvaluator;
+    private final BiFunction<E, IntegerEvaluationVisitor<E>, Integer> acceptVisitor;
 
-    IntegerEvaluationVisitor(Map<String, Integer> variables, Map<String, Function<List<Integer>, Integer>> functions,
-            Function<E, Either<VariableReference<E>, E>> isVariable, Function<E, Integer> integerEvaluator) {
+    public IntegerEvaluationVisitor(Map<String, Integer> variables, Map<String, Function<List<Integer>, Integer>> functions,
+            Function<E, Either<VariableReference<E>, E>> isVariable, BiFunction<E, IntegerEvaluationVisitor<E>, Integer> acceptVisitor) {
         this.variables = variables;
         this.functions = functions;
         this.isVariable = isVariable;
-        this.integerEvaluator = integerEvaluator;
+        this.acceptVisitor = acceptVisitor;
     }
 
     private Integer evaluate(E expression) {
-        return integerEvaluator.apply(expression);
+        return acceptVisitor.apply(expression, this);
     }
 
     private boolean truthy(int value) {

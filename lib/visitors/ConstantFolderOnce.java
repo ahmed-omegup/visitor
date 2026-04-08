@@ -13,7 +13,7 @@ public class ConstantFolderOnce<E> implements ExpressionVisitor<E, E> {
     private final E e;
     private final Function<E, Either<Literal<E>, E>> isLiteral;
 
-    ConstantFolderOnce(IExpressionFactory<E> factory, E e, Function<E, Either<Literal<E>, E>> isLiteral) {
+    public ConstantFolderOnce(IExpressionFactory<E> factory, E e, Function<E, Either<Literal<E>, E>> isLiteral) {
         this.factory = factory;
         this.e = e;
         this.isLiteral = isLiteral;

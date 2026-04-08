@@ -27,4 +27,4 @@ javac -Xlint:unchecked -d coverage/classes \
     lib/expression/*.java \
     lib/expressions/*.java \
     lib/visitors/*.java \
-    lib/handlers/LocalReduceVisitor.java
+    lib/handlers/*.java
