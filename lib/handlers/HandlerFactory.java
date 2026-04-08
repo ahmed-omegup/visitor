@@ -9,6 +9,7 @@ import lib.dict.BindingPowersDict;
 import lib.dict.ClassNamesDict;
 import lib.dict.ConstDict;
 import lib.dict.Dict;
+import lib.dict.OperationNamesI18n;
 import lib.expression.*;
 import lib.utils.Either;
 import lib.utils.EitherVisitor;
@@ -113,6 +114,11 @@ public class HandlerFactory implements IHandlerFactory<ExpressionV1> {
                 .accept(new ExpressionToJsLikeSyntax<>(this, this.jsLikeSyntaxPrinter(), expression));
     }
 
+    public Function<ExpressionV1, String> cLikeSyntaxPrinter() {
+        return expression -> expression
+                .accept(new ExpressionToCLikeSyntax<>(this, this.cLikeSyntaxPrinter(), expression));
+    }
+
     @Override
     public Function<ExpressionV1, String> lispLikeSyntaxPrinter() {
         var visitor = new ExpressionToLispLikeSyntax<>(this);
@@ -187,6 +193,13 @@ public class HandlerFactory implements IHandlerFactory<ExpressionV1> {
                         return next.get();
                     }
                 }), (e, visitor) -> e.accept(visitor));
+    }
+
+    public Function<ExpressionV1, String> i18nDict(String lang) {
+        var i18nDict = OperationNamesI18n.operationNamesByLanguage().get(lang);
+        if (i18nDict == null)
+            return null;
+        return dictGetter(i18nDict);
     }
 
 }
