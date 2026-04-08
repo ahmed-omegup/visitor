@@ -4,21 +4,26 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import lib.expression.*;
-import lib.expressions.BindingPower;
 import lib.expressions.CLikeBindingPowers;
+import port.BindingPower;
+import port.ICleanHandlerFactory;
 
-public final class ExpressionToCLikeSyntax implements Visitor<String> {
-    private final Function<Expression, BindingPower> bindingPowers;
+public final class ExpressionToCLikeSyntax<E> implements ExpressionVisitor<String, E> {
+    private final Function<E, BindingPower> bindingPowers;
+    private final Function<E, String> cLikeSyntaxPrinter;
+    private final E e;
 
-    public ExpressionToCLikeSyntax() {
-        this(new IsomorphicGetter<>(new CLikeBindingPowers())::apply);
+    public ExpressionToCLikeSyntax(ICleanHandlerFactory<E> handlers, E e) {
+        this.bindingPowers = handlers.createBindingPowerHandler();
+        this.cLikeSyntaxPrinter = handlers.cLikeSyntaxPrinter();
+        this.e = e;
     }
 
-    public ExpressionToCLikeSyntax(Function<Expression, BindingPower> bindingPowers) {
-        this.bindingPowers = bindingPowers;
+    private String apply(E expression) {
+        return cLikeSyntaxPrinter.apply(expression);
     }
 
-    private String renderChild(Expression child, BindingPower parentBinding, boolean isRightChild) {
+    private String renderChild(E child, BindingPower parentBinding, boolean isRightChild) {
         var rendered = apply(child);
         var childBinding = bindingPower(child);
         if (childBinding.priority() < parentBinding.priority()) {
@@ -33,105 +38,105 @@ public final class ExpressionToCLikeSyntax implements Visitor<String> {
         return rendered;
     }
 
-    private String infix(Expression left, String operator, Expression right, BindingPower parentBinding) {
+    private String infix(E left, String operator, E right, BindingPower parentBinding) {
         return renderChild(left, parentBinding, false)
             + " " + operator + " "
             + renderChild(right, parentBinding, true);
     }
 
-    private String prefix(String operator, Expression operand, BindingPower parentBinding) {
+    private String prefix(String operator, E operand, BindingPower parentBinding) {
         return operator + renderChild(operand, parentBinding, true);
     }
 
-    private String call(FunctionCall expression) {
-        return renderChild(expression.callee, bindingPower(expression), false)
-            + "(" + expression.arguments.stream().map(this).collect(Collectors.joining(", ")) + ")";
+    private String call(FunctionCall<E> expression) {
+        return renderChild(expression.callee, bindingPower(e), false)
+            + "(" + expression.arguments.stream().map(this::apply).collect(Collectors.joining(", ")) + ")";
     }
 
-    private BindingPower bindingPower(Expression expression) {
+    private BindingPower bindingPower(E expression) {
         return bindingPowers.apply(expression);
     }
 
-    public String visit(Literal expression) {
+    public String visit(Literal<E> expression) {
         return expression.value;
     }
 
-    public String visit(VariableReference expression) {
+    public String visit(VariableReference<E> expression) {
         return expression.name;
     }
 
-    public String visit(Addition expression) {
-        return infix(expression.left, "+", expression.right, bindingPower(expression));
+    public String visit(Addition<E> expression) {
+        return infix(expression.left, "+", expression.right, bindingPower(e));
     }
 
-    public String visit(Subtraction expression) {
-        return infix(expression.left, "-", expression.right, bindingPower(expression));
+    public String visit(Subtraction<E> expression) {
+        return infix(expression.left, "-", expression.right, bindingPower(e));
     }
 
-    public String visit(Multiplication expression) {
-        return infix(expression.left, "*", expression.right, bindingPower(expression));
+    public String visit(Multiplication<E> expression) {
+        return infix(expression.left, "*", expression.right, bindingPower(e));
     }
 
-    public String visit(Division expression) {
-        return infix(expression.dividend, "/", expression.divisor, bindingPower(expression));
+    public String visit(Division<E> expression) {
+        return infix(expression.dividend, "/", expression.divisor, bindingPower(e));
     }
 
-    public String visit(Negation expression) {
-        return prefix("-", expression.operand, bindingPower(expression));
+    public String visit(Negation<E> expression) {
+        return prefix("-", expression.operand, bindingPower(e));
     }
 
-    public String visit(Modulo expression) {
-        return infix(expression.left, "%", expression.right, bindingPower(expression));
+    public String visit(Modulo<E> expression) {
+        return infix(expression.left, "%", expression.right, bindingPower(e));
     }
 
-    public String visit(Exponentiation expression) {
+    public String visit(Exponentiation<E> expression) {
         return "pow(" + apply(expression.base) + ", " + apply(expression.exponent) + ")";
     }
 
-    public String visit(Equality expression) {
-        return infix(expression.left, "==", expression.right, bindingPower(expression));
+    public String visit(Equality<E> expression) {
+        return infix(expression.left, "==", expression.right, bindingPower(e));
     }
 
-    public String visit(Inequality expression) {
-        return infix(expression.left, "!=", expression.right, bindingPower(expression));
+    public String visit(Inequality<E> expression) {
+        return infix(expression.left, "!=", expression.right, bindingPower(e));
     }
 
-    public String visit(LessThan expression) {
-        return infix(expression.left, "<", expression.right, bindingPower(expression));
+    public String visit(LessThan<E> expression) {
+        return infix(expression.left, "<", expression.right, bindingPower(e));
     }
 
-    public String visit(GreaterThan expression) {
-        return infix(expression.left, ">", expression.right, bindingPower(expression));
+    public String visit(GreaterThan<E> expression) {
+        return infix(expression.left, ">", expression.right, bindingPower(e));
     }
 
-    public String visit(LessThanOrEqual expression) {
-        return infix(expression.left, "<=", expression.right, bindingPower(expression));
+    public String visit(LessThanOrEqual<E> expression) {
+        return infix(expression.left, "<=", expression.right, bindingPower(e));
     }
 
-    public String visit(GreaterThanOrEqual expression) {
-        return infix(expression.left, ">=", expression.right, bindingPower(expression));
+    public String visit(GreaterThanOrEqual<E> expression) {
+        return infix(expression.left, ">=", expression.right, bindingPower(e));
     }
 
-    public String visit(Conjunction expression) {
-        return infix(expression.left, "&&", expression.right, bindingPower(expression));
+    public String visit(Conjunction<E> expression) {
+        return infix(expression.left, "&&", expression.right, bindingPower(e));
     }
 
-    public String visit(Disjunction expression) {
-        return infix(expression.left, "||", expression.right, bindingPower(expression));
+    public String visit(Disjunction<E> expression) {
+        return infix(expression.left, "||", expression.right, bindingPower(e));
     }
 
-    public String visit(LogicalNot expression) {
-        return prefix("!", expression.operand, bindingPower(expression));
+    public String visit(LogicalNot<E> expression) {
+        return prefix("!", expression.operand, bindingPower(e));
     }
 
-    public String visit(Conditional expression) {
-        var binding = bindingPower(expression);
+    public String visit(Conditional<E> expression) {
+        var binding = bindingPower(e);
         return renderChild(expression.condition, binding, false)
             + " ? " + apply(expression.whenTrue)
             + " : " + renderChild(expression.whenFalse, binding, true);
     }
 
-    public String visit(FunctionCall expression) {
+    public String visit(FunctionCall<E> expression) {
         return call(expression);
     }
 }

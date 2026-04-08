@@ -3,6 +3,7 @@ package lib.expressions;
 import java.util.function.Function;
 
 import lib.expression.*;
+import port.BindingPower;
 
 public class CLikeBindingPowers extends Expressions<BindingPower> {
 

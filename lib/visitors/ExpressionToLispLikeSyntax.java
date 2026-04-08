@@ -4,96 +4,96 @@ import java.util.stream.Collectors;
 
 import lib.expression.*;
 
-public final class ExpressionToLispLikeSyntax implements Visitor<String> {
-    private String unary(String operator, Expression operand) {
+public final class ExpressionToLispLikeSyntax<E> implements ExpressionVisitor<String, E> {
+    private String unary(String operator, E operand) {
         return "(" + operator + " " + apply(operand) + ")";
     }
 
-    private String binary(String operator, Expression left, Expression right) {
+    private String binary(String operator, E left, E right) {
         return "(" + operator + " " + apply(left) + " " + apply(right) + ")";
     }
 
-    private String ternary(String operator, Expression first, Expression second, Expression third) {
+    private String ternary(String operator, E first, E second, E third) {
         return "(" + operator + " " + apply(first) + " " + apply(second) + " " + apply(third) + ")";
     }
 
-    public String visit(Literal expression) {
+    public String visit(Literal<E> expression) {
         return expression.value;
     }
 
-    public String visit(VariableReference expression) {
+    public String visit(VariableReference<E> expression) {
         return expression.name;
     }
 
-    public String visit(Addition expression) {
+    public String visit(Addition<E> expression) {
         return binary("+", expression.left, expression.right);
     }
 
-    public String visit(Subtraction expression) {
+    public String visit(Subtraction<E> expression) {
         return binary("-", expression.left, expression.right);
     }
 
-    public String visit(Multiplication expression) {
+    public String visit(Multiplication<E> expression) {
         return binary("*", expression.left, expression.right);
     }
 
-    public String visit(Division expression) {
+    public String visit(Division<E> expression) {
         return binary("/", expression.dividend, expression.divisor);
     }
 
-    public String visit(Negation expression) {
+    public String visit(Negation<E> expression) {
         return unary("neg", expression.operand);
     }
 
-    public String visit(Modulo expression) {
+    public String visit(Modulo<E> expression) {
         return binary("mod", expression.left, expression.right);
     }
 
-    public String visit(Exponentiation expression) {
+    public String visit(Exponentiation<E> expression) {
         return binary("pow", expression.base, expression.exponent);
     }
 
-    public String visit(Equality expression) {
+    public String visit(Equality<E> expression) {
         return binary("=", expression.left, expression.right);
     }
 
-    public String visit(Inequality expression) {
+    public String visit(Inequality<E> expression) {
         return binary("!=", expression.left, expression.right);
     }
 
-    public String visit(LessThan expression) {
+    public String visit(LessThan<E> expression) {
         return binary("<", expression.left, expression.right);
     }
 
-    public String visit(GreaterThan expression) {
+    public String visit(GreaterThan<E> expression) {
         return binary(">", expression.left, expression.right);
     }
 
-    public String visit(LessThanOrEqual expression) {
+    public String visit(LessThanOrEqual<E> expression) {
         return binary("<=", expression.left, expression.right);
     }
 
-    public String visit(GreaterThanOrEqual expression) {
+    public String visit(GreaterThanOrEqual<E> expression) {
         return binary(">=", expression.left, expression.right);
     }
 
-    public String visit(Conjunction expression) {
+    public String visit(Conjunction<E> expression) {
         return binary("and", expression.left, expression.right);
     }
 
-    public String visit(Disjunction expression) {
+    public String visit(Disjunction<E> expression) {
         return binary("or", expression.left, expression.right);
     }
 
-    public String visit(LogicalNot expression) {
+    public String visit(LogicalNot<E> expression) {
         return unary("not", expression.operand);
     }
 
-    public String visit(Conditional expression) {
+    public String visit(Conditional<E> expression) {
         return ternary("if", expression.condition, expression.whenTrue, expression.whenFalse);
     }
 
-    public String visit(FunctionCall expression) {
+    public String visit(FunctionCall<E> expression) {
         return "(" + apply(expression.callee)
             + (expression.arguments.isEmpty() ? "" : " " + expression.arguments.stream().map(this).collect(Collectors.joining(" ")))
             + ")";

@@ -7,15 +7,15 @@ import java.util.function.Function;
 
 import lib.expression.*;
 
-public final class IntegerEvaluationVisitor implements Visitor<Integer> {
+public final class IntegerEvaluationVisitor<E> implements ExpressionVisitor<Integer, E> {
     private final Map<String, Integer> variables;
     private final Map<String, Function<List<Integer>, Integer>> functions;
-    private final ExpressionVisitor<String> calleeNameExtractor = new FallbackVisitor<>(
+    private final ExpressionVisitor<String, E> calleeNameExtractor = new FallbackVisitor<>(
             e -> {
                 throw new IllegalArgumentException("Function call requires a variable reference callee");
             }) {
         @Override
-        public String visit(VariableReference expression) {
+        public String visit(VariableReference<E> expression) {
             return expression.name;
         }
     };
@@ -39,86 +39,86 @@ public final class IntegerEvaluationVisitor implements Visitor<Integer> {
         return value != 0;
     }
 
-    public Integer visit(Literal expression) {
+    public Integer visit(Literal<E> expression) {
         return expression.asInt();
     }
 
-    public Integer visit(VariableReference expression) {
+    public Integer visit(VariableReference<E> expression) {
         if (!variables.containsKey(expression.name)) {
             throw new IllegalArgumentException("Unknown variable: " + expression.name);
         }
         return variables.get(expression.name);
     }
 
-    public Integer visit(Addition expression) {
+    public Integer visit(Addition<E> expression) {
         return evaluate(expression.left) + evaluate(expression.right);
     }
 
-    public Integer visit(Subtraction expression) {
+    public Integer visit(Subtraction<E> expression) {
         return evaluate(expression.left) - evaluate(expression.right);
     }
 
-    public Integer visit(Multiplication expression) {
+    public Integer visit(Multiplication<E> expression) {
         return evaluate(expression.left) * evaluate(expression.right);
     }
 
-    public Integer visit(Division expression) {
+    public Integer visit(Division<E> expression) {
         return evaluate(expression.dividend) / evaluate(expression.divisor);
     }
 
-    public Integer visit(Negation expression) {
+    public Integer visit(Negation<E> expression) {
         return -evaluate(expression.operand);
     }
 
-    public Integer visit(Modulo expression) {
+    public Integer visit(Modulo<E> expression) {
         return evaluate(expression.left) % evaluate(expression.right);
     }
 
-    public Integer visit(Exponentiation expression) {
+    public Integer visit(Exponentiation<E> expression) {
         return (int) Math.pow(evaluate(expression.base), evaluate(expression.exponent));
     }
 
-    public Integer visit(Equality expression) {
+    public Integer visit(Equality<E> expression) {
         return evaluate(expression.left) == evaluate(expression.right) ? 1 : 0;
     }
 
-    public Integer visit(Inequality expression) {
+    public Integer visit(Inequality<E> expression) {
         return evaluate(expression.left) != evaluate(expression.right) ? 1 : 0;
     }
 
-    public Integer visit(LessThan expression) {
+    public Integer visit(LessThan<E> expression) {
         return evaluate(expression.left) < evaluate(expression.right) ? 1 : 0;
     }
 
-    public Integer visit(GreaterThan expression) {
+    public Integer visit(GreaterThan<E> expression) {
         return evaluate(expression.left) > evaluate(expression.right) ? 1 : 0;
     }
 
-    public Integer visit(LessThanOrEqual expression) {
+    public Integer visit(LessThanOrEqual<E> expression) {
         return evaluate(expression.left) <= evaluate(expression.right) ? 1 : 0;
     }
 
-    public Integer visit(GreaterThanOrEqual expression) {
+    public Integer visit(GreaterThanOrEqual<E> expression) {
         return evaluate(expression.left) >= evaluate(expression.right) ? 1 : 0;
     }
 
-    public Integer visit(Conjunction expression) {
+    public Integer visit(Conjunction<E> expression) {
         return truthy(evaluate(expression.left)) && truthy(evaluate(expression.right)) ? 1 : 0;
     }
 
-    public Integer visit(Disjunction expression) {
+    public Integer visit(Disjunction<E> expression) {
         return truthy(evaluate(expression.left)) || truthy(evaluate(expression.right)) ? 1 : 0;
     }
 
-    public Integer visit(LogicalNot expression) {
+    public Integer visit(LogicalNot<E> expression) {
         return truthy(evaluate(expression.operand)) ? 0 : 1;
     }
 
-    public Integer visit(Conditional expression) {
+    public Integer visit(Conditional<E> expression) {
         return truthy(evaluate(expression.condition)) ? evaluate(expression.whenTrue) : evaluate(expression.whenFalse);
     }
 
-    public Integer visit(FunctionCall expression) {
+    public Integer visit(FunctionCall<E> expression) {
         var calleeName = expression.callee.accept(calleeNameExtractor);
         if (!functions.containsKey(calleeName)) {
             throw new IllegalArgumentException("Unknown function: " + calleeName);

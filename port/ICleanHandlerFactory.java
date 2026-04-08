@@ -29,6 +29,8 @@ public interface ICleanHandlerFactory<E> {
 
     Function<E, E> expressionMapper(BiFunction<E, Supplier<E>, E> recurse);
 
+    Function<E, BindingPower> createBindingPowerHandler();
+
     Function<E, String> cLikeSyntaxPrinter();
     
     <T> Function<E, T> isomorphicGetter(Expressions<T> values);
