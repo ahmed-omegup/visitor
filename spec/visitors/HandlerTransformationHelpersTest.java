@@ -2,39 +2,15 @@ package spec.visitors;
 
 import static java.util.List.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import lib.expression.ExpressionV1;
 import lib.handlers.HandlerFactory;
 
-abstract class HandlerFactoryHelpersTestBase<E> extends TestBase<E> {
-    HandlerFactoryHelpersTestBase(TestSupport<E> testSupport) {
+abstract class HandlerTransformationHelpersTestBase<E> extends TestBase<E> {
+    HandlerTransformationHelpersTestBase(TestSupport<E> testSupport) {
         super(testSupport);
-    }
-
-    @Test
-    void literalAndVariableCheckersRecognizeNodeKinds() {
-        assertTrue(testSupport.v.literalChecker().apply(factory.literal("8")));
-        assertFalse(testSupport.v.literalChecker().apply(factory.addition(factory.literal("1"), factory.literal("2"))));
-        assertTrue(testSupport.v.variableChecker().apply(factory.variableReference("x")));
-        assertFalse(testSupport.v.variableChecker().apply(factory.negation(factory.literal("3"))));
-    }
-
-    @Test
-    void bindingPowerHandlerUsesExpectedPriorities() {
-        var bindingPower = testSupport.v.createBindingPowerHandler();
-        var addition = bindingPower.apply(factory.addition(factory.literal("1"), factory.literal("2")));
-        var exponentiation = bindingPower.apply(factory.exponentiation(factory.literal("2"), factory.literal("3")));
-        var conditional = bindingPower.apply(testSupport.sampleTraversalExpression());
-
-        assertEquals(10, addition.priority());
-        assertFalse(addition.isRightAssociative());
-        assertEquals(40, exponentiation.priority());
-        assertTrue(exponentiation.isRightAssociative());
-        assertEquals(1, conditional.priority());
     }
 
     @Test
@@ -66,68 +42,6 @@ abstract class HandlerFactoryHelpersTestBase<E> extends TestBase<E> {
     }
 
     @Test
-    void histogramCountsNodeKindsAcrossTraversalExpression() {
-        var histogram = testSupport.v.histogram().apply(testSupport.sampleTraversalExpression());
-
-        assertEquals(22, histogram.literal());
-        assertEquals(2, histogram.variableReference());
-        assertEquals(1, histogram.conditional());
-        assertEquals(1, histogram.functionCall());
-        assertEquals(1, histogram.addition());
-        assertEquals(1, histogram.negation());
-    }
-
-    @Test
-    void collectClassNamesVisitorTraversesExpressionInPreOrder() {
-        var classNames = testSupport.v.collectClassNamesVisitor().apply(testSupport.sampleTraversalExpression());
-
-        assertEquals(of(
-            "Conditional",
-            "Conjunction",
-            "LessThan",
-            "VariableReference",
-            "Literal",
-            "LogicalNot",
-            "Equality",
-            "Literal",
-            "Literal",
-            "Addition",
-            "Subtraction",
-            "Literal",
-            "Literal",
-            "Multiplication",
-            "Division",
-            "Literal",
-            "Literal",
-            "Modulo",
-            "Literal",
-            "Literal",
-            "FunctionCall",
-            "VariableReference",
-            "Exponentiation",
-            "Literal",
-            "Literal",
-            "Inequality",
-            "Literal",
-            "Literal",
-            "GreaterThan",
-            "Literal",
-            "Literal",
-            "LessThanOrEqual",
-            "Literal",
-            "Literal",
-            "GreaterThanOrEqual",
-            "Literal",
-            "Literal",
-            "Disjunction",
-            "Literal",
-            "Literal",
-            "Negation",
-            "Literal"
-        ), classNames);
-    }
-
-    @Test
     void renameVariableRewritesMatchingReferencesOnly() {
         var renamed = testSupport.v.renameVariable("x", "y").apply(testSupport.sampleTraversalExpression());
 
@@ -138,8 +52,8 @@ abstract class HandlerFactoryHelpersTestBase<E> extends TestBase<E> {
     }
 }
 
-class HandlerFactoryHelpersTest extends HandlerFactoryHelpersTestBase<ExpressionV1> {
-    HandlerFactoryHelpersTest() {
+class HandlerTransformationHelpersTest extends HandlerTransformationHelpersTestBase<ExpressionV1> {
+    HandlerTransformationHelpersTest() {
         super(new TestSupport<>(new HandlerFactory()));
     }
 }
