@@ -16,13 +16,14 @@ import port.IExpressionFactory2;
 import port.IHandlerFactory2;
 import port.State;
 import port.StateConsumer;
+import testsupport.HandlerTestFixtures;
 
 class HandlerFactory2LambdaTest extends TestBase<ExpressionV2> {
     private final IHandlerFactory2<ExpressionV2> handler = HandlerTestFixtures.v2Handler();
     private final IExpressionFactory2<ExpressionV2> factory2 = handler.expressionFactory();
 
     HandlerFactory2LambdaTest() {
-        super(HandlerTestFixtures.v2Support2());
+        super(new TestSupport2<>(HandlerTestFixtures.v2Handler()));
     }
 
     @Test
@@ -144,13 +145,7 @@ class HandlerFactory2LambdaTest extends TestBase<ExpressionV2> {
 
     @Test
     void histogram2RejectsUnknownExpressionKinds() {
-        ExpressionV2 malformed = new ExpressionV2() {
-            @Override
-            @SuppressWarnings("unchecked")
-            public <R> R accept(lib.expression.ExpressionVisitor2<R> visitor) {
-                return (R) "Mystery";
-            }
-        };
+        ExpressionV2 malformed = HandlerTestFixtures.malformedV2Expression("Mystery");
 
         var exception = assertThrows(IllegalArgumentException.class, () -> handler.histogram2().apply(malformed));
 

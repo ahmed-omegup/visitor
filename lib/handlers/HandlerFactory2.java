@@ -254,11 +254,8 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
 
     @Override
     public Function<ExpressionV2, IExpressionDict2<Integer>> histogram2() {
-        return expression -> {
-            var histogram = new Dict2<Integer>(0);
-            countIntoHistogram2(expression, histogram);
-            return histogram;
-        };
+        var visitor = localReduceVisitor(0, (count, _expression) -> count + 1);
+        return expression -> visitor.apply(expression);
     }
 
     @Override

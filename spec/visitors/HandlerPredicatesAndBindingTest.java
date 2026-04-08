@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.ExpressionV1;
 import lib.expression.ExpressionV2;
+import testsupport.HandlerTestFixtures;
 
 abstract class HandlerPredicatesAndBindingTestBase<E> extends TestBase<E> {
     HandlerPredicatesAndBindingTestBase(TestSupport<E> testSupport) {
@@ -39,18 +40,18 @@ abstract class HandlerPredicatesAndBindingTestBase<E> extends TestBase<E> {
 
 class HandlerPredicatesAndBindingTest extends HandlerPredicatesAndBindingTestBase<ExpressionV1> {
     HandlerPredicatesAndBindingTest() {
-        super(HandlerTestFixtures.v1Support());
+        super(new TestSupport<>(HandlerTestFixtures.v1Handler()));
     }
 }
 
 class HandlerPredicatesAndBindingV2Test extends HandlerPredicatesAndBindingTestBase<ExpressionV2> {
     HandlerPredicatesAndBindingV2Test() {
-        super(HandlerTestFixtures.v2Support());
+        super(new TestSupport<>(HandlerTestFixtures.v2Handler()));
     }
 }
 
 class HandlerPredicatesAndBindingV2Support2Test extends HandlerPredicatesAndBindingTestBase<ExpressionV2> {
     HandlerPredicatesAndBindingV2Support2Test() {
-        super(HandlerTestFixtures.v2Support2());
+        super(new TestSupport2<>(HandlerTestFixtures.v2Handler()));
     }
 }

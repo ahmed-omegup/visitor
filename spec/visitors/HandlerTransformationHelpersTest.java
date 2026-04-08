@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.ExpressionV1;
 import lib.expression.ExpressionV2;
+import testsupport.HandlerTestFixtures;
 
 abstract class HandlerTransformationHelpersTestBase<E> extends TestBase<E> {
     HandlerTransformationHelpersTestBase(TestSupport<E> testSupport) {
@@ -69,18 +70,18 @@ abstract class HandlerTransformationHelpersTestBase<E> extends TestBase<E> {
 
 class HandlerTransformationHelpersTest extends HandlerTransformationHelpersTestBase<ExpressionV1> {
     HandlerTransformationHelpersTest() {
-        super(HandlerTestFixtures.v1Support());
+        super(new TestSupport<>(HandlerTestFixtures.v1Handler()));
     }
 }
 
 class HandlerTransformationHelpersV2Test extends HandlerTransformationHelpersTestBase<ExpressionV2> {
     HandlerTransformationHelpersV2Test() {
-        super(HandlerTestFixtures.v2Support());
+        super(new TestSupport<>(HandlerTestFixtures.v2Handler()));
     }
 }
 
 class HandlerTransformationHelpersV2Support2Test extends HandlerTransformationHelpersTestBase<ExpressionV2> {
     HandlerTransformationHelpersV2Support2Test() {
-        super(HandlerTestFixtures.v2Support2());
+        super(new TestSupport2<>(HandlerTestFixtures.v2Handler()));
     }
 }

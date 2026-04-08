@@ -11,6 +11,7 @@ import lib.expression.ExpressionV1;
 import lib.expression.ExpressionV2;
 import port.State;
 import port.StateConsumer;
+import testsupport.HandlerTestFixtures;
 
 abstract class HandlerTraversalHelpersTestBase<E> extends TestBase<E> {
     HandlerTraversalHelpersTestBase(TestSupport<E> testSupport) {
@@ -54,18 +55,18 @@ abstract class HandlerTraversalHelpersTestBase<E> extends TestBase<E> {
 
 class HandlerTraversalHelpersTest extends HandlerTraversalHelpersTestBase<ExpressionV1> {
     HandlerTraversalHelpersTest() {
-        super(HandlerTestFixtures.v1Support());
+        super(new TestSupport<>(HandlerTestFixtures.v1Handler()));
     }
 }
 
 class HandlerTraversalHelpersV2Test extends HandlerTraversalHelpersTestBase<ExpressionV2> {
     HandlerTraversalHelpersV2Test() {
-        super(HandlerTestFixtures.v2Support());
+        super(new TestSupport<>(HandlerTestFixtures.v2Handler()));
     }
 }
 
 class HandlerTraversalHelpersV2Support2Test extends HandlerTraversalHelpersTestBase<ExpressionV2> {
     HandlerTraversalHelpersV2Support2Test() {
-        super(HandlerTestFixtures.v2Support2());
+        super(new TestSupport2<>(HandlerTestFixtures.v2Handler()));
     }
 }

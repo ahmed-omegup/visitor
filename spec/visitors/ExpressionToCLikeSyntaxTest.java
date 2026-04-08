@@ -6,13 +6,14 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.*;
 import port.IHandlerFactory1;
+import testsupport.HandlerTestFixtures;
 
 class ExpressionToCLikeSyntaxTest extends TestBase<ExpressionV1> {
 
     private final IHandlerFactory1<ExpressionV1> handler = HandlerTestFixtures.v1Handler();
     
     ExpressionToCLikeSyntaxTest() {
-        super(HandlerTestFixtures.v1Support());
+        super(new TestSupport<>(HandlerTestFixtures.v1Handler()));
     }
 
     @Test

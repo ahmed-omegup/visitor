@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import lib.expression.ExpressionV1;
 import port.IExpressionFactory;
 import port.IHandlerFactory1;
+import testsupport.HandlerTestFixtures;
 
 class OperationNamesI18nTest {
     private final IHandlerFactory1<ExpressionV1> handler = HandlerTestFixtures.v1Handler();
