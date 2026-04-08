@@ -3,8 +3,8 @@ package lib.visitors;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import lib.dict.BindingPowersDict;
 import lib.expression.*;
-import lib.expressions.CLikeBindingPowers;
 import port.BindingPower;
 import port.ICleanHandlerFactory;
 

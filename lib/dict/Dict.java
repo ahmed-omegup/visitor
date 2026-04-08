@@ -1,6 +1,6 @@
-package lib.expressions;
+package lib.dict;
 
-public class Expressions<T> {
+public class Dict<T> {
     public T literal;
     public T variableReference;
     public T addition;

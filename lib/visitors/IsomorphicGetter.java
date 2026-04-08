@@ -2,13 +2,13 @@ package lib.visitors;
 
 import java.util.function.Function;
 
+import lib.dict.Dict;
 import lib.expression.*;
-import lib.expressions.Expressions;
 
 public final class IsomorphicGetter<T, E> implements ExpressionVisitor<T, E> {
-    private final Expressions<T> values;
+    private final Dict<T> values;
 
-    public IsomorphicGetter(Expressions<T> values) {
+    public IsomorphicGetter(Dict<T> values) {
         this.values = values;
     }
 

@@ -1,8 +1,8 @@
-package lib.expressions;
+package lib.dict;
 
-public class ExpressionClassNames extends Expressions<String> {
+public class ClassNamesDict extends Dict<String> {
 
-    public ExpressionClassNames() {
+    public ClassNamesDict() {
         literal = "Literal";
         variableReference = "VariableReference";
         addition = "Addition";

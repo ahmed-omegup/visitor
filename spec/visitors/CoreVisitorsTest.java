@@ -8,8 +8,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.junit.jupiter.api.Test;
 
+import lib.dict.Dict;
 import lib.expression.Expression;
-import lib.expressions.Expressions;
 import lib.handlers.HandlerFactory;
 
 abstract class CoreVisitorsTestBase<E> extends TestBase<E> {
@@ -62,7 +62,7 @@ abstract class CoreVisitorsTestBase<E> extends TestBase<E> {
 
     @Test
     void isomorphicVisitorReturnsPerTypeValue() {
-        var values = new Expressions<String>();
+        var values = new Dict<String>();
         values.literal = "leaf";
         values.variableReference = "leaf";
         values.addition = "arithmetic";

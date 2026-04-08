@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.*;
 
+import lib.dict.BindingPowersDict;
+import lib.dict.ClassNamesDict;
+import lib.dict.ConstDict;
+import lib.dict.Dict;
 import lib.expression.*;
-import lib.expressions.CLikeBindingPowers;
-import lib.expressions.ConstExpressions;
-import lib.expressions.ExpressionClassNames;
-import lib.expressions.Expressions;
 import lib.utils.Either;
 import lib.utils.Left;
 import lib.utils.Right;
@@ -50,7 +50,7 @@ public final class HandlerFactory implements ICleanHandlerFactory<ExpressionV1> 
     };
 
     public Function<ExpressionV1, BindingPower> createBindingPowerHandler() {
-        var getter = new IsomorphicGetter<BindingPower, ExpressionV1>(new CLikeBindingPowers());
+        var getter = new IsomorphicGetter<BindingPower, ExpressionV1>(new BindingPowersDict());
         return expression -> expression.accept(getter);
     };
 
@@ -62,7 +62,7 @@ public final class HandlerFactory implements ICleanHandlerFactory<ExpressionV1> 
 
     @Override
     public Function<ExpressionV1, String> expressionClassNameExtractor() {
-        var classNameGetter = new IsomorphicGetter<String, ExpressionV1>(new ExpressionClassNames());
+        var classNameGetter = new IsomorphicGetter<String, ExpressionV1>(new ClassNamesDict());
         return expression -> expression.accept(classNameGetter);
     }
 
@@ -98,25 +98,25 @@ public final class HandlerFactory implements ICleanHandlerFactory<ExpressionV1> 
         return expression -> expression.accept(integerEvaluator);
     }
 
-    public <T> Function<ExpressionV1, T> getter(Expressions<T> values) {
+    public <T> Function<ExpressionV1, T> getter(Dict<T> values) {
         var visitor = new IsomorphicGetter<T, ExpressionV1>(values);
         return expression -> expression.accept(visitor);
     }
 
-    public <T> Function<ExpressionV1, T> globalReduceVisitor(Expressions<T> values, BinaryOperator<T> reducer) {
+    public <T> Function<ExpressionV1, T> globalReduceVisitor(Dict<T> values, BinaryOperator<T> reducer) {
         return new GlobalReduceVisitor<T, ExpressionV1>(this, this::getter, values, reducer, this.expressionChildren());
     }
 
-    public <T> State<ExpressionV1, Expressions<T>, T> state() {
-        return new State<ExpressionV1, Expressions<T>, T>() {
-            public Expressions<T> intial(T value) {
-                return new ConstExpressions<T>(value);
+    public <T> State<ExpressionV1, Dict<T>, T> state() {
+        return new State<ExpressionV1, Dict<T>, T>() {
+            public Dict<T> intial(T value) {
+                return new ConstDict<T>(value);
             };
-            public Function<ExpressionV1,T> getter(Expressions<T> state) {
+            public Function<ExpressionV1,T> getter(Dict<T> state) {
                 var visitor = new IsomorphicGetter<T, ExpressionV1>(state);
                 return expression -> expression.accept(visitor);
             };
-            public Consumer<ExpressionV1> setter(Expressions<T> state, T value) {
+            public Consumer<ExpressionV1> setter(Dict<T> state, T value) {
                 var visitor = new IsomorphicSetter<T, ExpressionV1>(state, value);
                 return expression -> expression.accept(visitor);
             };
@@ -127,8 +127,8 @@ public final class HandlerFactory implements ICleanHandlerFactory<ExpressionV1> 
         return handler.consume(this.state());
     };
 
-    public <T> Function<ExpressionV1, Expressions<T>> localReduceVisitor(T initial, BiFunction<T, ExpressionV1, T> reducer) {
+    public <T> Function<ExpressionV1, Dict<T>> localReduceVisitor(T initial, BiFunction<T, ExpressionV1, T> reducer) {
 
-        return new LocalReduceVisitor<ExpressionV1, Expressions<T>, T>(state(), initial, reducer, this.expressionChildren());
+        return new LocalReduceVisitor<ExpressionV1, Dict<T>, T>(state(), initial, reducer, this.expressionChildren());
     }
 }

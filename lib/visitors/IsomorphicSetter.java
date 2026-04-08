@@ -4,14 +4,14 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import lib.dict.Dict;
 import lib.expression.*;
-import lib.expressions.Expressions;
 
 public final class IsomorphicSetter<T, E> implements ExpressionVisitor<Void, E> {
-    private final Expressions<T> values;
+    private final Dict<T> values;
     private final T value;
 
-    public IsomorphicSetter(Expressions<T> values, T value) {
+    public IsomorphicSetter(Dict<T> values, T value) {
         this.values = values;
         this.value = value;
     }

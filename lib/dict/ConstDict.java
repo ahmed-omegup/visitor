@@ -1,8 +1,8 @@
-package lib.expressions;
+package lib.dict;
 
-public class ConstExpressions<T> extends Expressions<T> {
+public class ConstDict<T> extends Dict<T> {
 
-    public ConstExpressions(T initial) {
+    public ConstDict(T initial) {
         literal = initial;
         variableReference = initial;
         addition = initial;

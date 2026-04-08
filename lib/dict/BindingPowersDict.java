@@ -1,13 +1,13 @@
-package lib.expressions;
+package lib.dict;
 
 import java.util.function.Function;
 
 import lib.expression.*;
 import port.BindingPower;
 
-public class CLikeBindingPowers extends Expressions<BindingPower> {
+public class BindingPowersDict extends Dict<BindingPower> {
 
-    public CLikeBindingPowers() {
+    public BindingPowersDict() {
         literal = new BindingPower(100, false);
         variableReference = new BindingPower(100, false);
         addition = new BindingPower(10, false);

@@ -5,16 +5,16 @@ import static java.util.List.of;
 import java.util.ArrayList;
 import java.util.List;
 
+import lib.dict.ClassNamesDict;
+import lib.dict.Dict;
 import lib.expression.*;
-import lib.expressions.ExpressionClassNames;
-import lib.expressions.Expressions;
 import port.ICleanHandlerFactory;
 import port.IExpressionFactory;
 
 final class TestSupport<E> {
     final ICleanHandlerFactory<E> v;
     final IExpressionFactory<E> factory;
-    final Expressions<String> values = new ExpressionClassNames();
+    final Dict<String> values = new ClassNamesDict();
 
     TestSupport(ICleanHandlerFactory<E> v) {
         this.v = v;
