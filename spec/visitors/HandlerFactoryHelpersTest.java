@@ -78,6 +78,56 @@ abstract class HandlerFactoryHelpersTestBase<E> extends TestBase<E> {
     }
 
     @Test
+    void collectClassNamesVisitorTraversesExpressionInPreOrder() {
+        var classNames = testSupport.v.collectClassNamesVisitor().apply(testSupport.sampleTraversalExpression());
+
+        assertEquals(of(
+            "Conditional",
+            "Conjunction",
+            "LessThan",
+            "VariableReference",
+            "Literal",
+            "LogicalNot",
+            "Equality",
+            "Literal",
+            "Literal",
+            "Addition",
+            "Subtraction",
+            "Literal",
+            "Literal",
+            "Multiplication",
+            "Division",
+            "Literal",
+            "Literal",
+            "Modulo",
+            "Literal",
+            "Literal",
+            "FunctionCall",
+            "VariableReference",
+            "Exponentiation",
+            "Literal",
+            "Literal",
+            "Inequality",
+            "Literal",
+            "Literal",
+            "GreaterThan",
+            "Literal",
+            "Literal",
+            "LessThanOrEqual",
+            "Literal",
+            "Literal",
+            "GreaterThanOrEqual",
+            "Literal",
+            "Literal",
+            "Disjunction",
+            "Literal",
+            "Literal",
+            "Negation",
+            "Literal"
+        ), classNames);
+    }
+
+    @Test
     void renameVariableRewritesMatchingReferencesOnly() {
         var renamed = testSupport.v.renameVariable("x", "y").apply(testSupport.sampleTraversalExpression());
 
