@@ -42,6 +42,24 @@ abstract class HandlerTransformationHelpersTestBase<E> extends TestBase<E> {
     }
 
     @Test
+    void constantFolderOnceLeavesNonFoldableOrFalseyBranchesInPlace() {
+        var foldOnce = testSupport.v.constantFolderOnce();
+
+        assertEquals("x + 2", render(foldOnce.apply(factory.addition(factory.variableReference("x"), factory.literal("2")))));
+        assertEquals("-x", render(foldOnce.apply(factory.negation(factory.variableReference("x")))));
+        assertEquals("x ? 11 : 22", render(foldOnce.apply(factory.conditional(factory.variableReference("x"), factory.literal("11"), factory.literal("22")))));
+        assertEquals("0", render(foldOnce.apply(factory.equality(factory.literal("2"), factory.literal("3")))));
+        assertEquals("0", render(foldOnce.apply(factory.inequality(factory.literal("2"), factory.literal("2")))));
+        assertEquals("0", render(foldOnce.apply(factory.lessThan(factory.literal("3"), factory.literal("2")))));
+        assertEquals("0", render(foldOnce.apply(factory.greaterThan(factory.literal("2"), factory.literal("3")))));
+        assertEquals("0", render(foldOnce.apply(factory.lessThanOrEqual(factory.literal("3"), factory.literal("2")))));
+        assertEquals("0", render(foldOnce.apply(factory.greaterThanOrEqual(factory.literal("2"), factory.literal("3")))));
+        assertEquals("x", render(foldOnce.apply(factory.conjunction(factory.literal("1"), factory.variableReference("x")))));
+        assertEquals("0", render(foldOnce.apply(factory.disjunction(factory.literal("0"), factory.literal("0")))));
+        assertEquals("0", render(foldOnce.apply(factory.logicalNot(factory.literal("1")))));
+    }
+
+    @Test
     void renameVariableRewritesMatchingReferencesOnly() {
         var renamed = testSupport.v.renameVariable("x", "y").apply(testSupport.sampleTraversalExpression());
 

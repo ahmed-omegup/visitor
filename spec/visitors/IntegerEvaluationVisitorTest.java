@@ -104,6 +104,23 @@ abstract class IntegerEvaluationVisitorTestBase<E> extends TestBase<E> {
     }
 
     @Test
+    void evaluatesFalseComparisonAndLogicalBranches() {
+        var evaluator = testSupport.v.integerEvaluator(Map.of("x", 0), Map.of());
+
+        assertEquals(0, evaluator.apply(factory.equality(factory.literal("8"), factory.literal("2"))));
+        assertEquals(0, evaluator.apply(factory.inequality(factory.literal("8"), factory.literal("8"))));
+        assertEquals(0, evaluator.apply(factory.lessThan(factory.literal("8"), factory.literal("2"))));
+        assertEquals(0, evaluator.apply(factory.greaterThan(factory.literal("2"), factory.literal("8"))));
+        assertEquals(0, evaluator.apply(factory.lessThanOrEqual(factory.literal("8"), factory.literal("2"))));
+        assertEquals(0, evaluator.apply(factory.greaterThanOrEqual(factory.literal("2"), factory.literal("8"))));
+        assertEquals(0, evaluator.apply(factory.conjunction(factory.literal("0"), factory.literal("2"))));
+        assertEquals(0, evaluator.apply(factory.disjunction(factory.literal("0"), factory.literal("0"))));
+        assertEquals(0, evaluator.apply(factory.logicalNot(factory.literal("1"))));
+        assertEquals(11, evaluator.apply(factory.conditional(factory.literal("1"), factory.literal("11"), factory.literal("22"))));
+        assertEquals(0, evaluator.apply(factory.variableReference("x")));
+    }
+
+    @Test
     void failsOnUnknownFunction() {
         var evaluator = testSupport.v.integerEvaluator(Map.of(), Map.of());
 

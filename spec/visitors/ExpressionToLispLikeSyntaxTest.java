@@ -39,6 +39,7 @@ abstract class ExpressionToLispLikeSyntaxTestBase<E> extends TestBase<E> {
         assertEquals("(!= 1 2)", renderLispLike(factory.inequality(factory.literal("1"), factory.literal("2"))));
         assertEquals("(< 1 2)", renderLispLike(factory.lessThan(factory.literal("1"), factory.literal("2"))));
         assertEquals("(> 2 1)", renderLispLike(factory.greaterThan(factory.literal("2"), factory.literal("1"))));
+        assertEquals("(>= 2 2)", renderLispLike(factory.greaterThanOrEqual(factory.literal("2"), factory.literal("2"))));
         assertEquals("(and 1 1)", renderLispLike(factory.conjunction(factory.literal("1"), factory.literal("1"))));
     }
 
