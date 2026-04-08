@@ -10,7 +10,7 @@ import lib.expression.*;
 import lib.utils.Either;
 import lib.utils.EitherVisitor;
 
-public final class IntegerEvaluationVisitor<E> implements ExpressionVisitor<Integer, E> {
+public class IntegerEvaluationVisitor<E> implements ExpressionVisitor<Integer, E> {
     private final Map<String, Integer> variables;
     private final Map<String, Function<List<Integer>, Integer>> functions;
     private final Function<E, Either<VariableReference<E>, E>> isVariable;

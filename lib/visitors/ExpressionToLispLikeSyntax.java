@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import lib.expression.*;
 import port.IHandlerFactory;
 
-public final class ExpressionToLispLikeSyntax<E> implements ExpressionVisitor<String, E> {
+public class ExpressionToLispLikeSyntax<E> implements ExpressionVisitor<String, E> {
     private final IHandlerFactory<E> handlers;
 
     public ExpressionToLispLikeSyntax(IHandlerFactory<E> handlers) {

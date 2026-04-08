@@ -15,7 +15,7 @@ import port.IHandlerFactory;
 import port.State;
 import port.StateConsumer;
 
-public final class LocalReduceVisitor<E, S, T> implements Function<E, S> {
+public class LocalReduceVisitor<E, S, T> implements Function<E, S> {
     private final Consumer<E> setter;
     private final S values;
     private final Function<E, List<E>> children;

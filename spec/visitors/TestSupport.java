@@ -11,7 +11,7 @@ import lib.expression.*;
 import port.IHandlerFactory;
 import port.IExpressionFactory;
 
-final class TestSupport<E> {
+class TestSupport<E> {
     final IHandlerFactory<E> v;
     final IExpressionFactory<E> factory;
     final Dict<String> values = new ClassNamesDict();

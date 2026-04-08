@@ -10,7 +10,7 @@ import lib.visitors.ExpressionChildren;
 import lib.visitors.IsomorphicGetter;
 import port.IHandlerFactory;
 
-public final class GlobalReduceVisitor<T, E> implements Function<E, T> {
+public class GlobalReduceVisitor<T, E> implements Function<E, T> {
 
     private final Function<E, T> getter;
     private final BinaryOperator<T> reducer;

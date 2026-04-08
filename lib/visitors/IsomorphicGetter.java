@@ -5,7 +5,7 @@ import java.util.function.Function;
 import lib.dict.Dict;
 import lib.expression.*;
 
-public final class IsomorphicGetter<T, E> implements ExpressionVisitor<T, E> {
+public class IsomorphicGetter<T, E> implements ExpressionVisitor<T, E> {
     private final Dict<T> values;
 
     public IsomorphicGetter(Dict<T> values) {

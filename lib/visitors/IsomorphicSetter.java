@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 import lib.dict.Dict;
 import lib.expression.*;
 
-public final class IsomorphicSetter<T, E> implements ExpressionVisitor<Void, E> {
+public class IsomorphicSetter<T, E> implements ExpressionVisitor<Void, E> {
     private final Dict<T> values;
     private final T value;
 

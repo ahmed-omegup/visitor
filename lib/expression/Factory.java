@@ -3,7 +3,7 @@ package lib.expression;
 import java.util.List;
 import port.IExpressionFactory;
 
-public final class Factory implements IExpressionFactory<ExpressionV1> {
+public class Factory implements IExpressionFactory<ExpressionV1> {
     public Factory() {}
 
     private ExpressionV1 wrap(Expression<ExpressionV1> expression) {

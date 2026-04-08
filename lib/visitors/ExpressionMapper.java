@@ -9,7 +9,7 @@ import lib.expression.*;
 import port.IHandlerFactory;
 import port.IExpressionFactory;
 
-public final class ExpressionMapper<E> implements ExpressionVisitor<E, E>, Function<E, E> {
+public class ExpressionMapper<E> implements ExpressionVisitor<E, E>, Function<E, E> {
     private final BiFunction<E, Supplier<E>, E> recurse;
     private final BiFunction<E, ExpressionMapper<E>, E> acceptVisitor;
     private final IExpressionFactory<E> factory;

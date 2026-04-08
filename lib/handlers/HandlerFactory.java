@@ -21,7 +21,7 @@ import port.IHandlerFactory;
 import port.IExpressionFactory;
 import port.State;
 
-public final class HandlerFactory implements IHandlerFactory<ExpressionV1> {
+public class HandlerFactory implements IHandlerFactory<ExpressionV1> {
     @Override
     public IExpressionFactory<ExpressionV1> expressionFactory() {
         return new Factory();
