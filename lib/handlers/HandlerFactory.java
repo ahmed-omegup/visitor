@@ -17,6 +17,7 @@ import lib.utils.Left;
 import lib.utils.Right;
 import lib.visitors.*;
 import port.BindingPower;
+import port.ConstantFolder;
 import port.IExpressionDict;
 import port.IHandlerFactory;
 import port.IExpressionFactory;

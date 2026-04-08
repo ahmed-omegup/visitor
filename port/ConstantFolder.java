@@ -1,8 +1,6 @@
-package lib.visitors;
+package port;
 
 import java.util.function.Function;
-
-import port.IHandlerFactory;
 
 public class ConstantFolder<E> implements Function<E, E> {
     private final Function<E, E> mapper;
