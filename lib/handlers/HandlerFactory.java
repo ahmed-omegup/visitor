@@ -53,8 +53,7 @@ public final class HandlerFactory implements IHandlerFactory<ExpressionV1> {
     };
 
     public Function<ExpressionV1, BindingPower> createBindingPowerHandler() {
-        var getter = new IsomorphicGetter<BindingPower, ExpressionV1>(new BindingPowersDict());
-        return expression -> expression.accept(getter);
+        return dictGetter(new BindingPowersDict());
     };
 
     @Override
@@ -93,8 +92,7 @@ public final class HandlerFactory implements IHandlerFactory<ExpressionV1> {
 
     @Override
     public Function<ExpressionV1, String> expressionClassNameExtractor() {
-        var classNameGetter = new IsomorphicGetter<String, ExpressionV1>(new ClassNamesDict());
-        return expression -> expression.accept(classNameGetter);
+        return dictGetter(new ClassNamesDict());
     }
 
     @Override
@@ -129,7 +127,7 @@ public final class HandlerFactory implements IHandlerFactory<ExpressionV1> {
         return expression -> expression.accept(integerEvaluator);
     }
 
-    public <T> Function<ExpressionV1, T> getter(Dict<T> values) {
+    public <T> Function<ExpressionV1, T> dictGetter(Dict<T> values) {
         var visitor = new IsomorphicGetter<T, ExpressionV1>(values);
         return expression -> expression.accept(visitor);
     }
@@ -149,8 +147,7 @@ public final class HandlerFactory implements IHandlerFactory<ExpressionV1> {
             };
 
             public Function<ExpressionV1, T> getter(Dict<T> state) {
-                var visitor = new IsomorphicGetter<T, ExpressionV1>(state);
-                return expression -> expression.accept(visitor);
+                return dictGetter(state);
             };
 
             public Consumer<ExpressionV1> setter(Dict<T> state, T value) {
