@@ -1,8 +1,10 @@
 package lib.handlers;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -19,6 +21,7 @@ import lib.expression.ExpressionV2;
 import lib.expression.ExpressionVisitor;
 import lib.expression.ExpressionVisitor2;
 import lib.expression.Factory2;
+import lib.expression.FunctionCall;
 import lib.expression.LambdaExpression;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
@@ -145,11 +148,7 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
 
     @Override
     public Function<ExpressionV2, ExpressionV2> constantFolderOnce() {
-        return expression -> accept(
-            expression,
-            new ConstantFolderOnce<>(expressionFactory(), expression, isLiteral()),
-            _lambdaExpression -> expression
-        );
+        return this::foldConstantOnce;
     }
 
     @Override
@@ -166,6 +165,190 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
                 visitor.apply(lambdaExpression.body)
             )
         );
+    }
+
+    private ExpressionV2 foldConstantOnce(ExpressionV2 expression) {
+        var lambdaCallFolded = foldLambdaCall(expression);
+        if (lambdaCallFolded != expression) {
+            return foldConstantOnce(lambdaCallFolded);
+        }
+        return accept(
+            expression,
+            new ConstantFolderOnce<>(expressionFactory(), expression, isLiteral()),
+            _lambdaExpression -> expression
+        );
+    }
+
+    private ExpressionV2 foldLambdaCall(ExpressionV2 expression) {
+        return accept(
+            expression,
+            new FallbackVisitor<ExpressionV2, ExpressionV2>(_expression -> expression) {
+                @Override
+                public ExpressionV2 visit(FunctionCall<ExpressionV2> call) {
+                    var lambda = asLambda(call.callee);
+                    if (lambda == null || call.arguments.size() != 1) {
+                        return expression;
+                    }
+                    return substitute(lambda.body, lambda.parameterName, call.arguments.get(0));
+                }
+            },
+            _lambdaExpression -> expression
+        );
+    }
+
+    private LambdaExpression asLambda(ExpressionV2 expression) {
+        return accept(
+            expression,
+            new FallbackVisitor<LambdaExpression, ExpressionV2>(_expression -> null) {
+            },
+            lambdaExpression -> lambdaExpression
+        );
+    }
+
+    private ExpressionV2 substitute(ExpressionV2 expression, String parameterName, ExpressionV2 replacement) {
+        return accept(
+            expression,
+            new ExpressionMapper<ExpressionV2>(
+                this,
+                (current, next) -> isVariable().apply(current).accept(new EitherVisitor<>() {
+                    @Override
+                    public ExpressionV2 left(VariableReference<ExpressionV2> left) {
+                        if (left.name.equals(parameterName)) {
+                            return replacement;
+                        }
+                        return current;
+                    }
+
+                    @Override
+                    public ExpressionV2 right(ExpressionV2 right) {
+                        return next.get();
+                    }
+                }),
+                this::mapWithVisitor
+            ),
+            lambdaExpression -> {
+                if (lambdaExpression.parameterName.equals(parameterName)) {
+                    return expressionFactory().lambdaExpression(lambdaExpression.parameterName, lambdaExpression.body);
+                }
+
+                var body = lambdaExpression.body;
+                var nestedParameterName = lambdaExpression.parameterName;
+                if (freeVariables(replacement).contains(nestedParameterName)) {
+                    var freshName = freshVariableName(nestedParameterName, List.of(usedNames(body), usedNames(replacement), Set.of(parameterName)));
+                    body = renameBoundVariable(body, nestedParameterName, freshName);
+                    nestedParameterName = freshName;
+                }
+
+                return expressionFactory().lambdaExpression(
+                    nestedParameterName,
+                    substitute(body, parameterName, replacement)
+                );
+            }
+        );
+    }
+
+    private ExpressionV2 renameBoundVariable(ExpressionV2 expression, String oldName, String newName) {
+        return accept(
+            expression,
+            new ExpressionMapper<ExpressionV2>(
+                this,
+                (current, next) -> isVariable().apply(current).accept(new EitherVisitor<>() {
+                    @Override
+                    public ExpressionV2 left(VariableReference<ExpressionV2> left) {
+                        if (left.name.equals(oldName)) {
+                            return expressionFactory().variableReference(newName);
+                        }
+                        return current;
+                    }
+
+                    @Override
+                    public ExpressionV2 right(ExpressionV2 right) {
+                        return next.get();
+                    }
+                }),
+                this::mapWithVisitor
+            ),
+            lambdaExpression -> {
+                if (lambdaExpression.parameterName.equals(oldName)) {
+                    return expressionFactory().lambdaExpression(lambdaExpression.parameterName, lambdaExpression.body);
+                }
+                return expressionFactory().lambdaExpression(
+                    lambdaExpression.parameterName,
+                    renameBoundVariable(lambdaExpression.body, oldName, newName)
+                );
+            }
+        );
+    }
+
+    private Set<String> freeVariables(ExpressionV2 expression) {
+        return accept(
+            expression,
+            new FallbackVisitor<Set<String>, ExpressionV2>(_expression -> {
+                var variables = new LinkedHashSet<String>();
+                for (var child : expressionChildren().apply(expression)) {
+                    variables.addAll(freeVariables(child));
+                }
+                return variables;
+            }) {
+                @Override
+                public Set<String> visit(Literal<ExpressionV2> literal) {
+                    return new LinkedHashSet<>();
+                }
+
+                @Override
+                public Set<String> visit(VariableReference<ExpressionV2> variableReference) {
+                    return new LinkedHashSet<>(Set.of(variableReference.name));
+                }
+            },
+            lambdaExpression -> {
+                var variables = new LinkedHashSet<>(freeVariables(lambdaExpression.body));
+                variables.remove(lambdaExpression.parameterName);
+                return variables;
+            }
+        );
+    }
+
+    private Set<String> usedNames(ExpressionV2 expression) {
+        return accept(
+            expression,
+            new FallbackVisitor<Set<String>, ExpressionV2>(_expression -> {
+                var names = new LinkedHashSet<String>();
+                for (var child : expressionChildren().apply(expression)) {
+                    names.addAll(usedNames(child));
+                }
+                return names;
+            }) {
+                @Override
+                public Set<String> visit(Literal<ExpressionV2> literal) {
+                    return new LinkedHashSet<>();
+                }
+
+                @Override
+                public Set<String> visit(VariableReference<ExpressionV2> variableReference) {
+                    return new LinkedHashSet<>(Set.of(variableReference.name));
+                }
+            },
+            lambdaExpression -> {
+                var names = new LinkedHashSet<>(usedNames(lambdaExpression.body));
+                names.add(lambdaExpression.parameterName);
+                return names;
+            }
+        );
+    }
+
+    private String freshVariableName(String baseName, List<Set<String>> usedNameSets) {
+        var usedNames = new LinkedHashSet<String>();
+        for (var names : usedNameSets) {
+            usedNames.addAll(names);
+        }
+
+        var candidate = baseName;
+        var suffix = 1;
+        while (usedNames.contains(candidate)) {
+            candidate = baseName + suffix;
+            suffix += 1;
+        }
+        return candidate;
     }
 
     @Override

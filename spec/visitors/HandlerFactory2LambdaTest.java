@@ -99,6 +99,33 @@ class HandlerFactory2LambdaTest extends TestBase<ExpressionV2> {
     }
 
     @Test
+    void constantFolderFoldsLambdaCalls() {
+        var increment = factory2.lambdaExpression(
+            "n",
+            factory2.addition(factory2.variableReference("n"), factory2.literal("1"))
+        );
+        var appliedToLiteral = factory2.functionCall(increment, List.of(factory2.literal("2")));
+        var appliedToVariable = factory2.functionCall(increment, List.of(factory2.variableReference("x")));
+
+        assertEquals("3", render(handler.constantFolderOnce().apply(appliedToLiteral)));
+        assertEquals("x + 1", render(handler.constantFolderOnce().apply(appliedToVariable)));
+        assertEquals("3", render(handler.constantFolder().apply(appliedToLiteral)));
+    }
+
+    @Test
+    void omegaCombinatorOverflowsDuringFolding() {
+        var selfApplicationBody = factory2.functionCall(
+            factory2.variableReference("x"),
+            List.of(factory2.variableReference("x"))
+        );
+        var omegaLambda = factory2.lambdaExpression("x", selfApplicationBody);
+        var omega = factory2.functionCall(omegaLambda, List.of(omegaLambda));
+
+        assertThrows(StackOverflowError.class, () -> handler.constantFolderOnce().apply(omega));
+        assertThrows(StackOverflowError.class, () -> handler.constantFolder().apply(omega));
+    }
+
+    @Test
     void histogram2CountsEveryWrappedExpressionKind() {
         var expressions = Map.ofEntries(
             Map.entry("Literal", factory2.literal("1")),
