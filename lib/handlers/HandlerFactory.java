@@ -34,7 +34,7 @@ public final class HandlerFactory implements ICleanHandlerFactory<Expression> {
 
     public Function<Expression, Expression> expressionMapper(
             BiFunction<Expression, Supplier<Expression>, Expression> recurse) {
-        return new ExpressionMapper(expressionFactory(), recurse);
+        return new ExpressionMapper<Expression>(expressionFactory(), (e, visitor) -> e.accept(visitor));
     }
 
     public Function<Expression, String> cLikeSyntaxPrinter() {
@@ -54,20 +54,20 @@ public final class HandlerFactory implements ICleanHandlerFactory<Expression> {
         return new IntegerEvaluationVisitor(variables, functions);
     }
 
-    public <T> Function<Expression,T> globalReduceVisitor(Expressions<T> values, BinaryOperator<T> reducer) {
+    public <T> Function<Expression, T> globalReduceVisitor(Expressions<T> values, BinaryOperator<T> reducer) {
         return new GlobalReduceVisitor<>(values, reducer);
     }
 
-
-    public <T> Consumer<Expression> localReduceVisitor(Expressions<T> values, BiFunction<T,Expression,T> reducer) {
+    public <T> Consumer<Expression> localReduceVisitor(Expressions<T> values, BiFunction<T, Expression, T> reducer) {
         return new LocalReduceVisitor<>(values, reducer);
     }
 
-    public <T> Function<Expression,T> isomorphicGetter(Expressions<T> values) {
+    public <T> Function<Expression, T> isomorphicGetter(Expressions<T> values) {
         return new IsomorphicGetter<T>(values);
     };
 
-    public <T> java.util.function.Consumer<Expression> isomorphicSetter(Expressions<T> values, Function<Expression,T> reducer) {
+    public <T> java.util.function.Consumer<Expression> isomorphicSetter(Expressions<T> values,
+            Function<Expression, T> reducer) {
         return new IsomorphicSetter<T>(values, reducer);
     }
 }

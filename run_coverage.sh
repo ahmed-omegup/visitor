@@ -28,7 +28,10 @@ javac -Xlint:unchecked -d coverage/classes \
     lib/expression/category/*.java \
     lib/expressions/*.java \
     lib/visitors/ExpressionChildren.java \
-    lib/visitors/CategoryConstantFolder.java \
-    lib/visitors/CategoryVisitor.java
+    lib/visitors/ConstantFolderOnce.java \
+    lib/visitors/ExpressionMapper.java \
+    lib/visitors/CategoryVisitor.java \
+    lib/visitors/ConstantFolder.java
+    
 
 

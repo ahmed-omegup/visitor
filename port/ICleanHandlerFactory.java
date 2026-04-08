@@ -8,10 +8,14 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import lib.expression.Literal;
 import lib.expressions.Expressions;
+import lib.utils.Either;
 
 public interface ICleanHandlerFactory<E> {
     IExpressionFactory<E> expressionFactory();
+
+    Function<E, Either<Literal<E>, E>> isLiteral();
 
     Function<E, Map<Integer, Integer>> arithmeticDepthHistogramBuilder();
 
@@ -20,6 +24,8 @@ public interface ICleanHandlerFactory<E> {
     Function<E, String> expressionClassNameExtractor();
 
     Function<E, E> constantFolder();
+    
+    Function<E, E> constantFolderOnce();
 
     Function<E, E> expressionMapper(BiFunction<E, Supplier<E>, E> recurse);
 

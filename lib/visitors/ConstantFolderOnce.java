@@ -8,12 +8,12 @@ import lib.utils.Either;
 import lib.utils.EitherVisitor;
 import port.IExpressionFactory;
 
-public class CategoryConstantFolder<E> implements ExpressionVisitor<E, E> {
+public class ConstantFolderOnce<E> implements ExpressionVisitor<E, E> {
     private final IExpressionFactory<E> factory;
     private final E e;
     private final Function<E, Either<Literal<E>, E>> isLiteral;
 
-    CategoryConstantFolder(IExpressionFactory<E> factory, E e, Function<E, Either<Literal<E>, E>> isLiteral) {
+    ConstantFolderOnce(IExpressionFactory<E> factory, E e, Function<E, Either<Literal<E>, E>> isLiteral) {
         this.factory = factory;
         this.e = e;
         this.isLiteral = isLiteral;
@@ -50,94 +50,94 @@ public class CategoryConstantFolder<E> implements ExpressionVisitor<E, E> {
         return e;
     }
 
-    public E visit(Addition<E> e) {
-        return whenBoth(e.left, e.right, factory.addition(e.left, e.right),
+    public E visit(Addition<E> expression) {
+        return whenBoth(expression.left, expression.right, e,
                 (left, right) -> Integer.toString(left.asInt() + right.asInt()));
     };
 
-    public E visit(Subtraction<E> e) {
-        return whenBoth(e.left, e.right, factory.subtraction(e.left, e.right),
+    public E visit(Subtraction<E> expression) {
+        return whenBoth(expression.left, expression.right, e,
                 (left, right) -> Integer.toString(left.asInt() - right.asInt()));
     };
 
-    public E visit(Multiplication<E> e) {
-        return whenBoth(e.left, e.right, factory.multiplication(e.left, e.right),
+    public E visit(Multiplication<E> expression) {
+        return whenBoth(expression.left, expression.right, e,
                 (left, right) -> Integer.toString(left.asInt() * right.asInt()));
     };
 
-    public E visit(Division<E> e) {
-        return whenBoth(e.dividend, e.divisor, factory.division(e.dividend, e.divisor),
+    public E visit(Division<E> expression) {
+        return whenBoth(expression.dividend, expression.divisor, e,
                 (left, right) -> Integer.toString(left.asInt() / right.asInt()));
     };
 
-    public E visit(Modulo<E> e) {
-        return whenBoth(e.left, e.right, factory.modulo(e.left, e.right),
+    public E visit(Modulo<E> expression) {
+        return whenBoth(expression.left, expression.right, e,
                 (left, right) -> Integer.toString(left.asInt() % right.asInt()));
     };
 
-    public E visit(Exponentiation<E> e) {
-        return whenBoth(e.base, e.exponent, factory.exponentiation(e.base, e.exponent), (base, exponent) -> Integer
-                .toString((int) Math.pow(base.asInt(), exponent.asInt())));
+    public E visit(Exponentiation<E> expression) {
+        return whenBoth(expression.base, expression.exponent, e,
+                (base, exponent) -> Integer.toString((int) Math.pow(base.asInt(), exponent.asInt())));
     };
 
-    public E visit(Negation<E> e) {
-        return whenLiteral(e.operand, factory.negation(e.operand),
+    public E visit(Negation<E> expression) {
+        return whenLiteral(expression.operand, e,
                 literal -> factory.literal(Integer.toString(-literal.asInt())));
     };
 
-    public E visit(Equality<E> e) {
-        return whenBoth(e.left, e.right, factory.equality(e.left, e.right),
+    public E visit(Equality<E> expression) {
+        return whenBoth(expression.left, expression.right, e,
                 (left, right) -> left.asInt().intValue() == right.asInt().intValue() ? "1"
                         : "0");
     };
 
-    public E visit(Inequality<E> e) {
-        return whenBoth(e.left, e.right, factory.inequality(e.left, e.right),
+    public E visit(Inequality<E> expression) {
+        return whenBoth(expression.left, expression.right, e,
                 (left, right) -> left.asInt().intValue() != right.asInt().intValue() ? "1"
                         : "0");
     };
 
-    public E visit(LessThan<E> e) {
-        return whenBoth(e.left, e.right, factory.lessThan(e.left, e.right),
+    public E visit(LessThan<E> expression) {
+        return whenBoth(expression.left, expression.right, e,
                 (left, right) -> left.asInt().intValue() < right.asInt().intValue() ? "1"
                         : "0");
     };
 
-    public E visit(GreaterThan<E> e) {
-        return whenBoth(e.left, e.right, factory.greaterThan(e.left, e.right),
+    public E visit(GreaterThan<E> expression) {
+        return whenBoth(expression.left, expression.right, e,
                 (left, right) -> left.asInt().intValue() > right.asInt().intValue() ? "1"
                         : "0");
     };
 
-    public E visit(LessThanOrEqual<E> e) {
-        return whenBoth(e.left, e.right, factory.lessThanOrEqual(e.left, e.right),
+    public E visit(LessThanOrEqual<E> expression) {
+        return whenBoth(expression.left, expression.right, e,
                 (left, right) -> left.asInt().intValue() <= right.asInt().intValue() ? "1"
                         : "0");
     };
 
-    public E visit(GreaterThanOrEqual<E> e) {
-        return whenBoth(e.left, e.right, factory.greaterThanOrEqual(e.left, e.right),
+    public E visit(GreaterThanOrEqual<E> expression) {
+        return whenBoth(expression.left, expression.right, e,
                 (left, right) -> left.asInt().intValue() >= right.asInt().intValue() ? "1"
                         : "0");
     };
 
     public E visit(Conditional<E> c) {
-        return whenLiteral(c.condition, factory.conditional(c.condition, c.whenTrue, c.whenFalse),
+        return whenLiteral(c.condition, e,
                 literal -> literal.asInt() != 0 ? c.whenTrue : c.whenFalse);
     };
 
-    public E visit(LogicalNot<E> e) {
-        return whenLiteral(e.operand, factory.logicalNot(e.operand),
+    public E visit(LogicalNot<E> expression) {
+        return whenLiteral(expression.operand, e,
                 literal -> factory.literal(literal.asInt() == 0 ? "1" : "0"));
     };
 
-    public E visit(Conjunction<E> e) {
-        return whenLiteral(e.left, factory.conjunction(e.left, e.right),
-                left -> left.asInt() == 0 ? factory.literal("0") : e.right);
+    public E visit(Conjunction<E> expression) {
+        return whenLiteral(expression.left, e,
+                left -> left.asInt() == 0 ? factory.literal("0") : expression.right);
     };
 
-    public E visit(Disjunction<E> e) {
-        return whenLiteral(e.left, factory.disjunction(e.left, e.right),
-                left -> left.asInt() != 0 ? factory.literal("1") : e.right);
+    public E visit(Disjunction<E> expression) {
+        return whenLiteral(expression.left, e,
+                left -> left.asInt() != 0 ? factory.literal("1") : expression.right);
     };
 }
