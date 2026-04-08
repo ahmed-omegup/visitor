@@ -49,50 +49,7 @@ abstract class HandlerTraversalHelpersTestBase<E> extends TestBase<E> {
     void collectClassNamesVisitorTraversesExpressionInPreOrder() {
         var classNames = testSupport.v.collectClassNamesVisitor().apply(testSupport.sampleTraversalExpression());
 
-        assertEquals(of(
-            "Conditional",
-            "Conjunction",
-            "LessThan",
-            "VariableReference",
-            "Literal",
-            "LogicalNot",
-            "Equality",
-            "Literal",
-            "Literal",
-            "Addition",
-            "Subtraction",
-            "Literal",
-            "Literal",
-            "Multiplication",
-            "Division",
-            "Literal",
-            "Literal",
-            "Modulo",
-            "Literal",
-            "Literal",
-            "FunctionCall",
-            "VariableReference",
-            "Exponentiation",
-            "Literal",
-            "Literal",
-            "Inequality",
-            "Literal",
-            "Literal",
-            "GreaterThan",
-            "Literal",
-            "Literal",
-            "LessThanOrEqual",
-            "Literal",
-            "Literal",
-            "GreaterThanOrEqual",
-            "Literal",
-            "Literal",
-            "Disjunction",
-            "Literal",
-            "Literal",
-            "Negation",
-            "Literal"
-        ), classNames);
+        assertEquals(testSupport.expectedTraversalClassNames(), classNames);
     }
 
     @Test
@@ -125,5 +82,11 @@ class HandlerTraversalHelpersTest extends HandlerTraversalHelpersTestBase<Expres
 class HandlerTraversalHelpersV2Test extends HandlerTraversalHelpersTestBase<ExpressionV2> {
     HandlerTraversalHelpersV2Test() {
         super(new TestSupport<>(new HandlerFactory2()));
+    }
+}
+
+class HandlerTraversalHelpersV2Support2Test extends HandlerTraversalHelpersTestBase<ExpressionV2> {
+    HandlerTraversalHelpersV2Support2Test() {
+        super(new TestSupport2<>(new HandlerFactory2()));
     }
 }

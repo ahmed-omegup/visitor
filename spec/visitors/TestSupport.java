@@ -71,4 +71,55 @@ class TestSupport<E> {
         expressions.add(factory.functionCall(factory.variableReference("sum"), of(factory.literal("1"), factory.literal("2"))));
         return expressions;
     }
+
+    List<String> expectedTraversalClassNames() {
+        return of(
+            "Conditional",
+            "Conjunction",
+            "LessThan",
+            "VariableReference",
+            "Literal",
+            "LogicalNot",
+            "Equality",
+            "Literal",
+            "Literal",
+            "Addition",
+            "Subtraction",
+            "Literal",
+            "Literal",
+            "Multiplication",
+            "Division",
+            "Literal",
+            "Literal",
+            "Modulo",
+            "Literal",
+            "Literal",
+            "FunctionCall",
+            "VariableReference",
+            "Exponentiation",
+            "Literal",
+            "Literal",
+            "Inequality",
+            "Literal",
+            "Literal",
+            "GreaterThan",
+            "Literal",
+            "Literal",
+            "LessThanOrEqual",
+            "Literal",
+            "Literal",
+            "GreaterThanOrEqual",
+            "Literal",
+            "Literal",
+            "Disjunction",
+            "Literal",
+            "Literal",
+            "Negation",
+            "Literal"
+        );
+    }
+
+    String expectedRenamedTraversalRender() {
+        return "y < 10 && !(1 == 0) ? 7 - 2 + 8 / 2 * (9 % 4) : f(pow(2, 3), 5 != 6, 7 > 1, 2 <= 2, 3 >= 3, 0 || 1, -4)";
+    }
 }

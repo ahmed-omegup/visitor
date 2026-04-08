@@ -65,10 +65,7 @@ abstract class HandlerTransformationHelpersTestBase<E> extends TestBase<E> {
     void renameVariableRewritesMatchingReferencesOnly() {
         var renamed = testSupport.v.renameVariable("x", "y").apply(testSupport.sampleTraversalExpression());
 
-        assertEquals(
-            "y < 10 && !(1 == 0) ? 7 - 2 + 8 / 2 * (9 % 4) : f(pow(2, 3), 5 != 6, 7 > 1, 2 <= 2, 3 >= 3, 0 || 1, -4)",
-            render(renamed)
-        );
+        assertEquals(testSupport.expectedRenamedTraversalRender(), render(renamed));
     }
 }
 
@@ -81,5 +78,11 @@ class HandlerTransformationHelpersTest extends HandlerTransformationHelpersTestB
 class HandlerTransformationHelpersV2Test extends HandlerTransformationHelpersTestBase<ExpressionV2> {
     HandlerTransformationHelpersV2Test() {
         super(new TestSupport<>(new HandlerFactory2()));
+    }
+}
+
+class HandlerTransformationHelpersV2Support2Test extends HandlerTransformationHelpersTestBase<ExpressionV2> {
+    HandlerTransformationHelpersV2Support2Test() {
+        super(new TestSupport2<>(new HandlerFactory2()));
     }
 }

@@ -64,3 +64,9 @@ class ExpressionToLispLikeSyntaxV2Test extends ExpressionToLispLikeSyntaxTestBas
         super(new TestSupport<>(new HandlerFactory2()));
     }
 }
+
+class ExpressionToLispLikeSyntaxV2Support2Test extends ExpressionToLispLikeSyntaxTestBase<ExpressionV2> {
+    ExpressionToLispLikeSyntaxV2Support2Test() {
+        super(new TestSupport2<>(new HandlerFactory2()));
+    }
+}

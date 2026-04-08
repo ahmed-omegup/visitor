@@ -69,3 +69,9 @@ class ExpressionToJsLikeSyntaxV2Test extends ExpressionToJsLikeSyntaxTestBase<Ex
         super(new TestSupport<ExpressionV2>(new HandlerFactory2()));
     }
 }
+
+class ExpressionToJsLikeSyntaxV2Support2Test extends ExpressionToJsLikeSyntaxTestBase<ExpressionV2> {
+    ExpressionToJsLikeSyntaxV2Support2Test() {
+        super(new TestSupport2<ExpressionV2>(new HandlerFactory2()));
+    }
+}

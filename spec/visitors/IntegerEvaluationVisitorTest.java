@@ -167,3 +167,9 @@ class IntegerEvaluationVisitorV2Test extends IntegerEvaluationVisitorTestBase<Ex
         super(new TestSupport<>(new HandlerFactory2()));
     }
 }
+
+class IntegerEvaluationVisitorV2Support2Test extends IntegerEvaluationVisitorTestBase<ExpressionV2> {
+    IntegerEvaluationVisitorV2Support2Test() {
+        super(new TestSupport2<>(new HandlerFactory2()));
+    }
+}

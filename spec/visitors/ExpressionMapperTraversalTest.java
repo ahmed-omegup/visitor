@@ -58,3 +58,9 @@ class ExpressionMapperTraversalV2Test extends ExpressionMapperTraversalTestBase<
         super(new TestSupport<>(new HandlerFactory2()));
     }
 }
+
+class ExpressionMapperTraversalV2Support2Test extends ExpressionMapperTraversalTestBase<ExpressionV2> {
+    ExpressionMapperTraversalV2Support2Test() {
+        super(new TestSupport2<>(new HandlerFactory2()));
+    }
+}

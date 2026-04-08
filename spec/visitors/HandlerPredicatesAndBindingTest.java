@@ -50,3 +50,9 @@ class HandlerPredicatesAndBindingV2Test extends HandlerPredicatesAndBindingTestB
         super(new TestSupport<>(new HandlerFactory2()));
     }
 }
+
+class HandlerPredicatesAndBindingV2Support2Test extends HandlerPredicatesAndBindingTestBase<ExpressionV2> {
+    HandlerPredicatesAndBindingV2Support2Test() {
+        super(new TestSupport2<>(new HandlerFactory2()));
+    }
+}
