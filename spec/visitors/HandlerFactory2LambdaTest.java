@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Map;
@@ -110,6 +111,104 @@ class HandlerFactory2LambdaTest extends TestBase<ExpressionV2> {
         assertEquals("3", render(handler.constantFolderOnce().apply(appliedToLiteral)));
         assertEquals("x + 1", render(handler.constantFolderOnce().apply(appliedToVariable)));
         assertEquals("3", render(handler.constantFolder().apply(appliedToLiteral)));
+    }
+
+    @Test
+    void constantFolderAvoidsVariableCaptureWhenSubstituting() {
+        var outer = factory2.lambdaExpression(
+            "x",
+            factory2.lambdaExpression(
+                "y",
+                factory2.addition(factory2.variableReference("x"), factory2.variableReference("y"))
+            )
+        );
+        var applied = factory2.functionCall(outer, List.of(factory2.variableReference("y")));
+
+        assertEquals("y1 => y + y1", render(handler.constantFolderOnce().apply(applied)));
+        assertEquals("(lambda (y1) (+ y y1))", renderLispLike(handler.constantFolderOnce().apply(applied)));
+    }
+
+    @Test
+    void constantFolderRespectsShadowedLambdaParameters() {
+        var outer = factory2.lambdaExpression(
+            "x",
+            factory2.lambdaExpression(
+                "x",
+                factory2.addition(factory2.variableReference("x"), factory2.literal("1"))
+            )
+        );
+        var applied = factory2.functionCall(outer, List.of(factory2.literal("2")));
+
+        assertEquals("x => x + 1", render(handler.constantFolderOnce().apply(applied)));
+    }
+
+    @Test
+    void constantFolderLeavesLambdaCallsWithWrongArityUntouched() {
+        var increment = factory2.lambdaExpression(
+            "n",
+            factory2.addition(factory2.variableReference("n"), factory2.literal("1"))
+        );
+        var appliedWithTwoArguments = factory2.functionCall(
+            increment,
+            List.of(factory2.literal("1"), factory2.literal("2"))
+        );
+
+        assertSame(appliedWithTwoArguments, handler.constantFolderOnce().apply(appliedWithTwoArguments));
+    }
+
+    @Test
+    void constantFolderSubstitutesLambdaArguments() {
+        var identity = factory2.lambdaExpression("x", factory2.variableReference("x"));
+        var replacement = factory2.lambdaExpression("z", factory2.variableReference("z"));
+        var applied = factory2.functionCall(identity, List.of(replacement));
+
+        assertEquals("z => z", render(handler.constantFolderOnce().apply(applied)));
+    }
+
+    @Test
+    void constantFolderRenamesInsideNestedLambdaBodies() {
+        var outer = factory2.lambdaExpression(
+            "x",
+            factory2.lambdaExpression(
+                "y",
+                factory2.lambdaExpression("z", factory2.variableReference("y"))
+            )
+        );
+        var applied = factory2.functionCall(outer, List.of(factory2.variableReference("y")));
+
+        assertEquals("y1 => z => y1", render(handler.constantFolderOnce().apply(applied)));
+    }
+
+    @Test
+    void constantFolderRenamesWhenReplacementHasCompoundFreeVariables() {
+        var outer = factory2.lambdaExpression(
+            "x",
+            factory2.lambdaExpression("y", factory2.variableReference("x"))
+        );
+        var replacement = factory2.addition(factory2.variableReference("y"), factory2.literal("1"));
+        var applied = factory2.functionCall(outer, List.of(replacement));
+
+        assertEquals("y1 => y + 1", render(handler.constantFolderOnce().apply(applied)));
+    }
+
+    @Test
+    void constantFolderHandlesNestedLambdaCapturePaths() {
+        var outer = factory2.lambdaExpression(
+            "x",
+            factory2.lambdaExpression(
+                "y",
+                factory2.functionCall(
+                    factory2.lambdaExpression("y", factory2.variableReference("y")),
+                    List.of(factory2.variableReference("x"))
+                )
+            )
+        );
+        var replacement = factory2.lambdaExpression("z", factory2.variableReference("y"));
+        var applied = factory2.functionCall(outer, List.of(replacement));
+        var folded = handler.constantFolderOnce().apply(applied);
+
+        assertEquals("LambdaExpression", handler.expressionClassNameExtractor().apply(folded));
+        assertTrue(render(folded).startsWith("y1 =>"));
     }
 
     @Test

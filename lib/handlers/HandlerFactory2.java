@@ -206,78 +206,81 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
     }
 
     private ExpressionV2 substitute(ExpressionV2 expression, String parameterName, ExpressionV2 replacement) {
-        return accept(
-            expression,
-            new ExpressionMapper<ExpressionV2>(
-                this,
-                (current, next) -> isVariable().apply(current).accept(new EitherVisitor<>() {
-                    @Override
-                    public ExpressionV2 left(VariableReference<ExpressionV2> left) {
-                        if (left.name.equals(parameterName)) {
-                            return replacement;
-                        }
-                        return current;
-                    }
-
-                    @Override
-                    public ExpressionV2 right(ExpressionV2 right) {
-                        return next.get();
-                    }
-                }),
-                this::mapWithVisitor
-            ),
-            lambdaExpression -> {
-                if (lambdaExpression.parameterName.equals(parameterName)) {
-                    return expressionFactory().lambdaExpression(lambdaExpression.parameterName, lambdaExpression.body);
+        return isVariable().apply(expression).accept(new EitherVisitor<>() {
+            @Override
+            public ExpressionV2 left(VariableReference<ExpressionV2> left) {
+                if (left.name.equals(parameterName)) {
+                    return replacement;
                 }
-
-                var body = lambdaExpression.body;
-                var nestedParameterName = lambdaExpression.parameterName;
-                if (freeVariables(replacement).contains(nestedParameterName)) {
-                    var freshName = freshVariableName(nestedParameterName, List.of(usedNames(body), usedNames(replacement), Set.of(parameterName)));
-                    body = renameBoundVariable(body, nestedParameterName, freshName);
-                    nestedParameterName = freshName;
-                }
-
-                return expressionFactory().lambdaExpression(
-                    nestedParameterName,
-                    substitute(body, parameterName, replacement)
-                );
+                return expression;
             }
-        );
+
+            @Override
+            public ExpressionV2 right(ExpressionV2 right) {
+                var lambdaExpression = asLambda(expression);
+                if (lambdaExpression != null) {
+                    if (lambdaExpression.parameterName.equals(parameterName)) {
+                        return expression;
+                    }
+
+                    var body = lambdaExpression.body;
+                    var nestedParameterName = lambdaExpression.parameterName;
+                    if (freeVariables(replacement).contains(nestedParameterName)) {
+                        var freshName = freshVariableName(
+                            nestedParameterName,
+                            List.of(usedNames(body), usedNames(replacement), Set.of(parameterName))
+                        );
+                        body = renameBoundVariable(body, nestedParameterName, freshName);
+                        nestedParameterName = freshName;
+                    }
+
+                    return expressionFactory().lambdaExpression(
+                        nestedParameterName,
+                        substitute(body, parameterName, replacement)
+                    );
+                }
+
+                var mapper = new ExpressionMapper<ExpressionV2>(
+                    HandlerFactory2.this,
+                    (current, _next) -> substitute(current, parameterName, replacement),
+                    HandlerFactory2.this::mapWithVisitor
+                );
+                return mapWithVisitor(expression, mapper);
+            }
+        });
     }
 
     private ExpressionV2 renameBoundVariable(ExpressionV2 expression, String oldName, String newName) {
-        return accept(
-            expression,
-            new ExpressionMapper<ExpressionV2>(
-                this,
-                (current, next) -> isVariable().apply(current).accept(new EitherVisitor<>() {
-                    @Override
-                    public ExpressionV2 left(VariableReference<ExpressionV2> left) {
-                        if (left.name.equals(oldName)) {
-                            return expressionFactory().variableReference(newName);
-                        }
-                        return current;
-                    }
-
-                    @Override
-                    public ExpressionV2 right(ExpressionV2 right) {
-                        return next.get();
-                    }
-                }),
-                this::mapWithVisitor
-            ),
-            lambdaExpression -> {
-                if (lambdaExpression.parameterName.equals(oldName)) {
-                    return expressionFactory().lambdaExpression(lambdaExpression.parameterName, lambdaExpression.body);
+        return isVariable().apply(expression).accept(new EitherVisitor<>() {
+            @Override
+            public ExpressionV2 left(VariableReference<ExpressionV2> left) {
+                if (left.name.equals(oldName)) {
+                    return expressionFactory().variableReference(newName);
                 }
-                return expressionFactory().lambdaExpression(
-                    lambdaExpression.parameterName,
-                    renameBoundVariable(lambdaExpression.body, oldName, newName)
-                );
+                return expression;
             }
-        );
+
+            @Override
+            public ExpressionV2 right(ExpressionV2 right) {
+                var lambdaExpression = asLambda(expression);
+                if (lambdaExpression != null) {
+                    if (lambdaExpression.parameterName.equals(oldName)) {
+                        return expression;
+                    }
+                    return expressionFactory().lambdaExpression(
+                        lambdaExpression.parameterName,
+                        renameBoundVariable(lambdaExpression.body, oldName, newName)
+                    );
+                }
+
+                var mapper = new ExpressionMapper<ExpressionV2>(
+                    HandlerFactory2.this,
+                    (current, _next) -> renameBoundVariable(current, oldName, newName),
+                    HandlerFactory2.this::mapWithVisitor
+                );
+                return mapWithVisitor(expression, mapper);
+            }
+        });
     }
 
     private Set<String> freeVariables(ExpressionV2 expression) {
