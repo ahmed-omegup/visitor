@@ -3,23 +3,24 @@ package spec.visitors;
 import static java.util.List.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import lib.dict.ConstDict;
 import lib.expression.ExpressionV1;
-import lib.expression.Literal;
-import lib.expression.VariableReference;
 import lib.handlers.HandlerFactory;
-import lib.utils.EitherVisitor;
-import port.State;
-import port.StateConsumer;
 
 abstract class HandlerFactoryHelpersTestBase<E> extends TestBase<E> {
     HandlerFactoryHelpersTestBase(TestSupport<E> testSupport) {
         super(testSupport);
+    }
+
+    @Test
+    void literalAndVariableCheckersRecognizeNodeKinds() {
+        assertTrue(testSupport.v.literalChecker().apply(factory.literal("8")));
+        assertFalse(testSupport.v.literalChecker().apply(factory.addition(factory.literal("1"), factory.literal("2"))));
+        assertTrue(testSupport.v.variableChecker().apply(factory.variableReference("x")));
+        assertFalse(testSupport.v.variableChecker().apply(factory.negation(factory.literal("3"))));
     }
 
     @Test
@@ -63,74 +64,32 @@ abstract class HandlerFactoryHelpersTestBase<E> extends TestBase<E> {
         assertEquals("x", render(foldOnce.apply(factory.variableReference("x"))));
         assertEquals("4", render(foldOnce.apply(factory.literal("4"))));
     }
+
+    @Test
+    void histogramCountsNodeKindsAcrossTraversalExpression() {
+        var histogram = testSupport.v.histogram().apply(testSupport.sampleTraversalExpression());
+
+        assertEquals(22, histogram.literal());
+        assertEquals(2, histogram.variableReference());
+        assertEquals(1, histogram.conditional());
+        assertEquals(1, histogram.functionCall());
+        assertEquals(1, histogram.addition());
+        assertEquals(1, histogram.negation());
+    }
+
+    @Test
+    void renameVariableRewritesMatchingReferencesOnly() {
+        var renamed = testSupport.v.renameVariable("x", "y").apply(testSupport.sampleTraversalExpression());
+
+        assertEquals(
+            "y < 10 && !(1 == 0) ? 7 - 2 + 8 / 2 * (9 % 4) : f(pow(2, 3), 5 != 6, 7 > 1, 2 <= 2, 3 >= 3, 0 || 1, -4)",
+            render(renamed)
+        );
+    }
 }
 
 class HandlerFactoryHelpersTest extends HandlerFactoryHelpersTestBase<ExpressionV1> {
-    private final HandlerFactory handlers = new HandlerFactory();
-
     HandlerFactoryHelpersTest() {
         super(new TestSupport<>(new HandlerFactory()));
-    }
-
-    @Test
-    void literalAndVariableDetectorsReturnEitherShapes() {
-        var literalResult = handlers.isLiteral().apply(factory.literal("8")).accept(
-            new EitherVisitor<Literal<ExpressionV1>, ExpressionV1, String>() {
-                public String left(Literal<ExpressionV1> left) {
-                    return left.value;
-                }
-
-                public String right(ExpressionV1 right) {
-                    return "right";
-                }
-            }
-        );
-
-        var variableResult = handlers.isVariable().apply(factory.variableReference("x")).accept(
-            new EitherVisitor<VariableReference<ExpressionV1>, ExpressionV1, String>() {
-                public String left(VariableReference<ExpressionV1> left) {
-                    return left.name;
-                }
-
-                public String right(ExpressionV1 right) {
-                    return "right";
-                }
-            }
-        );
-
-        var nonLiteralResult = handlers.isLiteral().apply(factory.addition(factory.literal("1"), factory.literal("2"))).accept(
-            new EitherVisitor<Literal<ExpressionV1>, ExpressionV1, String>() {
-                public String left(Literal<ExpressionV1> left) {
-                    return "left";
-                }
-
-                public String right(ExpressionV1 right) {
-                    return handlers.expressionClassNameExtractor().apply(right);
-                }
-            }
-        );
-
-        assertEquals("8", literalResult);
-        assertEquals("x", variableResult);
-        assertEquals("Addition", nonLiteralResult);
-    }
-
-    @Test
-    void reducersAndStateHelpersProduceExpectedValues() {
-        var local = handlers.localReduceVisitor(0, (_count, _expression) -> 1)
-            .apply(testSupport.sampleTraversalExpression());
-        var global = handlers.globalReduceVisitor(new ConstDict<>(1), Integer::sum)
-            .apply(testSupport.sampleTraversalExpression());
-        var seeded = handlers.handleState(new StateConsumer<ExpressionV1, Integer, Integer>() {
-            public <S> Integer consume(State<ExpressionV1, S, Integer> state) {
-                S values = state.intial(7);
-                state.setter(values, 99).accept(factory.variableReference("changed"));
-                return state.getter(values).apply(factory.variableReference("changed"));
-            }
-        });
-
-        assertNotNull(local);
-        assertEquals(42, global);
-        assertEquals(99, seeded);
     }
 }

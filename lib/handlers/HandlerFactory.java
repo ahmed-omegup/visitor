@@ -63,6 +63,32 @@ public final class HandlerFactory implements IHandlerFactory<ExpressionV1> {
     }
 
     @Override
+    public Function<ExpressionV1, Boolean> literalChecker() {
+        return expression -> isLiteral().apply(expression).accept(new EitherVisitor<Literal<ExpressionV1>, ExpressionV1, Boolean>() {
+            public Boolean left(Literal<ExpressionV1> left) {
+                return true;
+            }
+
+            public Boolean right(ExpressionV1 right) {
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public Function<ExpressionV1, Boolean> variableChecker() {
+        return expression -> isVariable().apply(expression).accept(new EitherVisitor<VariableReference<ExpressionV1>, ExpressionV1, Boolean>() {
+            public Boolean left(VariableReference<ExpressionV1> left) {
+                return true;
+            }
+
+            public Boolean right(ExpressionV1 right) {
+                return false;
+            }
+        });
+    }
+
+    @Override
     public Function<ExpressionV1, String> expressionClassNameExtractor() {
         var classNameGetter = new IsomorphicGetter<String, ExpressionV1>(new ClassNamesDict());
         return expression -> expression.accept(classNameGetter);
@@ -136,10 +162,31 @@ public final class HandlerFactory implements IHandlerFactory<ExpressionV1> {
 
     @Override
     public Function<ExpressionV1, IExpressionDict<Integer>> histogram() {
-
-        var visitor = localReduceVisitor(0, (n, _e) -> n + 1);
-
-        return expression -> visitor.apply(expression);
+        return expression -> {
+            var histogram = new Dict<Integer>();
+            histogram.literal = 0;
+            histogram.variableReference = 0;
+            histogram.addition = 0;
+            histogram.subtraction = 0;
+            histogram.multiplication = 0;
+            histogram.division = 0;
+            histogram.negation = 0;
+            histogram.modulo = 0;
+            histogram.exponentiation = 0;
+            histogram.equality = 0;
+            histogram.inequality = 0;
+            histogram.lessThan = 0;
+            histogram.greaterThan = 0;
+            histogram.lessThanOrEqual = 0;
+            histogram.greaterThanOrEqual = 0;
+            histogram.conjunction = 0;
+            histogram.disjunction = 0;
+            histogram.logicalNot = 0;
+            histogram.conditional = 0;
+            histogram.functionCall = 0;
+            countIntoHistogram(expression, histogram);
+            return histogram;
+        };
     }
 
     @Override
@@ -156,6 +203,37 @@ public final class HandlerFactory implements IHandlerFactory<ExpressionV1> {
                 return next.get();
             }
         }), (e, visitor) -> e.accept(visitor));
+    }
+
+    private void countIntoHistogram(ExpressionV1 expression, Dict<Integer> histogram) {
+        switch (expressionClassNameExtractor().apply(expression)) {
+            case "Literal" -> histogram.literal += 1;
+            case "VariableReference" -> histogram.variableReference += 1;
+            case "Addition" -> histogram.addition += 1;
+            case "Subtraction" -> histogram.subtraction += 1;
+            case "Multiplication" -> histogram.multiplication += 1;
+            case "Division" -> histogram.division += 1;
+            case "Negation" -> histogram.negation += 1;
+            case "Modulo" -> histogram.modulo += 1;
+            case "Exponentiation" -> histogram.exponentiation += 1;
+            case "Equality" -> histogram.equality += 1;
+            case "Inequality" -> histogram.inequality += 1;
+            case "LessThan" -> histogram.lessThan += 1;
+            case "GreaterThan" -> histogram.greaterThan += 1;
+            case "LessThanOrEqual" -> histogram.lessThanOrEqual += 1;
+            case "GreaterThanOrEqual" -> histogram.greaterThanOrEqual += 1;
+            case "Conjunction" -> histogram.conjunction += 1;
+            case "Disjunction" -> histogram.disjunction += 1;
+            case "LogicalNot" -> histogram.logicalNot += 1;
+            case "Conditional" -> histogram.conditional += 1;
+            case "FunctionCall" -> histogram.functionCall += 1;
+            default -> {
+            }
+        }
+
+        for (var child : expressionChildren().apply(expression)) {
+            countIntoHistogram(child, histogram);
+        }
     }
 
 

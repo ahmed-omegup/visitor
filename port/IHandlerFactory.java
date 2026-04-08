@@ -14,6 +14,10 @@ public interface IHandlerFactory<E> {
 
     Function<E, List<E>> expressionChildren();
 
+    Function<E, Boolean> literalChecker();
+
+    Function<E, Boolean> variableChecker();
+
     Function<E, IExpressionDict<Integer>> histogram();
 
     Function<E, E> renameVariable(String oldName, String newName);
