@@ -13,6 +13,9 @@ import lib.expressions.Expressions;
 import lib.utils.Either;
 
 public interface ICleanHandlerFactory<E> {
+
+    <T, R> R handleState(StateConsumer<E, T, R> handler);
+
     IExpressionFactory<E> expressionFactory();
 
     Function<E, Either<Literal<E>, E>> isLiteral();
@@ -24,7 +27,7 @@ public interface ICleanHandlerFactory<E> {
     Function<E, String> expressionClassNameExtractor();
 
     Function<E, E> constantFolder();
-    
+
     Function<E, E> constantFolderOnce();
 
     Function<E, E> expressionMapper(BiFunction<E, Supplier<E>, E> recurse);
@@ -32,14 +35,14 @@ public interface ICleanHandlerFactory<E> {
     Function<E, BindingPower> createBindingPowerHandler();
 
     Function<E, String> cLikeSyntaxPrinter();
-    
+
     <T> Function<E, T> isomorphicGetter(Expressions<T> values);
-    
-    <T> Consumer<E> isomorphicSetter(Expressions<T> values, Function<E,T> reducer);
+
+    <T> Consumer<E> isomorphicSetter(Expressions<T> values, Function<E, T> reducer);
 
     <T> Function<E, T> globalReduceVisitor(Expressions<T> values, BinaryOperator<T> reducer);
 
-    <T> Consumer<E> localReduceVisitor(Expressions<T> values, BiFunction<T, E, T> reducer);
+    <T> Consumer<E> localReduceVisitor(Expressions<T> values, T initial, BiFunction<T, E, T> reducer);
 
     Function<E, String> lispLikeSyntaxPrinter();
 

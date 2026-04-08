@@ -8,20 +8,22 @@ import lib.expression.*;
 import lib.expressions.Expressions;
 import lib.visitors.ExpressionChildren;
 import lib.visitors.IsomorphicGetter;
+import port.ICleanHandlerFactory;
 
-public final class GlobalReduceVisitor<T> implements Function<Expression, T> {
+public final class GlobalReduceVisitor<T, E> implements Function<E, T> {
+
+    private final Function<E, T> getter;
     private final BinaryOperator<T> reducer;
-    private final ExpressionVisitor<List<Expression>> children = new ExpressionChildren();
-    private final Function<Expression, T> getter;
+    private final Function<E, List<E>> children;
 
-    public GlobalReduceVisitor(Expressions<T> values, BinaryOperator<T> reducer) {
+    <State>GlobalReduceVisitor(ICleanHandlerFactory<E> handlers, Function<State, Function<E, T>> getter, State values, BinaryOperator<T> reducer, Function<E, List<E>> children) {
+        this.getter = getter.apply(values);
         this.reducer = reducer;
-        this.getter = new IsomorphicGetter<>(values);
+        this.children = children;
     }
-
-    public T apply(Expression expression) {
-        var result = getter.apply(expression);
-        for (var child : expression.accept(children)) {
+    public T apply(E e) {
+        var result = getter.apply(e);
+        for (var child : children.apply(e)) {
             result = reducer.apply(result, apply(child));
         }
         return result;

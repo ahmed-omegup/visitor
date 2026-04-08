@@ -25,8 +25,6 @@ rm -rf coverage/html
 javac -Xlint:unchecked -d coverage/classes \
     port/*.java \
     lib/expression/*.java \
-    lib/expression/category/*.java \
     lib/expressions/*.java \
-    lib/visitors/IntegerEvaluationVisitor.java
-
-
+    lib/visitors/*.java \
+    lib/handlers/LocalReduceVisitor.java

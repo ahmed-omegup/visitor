@@ -11,19 +11,30 @@ import lib.expressions.Expressions;
 import lib.visitors.ExpressionChildren;
 import lib.visitors.IsomorphicGetter;
 import lib.visitors.IsomorphicSetter;
+import port.ICleanHandlerFactory;
+import port.State;
+import port.StateConsumer;
 
-public final class LocalReduceVisitor<T> implements Consumer<Expression> {
-    private final ExpressionVisitor<List<Expression>> children = new ExpressionChildren<Expression>();
-    private final Consumer<Expression> setter;
+public final class LocalReduceVisitor<E, S, T> implements Function<E, S> {
+    private final Consumer<E> setter;
+    private final S values;
+    private final Function<E, List<E>> children;
 
-    public LocalReduceVisitor(Expressions<T> values, BiFunction<T, Expression, T> reducer) {
-        var getter = new IsomorphicGetter<>(values);
-        this.setter = new IsomorphicSetter<>(values, e -> reducer.apply(getter.apply(e), e));
+    public LocalReduceVisitor(State<E, S, T> state, T initial, BiFunction<T, E, T> reducer, Function<E, List<E>> children) {
+        values = state.intial(initial);
+        var getterFunction = state.getter(values);
+        this.setter = state.setter(values, e -> reducer.apply(getterFunction.apply(e), e));
+        this.children = children;
     }
 
-    public void accept(Expression expression) {
-        setter.accept(expression);
-        for (var child : expression.accept(children)) {
+    public S apply(E e) {
+        accept(e);
+        return values;
+    }
+
+    private void accept(E e) {
+        setter.accept(e);
+        for (var child : children.apply(e)) {
             accept(child);
         }
     }
