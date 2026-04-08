@@ -2,25 +2,15 @@ package port;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.BinaryOperator;
-import java.util.function.Consumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
-import lib.expression.Literal;
-import lib.expression.VariableReference;
-import lib.expressions.Expressions;
-import lib.utils.Either;
 
 public interface ICleanHandlerFactory<E> {
 
     <T, R> R handleState(StateConsumer<E, T, R> handler);
 
     IExpressionFactory<E> expressionFactory();
-
-    Function<E, Either<Literal<E>, E>> isLiteral();
-    Function<E, Either<VariableReference<E>, E>> isVariable();
 
     Function<E, List<E>> expressionChildren();
 
