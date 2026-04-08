@@ -1,5 +1,6 @@
 package lib.handlers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.*;
@@ -133,8 +134,12 @@ public final class HandlerFactory implements IHandlerFactory<ExpressionV1> {
         return expression -> expression.accept(visitor);
     }
 
-    public <T> Function<ExpressionV1, T> globalReduceVisitor(Dict<T> values, BinaryOperator<T> reducer) {
-        return new GlobalReduceVisitor<T, ExpressionV1>(this, this::getter, values, reducer, this.expressionChildren());
+    public Function<ExpressionV1, List<String>> collectClassNamesVisitor() {
+        var classNames = expressionClassNameExtractor();
+        return new GlobalReduceVisitor<>(e -> new ArrayList<>(List.of(classNames.apply(e))), (a, b) -> {
+            a.addAll(b);
+            return a;
+        }, this.expressionChildren());
     }
 
     public <T> State<ExpressionV1, Dict<T>, T> state() {

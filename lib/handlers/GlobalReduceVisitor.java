@@ -16,8 +16,8 @@ public final class GlobalReduceVisitor<T, E> implements Function<E, T> {
     private final BinaryOperator<T> reducer;
     private final Function<E, List<E>> children;
 
-    <State>GlobalReduceVisitor(IHandlerFactory<E> handlers, Function<State, Function<E, T>> getter, State values, BinaryOperator<T> reducer, Function<E, List<E>> children) {
-        this.getter = getter.apply(values);
+    GlobalReduceVisitor(Function<E, T> getter, BinaryOperator<T> reducer, Function<E, List<E>> children) {
+        this.getter = getter;
         this.reducer = reducer;
         this.children = children;
     }
