@@ -31,6 +31,7 @@ javac -Xlint:unchecked -d coverage/classes \
 
 
 javac -cp "coverage/classes:$JUNIT_JAR" -d coverage/test-classes \
+    testsupport/*.java \
     spec/visitors/*.java
 
 java \

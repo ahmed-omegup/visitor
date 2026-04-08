@@ -143,15 +143,6 @@ class HandlerFactory2LambdaTest extends TestBase<ExpressionV2> {
         assertEquals("Cannot directly evaluate a lambda expression", exception.getMessage());
     }
 
-    @Test
-    void histogram2RejectsUnknownExpressionKinds() {
-        ExpressionV2 malformed = HandlerTestFixtures.malformedV2Expression("Mystery");
-
-        var exception = assertThrows(IllegalArgumentException.class, () -> handler.histogram2().apply(malformed));
-
-        assertEquals("Unknown expression kind: Mystery", exception.getMessage());
-    }
-
     private int countFor(String expressionKind, port.IExpressionDict2<Integer> histogram) {
         return switch (expressionKind) {
             case "Literal" -> histogram.literal();

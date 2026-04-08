@@ -288,34 +288,4 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
         return dictGetter(i18nDict, "lambdaExpression");
     }
 
-    private void countIntoHistogram2(ExpressionV2 expression, Dict2<Integer> histogram) {
-        switch (expressionClassNameExtractor().apply(expression)) {
-            case "Literal" -> histogram.literal += 1;
-            case "VariableReference" -> histogram.variableReference += 1;
-            case "Addition" -> histogram.addition += 1;
-            case "Subtraction" -> histogram.subtraction += 1;
-            case "Multiplication" -> histogram.multiplication += 1;
-            case "Division" -> histogram.division += 1;
-            case "Negation" -> histogram.negation += 1;
-            case "LambdaExpression" -> histogram.lambdaExpression += 1;
-            case "Modulo" -> histogram.modulo += 1;
-            case "Exponentiation" -> histogram.exponentiation += 1;
-            case "Equality" -> histogram.equality += 1;
-            case "Inequality" -> histogram.inequality += 1;
-            case "LessThan" -> histogram.lessThan += 1;
-            case "GreaterThan" -> histogram.greaterThan += 1;
-            case "LessThanOrEqual" -> histogram.lessThanOrEqual += 1;
-            case "GreaterThanOrEqual" -> histogram.greaterThanOrEqual += 1;
-            case "Conjunction" -> histogram.conjunction += 1;
-            case "Disjunction" -> histogram.disjunction += 1;
-            case "LogicalNot" -> histogram.logicalNot += 1;
-            case "Conditional" -> histogram.conditional += 1;
-            case "FunctionCall" -> histogram.functionCall += 1;
-            default -> throw new IllegalArgumentException("Unknown expression kind: " + expressionClassNameExtractor().apply(expression));
-        }
-
-        for (var child : expressionChildren().apply(expression)) {
-            countIntoHistogram2(child, histogram);
-        }
-    }
 }
