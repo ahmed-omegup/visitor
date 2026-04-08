@@ -7,7 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import lib.expression.ExpressionV1;
+import lib.expression.ExpressionV2;
 import lib.handlers.HandlerFactory;
+import lib.handlers.HandlerFactory2;
 
 abstract class HandlerPredicatesAndBindingTestBase<E> extends TestBase<E> {
     HandlerPredicatesAndBindingTestBase(TestSupport<E> testSupport) {
@@ -40,5 +42,11 @@ abstract class HandlerPredicatesAndBindingTestBase<E> extends TestBase<E> {
 class HandlerPredicatesAndBindingTest extends HandlerPredicatesAndBindingTestBase<ExpressionV1> {
     HandlerPredicatesAndBindingTest() {
         super(new TestSupport<>(new HandlerFactory()));
+    }
+}
+
+class HandlerPredicatesAndBindingV2Test extends HandlerPredicatesAndBindingTestBase<ExpressionV2> {
+    HandlerPredicatesAndBindingV2Test() {
+        super(new TestSupport<>(new HandlerFactory2()));
     }
 }

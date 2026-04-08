@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.*;
 import lib.handlers.HandlerFactory;
+import lib.handlers.HandlerFactory2;
 
 abstract class ExpressionToLispLikeSyntaxTestBase<E> extends TestBase<E> {
     ExpressionToLispLikeSyntaxTestBase(TestSupport<E> testSupport) {
@@ -55,5 +56,11 @@ abstract class ExpressionToLispLikeSyntaxTestBase<E> extends TestBase<E> {
 class ExpressionToLispLikeSyntaxTest extends ExpressionToLispLikeSyntaxTestBase<ExpressionV1> {
     ExpressionToLispLikeSyntaxTest() {
         super(new TestSupport<>(new HandlerFactory()));
+    }
+}
+
+class ExpressionToLispLikeSyntaxV2Test extends ExpressionToLispLikeSyntaxTestBase<ExpressionV2> {
+    ExpressionToLispLikeSyntaxV2Test() {
+        super(new TestSupport<>(new HandlerFactory2()));
     }
 }

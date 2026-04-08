@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import lib.expression.*;
 import lib.handlers.HandlerFactory;
+import lib.handlers.HandlerFactory2;
 
 abstract class ExpressionToJsLikeSyntaxTestBase<E> extends TestBase<E> {
     ExpressionToJsLikeSyntaxTestBase(TestSupport<E> testSupport) {
@@ -60,5 +61,11 @@ abstract class ExpressionToJsLikeSyntaxTestBase<E> extends TestBase<E> {
 class ExpressionToJsLikeSyntaxTest extends ExpressionToJsLikeSyntaxTestBase<ExpressionV1> {
     ExpressionToJsLikeSyntaxTest() {
         super(new TestSupport<ExpressionV1>(new HandlerFactory()));
+    }
+}
+
+class ExpressionToJsLikeSyntaxV2Test extends ExpressionToJsLikeSyntaxTestBase<ExpressionV2> {
+    ExpressionToJsLikeSyntaxV2Test() {
+        super(new TestSupport<ExpressionV2>(new HandlerFactory2()));
     }
 }

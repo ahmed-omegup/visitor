@@ -8,7 +8,9 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import lib.expression.ExpressionV1;
+import lib.expression.ExpressionV2;
 import lib.handlers.HandlerFactory;
+import lib.handlers.HandlerFactory2;
 import port.State;
 import port.StateConsumer;
 
@@ -117,5 +119,11 @@ abstract class HandlerTraversalHelpersTestBase<E> extends TestBase<E> {
 class HandlerTraversalHelpersTest extends HandlerTraversalHelpersTestBase<ExpressionV1> {
     HandlerTraversalHelpersTest() {
         super(new TestSupport<>(new HandlerFactory()));
+    }
+}
+
+class HandlerTraversalHelpersV2Test extends HandlerTraversalHelpersTestBase<ExpressionV2> {
+    HandlerTraversalHelpersV2Test() {
+        super(new TestSupport<>(new HandlerFactory2()));
     }
 }

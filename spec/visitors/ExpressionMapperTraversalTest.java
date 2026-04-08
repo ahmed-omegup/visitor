@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import lib.expression.ExpressionV1;
+import lib.expression.ExpressionV2;
 import lib.handlers.HandlerFactory;
+import lib.handlers.HandlerFactory2;
 
 abstract class ExpressionMapperTraversalTestBase<E> extends TestBase<E> {
     ExpressionMapperTraversalTestBase(TestSupport<E> testSupport) {
@@ -48,5 +50,11 @@ abstract class ExpressionMapperTraversalTestBase<E> extends TestBase<E> {
 class ExpressionMapperTraversalTest extends ExpressionMapperTraversalTestBase<ExpressionV1> {
     ExpressionMapperTraversalTest() {
         super(new TestSupport<>(new HandlerFactory()));
+    }
+}
+
+class ExpressionMapperTraversalV2Test extends ExpressionMapperTraversalTestBase<ExpressionV2> {
+    ExpressionMapperTraversalV2Test() {
+        super(new TestSupport<>(new HandlerFactory2()));
     }
 }
