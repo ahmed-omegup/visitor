@@ -12,19 +12,17 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import lib.expression.ExpressionV2;
-import lib.handlers.HandlerFactory2;
 import port.IExpressionFactory2;
+import port.IHandlerFactory2;
 import port.State;
 import port.StateConsumer;
 
 class HandlerFactory2LambdaTest extends TestBase<ExpressionV2> {
-    private final HandlerFactory2 handler;
-    private final IExpressionFactory2<ExpressionV2> factory2;
+    private final IHandlerFactory2<ExpressionV2> handler = HandlerTestFixtures.v2Handler();
+    private final IExpressionFactory2<ExpressionV2> factory2 = handler.expressionFactory();
 
     HandlerFactory2LambdaTest() {
-        super(new TestSupport2<>(new HandlerFactory2()));
-        this.handler = (HandlerFactory2) testSupport.v;
-        this.factory2 = handler.expressionFactory();
+        super(HandlerTestFixtures.v2Support2());
     }
 
     @Test

@@ -8,11 +8,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import lib.expression.ExpressionV1;
-import lib.handlers.HandlerFactory;
 import port.IExpressionFactory;
+import port.IHandlerFactory1;
 
 class OperationNamesI18nTest {
-    private final HandlerFactory handler = new HandlerFactory();
+    private final IHandlerFactory1<ExpressionV1> handler = HandlerTestFixtures.v1Handler();
     private final IExpressionFactory<ExpressionV1> factory = handler.expressionFactory();
 
     @Test

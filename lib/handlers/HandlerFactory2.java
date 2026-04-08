@@ -282,6 +282,7 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
         );
     }
 
+    @Override
     public Function<ExpressionV2, String> i18nDict(String lang) {
         var i18nDict = OperationNamesI18n.operationNamesByLanguage().get(lang);
         if (i18nDict == null) {

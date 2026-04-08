@@ -5,16 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import lib.expression.*;
-import lib.handlers.HandlerFactory;
+import port.IHandlerFactory1;
 
 class ExpressionToCLikeSyntaxTest extends TestBase<ExpressionV1> {
 
-    private final HandlerFactory handler;
+    private final IHandlerFactory1<ExpressionV1> handler = HandlerTestFixtures.v1Handler();
     
     ExpressionToCLikeSyntaxTest() {
-        var handler = new HandlerFactory();
-        super(new TestSupport<ExpressionV1>(handler));
-        this.handler = handler;
+        super(HandlerTestFixtures.v1Support());
     }
 
     @Test

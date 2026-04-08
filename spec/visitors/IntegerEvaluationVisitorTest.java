@@ -11,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import lib.expression.Expression;
 import lib.expression.ExpressionV1;
 import lib.expression.ExpressionV2;
-import lib.handlers.HandlerFactory;
-import lib.handlers.HandlerFactory2;
 
 abstract class IntegerEvaluationVisitorTestBase<E> extends TestBase<E> {
     IntegerEvaluationVisitorTestBase(TestSupport<E> testSupport) {
@@ -158,18 +156,18 @@ abstract class IntegerEvaluationVisitorTestBase<E> extends TestBase<E> {
 
 class IntegerEvaluationVisitorTest extends IntegerEvaluationVisitorTestBase<ExpressionV1> {
     IntegerEvaluationVisitorTest() {
-        super(new TestSupport<>(new HandlerFactory()));
+        super(HandlerTestFixtures.v1Support());
     }
 }
 
 class IntegerEvaluationVisitorV2Test extends IntegerEvaluationVisitorTestBase<ExpressionV2> {
     IntegerEvaluationVisitorV2Test() {
-        super(new TestSupport<>(new HandlerFactory2()));
+        super(HandlerTestFixtures.v2Support());
     }
 }
 
 class IntegerEvaluationVisitorV2Support2Test extends IntegerEvaluationVisitorTestBase<ExpressionV2> {
     IntegerEvaluationVisitorV2Support2Test() {
-        super(new TestSupport2<>(new HandlerFactory2()));
+        super(HandlerTestFixtures.v2Support2());
     }
 }

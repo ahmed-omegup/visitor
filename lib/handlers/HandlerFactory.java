@@ -19,10 +19,11 @@ import lib.visitors.*;
 import port.ConstantFolder;
 import port.IExpressionDict;
 import port.IHandlerFactory;
+import port.IHandlerFactory1;
 import port.IExpressionFactory;
 import port.State;
 
-public class HandlerFactory implements IHandlerFactory<ExpressionV1> {
+public class HandlerFactory implements IHandlerFactory1<ExpressionV1> {
     @Override
     public IExpressionFactory<ExpressionV1> expressionFactory() {
         return new Factory();
@@ -114,6 +115,7 @@ public class HandlerFactory implements IHandlerFactory<ExpressionV1> {
                 .accept(new ExpressionToJsLikeSyntax<>(this, this.jsLikeSyntaxPrinter(), expression));
     }
 
+    @Override
     public Function<ExpressionV1, String> cLikeSyntaxPrinter() {
         return expression -> expression
                 .accept(new ExpressionToCLikeSyntax<>(this, this.cLikeSyntaxPrinter(), expression));
@@ -195,6 +197,7 @@ public class HandlerFactory implements IHandlerFactory<ExpressionV1> {
                 }), (e, visitor) -> e.accept(visitor));
     }
 
+    @Override
     public Function<ExpressionV1, String> i18nDict(String lang) {
         var i18nDict = OperationNamesI18n.operationNamesByLanguage().get(lang);
         if (i18nDict == null)
