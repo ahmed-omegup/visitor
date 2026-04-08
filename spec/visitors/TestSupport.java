@@ -5,8 +5,8 @@ import static java.util.List.of;
 import java.util.ArrayList;
 import java.util.List;
 
+import ds.Dict;
 import lib.dict.ClassNamesDict;
-import lib.dict.Dict;
 import lib.expression.*;
 import port.IHandlerFactory;
 import port.IExpressionDict;

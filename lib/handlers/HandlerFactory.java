@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.*;
 
+import ds.BindingPower;
+import ds.Dict;
 import lib.dict.BindingPowersDict;
 import lib.dict.ClassNamesDict;
-import lib.dict.ConstDict;
-import lib.dict.Dict;
 import lib.dict.OperationNamesI18n;
 import lib.expression.*;
 import lib.utils.Either;
@@ -16,7 +16,6 @@ import lib.utils.EitherVisitor;
 import lib.utils.Left;
 import lib.utils.Right;
 import lib.visitors.*;
-import port.BindingPower;
 import port.ConstantFolder;
 import port.IExpressionDict;
 import port.IHandlerFactory;
@@ -150,7 +149,7 @@ public class HandlerFactory implements IHandlerFactory<ExpressionV1> {
     public <T> State<ExpressionV1, Dict<T>, T> state() {
         return new State<ExpressionV1, Dict<T>, T>() {
             public Dict<T> intial(T value) {
-                return new ConstDict<T>(value);
+                return new Dict<T>(value);
             };
 
             public Function<ExpressionV1, T> getter(Dict<T> state) {

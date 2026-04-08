@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import lib.dict.Dict;
+import ds.Dict;
 import lib.expression.*;
 
 public class IsomorphicSetter<T, E> implements ExpressionVisitor<Void, E> {

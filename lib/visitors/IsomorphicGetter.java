@@ -2,7 +2,7 @@ package lib.visitors;
 
 import java.util.function.Function;
 
-import lib.dict.Dict;
+import ds.Dict;
 import lib.expression.*;
 
 public class IsomorphicGetter<T, E> implements ExpressionVisitor<T, E> {

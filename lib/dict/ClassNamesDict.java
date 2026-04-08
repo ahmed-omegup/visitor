@@ -1,27 +1,31 @@
 package lib.dict;
 
+import ds.Dict;
+
 public class ClassNamesDict extends Dict<String> {
 
     public ClassNamesDict() {
-        literal = "Literal";
-        variableReference = "VariableReference";
-        addition = "Addition";
-        subtraction = "Subtraction";
-        multiplication = "Multiplication";
-        division = "Division";
-        negation = "Negation";
-        modulo = "Modulo";
-        exponentiation = "Exponentiation";
-        equality = "Equality";
-        inequality = "Inequality";
-        lessThan = "LessThan";
-        greaterThan = "GreaterThan";
-        lessThanOrEqual = "LessThanOrEqual";
-        greaterThanOrEqual = "GreaterThanOrEqual";
-        conjunction = "Conjunction";
-        disjunction = "Disjunction";
-        logicalNot = "LogicalNot";
-        conditional = "Conditional";
-        functionCall = "FunctionCall";
+        super(
+            "Literal",
+            "VariableReference",
+            "Addition",
+            "Subtraction",
+            "Multiplication",
+            "Division",
+            "Negation",
+            "Modulo",
+            "Exponentiation",
+            "Equality",
+            "Inequality",
+            "LessThan",
+            "GreaterThan",
+            "LessThanOrEqual",
+            "GreaterThanOrEqual",
+            "Conjunction",
+            "Disjunction",
+            "LogicalNot",
+            "Conditional",
+            "FunctionCall"
+        );
     }
 }

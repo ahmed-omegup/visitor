@@ -6,7 +6,7 @@ import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import lib.dict.Dict;
+import ds.Dict;
 import lib.expression.*;
 import lib.visitors.ExpressionChildren;
 import lib.visitors.IsomorphicGetter;

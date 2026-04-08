@@ -6,6 +6,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import ds.BindingPower;
 import lib.expression.ExpressionV1;
 
 public interface IHandlerFactory<E> {

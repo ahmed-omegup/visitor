@@ -56,7 +56,7 @@ class TestSupport2<E> extends TestSupport<E> {
 
     @Override
     List<Integer> expectedTraversalHistogramCounts() {
-        return of(22, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+        return of(22, 3, 2, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
     }
 
     @Override

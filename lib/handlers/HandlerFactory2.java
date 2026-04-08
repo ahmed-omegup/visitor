@@ -8,10 +8,11 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import ds.BindingPower;
+import ds.Dict;
+import ds.Dict2;
 import lib.dict.BindingPowersDict;
 import lib.dict.ClassNamesDict;
-import lib.dict.ConstDict;
-import lib.dict.Dict;
 import lib.dict.OperationNamesI18n;
 import lib.expression.ExpressionV1T2;
 import lib.expression.ExpressionV2;
@@ -34,7 +35,6 @@ import lib.visitors.FallbackVisitor;
 import lib.visitors.IntegerEvaluationVisitor;
 import lib.visitors.IsomorphicGetter;
 import lib.visitors.IsomorphicSetter;
-import port.BindingPower;
 import port.ConstantFolder;
 import port.IExpressionDict;
 import port.IExpressionDict2;
@@ -43,14 +43,6 @@ import port.IHandlerFactory2;
 import port.State;
 
 public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
-    private static final class Dict2<T> extends Dict<T> implements IExpressionDict2<T> {
-        private T lambdaExpression;
-
-        @Override
-        public T lambdaExpression() {
-            return lambdaExpression;
-        }
-    }
 
     @Override
     public IExpressionFactory2<ExpressionV2> expressionFactory() {
@@ -222,23 +214,23 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
         }, this.expressionChildren());
     }
 
-    public <T> State<ExpressionV2, Dict<T>, T> state() {
-        return new State<ExpressionV2, Dict<T>, T>() {
+    public <T> State<ExpressionV2, Dict2<T>, T> state() {
+        return new State<ExpressionV2, Dict2<T>, T>() {
             @Override
-            public Dict<T> intial(T value) {
-                return new ConstDict<T>(value);
+            public Dict2<T> intial(T value) {
+                return new Dict2<T>(value);
             }
 
             @Override
-            public Function<ExpressionV2, T> getter(Dict<T> state) {
-                return dictGetter(state, state.negation);
+            public Function<ExpressionV2, T> getter(Dict2<T> state) {
+                return dictGetter(state, state.lambdaExpression);
             }
 
             @Override
-            public Consumer<ExpressionV2> setter(Dict<T> state, T value) {
+            public Consumer<ExpressionV2> setter(Dict2<T> state, T value) {
                 var visitor = new IsomorphicSetter<T, ExpressionV2>(state, value);
                 return expression -> accept(expression, visitor, _lambdaExpression -> {
-                    state.negation = value;
+                    state.lambdaExpression = value;
                     return null;
                 });
             }
@@ -250,8 +242,8 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
         return handler.consume(this.state());
     }
 
-    public <T> Function<ExpressionV2, Dict<T>> localReduceVisitor(T initial, BiFunction<T, ExpressionV2, T> reducer) {
-        return new LocalReduceVisitor<ExpressionV2, Dict<T>, T>(state(), initial, reducer, this.expressionChildren());
+    public <T> Function<ExpressionV2, Dict2<T>> localReduceVisitor(T initial, BiFunction<T, ExpressionV2, T> reducer) {
+        return new LocalReduceVisitor<ExpressionV2, Dict2<T>, T>(state(), initial, reducer, this.expressionChildren());
     }
 
     @Override
@@ -263,28 +255,7 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
     @Override
     public Function<ExpressionV2, IExpressionDict2<Integer>> histogram2() {
         return expression -> {
-            var histogram = new Dict2<Integer>();
-            histogram.literal = 0;
-            histogram.variableReference = 0;
-            histogram.addition = 0;
-            histogram.subtraction = 0;
-            histogram.multiplication = 0;
-            histogram.division = 0;
-            histogram.negation = 0;
-            histogram.lambdaExpression = 0;
-            histogram.modulo = 0;
-            histogram.exponentiation = 0;
-            histogram.equality = 0;
-            histogram.inequality = 0;
-            histogram.lessThan = 0;
-            histogram.greaterThan = 0;
-            histogram.lessThanOrEqual = 0;
-            histogram.greaterThanOrEqual = 0;
-            histogram.conjunction = 0;
-            histogram.disjunction = 0;
-            histogram.logicalNot = 0;
-            histogram.conditional = 0;
-            histogram.functionCall = 0;
+            var histogram = new Dict2<Integer>(0);
             countIntoHistogram2(expression, histogram);
             return histogram;
         };
