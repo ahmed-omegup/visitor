@@ -38,7 +38,10 @@ class TestSupport2<E> extends TestSupport<E> {
                     factory2.lessThanOrEqual(factory2.literal("2"), factory2.literal("2")),
                     factory2.greaterThanOrEqual(factory2.literal("3"), factory2.literal("3")),
                     factory2.disjunction(factory2.literal("0"), factory2.literal("1")),
-                    factory2.negation2(factory2.literal("4"))
+                    factory2.lambdaExpression(
+                        "n",
+                        factory2.addition(factory2.variableReference("n"), factory2.literal("4"))
+                    )
                 )
             )
         );
@@ -47,8 +50,13 @@ class TestSupport2<E> extends TestSupport<E> {
     @Override
     List<E> sampleNonVariableExpressions() {
         var expressions = super.sampleNonVariableExpressions();
-        expressions.add(factory2.negation2(factory2.literal("3")));
+        expressions.add(factory2.lambdaExpression("n", factory2.addition(factory2.variableReference("n"), factory2.literal("3"))));
         return expressions;
+    }
+
+    @Override
+    List<Integer> expectedTraversalHistogramCounts() {
+        return of(22, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
     }
 
     @Override
@@ -94,13 +102,15 @@ class TestSupport2<E> extends TestSupport<E> {
             "Disjunction",
             "Literal",
             "Literal",
-            "Negation2",
+            "LambdaExpression",
+            "Addition",
+            "VariableReference",
             "Literal"
         );
     }
 
     @Override
     String expectedRenamedTraversalRender() {
-        return "y < 10 && !(1 == 0) ? 7 - 2 + 8 / 2 * (9 % 4) : f(pow(2, 3), 5 != 6, 7 > 1, 2 <= 2, 3 >= 3, 0 || 1, neg2(4))";
+        return "y < 10 && !(1 == 0) ? 7 - 2 + 8 / 2 * (9 % 4) : f(pow(2, 3), 5 != 6, 7 > 1, 2 <= 2, 3 >= 3, 0 || 1, n => n + 4)";
     }
 }

@@ -9,6 +9,7 @@ import lib.dict.ClassNamesDict;
 import lib.dict.Dict;
 import lib.expression.*;
 import port.IHandlerFactory;
+import port.IExpressionDict;
 import port.IExpressionFactory;
 
 class TestSupport<E> {
@@ -116,6 +117,35 @@ class TestSupport<E> {
             "Literal",
             "Negation",
             "Literal"
+        );
+    }
+
+    List<Integer> expectedTraversalHistogramCounts() {
+        return of(22, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+    }
+
+    List<Integer> histogramCounts(IExpressionDict<Integer> histogram) {
+        return of(
+            histogram.literal(),
+            histogram.variableReference(),
+            histogram.addition(),
+            histogram.subtraction(),
+            histogram.multiplication(),
+            histogram.division(),
+            histogram.negation(),
+            histogram.modulo(),
+            histogram.exponentiation(),
+            histogram.equality(),
+            histogram.inequality(),
+            histogram.lessThan(),
+            histogram.greaterThan(),
+            histogram.lessThanOrEqual(),
+            histogram.greaterThanOrEqual(),
+            histogram.conjunction(),
+            histogram.disjunction(),
+            histogram.logicalNot(),
+            histogram.conditional(),
+            histogram.functionCall()
         );
     }
 

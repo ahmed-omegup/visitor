@@ -10,7 +10,7 @@ public class Factory2 extends AFactory<ExpressionV2> implements IExpressionFacto
         return new ExpressionV1T2(expression);
     }
 
-    public ExpressionV2 negation2(ExpressionV2 operand) {
-        return new Negation2(operand);
+    public ExpressionV2 lambdaExpression(String parameterName, ExpressionV2 body) {
+        return new LambdaExpression(parameterName, body);
     }
 }

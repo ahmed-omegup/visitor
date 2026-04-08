@@ -18,8 +18,8 @@ import lib.expression.ExpressionV2;
 import lib.expression.ExpressionVisitor;
 import lib.expression.ExpressionVisitor2;
 import lib.expression.Factory2;
+import lib.expression.LambdaExpression;
 import lib.expression.Literal;
-import lib.expression.Negation2;
 import lib.expression.VariableReference;
 import lib.utils.Either;
 import lib.utils.EitherVisitor;
@@ -44,11 +44,11 @@ import port.State;
 
 public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
     private static final class Dict2<T> extends Dict<T> implements IExpressionDict2<T> {
-        private T negation2;
+        private T lambdaExpression;
 
         @Override
-        public T negation2() {
-            return negation2;
+        public T lambdaExpression() {
+            return lambdaExpression;
         }
     }
 
@@ -58,7 +58,7 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
     }
 
     private <R> R accept(ExpressionV2 expression, ExpressionVisitor<R, ExpressionV2> visitor,
-            Function<Negation2, R> negation2Handler) {
+            Function<LambdaExpression, R> lambdaExpressionHandler) {
         return expression.accept(new ExpressionVisitor2<R>() {
             @Override
             public R visit(ExpressionV1T2 e) {
@@ -66,8 +66,8 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
             }
 
             @Override
-            public R visit(Negation2 e) {
-                return negation2Handler.apply(e);
+            public R visit(LambdaExpression e) {
+                return lambdaExpressionHandler.apply(e);
             }
         });
     }
@@ -81,7 +81,7 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
                     return new Left<>(e);
                 }
             },
-            _negation2 -> new Right<>(expression)
+            _lambdaExpression -> new Right<>(expression)
         );
     }
 
@@ -94,14 +94,14 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
                     return new Left<>(e);
                 }
             },
-            _negation2 -> new Right<>(expression)
+            _lambdaExpression -> new Right<>(expression)
         );
     }
 
     @Override
     public Function<ExpressionV2, List<ExpressionV2>> expressionChildren() {
         var children = new ExpressionChildren<ExpressionV2>();
-        return expression -> accept(expression, children, negation2 -> List.of(negation2.operand));
+        return expression -> accept(expression, children, lambdaExpression -> List.of(lambdaExpression.body));
     }
 
     @Override
@@ -136,14 +136,14 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
             });
     }
 
-    public <T> Function<ExpressionV2, T> dictGetter(Dict<T> values, T negation2Value) {
+    public <T> Function<ExpressionV2, T> dictGetter(Dict<T> values, T lambdaExpressionValue) {
         var visitor = new IsomorphicGetter<T, ExpressionV2>(values);
-        return expression -> accept(expression, visitor, _negation2 -> negation2Value);
+        return expression -> accept(expression, visitor, _lambdaExpression -> lambdaExpressionValue);
     }
 
     @Override
     public Function<ExpressionV2, String> expressionClassNameExtractor() {
-        return dictGetter(new ClassNamesDict(), "Negation2");
+        return dictGetter(new ClassNamesDict(), "LambdaExpression");
     }
 
     @Override
@@ -156,18 +156,7 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
         return expression -> accept(
             expression,
             new ConstantFolderOnce<>(expressionFactory(), expression, isLiteral()),
-            negation2 -> isLiteral().apply(negation2.operand)
-                .accept(new EitherVisitor<Literal<ExpressionV2>, ExpressionV2, ExpressionV2>() {
-                    @Override
-                    public ExpressionV2 left(Literal<ExpressionV2> left) {
-                        return expressionFactory().literal(Integer.toString(-left.asInt()));
-                    }
-
-                    @Override
-                    public ExpressionV2 right(ExpressionV2 right) {
-                        return expression;
-                    }
-                })
+            _lambdaExpression -> expression
         );
     }
 
@@ -177,7 +166,14 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
     }
 
     private ExpressionV2 mapWithVisitor(ExpressionV2 expression, ExpressionMapper<ExpressionV2> visitor) {
-        return accept(expression, visitor, negation2 -> expressionFactory().negation2(visitor.apply(negation2.operand)));
+        return accept(
+            expression,
+            visitor,
+            lambdaExpression -> expressionFactory().lambdaExpression(
+                lambdaExpression.parameterName,
+                visitor.apply(lambdaExpression.body)
+            )
+        );
     }
 
     @Override
@@ -192,7 +188,7 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
         return expression -> accept(
             expression,
             new ExpressionToJsLikeSyntax<>(this, this.jsLikeSyntaxPrinter(), expression),
-            negation2 -> "neg2(" + jsLikeSyntaxPrinter().apply(negation2.operand) + ")"
+            lambdaExpression -> lambdaExpression.parameterName + " => " + jsLikeSyntaxPrinter().apply(lambdaExpression.body)
         );
     }
 
@@ -201,12 +197,14 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
         return expression -> accept(
             expression,
             new ExpressionToLispLikeSyntax<>(this),
-            negation2 -> "(neg2 " + lispLikeSyntaxPrinter().apply(negation2.operand) + ")"
+            lambdaExpression -> "(lambda (" + lambdaExpression.parameterName + ") " + lispLikeSyntaxPrinter().apply(lambdaExpression.body) + ")"
         );
     }
 
     private Integer evaluateWithVisitor(ExpressionV2 expression, IntegerEvaluationVisitor<ExpressionV2> visitor) {
-        return accept(expression, visitor, negation2 -> -evaluateWithVisitor(negation2.operand, visitor));
+        return accept(expression, visitor, _lambdaExpression -> {
+            throw new IllegalArgumentException("Cannot directly evaluate a lambda expression");
+        });
     }
 
     @Override
@@ -239,7 +237,7 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
             @Override
             public Consumer<ExpressionV2> setter(Dict<T> state, T value) {
                 var visitor = new IsomorphicSetter<T, ExpressionV2>(state, value);
-                return expression -> accept(expression, visitor, _negation2 -> {
+                return expression -> accept(expression, visitor, _lambdaExpression -> {
                     state.negation = value;
                     return null;
                 });
@@ -273,7 +271,7 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
             histogram.multiplication = 0;
             histogram.division = 0;
             histogram.negation = 0;
-            histogram.negation2 = 0;
+            histogram.lambdaExpression = 0;
             histogram.modulo = 0;
             histogram.exponentiation = 0;
             histogram.equality = 0;
@@ -318,7 +316,7 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
         if (i18nDict == null) {
             return null;
         }
-        return dictGetter(i18nDict, "negation2");
+        return dictGetter(i18nDict, "lambdaExpression");
     }
 
     private void countIntoHistogram2(ExpressionV2 expression, Dict2<Integer> histogram) {
@@ -330,7 +328,7 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
             case "Multiplication" -> histogram.multiplication += 1;
             case "Division" -> histogram.division += 1;
             case "Negation" -> histogram.negation += 1;
-            case "Negation2" -> histogram.negation2 += 1;
+            case "LambdaExpression" -> histogram.lambdaExpression += 1;
             case "Modulo" -> histogram.modulo += 1;
             case "Exponentiation" -> histogram.exponentiation += 1;
             case "Equality" -> histogram.equality += 1;

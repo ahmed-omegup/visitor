@@ -23,26 +23,7 @@ abstract class HandlerTraversalHelpersTestBase<E> extends TestBase<E> {
     void histogramCountsNodeKindsAcrossTraversalExpression() {
         var histogram = testSupport.v.histogram().apply(testSupport.sampleTraversalExpression());
 
-        assertEquals(22, histogram.literal());
-        assertEquals(2, histogram.variableReference());
-        assertEquals(1, histogram.addition());
-        assertEquals(1, histogram.subtraction());
-        assertEquals(1, histogram.multiplication());
-        assertEquals(1, histogram.division());
-        assertEquals(1, histogram.negation());
-        assertEquals(1, histogram.modulo());
-        assertEquals(1, histogram.exponentiation());
-        assertEquals(1, histogram.equality());
-        assertEquals(1, histogram.inequality());
-        assertEquals(1, histogram.lessThan());
-        assertEquals(1, histogram.greaterThan());
-        assertEquals(1, histogram.lessThanOrEqual());
-        assertEquals(1, histogram.greaterThanOrEqual());
-        assertEquals(1, histogram.conjunction());
-        assertEquals(1, histogram.disjunction());
-        assertEquals(1, histogram.logicalNot());
-        assertEquals(1, histogram.conditional());
-        assertEquals(1, histogram.functionCall());
+        assertEquals(testSupport.expectedTraversalHistogramCounts(), testSupport.histogramCounts(histogram));
     }
 
     @Test
