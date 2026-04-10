@@ -1,14 +1,13 @@
 package lib.handlers;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 import ds.BindingPower;
 import ds.Dict;
@@ -26,6 +25,7 @@ import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.utils.Either;
 import lib.utils.EitherVisitor;
+import lib.utils.LambdaCallFolder;
 import lib.utils.Left;
 import lib.utils.Right;
 import lib.visitors.ConstantFolderOnce;
@@ -172,30 +172,13 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
     }
 
     private ExpressionV2 foldConstantOnce(ExpressionV2 expression) {
-        var lambdaCallFolded = foldLambdaCall(expression);
+        var lambdaCallFolded = lambdaCallFolder().foldCall(expression);
         if (lambdaCallFolded != expression) {
             return foldConstantOnce(lambdaCallFolded);
         }
         return accept(
             expression,
             new ConstantFolderOnce<>(expressionFactory(), expression, isLiteral()),
-            _lambdaExpression -> expression
-        );
-    }
-
-    private ExpressionV2 foldLambdaCall(ExpressionV2 expression) {
-        return accept(
-            expression,
-            new FallbackVisitor<ExpressionV2, ExpressionV2>(_expression -> expression) {
-                @Override
-                public ExpressionV2 visit(FunctionCall<ExpressionV2> call) {
-                    var lambda = asLambda(call.callee);
-                    if (lambda == null || call.arguments.size() != 1) {
-                        return expression;
-                    }
-                    return substitute(lambda.body, lambda.parameterName, call.arguments.get(0));
-                }
-            },
             _lambdaExpression -> expression
         );
     }
@@ -209,153 +192,54 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
         );
     }
 
-    private ExpressionV2 substitute(ExpressionV2 expression, String parameterName, ExpressionV2 replacement) {
+    private String variableName(ExpressionV2 expression) {
         return isVariable().apply(expression).accept(new EitherVisitor<>() {
             @Override
-            public ExpressionV2 left(VariableReference<ExpressionV2> left) {
-                if (left.name.equals(parameterName)) {
-                    return replacement;
-                }
-                return expression;
+            public String left(VariableReference<ExpressionV2> left) {
+                return left.name;
             }
 
             @Override
-            public ExpressionV2 right(ExpressionV2 right) {
-                var lambdaExpression = asLambda(expression);
-                if (lambdaExpression != null) {
-                    if (lambdaExpression.parameterName.equals(parameterName)) {
-                        return expression;
-                    }
-
-                    var body = lambdaExpression.body;
-                    var nestedParameterName = lambdaExpression.parameterName;
-                    if (freeVariables(replacement).contains(nestedParameterName)) {
-                        var freshName = freshVariableName(
-                            nestedParameterName,
-                            List.of(usedNames(body), usedNames(replacement), Set.of(parameterName))
-                        );
-                        body = renameBoundVariable(body, nestedParameterName, freshName);
-                        nestedParameterName = freshName;
-                    }
-
-                    return expressionFactory().lambdaExpression(
-                        nestedParameterName,
-                        substitute(body, parameterName, replacement)
-                    );
-                }
-
-                var mapper = new ExpressionMapper<ExpressionV2>(
-                    HandlerFactory2.this,
-                    (current, _next) -> substitute(current, parameterName, replacement),
-                    HandlerFactory2.this::mapWithVisitor
-                );
-                return mapWithVisitor(expression, mapper);
+            public String right(ExpressionV2 right) {
+                return null;
             }
         });
     }
 
-    private ExpressionV2 renameBoundVariable(ExpressionV2 expression, String oldName, String newName) {
-        return isVariable().apply(expression).accept(new EitherVisitor<>() {
-            @Override
-            public ExpressionV2 left(VariableReference<ExpressionV2> left) {
-                if (left.name.equals(oldName)) {
-                    return expressionFactory().variableReference(newName);
-                }
-                return expression;
-            }
-
-            @Override
-            public ExpressionV2 right(ExpressionV2 right) {
-                var lambdaExpression = asLambda(expression);
-                if (lambdaExpression != null) {
-                    if (lambdaExpression.parameterName.equals(oldName)) {
-                        return expression;
-                    }
-                    return expressionFactory().lambdaExpression(
-                        lambdaExpression.parameterName,
-                        renameBoundVariable(lambdaExpression.body, oldName, newName)
-                    );
-                }
-
-                var mapper = new ExpressionMapper<ExpressionV2>(
-                    HandlerFactory2.this,
-                    (current, _next) -> renameBoundVariable(current, oldName, newName),
-                    HandlerFactory2.this::mapWithVisitor
-                );
-                return mapWithVisitor(expression, mapper);
-            }
-        });
-    }
-
-    private Set<String> freeVariables(ExpressionV2 expression) {
+    private FunctionCall<ExpressionV2> asFunctionCall(ExpressionV2 expression) {
         return accept(
             expression,
-            new FallbackVisitor<Set<String>, ExpressionV2>(_expression -> {
-                var variables = new LinkedHashSet<String>();
-                for (var child : expressionChildren().apply(expression)) {
-                    variables.addAll(freeVariables(child));
-                }
-                return variables;
-            }) {
+            new FallbackVisitor<FunctionCall<ExpressionV2>, ExpressionV2>(_expression -> null) {
                 @Override
-                public Set<String> visit(Literal<ExpressionV2> literal) {
-                    return new LinkedHashSet<>();
-                }
-
-                @Override
-                public Set<String> visit(VariableReference<ExpressionV2> variableReference) {
-                    return new LinkedHashSet<>(Set.of(variableReference.name));
+                public FunctionCall<ExpressionV2> visit(FunctionCall<ExpressionV2> call) {
+                    return call;
                 }
             },
-            lambdaExpression -> {
-                var variables = new LinkedHashSet<>(freeVariables(lambdaExpression.body));
-                variables.remove(lambdaExpression.parameterName);
-                return variables;
-            }
+            _lambdaExpression -> null
         );
     }
 
-    private Set<String> usedNames(ExpressionV2 expression) {
-        return accept(
-            expression,
-            new FallbackVisitor<Set<String>, ExpressionV2>(_expression -> {
-                var names = new LinkedHashSet<String>();
-                for (var child : expressionChildren().apply(expression)) {
-                    names.addAll(usedNames(child));
-                }
-                return names;
-            }) {
-                @Override
-                public Set<String> visit(Literal<ExpressionV2> literal) {
-                    return new LinkedHashSet<>();
-                }
-
-                @Override
-                public Set<String> visit(VariableReference<ExpressionV2> variableReference) {
-                    return new LinkedHashSet<>(Set.of(variableReference.name));
-                }
-            },
-            lambdaExpression -> {
-                var names = new LinkedHashSet<>(usedNames(lambdaExpression.body));
-                names.add(lambdaExpression.parameterName);
-                return names;
-            }
+    private ExpressionV2 mapChildren(ExpressionV2 expression, UnaryOperator<ExpressionV2> recurse) {
+        var mapper = new ExpressionMapper<ExpressionV2>(
+            this,
+            (current, _next) -> recurse.apply(current),
+            this::mapWithVisitor
         );
+        return mapWithVisitor(expression, mapper);
     }
 
-    private String freshVariableName(String baseName, List<Set<String>> usedNameSets) {
-        var usedNames = new LinkedHashSet<String>();
-        for (var names : usedNameSets) {
-            usedNames.addAll(names);
-        }
-
-        var candidate = baseName;
-        var suffix = 1;
-        while (usedNames.contains(candidate)) {
-            candidate = baseName + suffix;
-            suffix += 1;
-        }
-        return candidate;
+    private LambdaCallFolder<ExpressionV2, LambdaExpression> lambdaCallFolder() {
+        return new LambdaCallFolder<>(
+            this::variableName,
+            expressionFactory()::variableReference,
+            this::asLambda,
+            lambda -> lambda.parameterName,
+            lambda -> lambda.body,
+            expressionFactory()::lambdaExpression,
+            this.expressionChildren(),
+            this::mapChildren,
+            this::asFunctionCall
+        );
     }
 
     @Override
