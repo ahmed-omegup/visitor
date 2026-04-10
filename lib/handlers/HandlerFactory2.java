@@ -69,7 +69,11 @@ public class HandlerFactory2 extends HandlerFactoryBase<ExpressionV2> implements
 
     @Override
     public Function<ExpressionV2, String> expressionClassNameExtractor() {
-        return dictGetter(new ClassNamesDict(), "LambdaExpression");
+        return dictReader(collectClassNamesDict());
+    }
+
+    public IExpressionDict2<String> collectClassNamesDict() {
+        return new Dict2<>(new ClassNamesDict(), "LambdaExpression");
     }
 
     @Override

@@ -20,27 +20,27 @@ class HandlerDictReaderTest extends TestBase<ExpressionV1> {
     @Test
     void v1HandlerReadsThroughIExpressionDict() {
         var values = new Dict<>(
-            "literal",
-            "variable",
-            "addition",
-            "subtraction",
-            "multiplication",
-            "division",
-            "negation",
-            "modulo",
-            "exponentiation",
-            "equality",
-            "inequality",
-            "lessThan",
-            "greaterThan",
-            "lessThanOrEqual",
-            "greaterThanOrEqual",
-            "conjunction",
-            "disjunction",
-            "logicalNot",
-            "conditional",
-            "functionCall"
-        );
+                "literal",
+                "variable",
+                "addition",
+                "subtraction",
+                "multiplication",
+                "division",
+                "negation",
+                "modulo",
+                "exponentiation",
+                "equality",
+                "inequality",
+                "lessThan",
+                "greaterThan",
+                "lessThanOrEqual",
+                "greaterThanOrEqual",
+                "conjunction",
+                "disjunction",
+                "logicalNot",
+                "conditional",
+                "functionCall"
+            );
 
         assertEquals("addition", HandlerTestFixtures.v1Handler().dictReader(values).apply(
             factory.addition(factory.literal("1"), factory.literal("2"))
@@ -58,31 +58,35 @@ class HandlerDictReaderV2Test extends TestBase<ExpressionV2> {
     @Test
     void v2HandlerReadsThroughIExpressionDict2() {
         var values = new Dict2<>(
-            "literal",
-            "variable",
-            "addition",
-            "subtraction",
-            "multiplication",
-            "division",
-            "negation",
-            "modulo",
-            "exponentiation",
-            "equality",
-            "inequality",
-            "lessThan",
-            "greaterThan",
-            "lessThanOrEqual",
-            "greaterThanOrEqual",
-            "conjunction",
-            "disjunction",
-            "logicalNot",
-            "conditional",
-            "functionCall",
-            "lambdaExpression"
-        );
+                "literal",
+                "variable",
+                "addition",
+                "subtraction",
+                "multiplication",
+                "division",
+                "negation",
+                "modulo",
+                "exponentiation",
+                "equality",
+                "inequality",
+                "lessThan",
+                "greaterThan",
+                "lessThanOrEqual",
+                "greaterThanOrEqual",
+                "conjunction",
+                "disjunction",
+                "logicalNot",
+                "conditional",
+                "functionCall",
+                "lambdaExpression"
+            );
 
-        assertEquals("lambdaExpression", HandlerTestFixtures.v2Handler().dictReader(values).apply(
-            factory2.lambdaExpression("x", factory2.variableReference("x"))
-        ));
+        var handler = HandlerTestFixtures.v2Handler();
+        var expr = factory2.lambdaExpression("x", factory2.variableReference("x"));
+
+        assertEquals(handler.dictReader(handler.collectClassNamesDict()).apply(expr),
+                handler.expressionClassNameExtractor().apply(expr));
+
+        assertEquals("lambdaExpression", handler.dictReader(values).apply(expr));
     }
 }
