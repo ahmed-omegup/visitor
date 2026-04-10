@@ -2,7 +2,6 @@ package lib.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -37,14 +36,13 @@ import lib.visitors.FallbackVisitor;
 import lib.visitors.IntegerEvaluationVisitor;
 import lib.visitors.IsomorphicGetter;
 import lib.visitors.IsomorphicSetter;
-import port.ConstantFolder;
 import port.IExpressionDict;
 import port.IExpressionDict2;
 import port.IExpressionFactory2;
 import port.IHandlerFactory2;
 import port.State;
 
-public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
+public class HandlerFactory2 extends HandlerFactoryBase<ExpressionV2> implements IHandlerFactory2<ExpressionV2> {
 
     @Override
     public IExpressionFactory2<ExpressionV2> expressionFactory() {
@@ -66,7 +64,8 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
         });
     }
 
-    public Function<ExpressionV2, Either<Literal<ExpressionV2>, ExpressionV2>> isLiteral() {
+    @Override
+    protected Function<ExpressionV2, Either<Literal<ExpressionV2>, ExpressionV2>> isLiteral() {
         return expression -> accept(
             expression,
             new FallbackVisitor<Either<Literal<ExpressionV2>, ExpressionV2>, ExpressionV2>(_e -> new Right<>(expression)) {
@@ -79,7 +78,8 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
         );
     }
 
-    public Function<ExpressionV2, Either<VariableReference<ExpressionV2>, ExpressionV2>> isVariable() {
+    @Override
+    protected Function<ExpressionV2, Either<VariableReference<ExpressionV2>, ExpressionV2>> isVariable() {
         return expression -> accept(
             expression,
             new FallbackVisitor<Either<VariableReference<ExpressionV2>, ExpressionV2>, ExpressionV2>(_e -> new Right<>(expression)) {
@@ -98,38 +98,6 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
         return expression -> accept(expression, children, lambdaExpression -> List.of(lambdaExpression.body));
     }
 
-    @Override
-    public Function<ExpressionV2, Boolean> literalChecker() {
-        return expression -> isLiteral().apply(expression)
-            .accept(new EitherVisitor<Literal<ExpressionV2>, ExpressionV2, Boolean>() {
-                @Override
-                public Boolean left(Literal<ExpressionV2> left) {
-                    return true;
-                }
-
-                @Override
-                public Boolean right(ExpressionV2 right) {
-                    return false;
-                }
-            });
-    }
-
-    @Override
-    public Function<ExpressionV2, Boolean> variableChecker() {
-        return expression -> isVariable().apply(expression)
-            .accept(new EitherVisitor<VariableReference<ExpressionV2>, ExpressionV2, Boolean>() {
-                @Override
-                public Boolean left(VariableReference<ExpressionV2> left) {
-                    return true;
-                }
-
-                @Override
-                public Boolean right(ExpressionV2 right) {
-                    return false;
-                }
-            });
-    }
-
     public <T> Function<ExpressionV2, T> dictGetter(IExpressionDict<T> values, T lambdaExpressionValue) {
         var visitor = new IsomorphicGetter<T, ExpressionV2>(values);
         return expression -> accept(expression, visitor, _lambdaExpression -> lambdaExpressionValue);
@@ -138,6 +106,11 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
     @Override
     public <T> Function<ExpressionV2, T> dictReader(IExpressionDict2<T> values) {
         return dictGetter(values, values.lambdaExpression());
+    }
+
+    @Override
+    protected <T> Function<ExpressionV2, T> readDict(IExpressionDict<T> values) {
+        return dictGetter(values, null);
     }
 
     @Override
@@ -151,16 +124,7 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
     }
 
     @Override
-    public Function<ExpressionV2, ExpressionV2> constantFolderOnce() {
-        return this::foldConstantOnce;
-    }
-
-    @Override
-    public Function<ExpressionV2, ExpressionV2> constantFolder() {
-        return new ConstantFolder<>(this);
-    }
-
-    private ExpressionV2 mapWithVisitor(ExpressionV2 expression, ExpressionMapper<ExpressionV2> visitor) {
+    protected ExpressionV2 mapWithVisitor(ExpressionV2 expression, ExpressionMapper<ExpressionV2> visitor) {
         return accept(
             expression,
             visitor,
@@ -171,7 +135,8 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
         );
     }
 
-    private ExpressionV2 foldConstantOnce(ExpressionV2 expression) {
+    @Override
+    protected ExpressionV2 foldConstantOnce(ExpressionV2 expression) {
         var lambdaCallFolded = lambdaCallFolder().foldCall(expression);
         if (lambdaCallFolded != expression) {
             return foldConstantOnce(lambdaCallFolded);
@@ -267,25 +232,11 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
         );
     }
 
-    private Integer evaluateWithVisitor(ExpressionV2 expression, IntegerEvaluationVisitor<ExpressionV2> visitor) {
+    @Override
+    protected Integer evaluateWithVisitor(ExpressionV2 expression, IntegerEvaluationVisitor<ExpressionV2> visitor) {
         return accept(expression, visitor, _lambdaExpression -> {
             throw new IllegalArgumentException("Cannot directly evaluate a lambda expression");
         });
-    }
-
-    @Override
-    public Function<ExpressionV2, Integer> integerEvaluator(Map<String, Integer> variables,
-            Map<String, Function<List<Integer>, Integer>> functions) {
-        var evaluator = new IntegerEvaluationVisitor<ExpressionV2>(variables, functions, isVariable(), this::evaluateWithVisitor);
-        return expression -> evaluateWithVisitor(expression, evaluator);
-    }
-
-    public Function<ExpressionV2, List<String>> collectClassNamesVisitor() {
-        var classNames = expressionClassNameExtractor();
-        return new GlobalReduceVisitor<>(e -> new ArrayList<>(List.of(classNames.apply(e))), (left, right) -> {
-            left.addAll(right);
-            return left;
-        }, this.expressionChildren());
     }
 
     public <T> State<ExpressionV2, Dict2<T>, T> state() {
@@ -330,26 +281,5 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
     public Function<ExpressionV2, IExpressionDict2<Integer>> histogram2() {
         var visitor = localReduceVisitor(0, (count, _expression) -> count + 1);
         return expression -> visitor.apply(expression);
-    }
-
-    @Override
-    public Function<ExpressionV2, ExpressionV2> renameVariable(String oldName, String newName) {
-        return new ExpressionMapper<ExpressionV2>(this,
-            (expression, next) -> isVariable().apply(expression).accept(new EitherVisitor<>() {
-                @Override
-                public ExpressionV2 left(VariableReference<ExpressionV2> left) {
-                    if (left.name.equals(oldName)) {
-                        return expressionFactory().variableReference(newName);
-                    }
-                    return expression;
-                }
-
-                @Override
-                public ExpressionV2 right(ExpressionV2 right) {
-                    return next.get();
-                }
-            }),
-            this::mapWithVisitor
-        );
     }
 }
