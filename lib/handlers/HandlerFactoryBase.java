@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import ds.BindingPower;
-import lib.dict.BindingPowersDict;
-import lib.dict.ClassNamesDict;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.utils.Either;
@@ -15,15 +12,12 @@ import lib.utils.EitherVisitor;
 import lib.visitors.ExpressionMapper;
 import lib.visitors.IntegerEvaluationVisitor;
 import port.ConstantFolder;
-import port.IExpressionDict;
 
 public abstract class HandlerFactoryBase<E> implements port.IHandlerFactory<E> {
 
     protected abstract Function<E, Either<Literal<E>, E>> isLiteral();
 
     protected abstract Function<E, Either<VariableReference<E>, E>> isVariable();
-
-    protected abstract <T> Function<E, T> readDict(IExpressionDict<T> values);
 
     protected abstract E mapWithVisitor(E expression, ExpressionMapper<E> visitor);
 
@@ -61,16 +55,6 @@ public abstract class HandlerFactoryBase<E> implements port.IHandlerFactory<E> {
                     return false;
                 }
             });
-    }
-
-    @Override
-    public Function<E, String> expressionClassNameExtractor() {
-        return readDict(new ClassNamesDict());
-    }
-
-    @Override
-    public Function<E, BindingPower> createBindingPowerHandler() {
-        return readDict(new BindingPowersDict());
     }
 
     @Override

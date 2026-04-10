@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.*;
 
+import ds.BindingPower;
 import ds.Dict;
+import lib.dict.BindingPowersDict;
+import lib.dict.ClassNamesDict;
 import lib.expression.*;
 import lib.utils.Either;
 import lib.utils.Left;
@@ -82,13 +85,18 @@ public class HandlerFactory extends HandlerFactoryBase<ExpressionV1> implements 
 
     @Override
     public <T> Function<ExpressionV1, T> dictReader(IExpressionDict<T> values) {
-        return readDict(values);
+        var visitor = new IsomorphicGetter<T, ExpressionV1>(values);
+        return expression -> expression.accept(visitor);
     }
 
     @Override
-    protected <T> Function<ExpressionV1, T> readDict(IExpressionDict<T> values) {
-        var visitor = new IsomorphicGetter<T, ExpressionV1>(values);
-        return expression -> expression.accept(visitor);
+    public Function<ExpressionV1, String> expressionClassNameExtractor() {
+        return dictReader(new ClassNamesDict());
+    }
+
+    @Override
+    public Function<ExpressionV1, BindingPower> createBindingPowerHandler() {
+        return dictReader(new BindingPowersDict());
     }
 
     @Override
