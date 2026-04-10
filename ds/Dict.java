@@ -66,6 +66,28 @@ public class Dict<T> implements IExpressionDict<T> {
         this.conditional = conditional;
         this.functionCall = functionCall;
     }
+    public Dict(IExpressionDict<T> dict) {
+        this.literal = dict.literal();
+        this.variableReference = dict.variableReference();
+        this.addition = dict.addition();
+        this.subtraction = dict.subtraction();
+        this.multiplication = dict.multiplication();
+        this.division = dict.division();
+        this.negation = dict.negation();
+        this.modulo = dict.modulo();
+        this.exponentiation = dict.exponentiation();
+        this.equality = dict.equality();
+        this.inequality = dict.inequality();
+        this.lessThan = dict.lessThan();
+        this.greaterThan = dict.greaterThan();
+        this.lessThanOrEqual = dict.lessThanOrEqual();
+        this.greaterThanOrEqual = dict.greaterThanOrEqual();
+        this.conjunction = dict.conjunction();
+        this.disjunction = dict.disjunction();
+        this.logicalNot = dict.logicalNot();
+        this.conditional = dict.conditional();
+        this.functionCall = dict.functionCall();
+    }
 
     public Dict(T value) {
         this(

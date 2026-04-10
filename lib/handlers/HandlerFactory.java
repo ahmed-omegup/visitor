@@ -9,7 +9,6 @@ import ds.BindingPower;
 import ds.Dict;
 import lib.dict.BindingPowersDict;
 import lib.dict.ClassNamesDict;
-import lib.dict.OperationNamesI18n;
 import lib.expression.*;
 import lib.utils.Either;
 import lib.utils.EitherVisitor;
@@ -18,7 +17,6 @@ import lib.utils.Right;
 import lib.visitors.*;
 import port.ConstantFolder;
 import port.IExpressionDict;
-import port.IHandlerFactory;
 import port.IHandlerFactory1;
 import port.IExpressionFactory;
 import port.State;
@@ -55,7 +53,7 @@ public class HandlerFactory implements IHandlerFactory1<ExpressionV1> {
     };
 
     public Function<ExpressionV1, BindingPower> createBindingPowerHandler() {
-        return dictGetter(new BindingPowersDict());
+        return dictReader(new BindingPowersDict());
     };
 
     @Override
@@ -94,7 +92,7 @@ public class HandlerFactory implements IHandlerFactory1<ExpressionV1> {
 
     @Override
     public Function<ExpressionV1, String> expressionClassNameExtractor() {
-        return dictGetter(new ClassNamesDict());
+        return dictReader(new ClassNamesDict());
     }
 
     @Override
@@ -135,7 +133,8 @@ public class HandlerFactory implements IHandlerFactory1<ExpressionV1> {
         return expression -> expression.accept(integerEvaluator);
     }
 
-    public <T> Function<ExpressionV1, T> dictGetter(Dict<T> values) {
+    @Override
+    public <T> Function<ExpressionV1, T> dictReader(IExpressionDict<T> values) {
         var visitor = new IsomorphicGetter<T, ExpressionV1>(values);
         return expression -> expression.accept(visitor);
     }
@@ -155,7 +154,7 @@ public class HandlerFactory implements IHandlerFactory1<ExpressionV1> {
             };
 
             public Function<ExpressionV1, T> getter(Dict<T> state) {
-                return dictGetter(state);
+                return dictReader(state);
             };
 
             public Consumer<ExpressionV1> setter(Dict<T> state, T value) {
@@ -196,13 +195,4 @@ public class HandlerFactory implements IHandlerFactory1<ExpressionV1> {
                     }
                 }), (e, visitor) -> e.accept(visitor));
     }
-
-    @Override
-    public Function<ExpressionV1, String> i18nDict(String lang) {
-        var i18nDict = OperationNamesI18n.operationNamesByLanguage().get(lang);
-        if (i18nDict == null)
-            return null;
-        return dictGetter(i18nDict);
-    }
-
 }

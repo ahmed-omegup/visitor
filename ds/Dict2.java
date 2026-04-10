@@ -1,5 +1,6 @@
 package ds;
 
+import port.IExpressionDict;
 import port.IExpressionDict2;
 
 public class Dict2<T> extends Dict<T> implements IExpressionDict2<T> {
@@ -53,6 +54,11 @@ public class Dict2<T> extends Dict<T> implements IExpressionDict2<T> {
 
     public Dict2(T value) {
         super(value);
+        this.lambdaExpression = value;
+    }
+
+    public Dict2(IExpressionDict<T> dict, T value) {
+        super(dict);
         this.lambdaExpression = value;
     }
 

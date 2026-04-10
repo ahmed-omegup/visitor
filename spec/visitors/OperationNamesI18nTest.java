@@ -3,10 +3,10 @@ package spec.visitors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import lib.dict.OperationNamesI18n;
 import lib.expression.ExpressionV1;
 import port.IExpressionFactory;
 import port.IHandlerFactory1;
@@ -18,18 +18,18 @@ class OperationNamesI18nTest {
 
     @Test
     void providesI18nDictionariesForSeveralLanguages() {
-        assertNotNull(handler.i18nDict("en"));
-        assertNotNull(handler.i18nDict("es"));
-        assertNotNull(handler.i18nDict("fr"));
-        assertNotNull(handler.i18nDict("de"));
-        assertNotNull(handler.i18nDict("it"));
-        assertNotNull(handler.i18nDict("pt"));
+        assertNotNull(OperationNamesI18n.operationNamesByLanguage().get("en"));
+        assertNotNull(OperationNamesI18n.operationNamesByLanguage().get("es"));
+        assertNotNull(OperationNamesI18n.operationNamesByLanguage().get("fr"));
+        assertNotNull(OperationNamesI18n.operationNamesByLanguage().get("de"));
+        assertNotNull(OperationNamesI18n.operationNamesByLanguage().get("it"));
+        assertNotNull(OperationNamesI18n.operationNamesByLanguage().get("pt"));
     }
 
     @Test
-    void exposesTranslatedOperationNamesThroughHandler() {
-        var english = handler.i18nDict("en");
-        var spanish = handler.i18nDict("es");
+    void exposesTranslatedOperationNamesThroughGenericDictReader() {
+        var english = handler.dictReader(OperationNamesI18n.operationNamesByLanguage().get("en"));
+        var spanish = handler.dictReader(OperationNamesI18n.operationNamesByLanguage().get("es"));
 
         assertEquals("addition", english.apply(factory.addition(factory.literal("1"), factory.literal("2"))));
         assertEquals("functionCall", english.apply(factory.functionCall(factory.variableReference("f"), java.util.List.of(factory.literal("1")))));
@@ -40,6 +40,6 @@ class OperationNamesI18nTest {
 
     @Test
     void returnsNullForUnknownLanguage() {
-        assertNull(handler.i18nDict("jp"));
+        assertNull(OperationNamesI18n.operationNamesByLanguage().get("jp"));
     }
 }

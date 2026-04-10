@@ -2,7 +2,6 @@ package spec.visitors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -86,16 +85,12 @@ class HandlerFactory2LambdaTest extends TestBase<ExpressionV2> {
     }
 
     @Test
-    void i18nAndConstantFolderExposeLambdaSurface() {
+    void constantFolderLeavesLambdaSurfaceStable() {
         var lambda = factory2.lambdaExpression(
             "n",
             factory2.addition(factory2.variableReference("n"), factory2.literal("1"))
         );
-        var english = handler.i18nDict("en");
 
-        assertNotNull(english);
-        assertEquals("lambdaExpression", english.apply(lambda));
-        assertEquals(null, handler.i18nDict("xx"));
         assertSame(lambda, handler.constantFolderOnce().apply(lambda));
     }
 

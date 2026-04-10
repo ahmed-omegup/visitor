@@ -15,7 +15,6 @@ import ds.Dict;
 import ds.Dict2;
 import lib.dict.BindingPowersDict;
 import lib.dict.ClassNamesDict;
-import lib.dict.OperationNamesI18n;
 import lib.expression.ExpressionV1T2;
 import lib.expression.ExpressionV2;
 import lib.expression.ExpressionVisitor;
@@ -131,9 +130,14 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
             });
     }
 
-    public <T> Function<ExpressionV2, T> dictGetter(Dict<T> values, T lambdaExpressionValue) {
+    public <T> Function<ExpressionV2, T> dictGetter(IExpressionDict<T> values, T lambdaExpressionValue) {
         var visitor = new IsomorphicGetter<T, ExpressionV2>(values);
         return expression -> accept(expression, visitor, _lambdaExpression -> lambdaExpressionValue);
+    }
+
+    @Override
+    public <T> Function<ExpressionV2, T> dictReader(IExpressionDict2<T> values) {
+        return dictGetter(values, values.lambdaExpression());
     }
 
     @Override
@@ -464,14 +468,4 @@ public class HandlerFactory2 implements IHandlerFactory2<ExpressionV2> {
             this::mapWithVisitor
         );
     }
-
-    @Override
-    public Function<ExpressionV2, String> i18nDict(String lang) {
-        var i18nDict = OperationNamesI18n.operationNamesByLanguage().get(lang);
-        if (i18nDict == null) {
-            return null;
-        }
-        return dictGetter(i18nDict, "lambdaExpression");
-    }
-
 }

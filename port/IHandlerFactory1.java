@@ -4,7 +4,7 @@ import java.util.function.Function;
 
 public interface IHandlerFactory1<E> extends IHandlerFactory<E> {
 
-    Function<E, String> cLikeSyntaxPrinter();
+    <T> Function<E, T> dictReader(IExpressionDict<T> values);
 
-    Function<E, String> i18nDict(String lang);
+    Function<E, String> cLikeSyntaxPrinter();
 }
