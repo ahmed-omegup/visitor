@@ -6,34 +6,33 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import lib.expression.ExpressionV1;
-import lib.expression.ExpressionV2;
 import port.State;
 import port.StateConsumer;
-import testsupport.HandlerTestFixtures;
 
-abstract class HandlerTraversalHelpersTestBase<E> extends TestBase<E> {
-    HandlerTraversalHelpersTestBase(TestSupport<E> testSupport) {
-        super(testSupport);
-    }
-
-    @Test
-    void histogramCountsNodeKindsAcrossTraversalExpression() {
+class HandlerTraversalHelpersTest {
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("spec.visitors.TestVariants#all")
+    <E> void histogramCountsNodeKindsAcrossTraversalExpression(String variant, TestSupport<E> testSupport) {
         var histogram = testSupport.v.histogram().apply(testSupport.sampleTraversalExpression());
 
         assertEquals(testSupport.expectedTraversalHistogramCounts(), testSupport.histogramCounts(histogram));
     }
 
-    @Test
-    void collectClassNamesVisitorTraversesExpressionInPreOrder() {
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("spec.visitors.TestVariants#all")
+    <E> void collectClassNamesVisitorTraversesExpressionInPreOrder(String variant, TestSupport<E> testSupport) {
         var classNames = testSupport.v.collectClassNamesVisitor().apply(testSupport.sampleTraversalExpression());
 
         assertEquals(testSupport.expectedTraversalClassNames(), classNames);
     }
 
-    @Test
-    void handleStateExposesGetterSetterAndInitialValue() {
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("spec.visitors.TestVariants#all")
+    <E> void handleStateExposesGetterSetterAndInitialValue(String variant, TestSupport<E> testSupport) {
+        var factory = testSupport.factory;
         var values = testSupport.v.handleState(new StateConsumer<E, Integer, List<Integer>>() {
             @Override
             public <S> List<Integer> consume(State<E, S, Integer> state) {
@@ -50,23 +49,5 @@ abstract class HandlerTraversalHelpersTestBase<E> extends TestBase<E> {
         });
 
         assertEquals(of(5, 2, 0), values);
-    }
-}
-
-class HandlerTraversalHelpersTest extends HandlerTraversalHelpersTestBase<ExpressionV1> {
-    HandlerTraversalHelpersTest() {
-        super(new TestSupport<>(HandlerTestFixtures.v1Handler()));
-    }
-}
-
-class HandlerTraversalHelpersV2Test extends HandlerTraversalHelpersTestBase<ExpressionV2> {
-    HandlerTraversalHelpersV2Test() {
-        super(new TestSupport<>(HandlerTestFixtures.v2Handler()));
-    }
-}
-
-class HandlerTraversalHelpersV2Support2Test extends HandlerTraversalHelpersTestBase<ExpressionV2> {
-    HandlerTraversalHelpersV2Support2Test() {
-        super(new TestSupport2<>(HandlerTestFixtures.v2Handler()));
     }
 }

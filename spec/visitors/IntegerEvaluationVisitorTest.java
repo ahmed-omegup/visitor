@@ -6,20 +6,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import lib.expression.Expression;
-import lib.expression.ExpressionV1;
-import lib.expression.ExpressionV2;
-import testsupport.HandlerTestFixtures;
 
-abstract class IntegerEvaluationVisitorTestBase<E> extends TestBase<E> {
-    IntegerEvaluationVisitorTestBase(TestSupport<E> testSupport) {
-        super(testSupport);
-    }
-
-    @Test
-    void evaluatesConstantArithmetic() {
+class IntegerEvaluationVisitorTest {
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("spec.visitors.TestVariants#all")
+    <E> void evaluatesConstantArithmetic(String variant, TestSupport<E> testSupport) {
+        var factory = testSupport.factory;
         var evaluator = testSupport.v.integerEvaluator(Map.of(), Map.of());
 
         assertEquals(
@@ -28,8 +24,10 @@ abstract class IntegerEvaluationVisitorTestBase<E> extends TestBase<E> {
         );
     }
 
-    @Test
-    void failsQuickOnUnknownVariable() {
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("spec.visitors.TestVariants#all")
+    <E> void failsQuickOnUnknownVariable(String variant, TestSupport<E> testSupport) {
+        var factory = testSupport.factory;
         var evaluator = testSupport.v.integerEvaluator(Map.of(), Map.of());
 
         var exception = assertThrows(
@@ -40,8 +38,10 @@ abstract class IntegerEvaluationVisitorTestBase<E> extends TestBase<E> {
         assertEquals("Unknown variable: x", exception.getMessage());
     }
 
-    @Test
-    void canUseProvidedVariablesAndFunctions() {
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("spec.visitors.TestVariants#all")
+    <E> void canUseProvidedVariablesAndFunctions(String variant, TestSupport<E> testSupport) {
+        var factory = testSupport.factory;
         var evaluator = testSupport.v.integerEvaluator(
             Map.of("x", 3),
             Map.of("inc", values -> values.get(0) + 1)
@@ -54,8 +54,10 @@ abstract class IntegerEvaluationVisitorTestBase<E> extends TestBase<E> {
         );
     }
 
-    @Test
-    void evaluatesEveryOperator() {
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("spec.visitors.TestVariants#all")
+    <E> void evaluatesEveryOperator(String variant, TestSupport<E> testSupport) {
+        var factory = testSupport.factory;
         var evaluator = testSupport.v.integerEvaluator(
             Map.of("x", 8, "threshold", 4),
             Map.of("sum", values -> values.stream().mapToInt(Integer::intValue).sum())
@@ -82,8 +84,10 @@ abstract class IntegerEvaluationVisitorTestBase<E> extends TestBase<E> {
         assertEquals(8, evaluator.apply(factory.variableReference("x")));
     }
 
-    @Test
-    void evaluatesVariablesFunctionsAndConditionalsTogether() {
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("spec.visitors.TestVariants#all")
+    <E> void evaluatesVariablesFunctionsAndConditionalsTogether(String variant, TestSupport<E> testSupport) {
+        var factory = testSupport.factory;
         var evaluator = testSupport.v.integerEvaluator(
             Map.of("threshold", 4, "fallback", 9),
             Map.of(
@@ -104,8 +108,10 @@ abstract class IntegerEvaluationVisitorTestBase<E> extends TestBase<E> {
         assertEquals(14, evaluator.apply(expression));
     }
 
-    @Test
-    void evaluatesFalseComparisonAndLogicalBranches() {
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("spec.visitors.TestVariants#all")
+    <E> void evaluatesFalseComparisonAndLogicalBranches(String variant, TestSupport<E> testSupport) {
+        var factory = testSupport.factory;
         var evaluator = testSupport.v.integerEvaluator(Map.of("x", 0), Map.of());
 
         assertEquals(0, evaluator.apply(factory.equality(factory.literal("8"), factory.literal("2"))));
@@ -123,8 +129,10 @@ abstract class IntegerEvaluationVisitorTestBase<E> extends TestBase<E> {
         assertEquals(0, evaluator.apply(factory.variableReference("x")));
     }
 
-    @Test
-    void failsOnUnknownFunction() {
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("spec.visitors.TestVariants#all")
+    <E> void failsOnUnknownFunction(String variant, TestSupport<E> testSupport) {
+        var factory = testSupport.factory;
         var evaluator = testSupport.v.integerEvaluator(Map.of(), Map.of());
 
         var exception = assertThrows(
@@ -135,15 +143,19 @@ abstract class IntegerEvaluationVisitorTestBase<E> extends TestBase<E> {
         assertEquals("Unknown function: missing", exception.getMessage());
     }
 
-    @Test
-    void failsOnNonIntegerLiteral() {
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("spec.visitors.TestVariants#all")
+    <E> void failsOnNonIntegerLiteral(String variant, TestSupport<E> testSupport) {
+        var factory = testSupport.factory;
         var evaluator = testSupport.v.integerEvaluator(Map.of(), Map.of());
 
         assertThrows(NumberFormatException.class, () -> evaluator.apply(factory.literal("nan")));
     }
 
-    @Test
-    void failsOnInvalidFunctionCallee() {
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("spec.visitors.TestVariants#all")
+    <E> void failsOnInvalidFunctionCallee(String variant, TestSupport<E> testSupport) {
+        var factory = testSupport.factory;
         var evaluator = testSupport.v.integerEvaluator(Map.of(), Map.of("f", values -> values.get(0)));
 
         var exception = assertThrows(
@@ -152,23 +164,5 @@ abstract class IntegerEvaluationVisitorTestBase<E> extends TestBase<E> {
         );
 
         assertEquals("Expected a variable reference", exception.getMessage());
-    }
-}
-
-class IntegerEvaluationVisitorTest extends IntegerEvaluationVisitorTestBase<ExpressionV1> {
-    IntegerEvaluationVisitorTest() {
-        super(new TestSupport<>(HandlerTestFixtures.v1Handler()));
-    }
-}
-
-class IntegerEvaluationVisitorV2Test extends IntegerEvaluationVisitorTestBase<ExpressionV2> {
-    IntegerEvaluationVisitorV2Test() {
-        super(new TestSupport<>(HandlerTestFixtures.v2Handler()));
-    }
-}
-
-class IntegerEvaluationVisitorV2Support2Test extends IntegerEvaluationVisitorTestBase<ExpressionV2> {
-    IntegerEvaluationVisitorV2Support2Test() {
-        super(new TestSupport2<>(HandlerTestFixtures.v2Handler()));
     }
 }

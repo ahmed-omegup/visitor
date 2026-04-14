@@ -13,20 +13,26 @@ import ds.Dict;
 import ds.Dict2;
 import lib.dict.BindingPowersDict;
 import lib.dict.ClassNamesDict;
+import lib.expression.ExpressionV1T2;
 import lib.expression.ExpressionV2;
+import lib.expression.ExpressionVisitor;
+import lib.expression.ExpressionVisitor2;
+import lib.expression.FunctionCall;
 import lib.expression.Factory2;
 import lib.expression.LambdaExpression;
 import lib.expression.Literal;
 import lib.expression.VariableReference;
 import lib.utils.Either;
 import lib.utils.EitherVisitor;
-import lib.utils.ExpressionV2Support;
 import lib.utils.LambdaCallFolder;
 import lib.visitors.ConstantFolderOnce;
+import lib.visitors.ExpressionChildren;
 import lib.visitors.ExpressionMapper;
 import lib.visitors.ExpressionToJsLikeSyntax;
 import lib.visitors.ExpressionToLispLikeSyntax;
+import lib.visitors.FallbackVisitor;
 import lib.visitors.IntegerEvaluationVisitor;
+import lib.visitors.IsomorphicGetter;
 import lib.visitors.IsomorphicSetter;
 import port.IExpressionDict;
 import port.IExpressionDict2;
@@ -36,30 +42,64 @@ import port.State;
 
 public class HandlerFactory2 extends HandlerFactoryBase<ExpressionV2> implements IHandlerFactory2<ExpressionV2> {
     private final IExpressionFactory2<ExpressionV2> factory = new Factory2();
-    private final ExpressionV2Support support = new ExpressionV2Support(factory);
+    private final ExpressionChildren<ExpressionV2> children = new ExpressionChildren<>();
 
     @Override
     public IExpressionFactory2<ExpressionV2> expressionFactory() {
         return factory;
     }
 
+    private <R> R accept(ExpressionV2 expression, ExpressionVisitor<R, ExpressionV2> visitor,
+            Function<LambdaExpression, R> lambdaExpressionHandler) {
+        return expression.accept(new ExpressionVisitor2<R>() {
+            @Override
+            public R visit(ExpressionV1T2 e) {
+                return e.wrappee.accept(visitor);
+            }
+
+            @Override
+            public R visit(LambdaExpression e) {
+                return lambdaExpressionHandler.apply(e);
+            }
+        });
+    }
+
     @Override
     protected Function<ExpressionV2, Either<Literal<ExpressionV2>, ExpressionV2>> isLiteral() {
-        return support.isLiteral();
+        return expression -> accept(
+            expression,
+            new FallbackVisitor<Either<Literal<ExpressionV2>, ExpressionV2>, ExpressionV2>(_e -> new lib.utils.Right<>(expression)) {
+                @Override
+                public Either<Literal<ExpressionV2>, ExpressionV2> visit(Literal<ExpressionV2> e) {
+                    return new lib.utils.Left<>(e);
+                }
+            },
+            _lambdaExpression -> new lib.utils.Right<>(expression)
+        );
     }
 
     @Override
     protected Function<ExpressionV2, Either<VariableReference<ExpressionV2>, ExpressionV2>> isVariable() {
-        return support.isVariable();
+        return expression -> accept(
+            expression,
+            new FallbackVisitor<Either<VariableReference<ExpressionV2>, ExpressionV2>, ExpressionV2>(_e -> new lib.utils.Right<>(expression)) {
+                @Override
+                public Either<VariableReference<ExpressionV2>, ExpressionV2> visit(VariableReference<ExpressionV2> e) {
+                    return new lib.utils.Left<>(e);
+                }
+            },
+            _lambdaExpression -> new lib.utils.Right<>(expression)
+        );
     }
 
     @Override
     public Function<ExpressionV2, List<ExpressionV2>> expressionChildren() {
-        return support.expressionChildren();
+        return expression -> accept(expression, children, lambdaExpression -> List.of(lambdaExpression.body));
     }
 
     public <T> Function<ExpressionV2, T> dictGetter(IExpressionDict<T> values, T lambdaExpressionValue) {
-        return support.dictGetter(values, lambdaExpressionValue);
+        var visitor = new IsomorphicGetter<T, ExpressionV2>(values);
+        return expression -> accept(expression, visitor, _lambdaExpression -> lambdaExpressionValue);
     }
 
     @Override
@@ -83,7 +123,14 @@ public class HandlerFactory2 extends HandlerFactoryBase<ExpressionV2> implements
 
     @Override
     protected ExpressionV2 mapWithVisitor(ExpressionV2 expression, ExpressionMapper<ExpressionV2> visitor) {
-        return support.mapWithVisitor(expression, visitor);
+        return accept(
+            expression,
+            visitor,
+            lambdaExpression -> factory.lambdaExpression(
+                lambdaExpression.parameterName,
+                visitor.apply(lambdaExpression.body)
+            )
+        );
     }
 
     @Override
@@ -110,15 +157,15 @@ public class HandlerFactory2 extends HandlerFactoryBase<ExpressionV2> implements
 
     private LambdaCallFolder<ExpressionV2, LambdaExpression> lambdaCallFolder() {
         return new LambdaCallFolder<>(
-            support::variableName,
+            this::variableName,
             factory::variableReference,
-            support::asLambda,
+            this::asLambda,
             lambda -> lambda.parameterName,
             lambda -> lambda.body,
             factory::lambdaExpression,
             this.expressionChildren(),
             this::mapChildren,
-            support::asFunctionCall
+            this::asFunctionCall
         );
     }
 
@@ -148,7 +195,9 @@ public class HandlerFactory2 extends HandlerFactoryBase<ExpressionV2> implements
 
     @Override
     protected Integer evaluateWithVisitor(ExpressionV2 expression, IntegerEvaluationVisitor<ExpressionV2> visitor) {
-        return support.evaluateWithVisitor(expression, visitor);
+        return accept(expression, visitor, _lambdaExpression -> {
+            throw new IllegalArgumentException("Cannot directly evaluate a lambda expression");
+        });
     }
 
     public <T> State<ExpressionV2, Dict2<T>, T> state() {
@@ -166,7 +215,7 @@ public class HandlerFactory2 extends HandlerFactoryBase<ExpressionV2> implements
             @Override
             public Consumer<ExpressionV2> setter(Dict2<T> state, T value) {
                 var visitor = new IsomorphicSetter<T, ExpressionV2>(state, value);
-                return expression -> support.accept(expression, visitor, _lambdaExpression -> {
+                return expression -> accept(expression, visitor, _lambdaExpression -> {
                     state.lambdaExpression = value;
                     return null;
                 });
@@ -195,8 +244,39 @@ public class HandlerFactory2 extends HandlerFactoryBase<ExpressionV2> implements
         return expression -> visitor.apply(expression);
     }
 
-    private <R> R accept(ExpressionV2 expression, lib.expression.ExpressionVisitor<R, ExpressionV2> visitor,
-            Function<lib.expression.LambdaExpression, R> lambdaExpressionHandler) {
-        return support.accept(expression, visitor, lambdaExpressionHandler);
+    private LambdaExpression asLambda(ExpressionV2 expression) {
+        return accept(
+            expression,
+            new FallbackVisitor<LambdaExpression, ExpressionV2>(_expression -> null) {
+            },
+            lambdaExpression -> lambdaExpression
+        );
+    }
+
+    private FunctionCall<ExpressionV2> asFunctionCall(ExpressionV2 expression) {
+        return accept(
+            expression,
+            new FallbackVisitor<FunctionCall<ExpressionV2>, ExpressionV2>(_expression -> null) {
+                @Override
+                public FunctionCall<ExpressionV2> visit(FunctionCall<ExpressionV2> call) {
+                    return call;
+                }
+            },
+            _lambdaExpression -> null
+        );
+    }
+
+    private String variableName(ExpressionV2 expression) {
+        return isVariable().apply(expression).accept(new EitherVisitor<>() {
+            @Override
+            public String left(VariableReference<ExpressionV2> left) {
+                return left.name;
+            }
+
+            @Override
+            public String right(ExpressionV2 right) {
+                return null;
+            }
+        });
     }
 }

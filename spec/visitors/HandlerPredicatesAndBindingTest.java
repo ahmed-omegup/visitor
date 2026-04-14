@@ -4,27 +4,24 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import lib.expression.ExpressionV1;
-import lib.expression.ExpressionV2;
-import testsupport.HandlerTestFixtures;
-
-abstract class HandlerPredicatesAndBindingTestBase<E> extends TestBase<E> {
-    HandlerPredicatesAndBindingTestBase(TestSupport<E> testSupport) {
-        super(testSupport);
-    }
-
-    @Test
-    void literalAndVariableCheckersRecognizeNodeKinds() {
+class HandlerPredicatesAndBindingTest {
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("spec.visitors.TestVariants#all")
+    <E> void literalAndVariableCheckersRecognizeNodeKinds(String variant, TestSupport<E> testSupport) {
+        var factory = testSupport.factory;
         assertTrue(testSupport.v.literalChecker().apply(factory.literal("8")));
         assertFalse(testSupport.v.literalChecker().apply(factory.addition(factory.literal("1"), factory.literal("2"))));
         assertTrue(testSupport.v.variableChecker().apply(factory.variableReference("x")));
         assertFalse(testSupport.v.variableChecker().apply(factory.negation(factory.literal("3"))));
     }
 
-    @Test
-    void bindingPowerHandlerUsesExpectedPriorities() {
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("spec.visitors.TestVariants#all")
+    <E> void bindingPowerHandlerUsesExpectedPriorities(String variant, TestSupport<E> testSupport) {
+        var factory = testSupport.factory;
         var bindingPower = testSupport.v.createBindingPowerHandler();
         var addition = bindingPower.apply(factory.addition(factory.literal("1"), factory.literal("2")));
         var exponentiation = bindingPower.apply(factory.exponentiation(factory.literal("2"), factory.literal("3")));
@@ -35,23 +32,5 @@ abstract class HandlerPredicatesAndBindingTestBase<E> extends TestBase<E> {
         assertEquals(40, exponentiation.priority());
         assertTrue(exponentiation.isRightAssociative());
         assertEquals(1, conditional.priority());
-    }
-}
-
-class HandlerPredicatesAndBindingTest extends HandlerPredicatesAndBindingTestBase<ExpressionV1> {
-    HandlerPredicatesAndBindingTest() {
-        super(new TestSupport<>(HandlerTestFixtures.v1Handler()));
-    }
-}
-
-class HandlerPredicatesAndBindingV2Test extends HandlerPredicatesAndBindingTestBase<ExpressionV2> {
-    HandlerPredicatesAndBindingV2Test() {
-        super(new TestSupport<>(HandlerTestFixtures.v2Handler()));
-    }
-}
-
-class HandlerPredicatesAndBindingV2Support2Test extends HandlerPredicatesAndBindingTestBase<ExpressionV2> {
-    HandlerPredicatesAndBindingV2Support2Test() {
-        super(new TestSupport2<>(HandlerTestFixtures.v2Handler()));
     }
 }

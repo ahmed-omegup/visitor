@@ -3,34 +3,38 @@ package spec.visitors;
 import static java.util.List.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import lib.expression.ExpressionV1;
-import lib.expression.ExpressionV2;
-import testsupport.HandlerTestFixtures;
-
-abstract class ExpressionMapperTraversalTestBase<E> extends TestBase<E> {
-    ExpressionMapperTraversalTestBase(TestSupport<E> testSupport) {
-        super(testSupport);
+class ExpressionMapperTraversalTest {
+    private static <E> String render(TestSupport<E> testSupport, E expression) {
+        return testSupport.v.jsLikeSyntaxPrinter().apply(expression);
     }
 
-    @Test
-    void mapperClonesEveryExpressionShape() {
+    private static <E> String typeName(TestSupport<E> testSupport, E expression) {
+        return testSupport.v.expressionClassNameExtractor().apply(expression);
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("spec.visitors.TestVariants#all")
+    <E> void mapperClonesEveryExpressionShape(String variant, TestSupport<E> testSupport) {
         var mapper = testSupport.v.expressionMapper((expression, produce) -> produce.get());
 
         for (var expression : testSupport.sampleNonVariableExpressions()) {
-            assertEquals(render(expression), render(mapper.apply(expression)));
-            assertEquals(typeName(expression), typeName(mapper.apply(expression)));
+            assertEquals(render(testSupport, expression), render(testSupport, mapper.apply(expression)));
+            assertEquals(typeName(testSupport, expression), typeName(testSupport, mapper.apply(expression)));
         }
 
         var traversal = testSupport.sampleTraversalExpression();
         var traversalClone = mapper.apply(traversal);
-        assertEquals(render(traversal), render(traversalClone));
-        assertEquals(typeName(traversal), typeName(traversalClone));
+        assertEquals(render(testSupport, traversal), render(testSupport, traversalClone));
+        assertEquals(typeName(testSupport, traversal), typeName(testSupport, traversalClone));
     }
 
-    @Test
-    void constantFolderTraversesNestedExpressionArguments() {
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("spec.visitors.TestVariants#all")
+    <E> void constantFolderTraversesNestedExpressionArguments(String variant, TestSupport<E> testSupport) {
+        var factory = testSupport.factory;
         var folder = testSupport.v.constantFolder();
         var expression = factory.functionCall(
             factory.variableReference("sum"),
@@ -42,24 +46,6 @@ abstract class ExpressionMapperTraversalTestBase<E> extends TestBase<E> {
             )
         );
 
-        assertEquals("sum(3, 4, 1, -3)", render(folder.apply(expression)));
-    }
-}
-
-class ExpressionMapperTraversalTest extends ExpressionMapperTraversalTestBase<ExpressionV1> {
-    ExpressionMapperTraversalTest() {
-        super(new TestSupport<>(HandlerTestFixtures.v1Handler()));
-    }
-}
-
-class ExpressionMapperTraversalV2Test extends ExpressionMapperTraversalTestBase<ExpressionV2> {
-    ExpressionMapperTraversalV2Test() {
-        super(new TestSupport<>(HandlerTestFixtures.v2Handler()));
-    }
-}
-
-class ExpressionMapperTraversalV2Support2Test extends ExpressionMapperTraversalTestBase<ExpressionV2> {
-    ExpressionMapperTraversalV2Support2Test() {
-        super(new TestSupport2<>(HandlerTestFixtures.v2Handler()));
+        assertEquals("sum(3, 4, 1, -3)", render(testSupport, folder.apply(expression)));
     }
 }
