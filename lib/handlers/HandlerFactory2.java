@@ -234,8 +234,8 @@ public class HandlerFactory2 extends HandlerFactoryBase<ExpressionV2> implements
 
     @Override
     public Function<ExpressionV2, IExpressionDict<Integer>> histogram() {
-        var visitor = localReduceVisitor(0, (count, _expression) -> count + 1);
-        return expression -> visitor.apply(expression);
+        var handler = histogram2();
+        return expression -> handler.apply(expression);
     }
 
     @Override
